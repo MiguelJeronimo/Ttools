@@ -96,8 +96,8 @@
         android:layout_marginStart="36dp"
         android:layout_marginTop="144dp"
         android:text="Total:"
-        android:textStyle="bold"
         android:textColor="#fafafa"
+        android:textStyle="bold"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textView7" />
 
@@ -219,8 +219,8 @@
         android:layout_marginStart="130dp"
         android:layout_marginTop="24dp"
         android:text="Heart of the Mountain:"
-        android:textStyle="bold"
         android:textColor="@color/letras"
+        android:textStyle="bold"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textView14" />
 
@@ -242,8 +242,8 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="24dp"
         android:text="$2200"
-        android:textStyle="bold"
         android:textColor="@color/bless_especiales"
+        android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.227"
         app:layout_constraintStart_toEndOf="@+id/textView15"
@@ -255,11 +255,50 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="24dp"
         android:text="$2200"
-        android:textStyle="bold"
         android:textColor="@color/bless_especiales"
+        android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.22"
         app:layout_constraintStart_toEndOf="@+id/textView16"
         app:layout_constraintTop_toBottomOf="@+id/textView17" />
+
+    <TextView
+        android:id="@+id/textView19"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="10dp"
+        android:layout_marginTop="144dp"
+        android:text="20000"
+        android:textColor="@color/leyenda"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.017"
+        app:layout_constraintStart_toEndOf="@+id/textView8"
+        app:layout_constraintTop_toBottomOf="@+id/textView7" />
+
+    <Switch
+        android:id="@+id/switch1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="67dp"
+        android:layout_marginEnd="20dp"
+        android:foregroundTint="@android:color/holo_purple"
+        android:trackTint="@android:color/holo_purple"
+        android:text=""
+        app:layout_constraintEnd_toStartOf="@+id/textView15"
+        app:layout_constraintTop_toBottomOf="@+id/textView6" />
+
+    <Switch
+        android:id="@+id/switch2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:layout_marginEnd="20dp"
+        android:text=""
+        android:theme="@style/SwitchCompatTheme"
+        android:trackTint="@android:color/holo_purple"
+        app:layout_constraintEnd_toStartOf="@+id/textView16"
+        app:layout_constraintTop_toBottomOf="@+id/switch1"
+        tools:checked="false" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
