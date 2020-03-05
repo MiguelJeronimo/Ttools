@@ -3,7 +3,7 @@
     <color name="colorPrimary">#263238</color>
     <color name="colorPrimaryDark">#000a12</color>
     <color name="colorAccent">#263238</color>
-    <color name="fondo_switch">@android:color/holo_purple</color> <!--para cambiar el color de la activity-->
+    <color name="fondo_switch">@android:color/holo_red_dark</color> <!--para cambiar el color de la activity-->
     <color name="leyenda">#EEEEEE</color>
     <color name="letras">#fafafa</color>
     <color name="bless_especiales">#03A9F4</color>
