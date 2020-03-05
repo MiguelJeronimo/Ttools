@@ -8,7 +8,7 @@
         <item name="colorAccent">@color/colorAccent</item>
     </style>
 
-    <style name="SwitchCompatTheme" >
+    <style name="SwitchCompatTheme" ><!--Creando tema para los swtches-->
         <item name="colorControlActivated">@color/fondo_switch</item>
     </style>
 
