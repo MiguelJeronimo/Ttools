@@ -106,39 +106,62 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             String nivel_personaje =  nivel.getText().toString();
 
             if (nivel_personaje.equalsIgnoreCase("")){
+
                 Toast.makeText(this,"Favor de ingresar el nivel",Toast.LENGTH_SHORT).show();
+
             } else{
                 int Nivel = Integer.parseInt(nivel_personaje);
 
                 if (Nivel <= 30){
                     Toast.makeText(this, "Recuerda que si tu nivel es menor o igual a 30 tus bless valen 10K en total", Toast.LENGTH_SHORT).show();
+                    spiritual.setText("");
+                    embrace.setText("");
+                    suns.setText("");
+                    solitude.setText("");
+                    phoenix.setText("");
+                    twits_of_fate.setText("");
+                    total.setText("");
                 } else if (Nivel>=31&&Nivel<120){
 
                     // Blessings individual (costo unitario de las bless principales y twits of fate)
-                    int bless = c.blessingIndividual(Nivel);
+                    c.blessingIndividual(Nivel);
 
                     //calcularemos la suma de las  blessins princiapales
-                    int suma_blessings_principales = c.sumaBlessingsPrincipales(Nivel);
+                    c.sumaBlessingsPrincipales(Nivel);
 
-                    //Precio unitario de la bless especial
+                    //Suma de las 5 bless principales
+                    c.sumaBlessingsPrincipales(Nivel);
                     //int bless_especial = c.blessingEspecial(Nivel);
+                    /**UNA VEZ VALIDADO EL CAMPO DE TEXTO, IMPRIMIMOS LOS RESULTADOS EN LAS ETIQUETAS CORRESPONDIENTES**/
+                    spiritual.setText(Integer.toString(c.getBlessingIndividual()));
+                    embrace.setText(Integer.toString(c.getBlessingIndividual()));
+                    suns.setText(Integer.toString(c.getBlessingIndividual()));
+                    solitude.setText(Integer.toString(c.getBlessingIndividual()));
+                    phoenix.setText(Integer.toString(c.getBlessingIndividual()));
+                    twits_of_fate.setText(Integer.toString(c.getBlessingIndividual()));
+                    /**SUMAMOS LAS 5 BLESSINGS PRINCIPALES MAS LA DEL PVP (TWIST OF FATE)**/
+                    total.setText(Integer.toString(c.getSumaBlessingsPrincipales() + c.getBlessingIndividual()));
 
-                    spiritual.setText(Integer.toString(bless));
-                    embrace.setText(Integer.toString(bless));
-                    suns.setText(Integer.toString(bless));
-                    solitude.setText(Integer.toString(bless));
-                    phoenix.setText(Integer.toString(bless));
-                    twits_of_fate.setText(Integer.toString(bless));
-                    total.setText(Integer.toString( suma_blessings_principales + bless));
-                    nivel.setText("");
+
                 } else{
                     Toast.makeText(this, "Recuerda que apartir del nivel 120 tus bless empiezan a valen 100K en total",Toast.LENGTH_LONG).show();
+                    spiritual.setText("");
+                    embrace.setText("");
+                    suns.setText("");
+                    solitude.setText("");
+                    phoenix.setText("");
+                    twits_of_fate.setText("");
+                    total.setText("");
                 }
+                nivel.setText("");
+
             }
 
 
 
-        } else if (swtich_blood.isChecked()){//switch de Heart of muntain esta checkeado
+        }
+
+        if (swtich_blood.isChecked()){//switch de Heart of muntain esta checkeado
             String nivel_personaje =  nivel.getText().toString();
 
             if (nivel_personaje.equalsIgnoreCase("")){
@@ -146,12 +169,13 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             } else{
 
                 int Nivel = Integer.parseInt(nivel_personaje);
-                int bless_especial = c.blessingEspecial(Nivel);
-                blood.setText(Integer.toString(bless_especial));
+                c.blessingEspecial(Nivel);
+                blood.setText(Integer.toString(c.getBlessingEspecial()));
             }
+        } else {blood.setText("");}
 
 
-        } else if (swtich_heart.isChecked()){// swtich de Blood of mountains esta checkeado.
+        if (swtich_heart.isChecked()){// swtich de Blood of mountains esta checkeado.
 
             String nivel_personaje =  nivel.getText().toString();
             if (nivel_personaje.equalsIgnoreCase("")){
@@ -159,38 +183,13 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             } else {
 
                 int Nivel = Integer.parseInt(nivel_personaje);
-                int bless_especial = c.blessingEspecial(Nivel);
-                heart.setText(Integer.toString(bless_especial));
+                c.blessingEspecial(Nivel);
+                heart.setText(Integer.toString(c.getBlessingEspecial()));
             }
-
-
-
-        }
-
+        } else{heart.setText("");}
 
     }
 
-   /** @Override
-    public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-
-        if (swtich_heart.isChecked()){
-
-            String nivel_personaje =  nivel.getText().toString();
-            int Nivel = Integer.parseInt(nivel_personaje);
-            int bless_especial = c.blessingEspecial(Nivel);
-
-            heart.setText(Integer.toString(bless_especial));
-
-        } else if (swtich_blood.isChecked()){
-            String nivel_personaje =  nivel.getText().toString();
-            int Nivel = Integer.parseInt(nivel_personaje);
-            int bless_especial = c.blessingEspecial(Nivel);
-
-            blood.setText(Integer.toString(bless_especial));
-        }
-
-
-        }**/
 
 
     }
