@@ -8,8 +8,13 @@
         <item name="colorAccent">@color/colorAccent</item>
     </style>
 
-    <style name="SwitchCompatTheme" ><!--Creando tema para los swtches-->
+    <style name="SwitchCompatTheme"><!--Creando tema para los swtches-->
         <item name="colorControlActivated">@color/fondo_switch</item>
+    </style>
+
+    <style name="colores_menus">
+        <item name="colorControlNormal">@color/colorPrimary</item>
+
     </style>
 
     <style name="AppTheme.NoActionBar">

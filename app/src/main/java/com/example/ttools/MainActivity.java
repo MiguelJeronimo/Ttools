@@ -1,5 +1,6 @@
 package com.example.ttools;
 
+import android.content.Intent;
 import android.os.Bundle;
 
 import com.example.ttools.Operaciones.calcularBlessings;
@@ -93,6 +94,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         //noinspection SimplifiableIfStatement
         if (id == R.id.action_settings) {
             return true;
+        } else if (id == R.id.menu_experiencia){
+            Intent expcompartida = new Intent(this, experiencia_compartida.class);
+            startActivity(expcompartida);
         }
 
         return super.onOptionsItemSelected(item);

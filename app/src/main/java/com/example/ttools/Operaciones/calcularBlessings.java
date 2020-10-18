@@ -4,6 +4,13 @@ public class calcularBlessings {
 
     private int nivel, blessing, blessing_especial, suma_blessings_principales;
 
+    public calcularBlessings() {
+       // this.nivel=nivel;
+    }
+
+    public calcularBlessings(int nivel) {
+    }
+
 
     public void calcularBlessings(int nivel){
             this.nivel=nivel;
