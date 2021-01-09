@@ -23,7 +23,7 @@ import android.widget.Toast;
 public class MainActivity extends AppCompatActivity implements View.OnClickListener{
 /** Declaracion de los objetos de los componentes**/
 
-    TextView spiritual, embrace, suns, solitude, phoenix, twits_of_fate, heart, blood,total;
+    TextView spiritual, embrace, suns, solitude, phoenix, twits_of_fate, heart, blood,total, total_blessings_opcionales, total_blessings;
 
     EditText nivel;
 
@@ -54,6 +54,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         blood = (TextView)findViewById(R.id.Blood_moutain);
         total = (TextView)findViewById(R.id.Total);
 
+        total_blessings_opcionales = (TextView) findViewById(R.id.totalBlessingsOpcionales);
+        total_blessings = (TextView) findViewById(R.id.totalBlessings);
         /**Boton y Switches**/
 
 
@@ -130,12 +132,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                     // Blessings individual (costo unitario de las bless principales y twits of fate)
                     c.blessingIndividual(Nivel);
 
-                    //calcularemos la suma de las  blessins princiapales
-                    c.sumaBlessingsPrincipales(Nivel);
-
                     //Suma de las 5 bless principales
                     c.sumaBlessingsPrincipales(Nivel);
-                    //int bless_especial = c.blessingEspecial(Nivel);
+
                     /**UNA VEZ VALIDADO EL CAMPO DE TEXTO, IMPRIMIMOS LOS RESULTADOS EN LAS ETIQUETAS CORRESPONDIENTES**/
                     spiritual.setText(Integer.toString(c.getBlessingIndividual()));
                     embrace.setText(Integer.toString(c.getBlessingIndividual()));
@@ -157,11 +156,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                     twits_of_fate.setText("");
                     total.setText("");
                 }
-                nivel.setText("");
 
             }
-
-
 
         }
 
@@ -174,9 +170,20 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
                 int Nivel = Integer.parseInt(nivel_personaje);
                 c.blessingEspecial(Nivel);
+                int get_especial = c.getBlessingEspecial();
+                c.setHeartOfMountain(get_especial);
                 blood.setText(Integer.toString(c.getBlessingEspecial()));
+
+
             }
-        } else {blood.setText("");}
+
+        } else {
+            //hacer en caso de que no este checkiado
+            blood.setText("");
+            c.setHeartOfMountain(0);
+
+
+        }
 
 
         if (swtich_heart.isChecked()){// swtich de Blood of mountains esta checkeado.
@@ -188,9 +195,23 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
                 int Nivel = Integer.parseInt(nivel_personaje);
                 c.blessingEspecial(Nivel);
+                int get_especial = c.getBlessingEspecial();
+                c.setBloodOfMountain(get_especial);
                 heart.setText(Integer.toString(c.getBlessingEspecial()));
+
             }
-        } else{heart.setText("");}
+        } else{
+            //hacer en caso de que no este chequiado
+            heart.setText("");
+            c.setBloodOfMountain(0);
+
+        }
+
+        // imprimiendo los totales en las etiquetas de total de blessings opcionales y el total de todas las blessings
+        total_blessings_opcionales.setText(Integer.toString(c.getBloodOfMountain()+c.getHeartOfMountain()));
+        total_blessings.setText(Integer.toString(c.getSumaBlessingsPrincipales() + c.getBlessingIndividual()+c.getHeartOfMountain()+c.getBloodOfMountain()));
+
+
 
     }
 

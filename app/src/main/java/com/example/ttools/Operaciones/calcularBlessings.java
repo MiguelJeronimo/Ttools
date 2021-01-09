@@ -2,7 +2,7 @@ package com.example.ttools.Operaciones;
 
 public class calcularBlessings {
 
-    private int nivel, blessing, blessing_especial, suma_blessings_principales;
+    private int nivel, blessing, blessing_especial, suma_blessings_principales, totalBlessings, setHeartOfMountain, setBloodOfMountain;
 
     public calcularBlessings() {
        // this.nivel=nivel;
@@ -46,14 +46,42 @@ public class calcularBlessings {
 
     }
 
-public int getBlessingIndividual(){return blessing;} //devuelve el costo unitario de la blessings principales
 
-public int getBlessingEspecial(){return blessing_especial;}//devuelve el valor unitario de las blessings especiales
+    public void setTotalBlessings(int total){
+        totalBlessings = nivel;
+    }
 
-public int getSumaBlessingsPrincipales(){return suma_blessings_principales;}//devuelve la suma de las 5 bless principales sin la twits of fate
+    public int getBlessingIndividual(){return blessing;} //devuelve el costo unitario de la blessings principales
+
+    public int getBlessingEspecial(){return blessing_especial;}//devuelve el valor unitario de las blessings especiales
+
+    public int getSumaBlessingsPrincipales(){return suma_blessings_principales;}//devuelve la suma de las 5 bless principales sin la twits of fate
+
+    public int getTotalBlessings(){return totalBlessings;}
 
 
 
+
+/**
+ * AQUI CALCULAREMOS EL TOTAL DE LAS BLESSINGS OPCIONALES Y SUMARLAS CON EL TOTAL DE LAS BLESSINGS NORMALES*/
+
+    public void setHeartOfMountain(int setHeartOfMountain){
+        this.setHeartOfMountain = setHeartOfMountain;
+    }
+
+    public void setBloodOfMountain(int setBloodOfMountain){
+        this.setBloodOfMountain = setBloodOfMountain;
+    }
+
+    public int getHeartOfMountain(){
+
+        return setHeartOfMountain;
+    }
+
+    public int getBloodOfMountain(){
+
+        return setBloodOfMountain;
+    }
 
 
 
