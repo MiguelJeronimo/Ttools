@@ -20,10 +20,12 @@ import android.widget.Switch;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import java.text.DecimalFormat;
+
 public class MainActivity extends AppCompatActivity implements View.OnClickListener{
 /** Declaracion de los objetos de los componentes**/
 
-    TextView spiritual, embrace, suns, solitude, phoenix, twits_of_fate, heart, blood,total, total_blessings_opcionales, total_blessings;
+    TextView spiritual, embrace, suns, solitude, phoenix, twits_of_fate, heart, blood,total;
 
     EditText nivel;
 
@@ -32,6 +34,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     Switch swtich_heart, swtich_blood;
 
     calcularBlessings c = new calcularBlessings();
+
+    // para formatear numeros a formato de dinero.
+    DecimalFormat decimalFormat = new DecimalFormat("###,###.00");
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -54,8 +59,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         blood = (TextView)findViewById(R.id.Blood_moutain);
         total = (TextView)findViewById(R.id.Total);
 
-        total_blessings_opcionales = (TextView) findViewById(R.id.totalBlessingsOpcionales);
-        total_blessings = (TextView) findViewById(R.id.totalBlessings);
+
         /**Boton y Switches**/
 
 
@@ -68,14 +72,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         swtich_blood = (Switch)findViewById(R.id.switch2);
         swtich_blood.setOnClickListener(this);
 
-     /**   FloatingActionButton fab = findViewById(R.id.fab);
-        fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
-            }
-        });**/
+
     }
 
 
@@ -118,71 +115,48 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             } else{
                 int Nivel = Integer.parseInt(nivel_personaje);
 
-                if (Nivel <= 30){
-                    Toast.makeText(this, "Recuerda que si tu nivel es menor o igual a 30 tus bless valen 10K en total", Toast.LENGTH_SHORT).show();
-                    spiritual.setText("");
-                    embrace.setText("");
-                    suns.setText("");
-                    solitude.setText("");
-                    phoenix.setText("");
-                    twits_of_fate.setText("");
-                    total.setText("");
-                } else if (Nivel>=31&&Nivel<120){
-
                     // Blessings individual (costo unitario de las bless principales y twits of fate)
                     c.blessingIndividual(Nivel);
 
                     //Suma de las 5 bless principales
                     c.sumaBlessingsPrincipales(Nivel);
 
+                    //formateamos el costo a formato de moneda
+                    String blessing_individual = decimalFormat.format(c.getBlessingIndividual());
+                    String total_blessings_principales = decimalFormat.format(c.getSumaBlessingsPrincipales() + c.getBlessingIndividual());
+
                     /**UNA VEZ VALIDADO EL CAMPO DE TEXTO, IMPRIMIMOS LOS RESULTADOS EN LAS ETIQUETAS CORRESPONDIENTES**/
-                    spiritual.setText(Integer.toString(c.getBlessingIndividual()));
-                    embrace.setText(Integer.toString(c.getBlessingIndividual()));
-                    suns.setText(Integer.toString(c.getBlessingIndividual()));
-                    solitude.setText(Integer.toString(c.getBlessingIndividual()));
-                    phoenix.setText(Integer.toString(c.getBlessingIndividual()));
-                    twits_of_fate.setText(Integer.toString(c.getBlessingIndividual()));
-                    /**SUMAMOS LAS 5 BLESSINGS PRINCIPALES MAS LA DEL PVP (TWIST OF FATE)**/
-                    total.setText(Integer.toString(c.getSumaBlessingsPrincipales() + c.getBlessingIndividual()));
-
-
-                } else{
-                    Toast.makeText(this, "Recuerda que apartir del nivel 120 tus bless empiezan a valen 100K en total",Toast.LENGTH_LONG).show();
-                    spiritual.setText("");
-                    embrace.setText("");
-                    suns.setText("");
-                    solitude.setText("");
-                    phoenix.setText("");
-                    twits_of_fate.setText("");
-                    total.setText("");
-                }
-
+                    spiritual.setText(blessing_individual);
+                    embrace.setText(blessing_individual);
+                    suns.setText(blessing_individual);
+                    solitude.setText(blessing_individual);
+                    phoenix.setText(blessing_individual);
+                    twits_of_fate.setText(blessing_individual);
             }
 
         }
 
         if (swtich_blood.isChecked()){//switch de Heart of muntain esta checkeado
             String nivel_personaje =  nivel.getText().toString();
+            int Nivel = Integer.parseInt(nivel_personaje);
 
             if (nivel_personaje.equalsIgnoreCase("")){
                 Toast.makeText(this,"Favor de ingresar el nivel",Toast.LENGTH_SHORT).show();
-            } else{
 
-                int Nivel = Integer.parseInt(nivel_personaje);
+            } else {
+                Nivel = Integer.parseInt(nivel_personaje);
                 c.blessingEspecial(Nivel);
                 int get_especial = c.getBlessingEspecial();
                 c.setHeartOfMountain(get_especial);
-                blood.setText(Integer.toString(c.getBlessingEspecial()));
 
-
+                //formateamos el costo a formato de moneda
+                String blessing_especial = decimalFormat.format(c.getBlessingIndividual());
+                blood.setText(blessing_especial);
             }
-
         } else {
             //hacer en caso de que no este checkiado
             blood.setText("");
             c.setHeartOfMountain(0);
-
-
         }
 
 
@@ -197,25 +171,24 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 c.blessingEspecial(Nivel);
                 int get_especial = c.getBlessingEspecial();
                 c.setBloodOfMountain(get_especial);
-                heart.setText(Integer.toString(c.getBlessingEspecial()));
+
+                //formateamos el costo a formato de moneda
+                String blessing_especial = decimalFormat.format(c.getBlessingIndividual());
+                heart.setText(blessing_especial);
 
             }
         } else{
             //hacer en caso de que no este chequiado
             heart.setText("");
             c.setBloodOfMountain(0);
-
         }
 
+        String total_blessing = decimalFormat.format(c.getSumaBlessingsPrincipales() + c.getBlessingIndividual()+c.getHeartOfMountain()+c.getBloodOfMountain());
+
         // imprimiendo los totales en las etiquetas de total de blessings opcionales y el total de todas las blessings
-        total_blessings_opcionales.setText(Integer.toString(c.getBloodOfMountain()+c.getHeartOfMountain()));
-        total_blessings.setText(Integer.toString(c.getSumaBlessingsPrincipales() + c.getBlessingIndividual()+c.getHeartOfMountain()+c.getBloodOfMountain()));
-
-
+        total.setText(total_blessing);
 
     }
-
-
 
     }
 
