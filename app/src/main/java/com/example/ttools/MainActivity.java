@@ -89,9 +89,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         // automatically handle clicks on the Home/Up button, so long
         // as you specify a parent activity in AndroidManifest.xml.
         int id = item.getItemId();
-
         //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
+        if (id == R.id.menu_rashid) {
             return true;
         } else if (id == R.id.menu_experiencia){
             Intent expcompartida = new Intent(this, experiencia_compartida.class);
@@ -138,13 +137,12 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         if (swtich_blood.isChecked()){//switch de Heart of muntain esta checkeado
             String nivel_personaje =  nivel.getText().toString();
-            int Nivel = Integer.parseInt(nivel_personaje);
 
             if (nivel_personaje.equalsIgnoreCase("")){
                 Toast.makeText(this,"Favor de ingresar el nivel",Toast.LENGTH_SHORT).show();
 
             } else {
-                Nivel = Integer.parseInt(nivel_personaje);
+                int Nivel = Integer.parseInt(nivel_personaje);
                 c.blessingEspecial(Nivel);
                 int get_especial = c.getBlessingEspecial();
                 c.setHeartOfMountain(get_especial);
