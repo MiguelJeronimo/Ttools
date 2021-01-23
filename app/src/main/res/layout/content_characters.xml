@@ -39,7 +39,7 @@
         android:backgroundTint="#6A1B9A"
         android:elevation="@dimen/fab_margin"
         android:foregroundTint="@color/colorAccent"
-        android:text="Calcular"
+        android:text="Buscar"
         android:textColor="@color/leyenda"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.615"
@@ -94,6 +94,7 @@
                         android:layout_marginRight="5dp"
                         android:gravity="left"
                         android:padding="3dip"
+                        android:textColor="#8d8d8d"
                         android:text="" />
                 </TableRow>
 
@@ -110,6 +111,7 @@
                         android:layout_marginRight="5dp"
                         android:gravity="left"
                         android:padding="3dip"
+                        android:textColor="#8d8d8d"
                         android:text="" />
                 </TableRow>
 
@@ -126,6 +128,7 @@
                         android:layout_marginRight="5dp"
                         android:gravity="left"
                         android:padding="3dip"
+                        android:textColor="#8d8d8d"
                         android:text="" />
                 </TableRow>
 
@@ -142,6 +145,7 @@
                         android:layout_marginRight="5dp"
                         android:gravity="left"
                         android:padding="3dip"
+                        android:textColor="#8d8d8d"
                         android:text="" />
                 </TableRow>
 
@@ -158,6 +162,7 @@
                         android:layout_marginRight="5dp"
                         android:gravity="left"
                         android:padding="3dip"
+                        android:textColor="#8d8d8d"
                         android:text="" />
                 </TableRow>
 
@@ -174,6 +179,7 @@
                         android:layout_marginRight="5dp"
                         android:gravity="left"
                         android:padding="3dip"
+                        android:textColor="#8d8d8d"
                         android:text="" />
                 </TableRow>
 
@@ -190,6 +196,7 @@
                         android:layout_marginRight="5dp"
                         android:gravity="left"
                         android:padding="3dip"
+                        android:textColor="#8d8d8d"
                         android:text="" />
                 </TableRow>
 
@@ -209,6 +216,7 @@
                         android:width="@android:dimen/thumbnail_width"
                         android:gravity="left"
                         android:padding="3dip"
+                        android:textColor="#8d8d8d"
                         android:text="" />
                 </TableRow>
 
@@ -225,6 +233,7 @@
                         android:layout_marginRight="5dp"
                         android:gravity="left"
                         android:padding="3dip"
+                        android:textColor="#8d8d8d"
                         android:text="" />
                 </TableRow>
 
@@ -244,6 +253,7 @@
                         android:width="@android:dimen/thumbnail_width"
                         android:gravity="left"
                         android:padding="3dip"
+                        android:textColor="#8d8d8d"
                         android:text="" />
                 </TableRow>
             </TableLayout>
