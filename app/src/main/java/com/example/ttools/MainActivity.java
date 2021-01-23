@@ -95,6 +95,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         } else if (id == R.id.menu_experiencia){
             Intent expcompartida = new Intent(this, experiencia_compartida.class);
             startActivity(expcompartida);
+        } else if (id == R.id.menu_characters){
+            Intent characters = new Intent(this, characters.class);
+            startActivity(characters);
         }
 
         return super.onOptionsItemSelected(item);

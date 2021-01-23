@@ -9,7 +9,7 @@
         android:color="@color/colorPrimary"
         app:showAsAction="never" />
     <item
-        android:id="@+id/menu_jugadores"
+        android:id="@+id/menu_characters"
         android:orderInCategory="100"
         android:title="Jugadores"
         android:color="@color/colorPrimary"
