@@ -234,11 +234,6 @@ public class characters extends AppCompatActivity implements View.OnClickListene
                                 residencia.setText("");
                                 lastlogin.setText("");
                             }
-                            //  String respuesta = gson.toJson(response);
-
-
-
-                            // text.setText();
 
 
                         }
