@@ -56,16 +56,6 @@ public class characters extends AppCompatActivity implements View.OnClickListene
         btnenviar = (Button)findViewById(R.id.btnenviar);
         btnenviar.setOnClickListener(this);
 
-
-
-        FloatingActionButton fab = findViewById(R.id.fab);
-        fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
-            }
-        });
     }
 
     @Override
@@ -87,7 +77,7 @@ public class characters extends AppCompatActivity implements View.OnClickListene
 
     /**Logica del programa para hacer la conexion a la API de tibia*/
     @Override
-    public void onClick(View v) {
+    public void onClick(final View v) {
 
         if (v.getId() == R.id.btnenviar){
             final String nombre_personaje = nombre_persona.getText().toString();
@@ -105,7 +95,7 @@ public class characters extends AppCompatActivity implements View.OnClickListene
             if (nombre_personaje.equalsIgnoreCase("")){
                 // Toast.makeText(this, "Ingrese el nombre del personaje", Toast.LENGTH_SHORT).show();
 
-                Snackbar.make(null,"Ingrese el nombre de personaje", Snackbar.LENGTH_LONG).setAction("Action", null).show();
+                Snackbar.make(v,"Ingrese el nombre de personaje", Snackbar.LENGTH_LONG).setAction("Action", null).show();
 
 
             } else if(a.length == 1) {
@@ -218,7 +208,7 @@ public class characters extends AppCompatActivity implements View.OnClickListene
                                 e.printStackTrace();
                                 //e.getMessage();
 
-                                Snackbar.make(null, "El personaje no existe.", Snackbar.LENGTH_LONG)
+                                Snackbar.make(v, "El personaje no existe.", Snackbar.LENGTH_LONG)
                                         .setAction("Action", null).show();
                                 guild.setText("");
                                 // sguild = response.getJSONObject("characters").getJSONObject("data").getJSONObject("guild").getString("name");
