@@ -21,4 +21,11 @@
         android:color="@color/colorPrimary"
         app:showAsAction="never" />
 
+    <item
+        android:id="@+id/menu_stamina"
+        android:orderInCategory="100"
+        android:title="Stamina"
+        android:color="@color/colorPrimary"
+        app:showAsAction="never" />
+
 </menu>

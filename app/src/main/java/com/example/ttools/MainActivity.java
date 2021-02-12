@@ -98,6 +98,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         } else if (id == R.id.menu_characters){
             Intent characters = new Intent(this, characters.class);
             startActivity(characters);
+        } else if (id == R.id.menu_stamina){
+            Intent stamina = new Intent(this, Stamina.class);
+            startActivity(stamina);
         }
 
         return super.onOptionsItemSelected(item);

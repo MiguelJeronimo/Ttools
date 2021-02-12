@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#263238"
+    app:layout_behavior="@string/appbar_scrolling_view_behavior">
+
+    <EditText
+        android:id="@+id/Tiempo"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="36dp"
+        android:layout_marginTop="56dp"
+        android:backgroundTint="@android:color/holo_purple"
+        android:ems="10"
+        android:maxLength="5"
+        android:focusable="auto"
+        android:hint="Ej. 42:00"
+        android:inputType="text"
+        android:numeric="integer"
+        android:textAllCaps="false"
+        android:textColor="@color/leyenda"
+        android:textColorHighlight="@android:color/holo_purple"
+        android:textColorHint="@android:color/darker_gray"
+        android:textColorLink="@android:color/holo_purple"
+        android:textCursorDrawable="@android:color/holo_orange_light"
+        android:textIsSelectable="false"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <Button
+        android:id="@+id/calcular"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="56dp"
+        android:layout_marginEnd="16dp"
+        android:background="#4A148C"
+        android:backgroundTint="#6A1B9A"
+        android:elevation="@dimen/fab_margin"
+        android:foregroundTint="@color/colorAccent"
+        android:text="Calcular"
+        android:textColor="@color/leyenda"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.573"
+        app:layout_constraintStart_toEndOf="@+id/Nivel"
+        app:layout_constraintTop_toTopOf="parent" />
+
+
+
+
+
+
+
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>
