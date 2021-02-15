@@ -1,9 +1,9 @@
 package com.example.ttools.Operaciones;
 
-public class Stamina {
+public class staminaTibia {
     int horaMinutos, minutosTopStamina, minutosTotales, totalMinutosStamina, tiempoReal, minutosHora,minutosRestantes;
 
-    public void Stamina (int horaMinutos, int minutosTopStamina, int minutosTotales, int totalMinutosStamina, int tiempoReal, int minutosHora, int minutosRestantes){
+    public void staminaTibia (int horaMinutos, int minutosTopStamina, int minutosTotales, int totalMinutosStamina, int tiempoReal, int minutosHora, int minutosRestantes){
         this.horaMinutos = horaMinutos;
         this.minutosTopStamina = minutosTopStamina;
         this.minutosTotales = minutosTotales;
@@ -40,20 +40,20 @@ public class Stamina {
         minutosHora = hora * 60;
     }
     //retornamos los minutos
-    public int getminutosHora(){
+    public int getHora(){
         return minutosHora;
     }
 
     public void convertirMinutosHora(int Minutos){
         horaMinutos = Minutos / 60;
         Hora(Minutos);
-        minutosRestantes = Minutos - getminutosHora();
+        minutosRestantes = Minutos - getHora();
     }
 
-    public int getconvertirMinutosHora(){
+    public int getHorasReales(){return horaMinutos;}
+    public int getMinutosReales(){
         return minutosRestantes;
     }
 
 /***/
-
 }
