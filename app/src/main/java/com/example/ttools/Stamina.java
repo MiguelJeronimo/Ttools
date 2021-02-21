@@ -14,6 +14,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.TextView;
 
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -22,6 +23,7 @@ import com.example.ttools.Operaciones.staminaTibia;
 public class Stamina extends AppCompatActivity implements View.OnClickListener {
 
     EditText tiempo;
+    TextView lbHora, lbMinutos,lbmedio;
     Button btnalcular;
 
     //Objeto de la clase Stamina
@@ -38,6 +40,9 @@ public class Stamina extends AppCompatActivity implements View.OnClickListener {
         tiempo = findViewById(R.id.Tiempo);
         btnalcular = findViewById(R.id.calcular);
         btnalcular.setOnClickListener(this);
+        lbHora = findViewById(R.id.labelHora);
+        lbmedio = findViewById(R.id.medio);
+        lbMinutos = findViewById(R.id.lableMinutos);
 
     }
 
@@ -90,9 +95,9 @@ public class Stamina extends AppCompatActivity implements View.OnClickListener {
                    horaReal = Stamina.getHorasReales();
                    minutosReales = Stamina.getMinutosReales();
 
-                    Snackbar.make(v, "La estamina tardara: "+horaReal+":"+minutosReales, Snackbar.LENGTH_LONG)
-                            .setAction("Action", null).show();
-
+                   lbHora.setText(String.valueOf(horaReal));
+                   lbmedio.setText(":");
+                   lbMinutos.setText(String.valueOf(minutosReales));
                 }
 
             } else {
