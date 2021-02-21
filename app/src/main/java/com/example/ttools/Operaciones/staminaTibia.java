@@ -2,8 +2,10 @@ package com.example.ttools.Operaciones;
 
 public class staminaTibia {
     int horaMinutos, minutosTopStamina, minutosTotales, totalMinutosStamina, tiempoReal, minutosHora,minutosRestantes;
+    int horaMinutosStamina, minutosStamina;
 
-    public void staminaTibia (int horaMinutos, int minutosTopStamina, int minutosTotales, int totalMinutosStamina, int tiempoReal, int minutosHora, int minutosRestantes){
+    public void staminaTibia (int horaMinutos, int minutosTopStamina, int minutosTotales, int totalMinutosStamina,
+                              int tiempoReal, int minutosHora, int minutosRestantes, int horaMinutosStamina, int minutosStamina){
         this.horaMinutos = horaMinutos;
         this.minutosTopStamina = minutosTopStamina;
         this.minutosTotales = minutosTotales;
@@ -11,6 +13,8 @@ public class staminaTibia {
         this.tiempoReal = tiempoReal;
         this.minutosHora = minutosHora;
         this.minutosRestantes = minutosRestantes;
+        this.horaMinutosStamina = horaMinutosStamina;
+        this.minutosStamina = minutosStamina;
     }
 
     //convertiremos las horas en minutos
@@ -22,11 +26,13 @@ public class staminaTibia {
     }
     //retornando el valor de las horas convertidas en minutos
     public int getConvertirHoraMinutosStamina(){
+
         return  totalMinutosStamina;
     }
 
     //calculando los minutos reales que tardara la stamina en recargarse
     public void minutoStamina(int minutoStamina){
+
         tiempoReal = (minutoStamina * 6)+10;
     }
 
@@ -36,21 +42,25 @@ public class staminaTibia {
     }
 
     //Conversión de horas a minutos
-    public void Hora(int hora){
-        minutosHora = hora * 60;
+    public void convertirHoraMinutosReales(int hora){
+
+        minutosStamina = hora * 60;
     }
-    //retornamos los minutos
+    //retornamos los minutos reales
     public int getHora(){
-        return minutosHora;
+        return minutosStamina;
     }
 
-    public void convertirMinutosHora(int Minutos){
-        horaMinutos = Minutos / 60;
-        Hora(Minutos);
-        minutosRestantes = Minutos - getHora();
+    public void convertirMinutosHora(int minutos){
+        horaMinutosStamina = minutos / 60;
+        convertirHoraMinutosReales(horaMinutosStamina);
+        minutosRestantes = minutos - getHora();
     }
 
-    public int getHorasReales(){return horaMinutos;}
+    public int getHorasReales(){
+        return horaMinutosStamina;
+    }
+
     public int getMinutosReales(){
         return minutosRestantes;
     }

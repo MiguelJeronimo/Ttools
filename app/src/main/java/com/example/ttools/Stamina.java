@@ -76,9 +76,6 @@ public class Stamina extends AppCompatActivity implements View.OnClickListener {
 
                 horas = Integer.parseInt(particion[0]);
                 minutos = Integer.parseInt(particion[1]);
-               /** Snackbar.make(v, horas+":"+minutos, Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();**/
-
 
                 if (horas > 0 && horas <= 42){ //42 significa que la stimana esta llena
 
@@ -93,13 +90,10 @@ public class Stamina extends AppCompatActivity implements View.OnClickListener {
                    horaReal = Stamina.getHorasReales();
                    minutosReales = Stamina.getMinutosReales();
 
-
                     Snackbar.make(v, "La estamina tardara: "+horaReal+":"+minutosReales, Snackbar.LENGTH_LONG)
                             .setAction("Action", null).show();
 
-
                 }
-
 
             } else {
 
