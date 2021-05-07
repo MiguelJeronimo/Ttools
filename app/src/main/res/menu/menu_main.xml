@@ -27,5 +27,11 @@
         android:title="Stamina"
         android:color="@color/colorPrimary"
         app:showAsAction="never" />
+    <item
+        android:id="@+id/menu_mundos"
+        android:orderInCategory="100"
+        android:title="Mundos"
+        android:color="@color/colorPrimary"
+        app:showAsAction="never" />
 
 </menu>

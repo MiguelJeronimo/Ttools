@@ -46,9 +46,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         setSupportActionBar(toolbar);
 
         /**Instanciaremos los objetos de los componentes**/
-
         nivel = (EditText)findViewById(R.id.Nivel);
-
         spiritual = (TextView)findViewById(R.id.spiritual);
         embrace = (TextView)findViewById(R.id.Embrace);
         suns = (TextView)findViewById(R.id.Suns);
@@ -58,11 +56,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         heart = (TextView)findViewById(R.id.Heart_mountain);
         blood = (TextView)findViewById(R.id.Blood_moutain);
         total = (TextView)findViewById(R.id.Total);
-
-
         /**Boton y Switches**/
-
-
         calcular = (Button)findViewById(R.id.calcular);
         calcular.setOnClickListener(this);
 
@@ -71,8 +65,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         swtich_blood = (Switch)findViewById(R.id.switch2);
         swtich_blood.setOnClickListener(this);
-
-
     }
 
 
@@ -101,6 +93,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         } else if (id == R.id.menu_stamina){
             Intent stamina = new Intent(this, Stamina.class);
             startActivity(stamina);
+        }else if (id == R.id.menu_mundos){
+            Intent mundos = new Intent(this, Mundos.class);
+            startActivity(mundos);
         }
 
         return super.onOptionsItemSelected(item);
