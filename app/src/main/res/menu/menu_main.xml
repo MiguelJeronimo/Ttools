@@ -3,12 +3,6 @@
     xmlns:tools="http://schemas.android.com/tools"
     tools:context="com.example.ttools.MainActivity">
     <item
-        android:id="@+id/menu_rashid"
-        android:orderInCategory="100"
-        android:title="Rashid"
-        android:color="@color/colorPrimary"
-        app:showAsAction="never" />
-    <item
         android:id="@+id/menu_characters"
         android:orderInCategory="100"
         android:title="Jugadores"
@@ -27,11 +21,11 @@
         android:title="Stamina"
         android:color="@color/colorPrimary"
         app:showAsAction="never" />
-    <item
+   <!-- <item
         android:id="@+id/menu_mundos"
         android:orderInCategory="100"
         android:title="Mundos"
         android:color="@color/colorPrimary"
-        app:showAsAction="never" />
+        app:showAsAction="never" />-->
 
 </menu>

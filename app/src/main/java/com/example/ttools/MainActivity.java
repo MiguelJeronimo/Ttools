@@ -82,9 +82,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         // as you specify a parent activity in AndroidManifest.xml.
         int id = item.getItemId();
         //noinspection SimplifiableIfStatement
-        if (id == R.id.menu_rashid) {
+        /**if (id == R.id.menu_rashid) {
             return true;
-        } else if (id == R.id.menu_experiencia){
+        } **/
+        if (id == R.id.menu_experiencia){
             Intent expcompartida = new Intent(this, experiencia_compartida.class);
             startActivity(expcompartida);
         } else if (id == R.id.menu_characters){
@@ -93,10 +94,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         } else if (id == R.id.menu_stamina){
             Intent stamina = new Intent(this, Stamina.class);
             startActivity(stamina);
-        }else if (id == R.id.menu_mundos){
+        }/**else if (id == R.id.menu_mundos){
             Intent mundos = new Intent(this, Mundos.class);
             startActivity(mundos);
-        }
+        }*/
 
         return super.onOptionsItemSelected(item);
     }
@@ -149,7 +150,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 c.setHeartOfMountain(get_especial);
 
                 //formateamos el costo a formato de moneda
-                String blessing_especial = decimalFormat.format(c.getBlessingIndividual());
+                String blessing_especial = decimalFormat.format(c.getBlessingEspecial());
                 blood.setText(blessing_especial);
             }
         } else {
@@ -172,7 +173,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 c.setBloodOfMountain(get_especial);
 
                 //formateamos el costo a formato de moneda
-                String blessing_especial = decimalFormat.format(c.getBlessingIndividual());
+                String blessing_especial = decimalFormat.format(c.getBlessingEspecial());
                 heart.setText(blessing_especial);
 
             }
