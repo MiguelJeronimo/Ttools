@@ -7,6 +7,9 @@ import com.android.volley.RequestQueue;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
+import com.example.ttools.APISERVER.TibiaAPIServer;
+import com.example.ttools.Operaciones.APIServicesTibia;
+import com.example.ttools.Operaciones.information.Characters;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.snackbar.Snackbar;
 import com.google.gson.Gson;
@@ -23,6 +26,14 @@ import android.widget.TextView;
 
 import org.json.JSONException;
 import org.json.JSONObject;
+
+import java.util.List;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+import retrofit2.Retrofit;
+import retrofit2.converter.gson.GsonConverterFactory;
 
 public class characters extends AppCompatActivity implements View.OnClickListener {
 
@@ -79,168 +90,44 @@ public class characters extends AppCompatActivity implements View.OnClickListene
     @Override
     public void onClick(final View v) {
 
+        String urlAPI = "https://api.tibiadata.com/v3/character/";
+
         if (v.getId() == R.id.btnenviar){
-            final String nombre_personaje = nombre_persona.getText().toString();
-            String a [] = nombre_personaje.split(" ");
-            // System.out.println(a[0]+"%20"+a[1]);
-            String nombrep = a[0];
-            //String apellido = a[1];
+
+            Retrofit retrofit = new Retrofit
+                    .Builder()
+                    .baseUrl(urlAPI)
+                    .addConverterFactory(GsonConverterFactory.create())
+                    .build();
+            TibiaAPIServer services = retrofit.create(TibiaAPIServer.class);
+            Call <APIServicesTibia> repo = services.getPersonajes(nombre_persona.getText().toString());
+            repo.enqueue(new Callback<APIServicesTibia>() {
+                @Override
+                public void onResponse(Call<APIServicesTibia> call, Response<APIServicesTibia> response) {
+                    APIServicesTibia apiServicesTibia = response.body();
+                    Characters characters = apiServicesTibia.getCharacters();
+                    nombre.setText(characters.getCharacter().getName());
+                    titulo.setText(characters.getCharacter().getTitle());
+                    sexo.setText(characters.getCharacter().getSex());
+                    vocacion.setText(characters.getCharacter().getVocation());
+                    nivel.setText(String.valueOf(characters.getCharacter().getLevel()));
+                    archiviement.setText(String.valueOf(characters.getCharacter().getAchievement_points()));
+                    mundo.setText(characters.getCharacter().getWorld());
+                    residencia.setText(characters.getCharacter().getResidence());
+                    guild.setText(characters.getCharacter().getGuild().getName()+" : "+characters.getCharacter().getGuild().getRank());
+
+                    //System.out.println(characters.getCharacter().getName());
 
 
-            final RequestQueue requestQueue = Volley.newRequestQueue(characters.this);
-            //Validaremos el campo del nombre
-            String url = null;
+                }
 
+                @Override
+                public void onFailure(Call<APIServicesTibia> call, Throwable t) {
 
-            if (nombre_personaje.equalsIgnoreCase("")){
-                // Toast.makeText(this, "Ingrese el nombre del personaje", Toast.LENGTH_SHORT).show();
-
-                Snackbar.make(v,"Ingrese el nombre de personaje", Snackbar.LENGTH_LONG).setAction("Action", null).show();
-
-
-            } else if(a.length == 1) {
-                url = "https://api.tibiadata.com/v2/characters/"+nombre_personaje+"%20.json";}
-            else if(a.length==3){
-                url = "https://api.tibiadata.com/v2/characters/"+nombrep+"%20"+a[1]+"%20"+a[2]+".json";
-            }
-
-            else {
-
-                url = "https://api.tibiadata.com/v2/characters/"+nombrep+"%20"+a[1]+".json";
-            }
-
-
-            JsonObjectRequest jsonObjectRequest = new JsonObjectRequest
-                    (Request.Method.GET, url, null, new com.android.volley.Response.Listener<JSONObject>() {
-                        @Override
-                        public void onResponse(JSONObject response) {
-
-
-                            try {
-                                // text.setText();
-
-                                String snombre_persona;
-                                String stitulo;
-                                String ssexo;
-                                String svocacion;
-                                String snivel;
-                                String sarchiviement;
-                                String smundo;
-                                String sresidencia;
-                                String sguild;
-                                String slastlogin;
-                                String scomentario;
-                                String zonahoraria;
-                                String rango;
-                                boolean serror;
-                                snombre_persona = response.getJSONObject("characters").getJSONObject("data").getString("name").toString();
-                                stitulo = response.getJSONObject("characters").getJSONObject("data").getString("title").toString();
-                                ssexo = response.getJSONObject("characters").getJSONObject("data").getString("sex").toString();
-                                svocacion = response.getJSONObject("characters").getJSONObject("data").getString("vocation").toString();
-                                snivel = response.getJSONObject("characters").getJSONObject("data").getString("level").toString();
-                                sarchiviement = response.getJSONObject("characters").getJSONObject("data").getString("achievement_points").toString();
-                                smundo = response.getJSONObject("characters").getJSONObject("data").getString("world").toString();
-                                sresidencia = response.getJSONObject("characters").getJSONObject("data").getString("residence").toString();
-                                slastlogin = response.getJSONObject("characters").getJSONObject("data").getJSONArray("last_login").getJSONObject(0).get("date").toString();
-
-                                // serror = response.getJSONObject("characters").getJSONObject("data").has("guild");
-                                if (response.getJSONObject("characters").getJSONObject("data").optString("comment") == "" && response.getJSONObject("characters").getJSONObject("data").optString("guild") == "") {//en caso de que no tenga guild ni comentarios
-                                    guild.setText("No tiene guild");
-                                    comentario.setText("No tiene comentario");
-                                    nombre.setText(snombre_persona);
-                                    titulo.setText(stitulo);
-                                    sexo.setText(ssexo);
-                                    vocacion.setText(svocacion);
-                                    nivel.setText(snivel);
-                                    archiviement.setText(sarchiviement);
-                                    mundo.setText(smundo);
-                                    residencia.setText(sresidencia);
-                                    lastlogin.setText(slastlogin);
-
-                                } else if (response.getJSONObject("characters").getJSONObject("data").optString("comment") == ""){//en caso de que no tenga comentario
-                                    guild.setText(response.getJSONObject("characters").getJSONObject("data").getJSONObject("guild").getString("rank")+" of the "+response.getJSONObject("characters").getJSONObject("data").getJSONObject("guild").getString("name"));
-
-                                    comentario.setText("");
-                                    nombre.setText(snombre_persona);
-                                    titulo.setText(stitulo);
-                                    sexo.setText(ssexo);
-                                    vocacion.setText(svocacion);
-                                    nivel.setText(snivel);
-                                    archiviement.setText(sarchiviement);
-                                    mundo.setText(smundo);
-                                    residencia.setText(sresidencia);
-                                    lastlogin.setText(slastlogin);
-                                } else if (response.getJSONObject("characters").getJSONObject("data").optString("guild") == ""){// EN CASO DE QUE NO TENGA COMENTARIO NI GUILD
-                                    guild.setText("No tiene guild");
-                                    comentario.setText(response.getJSONObject("characters").getJSONObject("data").getString("comment"));
-                                    nombre.setText(snombre_persona);
-                                    titulo.setText(stitulo);
-                                    sexo.setText(ssexo);
-                                    vocacion.setText(svocacion);
-                                    nivel.setText(snivel);
-                                    archiviement.setText(sarchiviement);
-                                    mundo.setText(smundo);
-                                    residencia.setText(sresidencia);
-                                    lastlogin.setText(slastlogin);
-                                }
-
-                                else{
-
-
-                                    guild.setText(response.getJSONObject("characters").getJSONObject("data").getJSONObject("guild").getString("rank")+" of the "+response.getJSONObject("characters").getJSONObject("data").getJSONObject("guild").getString("name"));
-                                    // sguild = response.getJSONObject("characters").getJSONObject("data").getJSONObject("guild").getString("name");
-                                    //guild.setText(sguild);
-                                    comentario.setText(response.getJSONObject("characters").getJSONObject("data").getString("comment"));
-                                    nombre.setText(snombre_persona);
-                                    titulo.setText(stitulo);
-                                    sexo.setText(ssexo);
-                                    vocacion.setText(svocacion);
-                                    nivel.setText(snivel);
-                                    archiviement.setText(sarchiviement);
-                                    mundo.setText(smundo);
-                                    residencia.setText(sresidencia);
-                                    lastlogin.setText(slastlogin);
-
-                                }
-
-
-                            } catch (JSONException e) {
-                                e.printStackTrace();
-                                //e.getMessage();
-
-                                Snackbar.make(v, "El personaje no existe.", Snackbar.LENGTH_LONG)
-                                        .setAction("Action", null).show();
-                                guild.setText("");
-                                // sguild = response.getJSONObject("characters").getJSONObject("data").getJSONObject("guild").getString("name");
-                                //guild.setText(sguild);
-                                comentario.setText("");
-                                nombre.setText("");
-                                titulo.setText("");
-                                sexo.setText("");
-                                vocacion.setText("");
-                                nivel.setText("");
-                                archiviement.setText("");
-                                mundo.setText("");
-                                residencia.setText("");
-                                lastlogin.setText("");
-                            }
-
-
-                        }
-                    }, new com.android.volley.Response.ErrorListener() {
-                        @Override
-                        public void onErrorResponse(VolleyError error) {
-                            // text.setText(error.toString());
-                        }
-                    });
-
-            requestQueue.add(jsonObjectRequest);
-
+                }
+            });
 
         }
-
-
-
 
     }
 }
