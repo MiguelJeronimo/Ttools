@@ -51,7 +51,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         /**Instanciaremos los objetos de los componentes**/
         nivel = (EditText)findViewById(R.id.Nivel);
-  /**      spiritual = (TextView)findViewById(R.id.spiritual);
+        spiritual = (TextView)findViewById(R.id.spiritual);
 
 
 
@@ -63,7 +63,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         twits_of_fate = (TextView)findViewById(R.id.Twits);
         heart = (TextView)findViewById(R.id.Heart_mountain);
         blood = (TextView)findViewById(R.id.Blood_moutain);
-        total = (TextView)findViewById(R.id.Total);**/
+        total = (TextView)findViewById(R.id.Total);
         /**Boton y Switches**/
         calcular = (Button)findViewById(R.id.calcular);
         calcular.setOnClickListener(this);
