@@ -39,6 +39,7 @@
                 android:id="@+id/layoutNivel"
                 android:layout_width="match_parent"
                 android:layout_height="59dp"
+                android:layout_margin="5dp"
                 android:hint="Nivel"
                 android:textColorHint="@android:color/darker_gray"
                 app:boxBackgroundColor="@color/leyenda"
