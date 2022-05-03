@@ -16,7 +16,8 @@
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="wrap_content"
+            >
 
             <com.google.android.material.textfield.TextInputLayout
                 android:id="@+id/layoutNivel"
@@ -38,6 +39,7 @@
                     android:id="@+id/editTextTextPersonName"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:layout_marginTop="20dp"
                     android:backgroundTint="@android:color/holo_purple"
                     android:freezesText="false"
                     android:inputType="text"
@@ -194,7 +196,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="12dp"
                 android:gravity="left"
-                android:text="201"
+                android:text=""
                 android:textColor="#FFF"
                 android:textSize="15dp"
                 app:layout_constraintEnd_toStartOf="@+id/guideline2"
@@ -220,7 +222,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="12dp"
                 android:gravity="left"
-                android:text="95"
+                android:text=""
                 android:textColor="#FFF"
                 android:textSize="15dp"
                 app:layout_constraintEnd_toEndOf="parent"
@@ -233,9 +235,6 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="12dp"
-
-
-
                 android:text=""
                 android:textColor="#FFF"
                 android:textSize="32dp"
@@ -250,7 +249,6 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="5dp"
                 android:gravity="left"
-
                 android:text="World"
                 android:textColor="#8d8d8d"
                 app:layout_constraintEnd_toStartOf="@+id/guideline2"
