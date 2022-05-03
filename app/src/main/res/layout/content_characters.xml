@@ -233,7 +233,9 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="12dp"
-                android:padding="3dip"
+
+
+
                 android:text=""
                 android:textColor="#FFF"
                 android:textSize="32dp"
@@ -246,9 +248,9 @@
                 android:id="@+id/textView10"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="8dp"
+                android:layout_marginTop="5dp"
                 android:gravity="left"
-                android:padding="3dip"
+
                 android:text="World"
                 android:textColor="#8d8d8d"
                 app:layout_constraintEnd_toStartOf="@+id/guideline2"
@@ -260,8 +262,7 @@
                 android:id="@+id/textView15"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="8dp"
-                android:padding="3dip"
+                android:layout_marginTop="5dp"
                 android:text="Residence"
                 android:textColor="#8d8d8d"
                 app:layout_constraintEnd_toEndOf="parent"
@@ -275,7 +276,6 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="12dp"
                 android:gravity="left"
-                android:padding="3dip"
                 android:text=""
                 android:textColor="#FFF"
                 android:textSize="32dp"
