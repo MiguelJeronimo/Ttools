@@ -116,7 +116,7 @@ public class characters extends AppCompatActivity implements View.OnClickListene
                     residencia.setText(characters.getCharacter().getResidence());
                     guild.setText(characters.getCharacter().getGuild().getRank()+" of the "+characters.getCharacter().getGuild().getName());
                     lastlogin.setText(characters.getCharacter().getLast_login());
-                    //comentario.setText(characters.getCharacter().get);
+                    comentario.setText(characters.getCharacter().getComment());
 
                     //System.out.println(characters.getCharacter().getName());
 

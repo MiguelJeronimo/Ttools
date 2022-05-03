@@ -13,6 +13,15 @@ public class Character {
     Guild guild;
     private String last_login;
     private String account_status;
+    private String comment;
+
+    public String getComment() {
+        return comment;
+    }
+
+    public void setComment(String comment) {
+        this.comment = comment;
+    }
 
     public void setName(String name) {
         this.name = name;
@@ -51,7 +60,7 @@ public class Character {
     }
 
     public void setGuild(Guild guild) {
-        guild = guild;
+        this.guild = guild;
     }
 
     public void setLast_login(String last_login) {
