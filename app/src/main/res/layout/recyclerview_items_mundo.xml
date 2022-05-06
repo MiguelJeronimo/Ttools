@@ -23,7 +23,7 @@
             android:layout_height="match_parent">
 
             <TextView
-                android:id="@+id/textView3"
+                android:id="@+id/world"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="25dp"
@@ -36,7 +36,7 @@
                 app:layout_constraintTop_toTopOf="parent" />
 
             <TextView
-                android:id="@+id/textView8"
+                android:id="@+id/status"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="5dp"
@@ -45,7 +45,7 @@
                 app:layout_constraintEnd_toStartOf="@+id/primera_division"
                 app:layout_constraintHorizontal_bias="0.25"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/textView3" />
+                app:layout_constraintTop_toBottomOf="@+id/world" />
 
             <androidx.constraintlayout.widget.Guideline
                 android:id="@+id/primera_division"
@@ -69,220 +69,112 @@
                 app:layout_constraintGuide_percent="0.75" />
 
             <TextView
-                android:id="@+id/textView19"
+                android:id="@+id/location"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="5dp"
-                android:text="Location: "
-                android:textColor="@color/letras"
-                app:layout_constraintEnd_toStartOf="@+id/primera_division"
-                app:layout_constraintHorizontal_bias="0.38"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/textView8" />
-
-            <TextView
-                android:id="@+id/textView21"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="82dp"
-                android:text="Europe"
+                android:text="Location: Europe"
                 android:textColor="@color/letras"
                 app:layout_constraintEnd_toStartOf="@+id/segunda_division"
-                app:layout_constraintHorizontal_bias="0.101"
-                app:layout_constraintStart_toStartOf="@+id/primera_division"
-                app:layout_constraintTop_toTopOf="parent" />
-
-            <TextView
-                android:id="@+id/textView22"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="5dp"
-                android:text="Pvp Type: "
-                android:textColor="@color/letras"
-                app:layout_constraintEnd_toStartOf="@+id/primera_division"
-                app:layout_constraintHorizontal_bias="0.41"
+                app:layout_constraintHorizontal_bias="0.161"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/textView19" />
+                app:layout_constraintTop_toBottomOf="@+id/status" />
 
             <TextView
-                android:id="@+id/textView23"
+                android:id="@+id/pvptype"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="5dp"
-                android:text="Open PVP"
+                android:text="Pvp Type: Open Pvp"
                 android:textColor="@color/letras"
                 app:layout_constraintEnd_toStartOf="@+id/segunda_division"
-                app:layout_constraintHorizontal_bias="0.15"
-                app:layout_constraintStart_toStartOf="@+id/primera_division"
-                app:layout_constraintTop_toBottomOf="@+id/textView21" />
-
-            <TextView
-                android:id="@+id/textView24"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="5dp"
-                android:text="Premium only"
-                android:textColor="@color/letras"
-                app:layout_constraintEnd_toStartOf="@+id/primera_division"
-                app:layout_constraintHorizontal_bias="0.941"
+                app:layout_constraintHorizontal_bias="0.205"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/textView22" />
+                app:layout_constraintTop_toBottomOf="@+id/location" />
 
             <TextView
-                android:id="@+id/textView25"
+                android:id="@+id/premium_only"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="5dp"
-                android:text="False"
+                android:text="Premium only: False"
                 android:textColor="@color/letras"
                 app:layout_constraintEnd_toStartOf="@+id/segunda_division"
-                app:layout_constraintHorizontal_bias="0.086"
-                app:layout_constraintStart_toStartOf="@+id/primera_division"
-                app:layout_constraintTop_toBottomOf="@+id/textView23" />
-
-            <TextView
-                android:id="@+id/textView26"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="5dp"
-                android:text="Transfer type:"
-                android:textColor="@color/letras"
-                app:layout_constraintEnd_toStartOf="@+id/primera_division"
-                app:layout_constraintHorizontal_bias="0.941"
+                app:layout_constraintHorizontal_bias="0.208"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/textView24" />
+                app:layout_constraintTop_toBottomOf="@+id/pvptype" />
 
             <TextView
-                android:id="@+id/textView27"
+                android:id="@+id/transfer_type"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="5dp"
-                android:text="regular"
+                android:text="Transfer type: Regular"
                 android:textColor="@color/letras"
                 app:layout_constraintEnd_toStartOf="@+id/segunda_division"
-                app:layout_constraintHorizontal_bias="0.101"
-                app:layout_constraintStart_toStartOf="@+id/primera_division"
-                app:layout_constraintTop_toBottomOf="@+id/textView25" />
+                app:layout_constraintHorizontal_bias="0.233"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/premium_only" />
 
             <TextView
-                android:id="@+id/textView30"
+                android:id="@+id/player_online"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="25dp"
-                android:text="Players online:"
+                android:text="Players online: 50"
                 android:textColor="@color/letras"
-                app:layout_constraintEnd_toStartOf="@+id/tercera_division"
-                app:layout_constraintHorizontal_bias="0.916"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.816"
                 app:layout_constraintStart_toStartOf="@+id/segunda_division"
                 app:layout_constraintTop_toTopOf="parent" />
 
             <TextView
-                android:id="@+id/textView31"
+                android:id="@+id/game_world_type"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="25dp"
-                android:text="50"
+                android:layout_marginTop="8dp"
+                android:text="Game world type: Regular"
                 android:textColor="@color/letras"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.744"
-                app:layout_constraintStart_toStartOf="@+id/tercera_division"
-                app:layout_constraintTop_toTopOf="parent" />
-
-            <TextView
-                android:id="@+id/textView32"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="4dp"
-                android:text="Game world type:"
-                android:textColor="@color/letras"
-                app:layout_constraintEnd_toStartOf="@+id/tercera_division"
-                app:layout_constraintHorizontal_bias="0.989"
+                app:layout_constraintHorizontal_bias="0.881"
                 app:layout_constraintStart_toStartOf="@+id/primera_division"
-                app:layout_constraintTop_toBottomOf="@+id/textView30" />
+                app:layout_constraintTop_toBottomOf="@+id/player_online" />
 
             <TextView
-                android:id="@+id/textView33"
+                android:id="@+id/battleeye_protected"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="4dp"
-                android:text="regular"
+                android:layout_marginTop="16dp"
+                android:text="Battleye protected: True"
                 android:textColor="@color/letras"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.62"
-                app:layout_constraintStart_toStartOf="@+id/tercera_division"
-                app:layout_constraintTop_toBottomOf="@+id/textView31" />
-
-            <TextView
-                android:id="@+id/textView34"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="14dp"
-                android:text="Battleye protected:"
-                android:textColor="@color/letras"
-                app:layout_constraintEnd_toStartOf="@+id/tercera_division"
-                app:layout_constraintHorizontal_bias="0.975"
+                app:layout_constraintHorizontal_bias="0.89"
                 app:layout_constraintStart_toStartOf="@+id/primera_division"
-                app:layout_constraintTop_toBottomOf="@+id/textView32" />
+                app:layout_constraintTop_toBottomOf="@+id/game_world_type" />
 
             <TextView
-                android:id="@+id/textView35"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="14dp"
-                android:text="true"
-                android:textColor="@color/letras"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.714"
-                app:layout_constraintStart_toStartOf="@+id/tercera_division"
-                app:layout_constraintTop_toBottomOf="@+id/textView33" />
-
-            <TextView
-                android:id="@+id/textView36"
+                android:id="@+id/battleeye_date"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="5dp"
-                android:text="Battleye date:"
+                android:text="Battleye date: Relase"
                 android:textColor="@color/letras"
-                app:layout_constraintEnd_toStartOf="@+id/tercera_division"
-                app:layout_constraintHorizontal_bias="0.882"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.757"
                 app:layout_constraintStart_toStartOf="@+id/segunda_division"
-                app:layout_constraintTop_toBottomOf="@+id/textView34" />
+                app:layout_constraintTop_toBottomOf="@+id/battleeye_protected" />
 
             <TextView
-                android:id="@+id/textView37"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="4dp"
-                android:text="release"
-                android:textColor="@color/letras"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.607"
-                app:layout_constraintStart_toStartOf="@+id/tercera_division"
-                app:layout_constraintTop_toBottomOf="@+id/textView35" />
-
-            <TextView
-                android:id="@+id/textView38"
+                android:id="@+id/tournament_world_type"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="5dp"
-                android:text="Tournament world type:"
+                android:text="Tournament world type: none"
                 android:textColor="@color/letras"
-                app:layout_constraintEnd_toStartOf="@+id/tercera_division"
-                app:layout_constraintHorizontal_bias="1.0"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.859"
                 app:layout_constraintStart_toStartOf="@+id/primera_division"
-                app:layout_constraintTop_toBottomOf="@+id/textView36" />
-
-            <TextView
-                android:id="@+id/textView39"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="5dp"
-                android:text="none"
-                android:textColor="@color/letras"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.69"
-                app:layout_constraintStart_toStartOf="@+id/tercera_division"
-                app:layout_constraintTop_toBottomOf="@+id/textView37" />
+                app:layout_constraintTop_toBottomOf="@+id/battleeye_date" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
     </androidx.cardview.widget.CardView>
