@@ -102,10 +102,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         } else if (id == R.id.menu_stamina){
             Intent stamina = new Intent(this, Stamina.class);
             startActivity(stamina);
-        }/**else if (id == R.id.menu_mundos){
+        }else if (id == R.id.menu_mundos){
             Intent mundos = new Intent(this, Mundos.class);
             startActivity(mundos);
-        }*/
+        }
 
         return super.onOptionsItemSelected(item);
     }

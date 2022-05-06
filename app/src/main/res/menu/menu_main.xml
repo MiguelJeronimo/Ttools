@@ -21,11 +21,11 @@
         android:title="Stamina"
         android:color="@color/colorPrimary"
         app:showAsAction="never" />
-   <!-- <item
+    <item
         android:id="@+id/menu_mundos"
         android:orderInCategory="100"
         android:title="Mundos"
         android:color="@color/colorPrimary"
-        app:showAsAction="never" />-->
+        app:showAsAction="never" />
 
 </menu>
