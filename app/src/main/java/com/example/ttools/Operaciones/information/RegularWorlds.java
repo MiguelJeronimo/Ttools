@@ -10,6 +10,8 @@ public class RegularWorlds {
     private String transfer_type;
     private boolean battleye_protected;
     private String battleye_date;
+    private String game_world_type;
+    private String tournament_world_type;
 
     public String getName() {
         return name;
@@ -98,9 +100,4 @@ public class RegularWorlds {
     public void setTournament_world_type(String tournament_world_type) {
         this.tournament_world_type = tournament_world_type;
     }
-
-    private String game_world_type;
-    private String tournament_world_type;
-
-
 }
