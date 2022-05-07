@@ -1,5 +1,4 @@
 package com.example.ttools.recyclerview.Adapters;
-import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -11,13 +10,13 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.ttools.R;
 import com.example.ttools.recyclerview.ItemsRecyclerViewMundos;
 
-import java.util.ArrayList;
+import java.util.List;
 
 public class adapterRecyclerviewMundos extends RecyclerView.Adapter<adapterRecyclerviewMundos.ViewHolder> {
     //Creando el arraylist de objetos de los datos del recyclerview
-    private ArrayList items_mundos;
+    private List<ItemsRecyclerViewMundos> items_mundos;
 
-    public adapterRecyclerviewMundos(ArrayList items_mundos){
+    public adapterRecyclerviewMundos(List<ItemsRecyclerViewMundos> items_mundos){
         this.items_mundos = items_mundos;
     }
 

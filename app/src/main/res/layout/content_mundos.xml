@@ -9,9 +9,11 @@
 
 
     <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/recyclerviewmundos"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_marginTop="50dp"
+        android:clickable="true"
         app:layout_constraintTop_toBottomOf="@+id/textView28"
         tools:layout_editor_absoluteX="0dp"
         tools:listitem="@layout/recyclerview_items_mundo"/>
