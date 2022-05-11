@@ -31,8 +31,8 @@ public class adapterRecyclerviewMundos extends RecyclerView.Adapter<adapterRecyc
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         //agregando información a los componentes del item de recyclerview
         final ItemsRecyclerViewMundos itemsRecyclerViewMundos = (ItemsRecyclerViewMundos) items_mundos.get(position);
-        holder.lbName.setText("Name: "+itemsRecyclerViewMundos.getLbName());
-        holder.lbStatus.setText("Status: "+itemsRecyclerViewMundos.getLbStatus());
+        holder.lbName.setText(itemsRecyclerViewMundos.getLbName());
+        holder.lbStatus.setText(itemsRecyclerViewMundos.getLbStatus());
         holder.lbLocation.setText("Location: "+itemsRecyclerViewMundos.getLbLocation());
         holder.lbPvpType.setText("Pvp type: "+itemsRecyclerViewMundos.getLbPvpType());
         holder.lbPremiumOnly.setText("Premium only: "+itemsRecyclerViewMundos.getLbPremiumOnly());

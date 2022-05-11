@@ -8,8 +8,8 @@
 
 
     <androidx.cardview.widget.CardView
-        android:layout_width="395dp"
-        android:layout_height="199dp"
+        android:layout_width="match_parent"
+        android:layout_height="179dp"
         app:cardBackgroundColor="@color/recyclerview_items_color"
         app:cardCornerRadius="16dp"
         app:cardElevation="50dp"
@@ -26,8 +26,8 @@
                 android:id="@+id/world"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="25dp"
-                android:text="Wintera"
+                android:layout_marginTop="15dp"
+                android:text="solidera"
                 android:textColor="@color/letras"
                 android:textSize="20dp"
                 android:textStyle="bold"
@@ -73,10 +73,10 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="5dp"
-                android:text="Location: Europe"
+                android:text="Location: South America"
                 android:textColor="@color/letras"
                 app:layout_constraintEnd_toStartOf="@+id/segunda_division"
-                app:layout_constraintHorizontal_bias="0.161"
+                app:layout_constraintHorizontal_bias="0.301"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/status" />
 
@@ -85,10 +85,10 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="5dp"
-                android:text="Pvp Type: Open Pvp"
+                android:text="Pvp Type: Hardcore Pvp"
                 android:textColor="@color/letras"
                 app:layout_constraintEnd_toStartOf="@+id/segunda_division"
-                app:layout_constraintHorizontal_bias="0.205"
+                app:layout_constraintHorizontal_bias="0.285"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/location" />
 
@@ -120,7 +120,7 @@
                 android:id="@+id/player_online"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="25dp"
+                android:layout_marginTop="15dp"
                 android:text="Players online: 50"
                 android:textColor="@color/letras"
                 app:layout_constraintEnd_toEndOf="parent"
