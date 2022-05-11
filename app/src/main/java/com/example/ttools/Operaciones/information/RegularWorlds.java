@@ -3,7 +3,7 @@ package com.example.ttools.Operaciones.information;
 public class RegularWorlds {
     private String name;
     private String status;
-    private float players_online;
+    private int players_online;
     private String location;
     private String pvp_type;
     private boolean premium_only;
@@ -29,11 +29,11 @@ public class RegularWorlds {
         this.status = status;
     }
 
-    public float getPlayers_online() {
+    public int getPlayers_online() {
         return players_online;
     }
 
-    public void setPlayers_online(float players_online) {
+    public void setPlayers_online(int players_online) {
         this.players_online = players_online;
     }
 
