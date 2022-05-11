@@ -14,16 +14,16 @@
         android:layout_height="match_parent"
         android:layout_marginTop="50dp"
         android:clickable="true"
-        app:layout_constraintTop_toBottomOf="@+id/textView28"
+        app:layout_constraintTop_toBottomOf="@+id/playersOnline"
         tools:layout_editor_absoluteX="0dp"
         tools:listitem="@layout/recyclerview_items_mundo"/>
 
     <TextView
-        android:id="@+id/textView28"
+        android:id="@+id/playersOnline"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
-        android:text="Players Online: 21848"
+        android:text=""
         android:textColor="#76FF03"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"

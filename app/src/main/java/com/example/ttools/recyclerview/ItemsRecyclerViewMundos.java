@@ -7,7 +7,21 @@ public class ItemsRecyclerViewMundos {
         String lbTransferType, lbBattleyeProtected, lbBattleyeDate;
         String lbGameWorlType, lbTournamentWorldType;
 
-     /**   public ItemsRecyclerViewMundos(
+    public ItemsRecyclerViewMundos(String name, String status, String playersOnline, String location, String pvpType, String premiumOnly, String transferType, String battleyeProtected, String battleyeDate, String gameWorlType, String tournamentWorldType) {
+        this.lbName = name;
+        this.lbStatus = status;
+        this.lbPlayersOnline = playersOnline;
+        this.lbLocation = location;
+        this.lbPvpType = pvpType;
+        this.lbPremiumOnly = premiumOnly;
+        this.lbTransferType = transferType;
+        this.lbBattleyeProtected = battleyeProtected;
+        this.lbBattleyeDate = battleyeDate;
+        this.lbGameWorlType = gameWorlType;
+        this.lbTournamentWorldType = tournamentWorldType;
+    }
+
+    /**   public ItemsRecyclerViewMundos(
                 String lbName, String lbStatus, String lbPlayersOnline,
                 String lbLocation, String lbPvpType, String lbPremiumOnly,
                 String lbTransferType, String lbBattleyeProtected,

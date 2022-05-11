@@ -19,6 +19,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.TextView;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -34,7 +35,7 @@ public class Mundos extends AppCompatActivity {
     ItemsRecyclerViewMundos items;
     List<ItemsRecyclerViewMundos> itemsRecyclerViewMundos;
 
-
+    TextView playersOnline;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -42,7 +43,7 @@ public class Mundos extends AppCompatActivity {
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true); //Aparicion del boton regresar en el action bar
-
+        playersOnline = (TextView) findViewById(R.id.playersOnline);
         String url = "https://api.tibiadata.com/v3/";
         API(url);
 
@@ -73,6 +74,8 @@ public class Mundos extends AppCompatActivity {
 
     public void API(String url){
         //aqui se hace la llamada a la api
+        recyclerView = (RecyclerView) findViewById(R.id.recyclerviewmundos);
+        LinearLayoutManager layoutManager = new LinearLayoutManager(this);
         Retrofit retrofit = new Retrofit.Builder()
                 .baseUrl(url)
                 .addConverterFactory(GsonConverterFactory.create())
@@ -85,34 +88,48 @@ public class Mundos extends AppCompatActivity {
                 if (response.isSuccessful()){
                     DataWords dataWords = response.body();
                     Worlds worlds = dataWords.getWorlds();
-                    System.out.println(worlds.getPlayers_online());
+                    playersOnline.setText("Players Online "+ String.valueOf(worlds.getPlayers_online()));
+                    System.out.println(worlds.getRegular_worlds().size());
+                    //items = new ItemsRecyclerViewMundos();
+                    itemsRecyclerViewMundos = new ArrayList<>();
+                    for (int i = 0; i < worlds.getRegular_worlds().size(); i++) {
+                        //items.get(i).setLbName(worlds.getRegular_worlds().get(i).getName());
+                        //itemsRecyclerViewMundosg.setLbName(worlds.getRegular_worlds().get(i).getName());
+                        //items.setLbStatus(worlds.getRegular_worlds().get(i).getStatus());
+                        itemsRecyclerViewMundos.add(new ItemsRecyclerViewMundos(
+                                worlds.getRegular_worlds().get(i).getName(),
+                                worlds.getRegular_worlds().get(i).getStatus(),
+                                String.valueOf(worlds.getRegular_worlds().get(i).getPlayers_online()),
+                                worlds.getRegular_worlds().get(i).getLocation(),
+                                worlds.getRegular_worlds().get(i).getPvp_type(),
+                                String.valueOf(worlds.getRegular_worlds().get(i).getPremium_only()),
+                                worlds.getRegular_worlds().get(i).getTransfer_type(),
+                                String.valueOf(worlds.getRegular_worlds().get(i).getBattleye_protected()),
+                                worlds.getRegular_worlds().get(i).getBattleye_date(),
+                                worlds.getRegular_worlds().get(i).getGame_world_type(),
+                                worlds.getRegular_worlds().get(i).getTournament_world_type()
+                        ));
+                        System.out.println(worlds.getRegular_worlds().get(i).getName());
                 }
+
+                    recyclerView.setHasFixedSize(true);
+                    layoutManager.setOrientation(LinearLayoutManager.VERTICAL);
+                    recyclerView.setLayoutManager(layoutManager);
+                    myAdapter = new adapterRecyclerviewMundos(itemsRecyclerViewMundos);
+                    recyclerView.setAdapter(myAdapter);
             }
+
+            }
+
 
             @Override
             public void onFailure(Call<DataWords> call, Throwable t) {
-
+                System.out.println("Error");
             }
         });
 
-            itemsRecyclerViewMundos = new ArrayList<>(5);
-        items = new ItemsRecyclerViewMundos();
-        for (int i=0; i<5;i++){
-            items.setLbName("Wintera");
-            items.setLbStatus("online");
-            itemsRecyclerViewMundos.add(items);
-            /**itemsRecyclerViewMundos.get(i).setLbStatus("Hola");
-             itemsRecyclerViewMundos.get(i).setLbPlayersOnline("100");*/
+
+
         }
-
-
-        recyclerView = (RecyclerView) findViewById(R.id.recyclerviewmundos);
-        recyclerView.setHasFixedSize(true);
-        LinearLayoutManager layoutManager = new LinearLayoutManager(this);
-        layoutManager.setOrientation(LinearLayoutManager.VERTICAL);
-        recyclerView.setLayoutManager(layoutManager);
-        myAdapter = new adapterRecyclerviewMundos(itemsRecyclerViewMundos);
-        recyclerView.setAdapter(myAdapter);
-    }
 }
 

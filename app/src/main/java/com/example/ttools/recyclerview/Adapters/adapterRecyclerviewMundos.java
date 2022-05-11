@@ -31,19 +31,17 @@ public class adapterRecyclerviewMundos extends RecyclerView.Adapter<adapterRecyc
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         //agregando información a los componentes del item de recyclerview
         final ItemsRecyclerViewMundos itemsRecyclerViewMundos = (ItemsRecyclerViewMundos) items_mundos.get(position);
-        holder.lbName.setText(itemsRecyclerViewMundos.getLbName());
-        holder.lbStatus.setText(itemsRecyclerViewMundos.getLbStatus());
-        holder.lbLocation.setText(itemsRecyclerViewMundos.getLbLocation());
-        holder.lbPvpType.setText(itemsRecyclerViewMundos.getLbPvpType());
-        holder.lbPremiumOnly.setText(itemsRecyclerViewMundos.getLbPremiumOnly());
-        holder.lbTransferType.setText(itemsRecyclerViewMundos.getLbTransferType());
-        holder.lbPlayersOnline.setText(itemsRecyclerViewMundos.getLbPlayersOnline());
-        holder.lbGameWorlType.setText(itemsRecyclerViewMundos.getLbGameWorlType());
-        holder.lbBattleyeProtected.setText(itemsRecyclerViewMundos.getLbBattleyeProtected());
-        holder.lbBattleyeDate.setText(itemsRecyclerViewMundos.getLbBattleyeDate());
-        holder.lbTournamentWorldType.setText(itemsRecyclerViewMundos.getLbTournamentWorldType());
-
-
+        holder.lbName.setText("Name: "+itemsRecyclerViewMundos.getLbName());
+        holder.lbStatus.setText("Status: "+itemsRecyclerViewMundos.getLbStatus());
+        holder.lbLocation.setText("Location: "+itemsRecyclerViewMundos.getLbLocation());
+        holder.lbPvpType.setText("Pvp type: "+itemsRecyclerViewMundos.getLbPvpType());
+        holder.lbPremiumOnly.setText("Premium only: "+itemsRecyclerViewMundos.getLbPremiumOnly());
+        holder.lbTransferType.setText("Transfer type: "+itemsRecyclerViewMundos.getLbTransferType());
+        holder.lbPlayersOnline.setText("Players Online: "+itemsRecyclerViewMundos.getLbPlayersOnline());
+        holder.lbGameWorlType.setText("Game world type: "+itemsRecyclerViewMundos.getLbGameWorlType());
+        holder.lbBattleyeProtected.setText("BattleEye protected: "+itemsRecyclerViewMundos.getLbBattleyeProtected());
+        holder.lbBattleyeDate.setText("BattleEye date: "+itemsRecyclerViewMundos.getLbBattleyeDate());
+        holder.lbTournamentWorldType.setText("Tournament world type"+itemsRecyclerViewMundos.getLbTournamentWorldType());
     }
 
     @Override

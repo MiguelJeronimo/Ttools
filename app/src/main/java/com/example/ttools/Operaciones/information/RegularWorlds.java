@@ -53,7 +53,7 @@ public class RegularWorlds {
         this.pvp_type = pvp_type;
     }
 
-    public boolean isPremium_only() {
+    public boolean getPremium_only() {
         return premium_only;
     }
 
@@ -69,7 +69,7 @@ public class RegularWorlds {
         this.transfer_type = transfer_type;
     }
 
-    public boolean isBattleye_protected() {
+    public boolean getBattleye_protected() {
         return battleye_protected;
     }
 
