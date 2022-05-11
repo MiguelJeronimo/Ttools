@@ -9,7 +9,6 @@ public class ExperienciaCompartida extends calcularBlessings{
 
     public ExperienciaCompartida(int nivel){
         super(nivel);
-
     }
 
     public ExperienciaCompartida(){}
@@ -29,16 +28,20 @@ public class ExperienciaCompartida extends calcularBlessings{
     /**FORMUALA
      * RANGO MENOR = FUNCION_TECHO((NIVEL*3)/2))
      * **/
+
     /**Calculando el rango mayor**/
     public void  CalculoRangoMayor(double nivel){
         double numero2 = ((nivel*3)/2);
         int rango_mayor = (int) Math.floor(numero2); //La función Math.ceil(x) devuelve el entero más pequeño mayor o igual a un número dado.
         mayor=rango_mayor;
-
     }
 
     /**Retornando los valores del calculo de los rangos**/
-    public int getRangoMenor(){return menor;}
-    public int getRangoMayor(){return mayor;}
+    public int getRangoMenor(){
+        return menor;
+    }
+    public int getRangoMayor(){
+        return mayor;
+    }
 
 }
