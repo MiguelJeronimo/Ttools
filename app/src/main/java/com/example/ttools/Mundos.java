@@ -4,12 +4,10 @@ import android.os.Bundle;
 
 import com.example.ttools.APISERVER.TibiaAPIServer;
 import com.example.ttools.Operaciones.information.DataWords;
-import com.example.ttools.Operaciones.information.RegularWorlds;
 import com.example.ttools.Operaciones.information.Worlds;
 import com.example.ttools.recyclerview.Adapters.adapterRecyclerviewMundos;
 import com.example.ttools.recyclerview.ItemsRecyclerViewMundos;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
-import com.google.android.material.snackbar.Snackbar;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -32,9 +30,8 @@ import retrofit2.converter.gson.GsonConverterFactory;
 public class Mundos extends AppCompatActivity {
     RecyclerView recyclerView;
     adapterRecyclerviewMundos myAdapter;
-    ItemsRecyclerViewMundos items;
     List<ItemsRecyclerViewMundos> itemsRecyclerViewMundos;
-
+    String url = "https://api.tibiadata.com/v3/";
     TextView playersOnline;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -44,15 +41,17 @@ public class Mundos extends AppCompatActivity {
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true); //Aparicion del boton regresar en el action bar
         playersOnline = (TextView) findViewById(R.id.playersOnline);
-        String url = "https://api.tibiadata.com/v3/";
+
         API(url);
 
         FloatingActionButton fab = findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
+                /**Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
+                        .setAction("Action", null).show();*/
+                playersOnline = (TextView) findViewById(R.id.playersOnline);
+                API(url);
             }
         });
     }
@@ -90,12 +89,8 @@ public class Mundos extends AppCompatActivity {
                     Worlds worlds = dataWords.getWorlds();
                     playersOnline.setText("Players Online "+ String.valueOf(worlds.getPlayers_online()));
                     System.out.println(worlds.getRegular_worlds().size());
-                    //items = new ItemsRecyclerViewMundos();
                     itemsRecyclerViewMundos = new ArrayList<>();
                     for (int i = 0; i < worlds.getRegular_worlds().size(); i++) {
-                        //items.get(i).setLbName(worlds.getRegular_worlds().get(i).getName());
-                        //itemsRecyclerViewMundosg.setLbName(worlds.getRegular_worlds().get(i).getName());
-                        //items.setLbStatus(worlds.getRegular_worlds().get(i).getStatus());
                         itemsRecyclerViewMundos.add(new ItemsRecyclerViewMundos(
                                 worlds.getRegular_worlds().get(i).getName(),
                                 worlds.getRegular_worlds().get(i).getStatus(),
