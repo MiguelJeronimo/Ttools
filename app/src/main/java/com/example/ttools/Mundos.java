@@ -1,5 +1,6 @@
 package com.example.ttools;
 
+import android.graphics.Color;
 import android.os.Bundle;
 
 import com.example.ttools.APISERVER.TibiaAPIServer;
@@ -88,6 +89,7 @@ public class Mundos extends AppCompatActivity {
                     DataWords dataWords = response.body();
                     Worlds worlds = dataWords.getWorlds();
                     playersOnline.setText("Players Online "+ String.valueOf(worlds.getPlayers_online()));
+                    playersOnline.setTextColor(Color.parseColor("#76FF03"));
                     System.out.println(worlds.getRegular_worlds().size());
                     itemsRecyclerViewMundos = new ArrayList<>();
                     for (int i = 0; i < worlds.getRegular_worlds().size(); i++) {
@@ -112,14 +114,18 @@ public class Mundos extends AppCompatActivity {
                     recyclerView.setLayoutManager(layoutManager);
                     myAdapter = new adapterRecyclerviewMundos(itemsRecyclerViewMundos);
                     recyclerView.setAdapter(myAdapter);
-            }
+            } else{
+                    playersOnline.setText("No tienes internet :v");
+                }
 
             }
 
 
             @Override
             public void onFailure(Call<DataWords> call, Throwable t) {
-                System.out.println("Error");
+                playersOnline.setText(t.getMessage());
+                playersOnline.setTextColor(Color.RED);
+                System.out.println(t.getMessage());
             }
         });
 
