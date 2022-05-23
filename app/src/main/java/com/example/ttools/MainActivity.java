@@ -105,6 +105,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         }else if (id == R.id.menu_mundos){
             Intent mundos = new Intent(this, Mundos.class);
             startActivity(mundos);
+        }else if(id == R.id.menu_criaturas){
+            Intent criaturas = new Intent(this, Criaturas.class);
+            startActivity(criaturas);
         }
 
         return super.onOptionsItemSelected(item);

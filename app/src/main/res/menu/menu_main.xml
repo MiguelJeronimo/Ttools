@@ -27,5 +27,11 @@
         android:title="Mundos"
         android:color="@color/colorPrimary"
         app:showAsAction="never" />
+    <item
+        android:id="@+id/menu_criaturas"
+        android:orderInCategory="100"
+        android:title="Criaturas"
+        android:color="@color/colorPrimary"
+        app:showAsAction="never" />
 
 </menu>
