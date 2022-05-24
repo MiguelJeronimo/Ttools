@@ -44,7 +44,7 @@ public class adapterRecyclerViewCriatures extends RecyclerView.Adapter<adapterRe
 
     @Override
     public int getItemCount() {
-        return 0;
+        return items_criatures.size();
     }
 
 
