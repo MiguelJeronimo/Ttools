@@ -14,6 +14,7 @@
         app:layout_constraintGuide_percent="0.25"/>
 
     <ImageView
+        android:id="@+id/imageViewCriature"
         android:layout_width="64dp"
         android:layout_height="64dp"
         android:layout_marginTop="16dp"
@@ -24,15 +25,29 @@
     </ImageView>
 
     <TextView
-        android:id="@+id/textView3"
+        android:id="@+id/textViewName"
         android:layout_width="272dp"
         android:layout_height="17dp"
         android:layout_marginTop="16dp"
-        android:text="Dragon Lord"
+        android:text="Dragon Lord Hatchlings"
         android:textColor="@color/leyenda"
         android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.555"
         app:layout_constraintStart_toStartOf="@+id/primera_division"
         app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/textViewRace"
+        android:layout_width="267dp"
+        android:layout_height="17dp"
+        android:layout_marginTop="19dp"
+        android:text="Dragon Lord Hatchlings"
+        android:textColor="@color/leyenda"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="@+id/primera_division"
+        app:layout_constraintTop_toBottomOf="@+id/textViewName" />
+
+
 </androidx.constraintlayout.widget.ConstraintLayout>
