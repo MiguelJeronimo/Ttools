@@ -35,7 +35,7 @@ public class adapterRecyclerViewCriatures extends RecyclerView.Adapter<adapterRe
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         holder.lbName.setText(items_criatures.get(position).getLbName());
-        holder.lbRace.setText(items_criatures.get(position).getLbrace());
+        holder.lbRace.setText("Race: "+items_criatures.get(position).getLbrace());
         String urlImagen = items_criatures.get(position).getImagerace();
         //Agregando imagen por url utilizando la libreria picasso
         Picasso.get().load(urlImagen).into(holder.imageCriature);
