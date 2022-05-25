@@ -89,8 +89,9 @@ public class Criaturas extends AppCompatActivity {
                 }
                 APICriatures apiCriatures = response.body();
                 Criatures criatures = apiCriatures.getCreatures();
-                System.out.println("EL BOOS DEL DIA ES: "+criatures.getBoosted().getName());
+                System.out.println(criatures.getBoosted().getName());
                 itemsRecyclerViewCriatures = new ArrayList<>();
+                itemsRecyclerViewCriatures.add(new ItemsRecyclerViewCriatures("Today's Boss: "+criatures.getBoosted().getName(), criatures.getBoosted().getRace(), criatures.getBoosted().getImage_url()));
                 System.out.println(criatures.getCriatures_list().size());
                 for (int i = 0; i < criatures.getCriatures_list().size(); i++) {
                     itemsRecyclerViewCriatures.add(new ItemsRecyclerViewCriatures(criatures.getCriatures_list().get(i).getName(),
