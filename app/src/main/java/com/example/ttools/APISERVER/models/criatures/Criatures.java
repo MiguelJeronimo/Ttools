@@ -4,7 +4,7 @@ import java.util.ArrayList;
 
 public class Criatures {
     Boosted boosted;
-    private ArrayList<CriaturesList> criatures_list = new ArrayList<CriaturesList>();
+    private ArrayList<CriaturesList> creature_list = new ArrayList<CriaturesList>();
 
     public Boosted getBoosted() {
         return boosted;
@@ -15,10 +15,10 @@ public class Criatures {
     }
 
     public ArrayList<CriaturesList> getCriatures_list() {
-        return criatures_list;
+        return creature_list;
     }
 
     public void setCriatures_list(ArrayList<CriaturesList> criatures_list) {
-        this.criatures_list = criatures_list;
+        this.creature_list = criatures_list;
     }
 }

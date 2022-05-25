@@ -7,6 +7,15 @@ import java.util.ArrayList;
 
 public class APICriatures {
     Criatures creatures;
+    ArrayList<CriaturesList> creatures_List;
+
+    public ArrayList<CriaturesList> getCreatures_List() {
+        return creatures_List;
+    }
+
+    public void setCreatures_List(ArrayList<CriaturesList> creatures_List) {
+        this.creatures_List = creatures_List;
+    }
 
     public Criatures getCreatures() {
         return creatures;

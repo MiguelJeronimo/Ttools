@@ -21,7 +21,7 @@ public class adapterRecyclerViewCriatures extends RecyclerView.Adapter<adapterRe
     private List<ItemsRecyclerViewCriatures> items_criatures;
 
     //Constructor
-    private adapterRecyclerViewCriatures(List<ItemsRecyclerViewCriatures> items_criatures){
+    public adapterRecyclerViewCriatures(List<ItemsRecyclerViewCriatures> items_criatures){
         this.items_criatures = items_criatures;
     }
 

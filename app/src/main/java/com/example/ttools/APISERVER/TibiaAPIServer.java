@@ -1,5 +1,6 @@
 package com.example.ttools.APISERVER;
 
+import com.example.ttools.APISERVER.models.APICriatures;
 import com.example.ttools.Operaciones.APIServicesTibia;
 import com.example.ttools.Operaciones.information.DataWords;
 import com.example.ttools.Operaciones.information.Worlds;
@@ -17,4 +18,7 @@ public interface TibiaAPIServer {
 
     @GET ("worlds")
     Call<DataWords> getWorlds();
+
+    @GET ("creatures")
+    Call<APICriatures> getCreatures();
 }
