@@ -16,9 +16,25 @@ import com.squareup.picasso.Picasso;
 
 import java.util.List;
 
-public class adapterRecyclerViewCriatures extends RecyclerView.Adapter<adapterRecyclerViewCriatures.ViewHolder> {
+public class adapterRecyclerViewCriatures extends RecyclerView.Adapter<adapterRecyclerViewCriatures.ViewHolder> implements View.OnClickListener{
     //Creando el arraylist de objetos de los datos del recyclerview Criatures
     private List<ItemsRecyclerViewCriatures> items_criatures;
+    //objetos de eventos click
+    private View.OnClickListener listener;
+
+    public void setOnClickListener(View.OnClickListener listener) {
+        this.listener = listener;
+    }
+/*
+* IMPLEMENTACION DE LOS METODOS CLICK Y LONGCLICK
+* */
+    @Override
+    public void onClick(View view) {
+        if(listener != null){
+            listener.onClick(view);
+        }
+    }
+
 
     //Constructor
     public adapterRecyclerViewCriatures(List<ItemsRecyclerViewCriatures> items_criatures){
@@ -29,6 +45,7 @@ public class adapterRecyclerViewCriatures extends RecyclerView.Adapter<adapterRe
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View vista = LayoutInflater.from(parent.getContext()).inflate(R.layout.recyclerview_items_criatures,parent,false);
+        vista.setOnClickListener(this);
         return new ViewHolder(vista);
     }
 

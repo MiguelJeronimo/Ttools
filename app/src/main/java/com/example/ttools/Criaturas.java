@@ -1,5 +1,6 @@
 package com.example.ttools;
 
+import android.content.Intent;
 import android.os.Bundle;
 
 import com.example.ttools.APISERVER.TibiaAPIServer;
@@ -13,6 +14,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Toast;
 
 
 import androidx.navigation.ui.AppBarConfiguration;
@@ -98,13 +100,21 @@ public class Criaturas extends AppCompatActivity {
                             criatures.getCriatures_list().get(i).getRace(),
                             criatures.getCriatures_list().get(i).getImage_url()));
                 }
-                recyclerView.setHasFixedSize(true);
-                layoutManager.setOrientation(LinearLayoutManager.VERTICAL);
                 recyclerView.setLayoutManager(layoutManager);
                 myAdapter = new adapterRecyclerViewCriatures(itemsRecyclerViewCriatures);
+                layoutManager.setOrientation(LinearLayoutManager.VERTICAL);
+                recyclerView.setHasFixedSize(true);
                 recyclerView.setAdapter(myAdapter);
+                myAdapter.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        String raceCriatures = itemsRecyclerViewCriatures.get(recyclerView.getChildAdapterPosition(view)).getLbrace();;
+                        Intent intent = new Intent(Criaturas.this, CriaturesInformation.class);
+                        intent.putExtra("raceCriatures", raceCriatures);
+                        startActivity(intent);
+                    }
+                });
             }
-
             @Override
             public void onFailure(Call<APICriatures> call, Throwable t) {
                 System.out.println("Error: " + t.getMessage());

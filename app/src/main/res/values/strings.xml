@@ -13,4 +13,5 @@
     <string name="title_activity_stamina">Stamina</string>
     <string name="title_activity_mundos">Mundos</string>
     <string name="title_activity_criaturas">Criaturas</string>
+    <string name="title_activity_criatures_information">Información de la Criatura</string>
 </resources>
