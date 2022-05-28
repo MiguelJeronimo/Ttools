@@ -5,9 +5,27 @@ import java.util.ArrayList;
 public class Creature {
     String name, race, image_url, description,behaviour,hitpoints,experience_points;
     ArrayList<String> loot_list = new ArrayList<String>();
+    ArrayList<String> immune = new ArrayList<String>();
+    ArrayList<String> strong = new ArrayList<String>();
 
     public String getExperience_points() {
         return experience_points;
+    }
+
+    public ArrayList<String> getImmune() {
+        return immune;
+    }
+
+    public void setImmune(ArrayList<String> immune) {
+        this.immune = immune;
+    }
+
+    public ArrayList<String> getStrong() {
+        return strong;
+    }
+
+    public void setStrong(ArrayList<String> strong) {
+        this.strong = strong;
     }
 
     public void setExperience_points(String experience_points) {
