@@ -27,6 +27,7 @@
                 android:text=""
                 android:textColor="@color/letras"
                 android:textSize="30sp"
+                android:textStyle="bold"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
@@ -49,6 +50,7 @@
                 android:text="Description"
                 android:textColor="@color/letras"
                 android:textSize="30sp"
+                android:textStyle="bold"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/imageViewCreature" />
@@ -60,6 +62,7 @@
                 android:layout_marginTop="15dp"
                 android:textAlignment="center"
                 android:text=""
+                android:textStyle="bold"
                 android:textColor="@color/letras"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
@@ -73,6 +76,7 @@
                 android:text="Behavior"
                 android:textColor="@color/letras"
                 android:textSize="30sp"
+                android:textStyle="bold"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.498"
                 app:layout_constraintStart_toStartOf="parent"
@@ -85,6 +89,7 @@
                 android:layout_marginTop="15dp"
                 android:gravity="center"
                 android:text=""
+                android:textStyle="bold"
                 android:textColor="@color/letras"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
@@ -102,8 +107,8 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"
-                android:text="Puntos de vita: 1600"
                 android:textColor="@color/letras"
+                android:textStyle="bold"
                 app:layout_constraintEnd_toStartOf="@+id/primera_division"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/behavior_criature" />
@@ -113,8 +118,8 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"
-                android:text="Puntos de Exp: 1500"
                 android:textColor="@color/letras"
+                android:textStyle="bold"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="@+id/primera_division"
                 app:layout_constraintTop_toBottomOf="@+id/behavior_criature" />
@@ -127,6 +132,7 @@
                 android:text="Loot List"
                 android:textColor="@color/letras"
                 android:textSize="30sp"
+                android:textStyle="bold"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/id_health" />
@@ -139,7 +145,81 @@
                 android:orientation="vertical"
                 android:padding="20dp"
                 app:layout_constraintTop_toBottomOf="@+id/textView27">
+
             </LinearLayout>
+
+            <TextView
+                android:id="@+id/textView31"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="15dp"
+                android:text="Immune"
+                android:textColor="@color/letras"
+                android:textSize="30sp"
+                android:textStyle="bold"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/linearLayoutLoot" />
+
+            <LinearLayout
+                android:id="@+id/linearLayoutInmune"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginTop="15dp"
+                android:orientation="vertical"
+                android:padding="20dp"
+                app:layout_constraintTop_toBottomOf="@+id/textView31">
+
+            </LinearLayout>
+
+            <TextView
+                android:id="@+id/textView32"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="15dp"
+                android:text="Strong"
+                android:textColor="@color/letras"
+                android:textSize="30sp"
+                android:textStyle="bold"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/linearLayoutInmune" />
+
+            <LinearLayout
+                android:id="@+id/linearLayoutStrong"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginTop="15dp"
+                android:orientation="vertical"
+                android:padding="20dp"
+                app:layout_constraintTop_toBottomOf="@+id/textView32"
+                tools:layout_editor_absoluteX="0dp">
+            </LinearLayout>
+
+            <TextView
+                android:id="@+id/textView33"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="15dp"
+                android:text="Weakness"
+                android:textColor="@color/letras"
+                android:textSize="30sp"
+                android:textStyle="bold"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/linearLayoutStrong" />
+
+            <LinearLayout
+                android:id="@+id/linearLayoutWeakness"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginTop="64dp"
+                android:orientation="vertical"
+                android:padding="20dp"
+                app:layout_constraintTop_toBottomOf="@+id/linearLayoutStrong"
+                tools:layout_editor_absoluteX="0dp"></LinearLayout>
+
+
 
 
         </androidx.constraintlayout.widget.ConstraintLayout>

@@ -7,9 +7,18 @@ public class Creature {
     ArrayList<String> loot_list = new ArrayList<String>();
     ArrayList<String> immune = new ArrayList<String>();
     ArrayList<String> strong = new ArrayList<String>();
+    ArrayList<String> weakness = new ArrayList<String>();
 
     public String getExperience_points() {
         return experience_points;
+    }
+
+    public ArrayList<String> getWeakness() {
+        return weakness;
+    }
+
+    public void setWeakness(ArrayList<String> weakness) {
+        this.weakness = weakness;
     }
 
     public ArrayList<String> getImmune() {
