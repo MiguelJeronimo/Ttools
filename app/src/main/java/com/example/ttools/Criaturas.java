@@ -101,7 +101,7 @@ public class Criaturas extends AppCompatActivity {
                 myAdapter.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
-                        String raceCriatures = itemsRecyclerViewCriatures.get(recyclerView.getChildAdapterPosition(view)).getLbrace();;
+                        String raceCriatures = itemsRecyclerViewCriatures.get(recyclerView.getChildAdapterPosition(view)).getLbrace();
                         Intent intent = new Intent(Criaturas.this, CriaturesInformation.class);
                         intent.putExtra("raceCriatures", raceCriatures);
                         startActivity(intent);
