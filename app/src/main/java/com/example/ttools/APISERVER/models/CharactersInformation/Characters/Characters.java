@@ -1,5 +1,6 @@
 package com.example.ttools.APISERVER.models.CharactersInformation.Characters;
 
+import com.example.ttools.APISERVER.models.CharactersInformation.Characters.CharacterData.AccountInformation;
 import com.example.ttools.APISERVER.models.CharactersInformation.Characters.CharacterData.Achievements;
 import com.example.ttools.APISERVER.models.CharactersInformation.Characters.CharacterData.Character;
 import com.example.ttools.APISERVER.models.CharactersInformation.Characters.CharacterData.Deaths;
@@ -12,6 +13,15 @@ public class Characters {
     ArrayList<OtherCharacters> other_characters = new ArrayList<OtherCharacters>();
     ArrayList<Deaths> deaths = new ArrayList<Deaths>();
     ArrayList<Achievements> achievements = new ArrayList<Achievements>();
+    AccountInformation account_information;
+
+    public AccountInformation getAccount_information() {
+        return account_information;
+    }
+
+    public void setAccount_information(AccountInformation account_information) {
+        this.account_information = account_information;
+    }
 
     public ArrayList<Deaths> getDeaths() {
         return deaths;
