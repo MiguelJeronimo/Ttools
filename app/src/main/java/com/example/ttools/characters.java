@@ -125,8 +125,6 @@ public class characters extends AppCompatActivity implements View.OnClickListene
                     convertidorFecha.convertirFecha();
                     lastlogin.setText(convertidorFecha.getFechaConvertida());
                     comentario.setText(characters.getCharacter().getComment());
-
-
                 }
 
                 @Override
