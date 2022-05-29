@@ -35,7 +35,7 @@ public class characters extends AppCompatActivity implements View.OnClickListene
     Button btnenviar;
     ConvertidorFecha convertidorFecha = new ConvertidorFecha();
     Gson gson;
-    LinearLayout linearLayoutDeaths;
+    LinearLayout linearLayoutDeaths, linearLayoutOtherCharacters;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -86,6 +86,9 @@ public class characters extends AppCompatActivity implements View.OnClickListene
 
         String urlAPI = "https://api.tibiadata.com/v3/character/";
         linearLayoutDeaths = (LinearLayout) findViewById(R.id.linearLayoutDeaths);
+        linearLayoutOtherCharacters = (LinearLayout) findViewById(R.id.linearLayoutOtherCharacters);
+        linearLayoutOtherCharacters.removeAllViews();
+        linearLayoutDeaths.removeAllViews();
         if (v.getId() == R.id.btnenviar){
 
             Retrofit retrofit = new Retrofit
@@ -124,6 +127,27 @@ public class characters extends AppCompatActivity implements View.OnClickListene
                            textViewWeakness.setTypeface(null, Typeface.ITALIC);
                            textViewWeakness.setLayoutParams(new LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT));
                            linearLayoutDeaths.addView(textViewWeakness);
+                       }
+                   }
+                   if (characters.getOther_characters()!=null){
+                       for (int i = 0; i < characters.getOther_characters().size(); i++) {
+                           TextView textViewOther = new TextView(characters.this);
+                           // System.out.println(characters.getDeaths().get(i).getReason());
+                           textViewOther.setText("\uD83D\uDC4A\uD83C\uDFFE"+" "
+                                   +characters.getOther_characters().get(i).getName()+
+                                   "\nMain: "+characters.getOther_characters().get(i).getMain()+
+                                   "\nWorld: "+characters.getOther_characters().get(i).getWorld()+
+                                   "\nStatus: "+characters.getOther_characters().get(i).getStatus()+
+                                   "\nDelete: "+characters.getOther_characters().get(i).getDeleted());
+                           if (characters.getOther_characters().get(i).getStatus().equals("online")){
+                               textViewOther.setTextColor(Color.GREEN);
+                           } else{
+                               textViewOther.setTextColor(Color.parseColor("#E53935"));
+                           }
+                           textViewOther.setTextSize(15);
+                           textViewOther.setTypeface(null, Typeface.ITALIC);
+                           textViewOther.setLayoutParams(new LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT));
+                           linearLayoutOtherCharacters.addView(textViewOther);
                        }
                    }
                 }
