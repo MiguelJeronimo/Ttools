@@ -31,11 +31,10 @@ import retrofit2.converter.gson.GsonConverterFactory;
 public class characters extends AppCompatActivity implements View.OnClickListener {
 
     private EditText nombre_persona;
-    private TextView nombre,titulo, sexo, vocacion, nivel, archiviement, mundo, residencia, guild, lastlogin, comentario;
+    private TextView nombre,titulo, sexo, vocacion, nivel, archiviement, mundo, residencia, guild, lastlogin, comentario, textViewPremium,textViewMirried;
     Button btnenviar;
     ConvertidorFecha convertidorFecha = new ConvertidorFecha();
-    Gson gson;
-    LinearLayout linearLayoutDeaths, linearLayoutOtherCharacters;
+    LinearLayout linearLayoutDeaths, linearLayoutOtherCharacters, linearLayoutHouses;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -58,6 +57,8 @@ public class characters extends AppCompatActivity implements View.OnClickListene
         guild = (TextView) findViewById(R.id.guild);
         lastlogin = (TextView) findViewById(R.id.last_loguin);
         comentario= (TextView) findViewById(R.id.comentario);
+        textViewPremium = (TextView) findViewById(R.id.textViewPremium);
+        textViewMirried = (TextView) findViewById(R.id.textViewMirried);
         btnenviar = (Button)findViewById(R.id.btnenviar);
         btnenviar.setOnClickListener(this);
 
@@ -87,8 +88,11 @@ public class characters extends AppCompatActivity implements View.OnClickListene
         String urlAPI = "https://api.tibiadata.com/v3/character/";
         linearLayoutDeaths = (LinearLayout) findViewById(R.id.linearLayoutDeaths);
         linearLayoutOtherCharacters = (LinearLayout) findViewById(R.id.linearLayoutOtherCharacters);
+        linearLayoutHouses = (LinearLayout) findViewById(R.id.linearLayoutHouses);
         linearLayoutOtherCharacters.removeAllViews();
         linearLayoutDeaths.removeAllViews();
+        linearLayoutHouses.removeAllViews();
+        textViewMirried.setText("");
         if (v.getId() == R.id.btnenviar){
 
             Retrofit retrofit = new Retrofit
@@ -116,6 +120,27 @@ public class characters extends AppCompatActivity implements View.OnClickListene
                     convertidorFecha.convertirFecha();
                     lastlogin.setText(convertidorFecha.getFechaConvertida());
                     comentario.setText(characters.getCharacter().getComment());
+                    textViewPremium.setText(characters.getCharacter().getAccount_status());
+                    if (characters.getCharacter().getMarried_to()!=null){
+                        textViewMirried.setText("\uD83D\uDC8D️\u200D\uD83D\uDD25: "+characters.getCharacter().getMarried_to());
+                    }
+                    if (characters.getCharacter().getHouses() != null){
+                        for (int i = 0; i < characters.getCharacter().getHouses().size(); i++) {
+                            // System.out.println(characters.getDeaths().get(i).getReason());
+                            TextView textViewHouses = new TextView(characters.this);
+                            textViewHouses.setText("\uD83C\uDFD8️"+" Name:"
+                                    +characters.getCharacter().getHouses().get(i).getName()+
+                                    "\n Town: "+characters.getCharacter().getHouses().get(i).getTown()+
+                                    "\n Paid: "+characters.getCharacter().getHouses().get(i).getPaid());
+                            textViewHouses.setTextColor(getResources().getColor(R.color.leyenda));
+                            textViewHouses.setTextSize(15);
+                            textViewHouses.setTextColor(Color.parseColor("#CE93D8"));
+                            textViewHouses.setTypeface(null, Typeface.ITALIC);
+                            textViewHouses.setLayoutParams(new LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT));
+                            linearLayoutHouses.addView(textViewHouses);
+                        }
+                    }
+
                    if (characters.getDeaths() != null){
                        for (int i = 0; i < characters.getDeaths().size(); i++) {
                            // System.out.println(characters.getDeaths().get(i).getReason());

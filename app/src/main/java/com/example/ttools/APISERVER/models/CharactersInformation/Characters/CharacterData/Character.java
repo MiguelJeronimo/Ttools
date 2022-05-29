@@ -1,6 +1,9 @@
 package com.example.ttools.APISERVER.models.CharactersInformation.Characters.CharacterData;
 
 import com.example.ttools.APISERVER.models.CharactersInformation.Characters.CharacterData.Guild.Guild;
+import com.example.ttools.APISERVER.models.CharactersInformation.Characters.CharacterData.Houses.House;
+
+import java.util.ArrayList;
 
 public class Character {
     private String name;
@@ -16,6 +19,24 @@ public class Character {
     private String last_login;
     private String account_status;
     private String comment;
+    ArrayList<House> houses = new ArrayList<House>();
+    private String married_to;
+
+    public ArrayList<House> getHouses() {
+        return houses;
+    }
+
+    public void setHouses(ArrayList<House> houses) {
+        this.houses = houses;
+    }
+
+    public String getMarried_to() {
+        return married_to;
+    }
+
+    public void setMarried_to(String married_to) {
+        this.married_to = married_to;
+    }
 
     public String getComment() {
         return comment;
