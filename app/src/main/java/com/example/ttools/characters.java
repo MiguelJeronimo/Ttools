@@ -34,7 +34,7 @@ public class characters extends AppCompatActivity implements View.OnClickListene
     private TextView nombre,titulo, sexo, vocacion, nivel, archiviement, mundo, residencia, guild, lastlogin, comentario, textViewPremium,textViewMirried;
     Button btnenviar;
     ConvertidorFecha convertidorFecha = new ConvertidorFecha();
-    LinearLayout linearLayoutDeaths, linearLayoutOtherCharacters, linearLayoutHouses;
+    LinearLayout linearLayoutDeaths, linearLayoutOtherCharacters, linearLayoutHouses,linearLayoutAchievements;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -89,9 +89,11 @@ public class characters extends AppCompatActivity implements View.OnClickListene
         linearLayoutDeaths = (LinearLayout) findViewById(R.id.linearLayoutDeaths);
         linearLayoutOtherCharacters = (LinearLayout) findViewById(R.id.linearLayoutOtherCharacters);
         linearLayoutHouses = (LinearLayout) findViewById(R.id.linearLayoutHouses);
+        linearLayoutAchievements = (LinearLayout) findViewById(R.id.linearLayoutAchievements);
         linearLayoutOtherCharacters.removeAllViews();
         linearLayoutDeaths.removeAllViews();
         linearLayoutHouses.removeAllViews();
+        linearLayoutAchievements.removeAllViews();
         textViewMirried.setText("");
         if (v.getId() == R.id.btnenviar){
 
@@ -175,6 +177,22 @@ public class characters extends AppCompatActivity implements View.OnClickListene
                            textViewOther.setTypeface(null, Typeface.ITALIC);
                            textViewOther.setLayoutParams(new LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT));
                            linearLayoutOtherCharacters.addView(textViewOther);
+                       }
+                   }
+
+                   if (characters.getAchievements() != null){
+                       for (int i = 0; i < characters.getAchievements().size(); i++) {
+                           // System.out.println(characters.getDeaths().get(i).getReason());
+                           TextView textViewWeakness = new TextView(characters.this);
+                           textViewWeakness.setText("\uD83C\uDF1F"+" Name: "+characters.getAchievements().get(i).getName()+
+                                   "\n Grade: "+characters.getAchievements().get(i).getGrade()+
+                                   "\n Secret: "+characters.getAchievements().get(i).isSecret());
+                           textViewWeakness.setTextColor(getResources().getColor(R.color.leyenda));
+                           textViewWeakness.setTextSize(15);
+                           textViewWeakness.setTextColor(Color.parseColor("#CE93D8"));
+                           textViewWeakness.setTypeface(null, Typeface.ITALIC);
+                           textViewWeakness.setLayoutParams(new LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT));
+                           linearLayoutAchievements.addView(textViewWeakness);
                        }
                    }
                 }
