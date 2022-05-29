@@ -110,7 +110,7 @@ public class Criaturas extends AppCompatActivity {
             }
             @Override
             public void onFailure(Call<APICriatures> call, Throwable t) {
-                System.out.println("Error: " + t.getMessage());
+                Toast.makeText(Criaturas.this, t.getMessage(), Toast.LENGTH_SHORT).show();
             }
         });
 
