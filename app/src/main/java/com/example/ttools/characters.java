@@ -145,7 +145,9 @@ public class characters extends AppCompatActivity implements View.OnClickListene
                        for (int i = 0; i < characters.getDeaths().size(); i++) {
                            // System.out.println(characters.getDeaths().get(i).getReason());
                            TextView textViewWeakness = new TextView(characters.this);
-                           textViewWeakness.setText("☠️️"+" "+characters.getDeaths().get(i).getReason());
+                           convertidorFecha.setExpiryDateString(characters.getDeaths().get(i).getTime());
+                           convertidorFecha.convertirFecha();
+                           textViewWeakness.setText("☠️️"+" "+convertidorFecha.getFechaConvertida()+" - "+characters.getDeaths().get(i).getReason());
                            textViewWeakness.setTextColor(getResources().getColor(R.color.leyenda));
                            textViewWeakness.setTextSize(15);
                            textViewWeakness.setTextColor(Color.parseColor("#CE93D8"));
