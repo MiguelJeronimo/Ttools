@@ -10,6 +10,7 @@ import com.android.volley.toolbox.Volley;
 import com.example.ttools.APISERVER.TibiaAPIServer;
 import com.example.ttools.Operaciones.APIServicesTibia;
 import com.example.ttools.Operaciones.information.Characters;
+import com.example.ttools.utilidades.ConvertidorFecha;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.snackbar.Snackbar;
 import com.google.gson.Gson;
@@ -27,7 +28,12 @@ import android.widget.TextView;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
+import java.util.Locale;
+import java.util.TimeZone;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -40,7 +46,7 @@ public class characters extends AppCompatActivity implements View.OnClickListene
     private EditText nombre_persona;
     private TextView nombre,titulo, sexo, vocacion, nivel, archiviement, mundo, residencia, guild, lastlogin, comentario;
     Button btnenviar;
-
+    ConvertidorFecha convertidorFecha = new ConvertidorFecha();
     Gson gson;
 
     @Override
@@ -115,10 +121,10 @@ public class characters extends AppCompatActivity implements View.OnClickListene
                     mundo.setText(characters.getCharacter().getWorld());
                     residencia.setText(characters.getCharacter().getResidence());
                     guild.setText(characters.getCharacter().getGuild().getRank()+" of the "+characters.getCharacter().getGuild().getName());
-                    lastlogin.setText(characters.getCharacter().getLast_login());
+                    convertidorFecha.setExpiryDateString(characters.getCharacter().getLast_login());
+                    convertidorFecha.convertirFecha();
+                    lastlogin.setText(convertidorFecha.getFechaConvertida());
                     comentario.setText(characters.getCharacter().getComment());
-
-                    //System.out.println(characters.getCharacter().getName());
 
 
                 }
