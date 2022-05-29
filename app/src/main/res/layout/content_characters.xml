@@ -349,7 +349,7 @@
                 android:textStyle="bold"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/textViewPremium"
+                app:layout_constraintTop_toBottomOf="@+id/textViewLoyalty"
                 tools:ignore="MissingConstraints" />
 
             <TextView
@@ -379,7 +379,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="15dp"
-                android:text="Premium Account"
+                android:text=""
                 android:textColor="@color/letras"
                 android:textStyle="italic"
                 app:layout_constraintEnd_toEndOf="parent"
@@ -387,10 +387,10 @@
                 app:layout_constraintTop_toBottomOf="@+id/linearLayoutHouses" />
 
             <TextView
-                android:id="@+id/textViewMirrier"
+                android:id="@+id/textViewCreated"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="15dp"
+                android:layout_marginTop="10dp"
                 android:text=""
                 android:textColor="@color/letras"
                 android:textStyle="italic"
@@ -458,6 +458,18 @@
                 android:padding="20dp"
                 app:layout_constraintTop_toBottomOf="@+id/linearLayoutOtherCharacters"
                 tools:layout_editor_absoluteX="1dp"></LinearLayout>
+
+            <TextView
+                android:id="@+id/textViewLoyalty"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:text=""
+                android:textColor="@color/letras"
+                android:textStyle="italic"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/textViewCreated" />
 
 
         </androidx.constraintlayout.widget.ConstraintLayout>
