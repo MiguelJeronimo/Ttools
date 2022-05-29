@@ -1,4 +1,4 @@
-package com.example.ttools.Operaciones.information;
+package com.example.ttools.APISERVER.models.CharactersInformation.Characters.CharacterData.Guild;
 
 public class Guild {
     private String name;

@@ -4,8 +4,8 @@ import android.graphics.Color;
 import android.os.Bundle;
 
 import com.example.ttools.APISERVER.TibiaAPIServer;
-import com.example.ttools.Operaciones.information.DataWords;
-import com.example.ttools.Operaciones.information.Worlds;
+import com.example.ttools.APISERVER.models.Worlds.DataWords;
+import com.example.ttools.APISERVER.models.Worlds.Worlds;
 import com.example.ttools.recyclerview.Adapters.adapterRecyclerviewMundos;
 import com.example.ttools.recyclerview.ItemsRecyclerViewMundos;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;

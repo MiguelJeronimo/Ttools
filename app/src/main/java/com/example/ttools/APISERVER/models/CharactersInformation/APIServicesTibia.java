@@ -1,5 +1,5 @@
-package com.example.ttools.Operaciones;
-import com.example.ttools.Operaciones.information.Characters;
+package com.example.ttools.APISERVER.models.CharactersInformation;
+import com.example.ttools.APISERVER.models.CharactersInformation.Characters.Characters;
 
 public class APIServicesTibia {
 

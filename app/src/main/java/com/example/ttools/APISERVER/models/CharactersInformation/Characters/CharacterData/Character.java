@@ -1,4 +1,6 @@
-package com.example.ttools.Operaciones.information;
+package com.example.ttools.APISERVER.models.CharactersInformation.Characters.CharacterData;
+
+import com.example.ttools.APISERVER.models.CharactersInformation.Characters.CharacterData.Guild.Guild;
 
 public class Character {
     private String name;

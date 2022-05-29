@@ -2,17 +2,10 @@ package com.example.ttools;
 
 import android.os.Bundle;
 
-import com.android.volley.Request;
-import com.android.volley.RequestQueue;
-import com.android.volley.VolleyError;
-import com.android.volley.toolbox.JsonObjectRequest;
-import com.android.volley.toolbox.Volley;
 import com.example.ttools.APISERVER.TibiaAPIServer;
-import com.example.ttools.Operaciones.APIServicesTibia;
-import com.example.ttools.Operaciones.information.Characters;
+import com.example.ttools.APISERVER.models.CharactersInformation.APIServicesTibia;
+import com.example.ttools.APISERVER.models.CharactersInformation.Characters.Characters;
 import com.example.ttools.utilidades.ConvertidorFecha;
-import com.google.android.material.floatingactionbutton.FloatingActionButton;
-import com.google.android.material.snackbar.Snackbar;
 import com.google.gson.Gson;
 
 import androidx.annotation.NonNull;
@@ -24,16 +17,6 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
-
-import org.json.JSONException;
-import org.json.JSONObject;
-
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.Date;
-import java.util.List;
-import java.util.Locale;
-import java.util.TimeZone;
 
 import retrofit2.Call;
 import retrofit2.Callback;
