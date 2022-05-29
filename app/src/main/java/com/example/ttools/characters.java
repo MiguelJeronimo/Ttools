@@ -1,5 +1,7 @@
 package com.example.ttools;
 
+import android.graphics.Color;
+import android.graphics.Typeface;
 import android.os.Bundle;
 
 import com.example.ttools.APISERVER.TibiaAPIServer;
@@ -14,8 +16,10 @@ import androidx.appcompat.widget.Toolbar;
 
 import android.view.MenuItem;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import retrofit2.Call;
@@ -31,6 +35,7 @@ public class characters extends AppCompatActivity implements View.OnClickListene
     Button btnenviar;
     ConvertidorFecha convertidorFecha = new ConvertidorFecha();
     Gson gson;
+    LinearLayout linearLayoutDeaths;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -80,7 +85,7 @@ public class characters extends AppCompatActivity implements View.OnClickListene
     public void onClick(final View v) {
 
         String urlAPI = "https://api.tibiadata.com/v3/character/";
-
+        linearLayoutDeaths = (LinearLayout) findViewById(R.id.linearLayoutDeaths);
         if (v.getId() == R.id.btnenviar){
 
             Retrofit retrofit = new Retrofit
@@ -108,6 +113,19 @@ public class characters extends AppCompatActivity implements View.OnClickListene
                     convertidorFecha.convertirFecha();
                     lastlogin.setText(convertidorFecha.getFechaConvertida());
                     comentario.setText(characters.getCharacter().getComment());
+                   if (characters.getDeaths() != null){
+                       for (int i = 0; i < characters.getDeaths().size(); i++) {
+                           // System.out.println(characters.getDeaths().get(i).getReason());
+                           TextView textViewWeakness = new TextView(characters.this);
+                           textViewWeakness.setText("☠️️"+" "+characters.getDeaths().get(i).getReason());
+                           textViewWeakness.setTextColor(getResources().getColor(R.color.leyenda));
+                           textViewWeakness.setTextSize(15);
+                           textViewWeakness.setTextColor(Color.parseColor("#CE93D8"));
+                           textViewWeakness.setTypeface(null, Typeface.ITALIC);
+                           textViewWeakness.setLayoutParams(new LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT));
+                           linearLayoutDeaths.addView(textViewWeakness);
+                       }
+                   }
                 }
 
                 @Override
