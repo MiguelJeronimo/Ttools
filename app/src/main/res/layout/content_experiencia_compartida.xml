@@ -59,97 +59,95 @@
 
     </Button>
 
-     <TextView
-         android:id="@+id/textView9"
-         android:layout_width="wrap_content"
-         android:layout_height="wrap_content"
-         android:layout_marginTop="56dp"
-         android:text="Rango de niveles para compartir experiencia:"
-         android:textColor="#ffff"
-         android:textStyle="bold"
-         app:layout_constraintEnd_toEndOf="parent"
-         app:layout_constraintStart_toStartOf="parent"
-         app:layout_constraintTop_toBottomOf="@+id/calcular" />
+    <TextView
+        android:id="@+id/textView9"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="15dp"
+        android:text="Rango de niveles para compartir experiencia:"
+        android:textColor="#ffff"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/calcular" />
 
-     <androidx.cardview.widget.CardView
-         android:layout_width="161dp"
-         android:layout_height="99dp"
-         android:layout_marginStart="10dp"
-         android:layout_marginTop="120dp"
-         app:cardBackgroundColor="@color/colorAccent"
-         app:layout_constraintStart_toStartOf="parent"
-         app:layout_constraintTop_toBottomOf="@+id/textView9">
+    <androidx.cardview.widget.CardView
+        android:layout_width="161dp"
+        android:layout_height="99dp"
+        android:layout_marginStart="10dp"
+        android:layout_marginTop="15dp"
+        app:cardBackgroundColor="@color/colorAccent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textView9">
 
-         <androidx.constraintlayout.widget.ConstraintLayout
-             android:layout_width="match_parent"
-             android:layout_height="match_parent">
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
 
-             <TextView
-                 android:id="@+id/textView14"
-                 android:layout_width="wrap_content"
-                 android:layout_height="wrap_content"
-                 android:text="Nivel Mínimo"
-                 android:textColor="#8d8d8d"
-                 app:layout_constraintBottom_toBottomOf="parent"
-                 app:layout_constraintEnd_toEndOf="parent"
-                 app:layout_constraintStart_toStartOf="parent"
-                 />
+            <TextView
+                android:id="@+id/textView14"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Nivel Mínimo"
+                android:textColor="#8d8d8d"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent" />
 
-             <TextView
-                 android:id="@+id/Menor"
-                 android:layout_width="wrap_content"
-                 android:layout_height="wrap_content"
-                 android:text="-"
-                 android:textColor="#fafafa"
-                 android:textSize="40dp"
-                 android:textStyle="bold"
-                 app:layout_constraintBottom_toBottomOf="parent"
-                 app:layout_constraintEnd_toEndOf="parent"
-                 app:layout_constraintStart_toStartOf="parent"
-                 app:layout_constraintTop_toTopOf="parent"
-                 app:layout_constraintVertical_bias="0.345" />
-         </androidx.constraintlayout.widget.ConstraintLayout>
-     </androidx.cardview.widget.CardView>
+            <TextView
+                android:id="@+id/Menor"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="-"
+                android:textColor="#fafafa"
+                android:textSize="40dp"
+                android:textStyle="bold"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintVertical_bias="0.345" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </androidx.cardview.widget.CardView>
 
-     <androidx.cardview.widget.CardView
-         android:id="@+id/cardView"
-         android:layout_width="161dp"
-         android:layout_height="99dp"
-         android:layout_marginTop="120dp"
-         android:layout_marginEnd="10dp"
-         app:cardBackgroundColor="@color/colorPrimary"
-         app:layout_constraintEnd_toEndOf="parent"
-         app:layout_constraintTop_toBottomOf="@+id/textView9">
+    <androidx.cardview.widget.CardView
+        android:id="@+id/cardView"
+        android:layout_width="161dp"
+        android:layout_height="99dp"
+        android:layout_marginTop="15dp"
+        android:layout_marginEnd="10dp"
+        app:cardBackgroundColor="@color/colorPrimary"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textView9">
 
-         <androidx.constraintlayout.widget.ConstraintLayout
-             android:layout_width="match_parent"
-             android:layout_height="match_parent">
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
 
-             <TextView
-                 android:id="@+id/Mayor"
-                 android:layout_width="wrap_content"
-                 android:layout_height="wrap_content"
-                 android:text="-"
-                 android:textColor="#fafafa"
-                 android:textSize="40dp"
-                 android:textStyle="bold"
-                 app:layout_constraintBottom_toBottomOf="parent"
-                 app:layout_constraintEnd_toEndOf="parent"
-                 app:layout_constraintStart_toStartOf="parent"
-                 app:layout_constraintTop_toTopOf="parent"
-                 app:layout_constraintVertical_bias="0.345" />
+            <TextView
+                android:id="@+id/Mayor"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="-"
+                android:textColor="#fafafa"
+                android:textSize="40dp"
+                android:textStyle="bold"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintVertical_bias="0.345" />
 
-             <TextView
-                 android:id="@+id/textView17"
-                 android:layout_width="wrap_content"
-                 android:layout_height="wrap_content"
-                 android:text="Nivel Máximo"
-                 android:textColor="#8d8d8d"
-                 app:layout_constraintBottom_toBottomOf="parent"
-                 app:layout_constraintEnd_toEndOf="parent"
-                 app:layout_constraintStart_toStartOf="parent"
-                 />
-         </androidx.constraintlayout.widget.ConstraintLayout>
+            <TextView
+                android:id="@+id/textView17"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Nivel Máximo"
+                android:textColor="#8d8d8d"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
     </androidx.cardview.widget.CardView>
 
 
