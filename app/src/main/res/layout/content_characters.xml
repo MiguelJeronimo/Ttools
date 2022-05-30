@@ -354,10 +354,9 @@
 
             <TextView
                 android:id="@+id/comentario"
-                android:layout_width="match_parent"
-                android:layout_height="200dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
                 android:layout_marginTop="16dp"
-                android:width="@android:dimen/thumbnail_width"
                 android:gravity="left"
                 android:padding="3dip"
                 android:textColor="#8d8d8d"
@@ -423,7 +422,8 @@
                 android:layout_width="183dp"
                 android:layout_height="24dp"
                 android:layout_marginTop="20dp"
-                android:text="  Houses:"
+                android:text="Houses:"
+                android:paddingLeft="20dp"
                 android:textColor="@color/letras"
                 android:textSize="20dp"
                 app:layout_constraintEnd_toStartOf="@+id/guideline2"

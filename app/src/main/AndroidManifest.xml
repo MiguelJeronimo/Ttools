@@ -16,6 +16,7 @@
             android:name=".CriaturesInformation"
             android:exported="false"
             android:label="@string/title_activity_criatures_information"
+            android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".Criaturas"

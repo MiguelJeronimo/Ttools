@@ -220,11 +220,11 @@ public class characters extends AppCompatActivity implements View.OnClickListene
                              * Llenar los campos de AccountInformation
                              * */
                             if (characters.getAccount_information() != null) {
-                                textViewLoyalty.setText(characters.getAccount_information().getLoyalty_title());
+                                textViewLoyalty.setText("Loyalty Title: "+characters.getAccount_information().getLoyalty_title());
                                 if (characters.getAccount_information().getCreated() != null){
                                     convertidorFecha.setExpiryDateString(characters.getAccount_information().getCreated());
                                     convertidorFecha.convertirFecha();
-                                    textViewCreated.setText(convertidorFecha.getFechaConvertida());
+                                    textViewCreated.setText("Created: "+convertidorFecha.getFechaConvertida());
                                 }
                             }
                         }
