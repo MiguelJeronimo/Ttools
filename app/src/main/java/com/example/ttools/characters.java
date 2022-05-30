@@ -124,8 +124,6 @@ public class characters extends AppCompatActivity implements View.OnClickListene
                 @Override
                 public void onResponse(Call<APIServicesTibia> call, Response<APIServicesTibia> response) {
                     if (response.isSuccessful()) {
-
-
                         APIServicesTibia apiServicesTibia = response.body();
                         Characters characters = apiServicesTibia.getCharacters();
                         if (characters.getCharacter().getName().equals("")) {
@@ -223,7 +221,11 @@ public class characters extends AppCompatActivity implements View.OnClickListene
                              * */
                             if (characters.getAccount_information() != null) {
                                 textViewLoyalty.setText(characters.getAccount_information().getLoyalty_title());
-                                textViewCreated.setText(characters.getAccount_information().getCreated());
+                                if (characters.getAccount_information().getCreated() != null){
+                                    convertidorFecha.setExpiryDateString(characters.getAccount_information().getCreated());
+                                    convertidorFecha.convertirFecha();
+                                    textViewCreated.setText(convertidorFecha.getFechaConvertida());
+                                }
                             }
                         }
                     } else{
