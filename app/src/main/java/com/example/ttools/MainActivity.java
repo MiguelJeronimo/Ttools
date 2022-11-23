@@ -5,11 +5,15 @@ import android.os.Bundle;
 
 import com.example.ttools.Operaciones.calcularBlessings;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import com.google.android.material.navigation.NavigationView;
 import com.google.android.material.snackbar.Snackbar;
 
+import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
+import androidx.drawerlayout.widget.DrawerLayout;
 
+import android.view.Gravity;
 import android.view.View;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -22,25 +26,21 @@ import android.widget.Toast;
 
 import java.text.DecimalFormat;
 
-public class MainActivity extends AppCompatActivity implements View.OnClickListener{
+public class MainActivity extends AppCompatActivity implements View.OnClickListener, MenuItem.OnMenuItemClickListener {
 /** Declaracion de los objetos de los componentes**/
-
     TextView spiritual, embrace, suns, solitude, phoenix, twits_of_fate, heart, blood,total;
-
     EditText nivel;
-
     Button calcular;
-
     Switch swtich_heart, swtich_blood;
-
-    
-    
-    
-    
     calcularBlessings c = new calcularBlessings();
-
     // para formatear numeros a formato de dinero.
     DecimalFormat decimalFormat = new DecimalFormat("###,###.00");
+    /**
+     * Navigation Drawer
+     * */
+    DrawerLayout drawerLayout;
+    ActionBarDrawerToggle actionBarDrawerToggle;
+    NavigationView navigationView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -48,14 +48,21 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         setContentView(R.layout.activity_main);
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+        drawerLayout = findViewById(R.id.navegacion);
+        //Agrega utilidades a la toolbar, asi como el incono de hamburguesa, y los iconos de cuando se despliegue el menu y cuando este cerrado
+        actionBarDrawerToggle = new ActionBarDrawerToggle(this, drawerLayout, toolbar, R.string.nav_open,R.string.nav_close);
+        //agrega el evento al drawelayout, recibe por parametro el actionBarDrawerToggle en la cual se encuentra las animaciones
+        drawerLayout.addDrawerListener(actionBarDrawerToggle);
+        //sincroniza los estados del navigationDrawer
+        actionBarDrawerToggle.syncState();
+        navigationView = (NavigationView) findViewById(R.id.barraNavegacion);
+        //a cada item del menuo agregamos su evento MenuItemClickListener
+        navigationView.getMenu().findItem(R.id.agregar).setOnMenuItemClickListener(this);
+        //navigationView.getMenu().findItem(R.id.menu_mundos).setOnMenuItemClickListener(this);
 
         /**Instanciaremos los objetos de los componentes**/
         nivel = (EditText)findViewById(R.id.Nivel);
         spiritual = (TextView)findViewById(R.id.spiritual);
-
-
-
-
         embrace = (TextView)findViewById(R.id.Embrace);
         suns = (TextView)findViewById(R.id.Suns);
         solitude = (TextView)findViewById(R.id.Solicitude);
@@ -117,26 +124,18 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     public void onClick(View v) {
 
         if (v.getId() == R.id.calcular){
-
             String nivel_personaje =  nivel.getText().toString();
-
             if (nivel_personaje.equalsIgnoreCase("")){
-
                 Toast.makeText(this,"Favor de ingresar el nivel",Toast.LENGTH_SHORT).show();
-
             } else{
                 int Nivel = Integer.parseInt(nivel_personaje);
-
                     // Blessings individual (costo unitario de las bless principales y twits of fate)
                     c.blessingIndividual(Nivel);
-
                     //Suma de las 5 bless principales
                     c.sumaBlessingsPrincipales(Nivel);
-
                     //formateamos el costo a formato de moneda
                     String blessing_individual = decimalFormat.format(c.getBlessingIndividual());
                     String total_blessings_principales = decimalFormat.format(c.getSumaBlessingsPrincipales() + c.getBlessingIndividual());
-
                     /**UNA VEZ VALIDADO EL CAMPO DE TEXTO, IMPRIMIMOS LOS RESULTADOS EN LAS ETIQUETAS CORRESPONDIENTES**/
                     spiritual.setText(blessing_individual);
                     embrace.setText(blessing_individual);
@@ -150,16 +149,13 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         if (swtich_blood.isChecked()){//switch de Heart of muntain esta checkeado
             String nivel_personaje =  nivel.getText().toString();
-
             if (nivel_personaje.equalsIgnoreCase("")){
                 Toast.makeText(this,"Favor de ingresar el nivel",Toast.LENGTH_SHORT).show();
-
             } else {
                 int Nivel = Integer.parseInt(nivel_personaje);
                 c.blessingEspecial(Nivel);
                 int get_especial = c.getBlessingEspecial();
                 c.setHeartOfMountain(get_especial);
-
                 //formateamos el costo a formato de moneda
                 String blessing_especial = decimalFormat.format(c.getBlessingEspecial());
                 blood.setText(blessing_especial);
@@ -172,17 +168,14 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
 
         if (swtich_heart.isChecked()){// swtich de Blood of mountains esta checkeado.
-
             String nivel_personaje =  nivel.getText().toString();
             if (nivel_personaje.equalsIgnoreCase("")){
                 Toast.makeText(this,"Favor de ingresar el nivel",Toast.LENGTH_SHORT).show();
             } else {
-
                 int Nivel = Integer.parseInt(nivel_personaje);
                 c.blessingEspecial(Nivel);
                 int get_especial = c.getBlessingEspecial();
                 c.setBloodOfMountain(get_especial);
-
                 //formateamos el costo a formato de moneda
                 String blessing_especial = decimalFormat.format(c.getBlessingEspecial());
                 heart.setText(blessing_especial);
@@ -195,11 +188,17 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         }
 
         String total_blessing = decimalFormat.format(c.getSumaBlessingsPrincipales() + c.getBlessingIndividual()+c.getHeartOfMountain()+c.getBloodOfMountain());
-
         // imprimiendo los totales en las etiquetas de total de blessings opcionales y el total de todas las blessings
         total.setText(total_blessing);
-
     }
 
+    @Override
+    public boolean onMenuItemClick(MenuItem menuItem) {
+        if(menuItem.getItemId() == R.id.agregar){
+            Toast.makeText(this,"Se clickio el item",Toast.LENGTH_SHORT).show();
+            drawerLayout.close();
+        }
+        return false;
     }
+}
 

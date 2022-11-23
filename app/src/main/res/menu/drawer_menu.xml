@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <group
+        android:id="@+id/group1"
+        android:checkableBehavior="single">
+        <item
+            android:id="@+id/agregar"
+            android:icon="@android:drawable/stat_sys_download"
+            android:title="Agregar" />
+        <item
+            android:id="@+id/item2"
+            android:icon="@android:drawable/stat_sys_headset"
+            android:title="Buscar" />
+    </group>
+    <group
+        android:id="@+id/group2"
+        >
+        <item
+            android:id="@+id/item3"
+            android:icon="@android:drawable/stat_sys_download"
+            android:title="Configuracion" />
+        <item
+            android:id="@+id/item4"
+            android:icon="@android:drawable/stat_sys_headset"
+            android:title="Acerca de" />
+    </group>
+    <group
+        android:id="@+id/group3"
+        >
+        <item
+            android:id="@+id/item5"
+            android:icon="@android:drawable/stat_sys_headset"
+            android:title="Configuracion" />
+        <item
+            android:id="@+id/item6"
+            android:icon="@android:drawable/stat_sys_headset"
+            android:title="Acerca de" />
+    </group>
+</menu>
