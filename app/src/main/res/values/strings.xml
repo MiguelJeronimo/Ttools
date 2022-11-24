@@ -17,4 +17,12 @@
     <!-- to toggle the open close button of the navigation drawer -->
     <string name="nav_open">Open</string>
     <string name="nav_close">Close</string>
+    <!--Titulos de los items del navigation drawer-->
+    <string name="nd_character">Jugadores</string>
+    <string name="nd_experiencia_compartida">Experiencia compartida</string>
+    <string name="nd_stamina">Stamina</string>
+    <string name="nd_mundos">Mundos</string>
+    <string name="nd_criaturas">Criaturas</string>
+
+
 </resources>

@@ -57,7 +57,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         actionBarDrawerToggle.syncState();
         navigationView = (NavigationView) findViewById(R.id.barraNavegacion);
         //a cada item del menuo agregamos su evento MenuItemClickListener
-        navigationView.getMenu().findItem(R.id.agregar).setOnMenuItemClickListener(this);
+        navigationView.getMenu().findItem(R.id.nd_character).setOnMenuItemClickListener(this);
         //navigationView.getMenu().findItem(R.id.menu_mundos).setOnMenuItemClickListener(this);
 
         /**Instanciaremos los objetos de los componentes**/
@@ -194,7 +194,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     @Override
     public boolean onMenuItemClick(MenuItem menuItem) {
-        if(menuItem.getItemId() == R.id.agregar){
+        if(menuItem.getItemId() == R.id.nd_character){
             Toast.makeText(this,"Se clickio el item",Toast.LENGTH_SHORT).show();
             drawerLayout.close();
         }

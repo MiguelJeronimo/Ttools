@@ -4,36 +4,32 @@
         android:id="@+id/group1"
         android:checkableBehavior="single">
         <item
-            android:id="@+id/agregar"
-            android:icon="@android:drawable/stat_sys_download"
-            android:title="Agregar" />
-        <item
-            android:id="@+id/item2"
-            android:icon="@android:drawable/stat_sys_headset"
-            android:title="Buscar" />
+            android:id="@+id/nd_character"
+            android:icon="@drawable/character_icon"
+            android:title="@string/nd_character" />
     </group>
     <group
         android:id="@+id/group2"
         >
         <item
-            android:id="@+id/item3"
-            android:icon="@android:drawable/stat_sys_download"
-            android:title="Configuracion" />
+            android:id="@+id/nd_experiencia_compartida"
+            android:icon="@drawable/exp_compartida_icon"
+            android:title="@string/nd_experiencia_compartida" />
         <item
-            android:id="@+id/item4"
-            android:icon="@android:drawable/stat_sys_headset"
-            android:title="Acerca de" />
+            android:id="@+id/nd_stamina"
+            android:icon="@drawable/stamina_icon"
+            android:title="@string/nd_stamina" />
     </group>
     <group
         android:id="@+id/group3"
         >
         <item
-            android:id="@+id/item5"
-            android:icon="@android:drawable/stat_sys_headset"
-            android:title="Configuracion" />
+            android:id="@+id/nd_mundos"
+            android:icon="@drawable/words_icon"
+            android:title="@string/nd_mundos" />
         <item
-            android:id="@+id/item6"
-            android:icon="@android:drawable/stat_sys_headset"
-            android:title="Acerca de" />
+            android:id="@+id/nd_criaturas"
+            android:icon="@drawable/criatures_icon"
+            android:title="@string/nd_criaturas" />
     </group>
 </menu>
