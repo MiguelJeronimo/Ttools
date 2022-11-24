@@ -58,7 +58,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         navigationView = (NavigationView) findViewById(R.id.barraNavegacion);
         //a cada item del menuo agregamos su evento MenuItemClickListener
         navigationView.getMenu().findItem(R.id.nd_character).setOnMenuItemClickListener(this);
-        //navigationView.getMenu().findItem(R.id.menu_mundos).setOnMenuItemClickListener(this);
+        navigationView.getMenu().findItem(R.id.nd_criaturas).setOnMenuItemClickListener(this);
+        navigationView.getMenu().findItem(R.id.nd_stamina).setOnMenuItemClickListener(this);
+        navigationView.getMenu().findItem(R.id.nd_experiencia_compartida).setOnMenuItemClickListener(this);
+        navigationView.getMenu().findItem(R.id.nd_mundos).setOnMenuItemClickListener(this);
 
         /**Instanciaremos los objetos de los componentes**/
         nivel = (EditText)findViewById(R.id.Nivel);
@@ -194,9 +197,28 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     @Override
     public boolean onMenuItemClick(MenuItem menuItem) {
-        if(menuItem.getItemId() == R.id.nd_character){
-            Toast.makeText(this,"Se clickio el item",Toast.LENGTH_SHORT).show();
+
+        if (menuItem.getItemId() == R.id.nd_experiencia_compartida){
+            Intent expcompartida = new Intent(this, experiencia_compartida.class);
+            startActivity(expcompartida);
             drawerLayout.close();
+        } else if (menuItem.getItemId() == R.id.nd_character){
+            Intent characters = new Intent(this, characters.class);
+            startActivity(characters);
+            drawerLayout.close();
+        } else if (menuItem.getItemId() == R.id.nd_stamina){
+            Intent stamina = new Intent(this, Stamina.class);
+            startActivity(stamina);
+            drawerLayout.close();
+        }else if (menuItem.getItemId() == R.id.nd_mundos){
+            Intent mundos = new Intent(this, Mundos.class);
+            startActivity(mundos);
+            drawerLayout.close();
+        }else if(menuItem.getItemId() == R.id.nd_criaturas){
+            Intent criaturas = new Intent(this, Criaturas.class);
+            startActivity(criaturas);
+            drawerLayout.close();
+
         }
         return false;
     }
