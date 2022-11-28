@@ -15,4 +15,13 @@
         android:layout_marginTop="16dp"
         app:layout_constraintTop_toTopOf="parent"
         tools:layout_editor_absoluteX="0dp" />
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/recyclerCriaturas"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginTop="50dp"
+        android:clickable="true"
+        app:layout_constraintTop_toTopOf="@id/spinner_guild"
+        tools:listitem="@layout/recyclerview_items_guilds" />
 </androidx.constraintlayout.widget.ConstraintLayout>
