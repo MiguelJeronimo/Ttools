@@ -62,6 +62,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         navigationView.getMenu().findItem(R.id.nd_stamina).setOnMenuItemClickListener(this);
         navigationView.getMenu().findItem(R.id.nd_experiencia_compartida).setOnMenuItemClickListener(this);
         navigationView.getMenu().findItem(R.id.nd_mundos).setOnMenuItemClickListener(this);
+        navigationView.getMenu().findItem(R.id.nd_guilds).setOnMenuItemClickListener(this);
 
         /**Instanciaremos los objetos de los componentes**/
         nivel = (EditText)findViewById(R.id.Nivel);
@@ -218,7 +219,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             Intent criaturas = new Intent(this, Criaturas.class);
             startActivity(criaturas);
             drawerLayout.close();
-
+        } else if (menuItem.getItemId() == R.id.nd_guilds){
+            Intent guilds = new Intent(this, Guilds.class);
+            startActivity(guilds);
+            drawerLayout.close();
         }
         return false;
     }

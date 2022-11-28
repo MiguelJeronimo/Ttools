@@ -7,6 +7,10 @@
             android:id="@+id/nd_character"
             android:icon="@drawable/character_icon"
             android:title="@string/nd_character" />
+        <item
+            android:id="@+id/nd_guilds"
+            android:icon="@drawable/guild_icon"
+            android:title="@string/nd_guild" />
     </group>
     <group
         android:id="@+id/group2"
