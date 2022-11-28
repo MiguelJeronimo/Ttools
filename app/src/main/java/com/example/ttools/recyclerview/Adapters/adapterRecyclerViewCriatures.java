@@ -1,6 +1,5 @@
 package com.example.ttools.recyclerview.Adapters;
 
-import android.graphics.drawable.Drawable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -56,7 +55,7 @@ public class adapterRecyclerViewCriatures extends RecyclerView.Adapter<adapterRe
         String urlImagen = items_criatures.get(position).getImagerace();
         //Agregando imagen por url utilizando la libreria picasso
         Picasso.get().load(urlImagen).into(holder.imageCriature);
-
+        //Glide.with(holder.imageCriature.getContext()).load(urlImagen).asGif().into(holder.imageCriature);
     }
 
     @Override

@@ -14,7 +14,7 @@
         app:layout_constraintGuide_percent="0.25"/>
 
     <ImageView
-        android:id="@+id/imageViewCriature"
+        android:id="@+id/imageViewLogo"
         android:layout_width="64dp"
         android:layout_height="64dp"
         android:layout_marginTop="16dp"
@@ -38,7 +38,7 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
-        android:id="@+id/textViewRace"
+        android:id="@+id/textViewDescription"
         android:layout_width="266dp"
         android:layout_height="21dp"
         android:layout_marginTop="5dp"
