@@ -13,11 +13,15 @@ import com.example.ttools.APISERVER.models.Worlds.Worlds;
 import com.example.ttools.recyclerview.Adapters.AdapterRecyclerViewGuildsList;
 import com.example.ttools.recyclerview.ItemsRecyclerViewGuilds;
 import com.google.android.material.snackbar.Snackbar;
+
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
 import androidx.coordinatorlayout.widget.CoordinatorLayout;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -56,13 +60,30 @@ public class GuildInformation extends AppCompatActivity implements AdapterView.O
         String url = "https://api.tibiadata.com/v3/";
         //llenarRecyclerView("Wintera");
         llenarSpinner(url);
-        binding.fab.setOnClickListener(new View.OnClickListener() {
+        /***binding.fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
                         .setAction("Action", null).show();
             }
-        });
+        });**/
+    }
+
+    //para que el boton regresar funcione
+    @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+        // Handle action bar item clicks here. The action bar will
+        // automatically handle clicks on the Home/Up button, so long
+        // as you specify a parent activity in AndroidManifest.xml.
+        int id = item.getItemId();
+
+        //noinspection SimplifiableIfStatement
+        if (id == android.R.id.home) { //aqui daremos el evento al boton regresar de nuestro action bar, haciendo uso de los ids del sistema android
+            finish();// finalizamos la actividad
+            return true;
+        }
+
+        return super.onOptionsItemSelected(item);
     }
 
     public void llenarSpinner(String url){
@@ -84,7 +105,7 @@ public class GuildInformation extends AppCompatActivity implements AdapterView.O
                     for (RegularWorlds mundos: worlds.getRegular_worlds()) {
                         arrayWorlds.add(mundos.getName());
                     }
-                    adapter = new ArrayAdapter<String>(getApplicationContext(), android.R.layout.simple_spinner_dropdown_item,arrayWorlds);
+                    adapter = new ArrayAdapter<String>(getApplicationContext(), R.layout.spinner_text_style,arrayWorlds);
                     spinner.setAdapter(adapter);
                 }
             }

@@ -13,7 +13,10 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
+        android:backgroundTint="@color/leyenda"
+        android:popupBackground="@color/colorPrimary"
         app:layout_constraintTop_toTopOf="parent"
+        android:layout_margin="10dp"
         tools:layout_editor_absoluteX="0dp" />
 
     <androidx.recyclerview.widget.RecyclerView
