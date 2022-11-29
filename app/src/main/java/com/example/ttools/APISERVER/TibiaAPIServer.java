@@ -3,6 +3,7 @@ package com.example.ttools.APISERVER;
 import com.example.ttools.APISERVER.models.APICriatures;
 import com.example.ttools.APISERVER.models.APICriaturesInformation;
 import com.example.ttools.APISERVER.models.CharactersInformation.APIServicesTibia;
+import com.example.ttools.APISERVER.models.GuildInformation.ApiGuilds;
 import com.example.ttools.APISERVER.models.Worlds.DataWords;
 
 import retrofit2.Call;
@@ -21,4 +22,7 @@ public interface TibiaAPIServer {
 
     @GET("{race}")
     Call<APICriaturesInformation> getCriatureInformation(@Path("race") String race);
+
+    @GET("{world}")
+    Call<ApiGuilds> getGuildsInformation(@Path("world") String world);
 }

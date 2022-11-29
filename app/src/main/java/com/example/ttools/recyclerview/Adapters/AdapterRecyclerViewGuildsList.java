@@ -42,7 +42,7 @@ public class AdapterRecyclerViewGuildsList extends RecyclerView.Adapter<AdapterR
 
     @Override
     public int getItemCount() {
-        return 0;
+        return items_guilds_list.size();
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder{

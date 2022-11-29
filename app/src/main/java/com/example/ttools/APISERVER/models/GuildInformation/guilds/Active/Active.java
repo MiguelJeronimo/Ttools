@@ -1,6 +1,6 @@
-package com.example.ttools.APISERVER.models.GuilsInformation.Activate;
+package com.example.ttools.APISERVER.models.GuildInformation.guilds.Active;
 
-public class Activate {
+public class Active {
     private String name;
     private String logo_url;
     private String description;

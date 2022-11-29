@@ -4,21 +4,17 @@ import android.content.Intent;
 import android.os.Bundle;
 
 import com.example.ttools.Operaciones.calcularBlessings;
-import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.navigation.NavigationView;
-import com.google.android.material.snackbar.Snackbar;
 
 import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.drawerlayout.widget.DrawerLayout;
 
-import android.view.Gravity;
 import android.view.View;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.Button;
-import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.Switch;
 import android.widget.TextView;
@@ -220,7 +216,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             startActivity(criaturas);
             drawerLayout.close();
         } else if (menuItem.getItemId() == R.id.nd_guilds){
-            Intent guilds = new Intent(this, Guilds.class);
+            Intent guilds = new Intent(this, GuildInformation.class);
             startActivity(guilds);
             drawerLayout.close();
         }
