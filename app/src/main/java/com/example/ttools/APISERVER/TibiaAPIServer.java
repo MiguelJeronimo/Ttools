@@ -25,4 +25,6 @@ public interface TibiaAPIServer {
 
     @GET("{world}")
     Call<ApiGuilds> getGuildsInformation(@Path("world") String world);
+    @GET("{name}")
+    Call<ApiGuilds> getGuildsInformationName(@Path("name") String name);
 }
