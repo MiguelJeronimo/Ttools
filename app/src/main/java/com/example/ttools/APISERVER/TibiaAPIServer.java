@@ -4,6 +4,7 @@ import com.example.ttools.APISERVER.models.APICriatures;
 import com.example.ttools.APISERVER.models.APICriaturesInformation;
 import com.example.ttools.APISERVER.models.CharactersInformation.APIServicesTibia;
 import com.example.ttools.APISERVER.models.GuildInformation.ApiGuilds;
+import com.example.ttools.APISERVER.models.GuildInformation.ApiGuildsName;
 import com.example.ttools.APISERVER.models.Worlds.DataWords;
 
 import retrofit2.Call;
@@ -25,6 +26,7 @@ public interface TibiaAPIServer {
 
     @GET("{world}")
     Call<ApiGuilds> getGuildsInformation(@Path("world") String world);
+
     @GET("{name}")
-    Call<ApiGuilds> getGuildsInformationName(@Path("name") String name);
+    Call<ApiGuildsName> getGuildsInformationName(@Path("name") String name);
 }
