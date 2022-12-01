@@ -25,6 +25,7 @@
         android:layout_height="match_parent"
         android:layout_marginTop="50dp"
         android:clickable="true"
+        android:focusable="true"
         app:layout_constraintTop_toTopOf="@id/spinner_guild"
         tools:listitem="@layout/recyclerview_items_guilds" />
 </androidx.constraintlayout.widget.ConstraintLayout>

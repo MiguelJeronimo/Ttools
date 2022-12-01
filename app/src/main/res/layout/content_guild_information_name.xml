@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:background="@color/colorPrimary"
+    android:layout_height="match_parent"
+    android:layout_width="match_parent">
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        app:layout_behavior="@string/appbar_scrolling_view_behavior">
+
+        <include
+            android:id="@+id/include"
+            layout="@layout/recyclerview_header_guilds" />
+
+        <TextView
+            android:id="@+id/miembros"
+            android:layout_height="wrap_content"
+            android:layout_width="match_parent"
+            android:layout_marginTop="5dp"
+            android:text="Miembros"
+            android:textAlignment="center"
+            android:textColor="@color/letras"
+            android:textSize="17dp"
+            android:textStyle="bold"
+            app:layout_constraintTop_toBottomOf="@+id/include"/>
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginTop="10dp"
+            tools:listitem="@layout/recyclerview_guilds_members"
+            app:layout_constraintTop_toBottomOf="@+id/miembros" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</ScrollView>

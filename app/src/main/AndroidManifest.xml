@@ -13,8 +13,16 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity
+            android:name=".GuildInformationName"
+            android:exported="false"
+            android:label="@string/title_activity_guild_information_name"
+            android:theme="@style/AppTheme.NoActionBar">
+            <meta-data
+                android:name="android.app.lib_name"
+                android:value="" />
+        </activity>
+        <activity
             android:name=".GuildInformation"
-
             android:label="@string/title_activity_guilds"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar">
