@@ -75,7 +75,7 @@
         tools:text="Titulo: Pepenador" />
 
     <TextView
-        android:id="@+id/textView34"
+        android:id="@+id/textViewLevel"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="10dp"
@@ -86,7 +86,7 @@
         app:layout_constraintTop_toBottomOf="@+id/textViewRace" />
 
     <TextView
-        android:id="@+id/textView35"
+        android:id="@+id/textViewUnido"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="10dp"
@@ -97,7 +97,7 @@
         app:layout_constraintTop_toBottomOf="@+id/textViewTitulo" />
 
     <TextView
-        android:id="@+id/textView36"
+        android:id="@+id/textViewStatus"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="46dp"

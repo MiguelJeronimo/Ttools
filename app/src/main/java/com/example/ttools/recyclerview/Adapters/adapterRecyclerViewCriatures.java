@@ -64,7 +64,7 @@ public class adapterRecyclerViewCriatures extends RecyclerView.Adapter<adapterRe
     }
 
 
-    public class ViewHolder extends RecyclerView.ViewHolder {
+    public static class ViewHolder extends RecyclerView.ViewHolder {
         TextView lbName, lbRace;
         ImageView imageCriature;
         public ViewHolder(@NonNull View itemView) {
