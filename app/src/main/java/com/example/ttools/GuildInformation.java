@@ -1,6 +1,7 @@
 package com.example.ttools;
 import android.annotation.SuppressLint;
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 
 import com.example.ttools.APISERVER.TibiaAPIServer;
@@ -58,7 +59,6 @@ public class GuildInformation extends AppCompatActivity implements AdapterView.O
         spinner = findViewById(R.id.spinner_guild);
         spinner.setOnItemSelectedListener(this);
         String url = "https://api.tibiadata.com/v3/";
-        //llenarRecyclerView("Wintera");
         llenarSpinner(url);
         /***binding.fab.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -151,6 +151,15 @@ public class GuildInformation extends AppCompatActivity implements AdapterView.O
                         adaptador.notifyDataSetChanged();
                         recyclerView.setHasFixedSize(true);
                         recyclerView.setAdapter(adaptador);
+                        adaptador.setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View view) {
+                               String nameGuild = itemsRecyclerViewGuilds.get(recyclerView.getChildAdapterPosition(view)).getLbName();
+                                Intent intent = new Intent(GuildInformation.this,GuildInformationName.class);
+                                intent.putExtra("nameGuild",nameGuild);
+                                startActivity(intent);
+                            }
+                        });
 
                     } else {
                         System.out.println("No hay respuesta "+response.code());

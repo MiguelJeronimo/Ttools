@@ -15,9 +15,26 @@ import com.example.ttools.recyclerview.ItemsRecyclerViewGuilds;
 
 import java.util.List;
 
-public class AdapterRecyclerViewGuildsList extends RecyclerView.Adapter<AdapterRecyclerViewGuildsList.ViewHolder> {
+public class AdapterRecyclerViewGuildsList extends RecyclerView.Adapter<AdapterRecyclerViewGuildsList.ViewHolder> implements View.OnClickListener {
     //Creando el arraylist de objetos de los datos del recyclerview Criatures
     private List<ItemsRecyclerViewGuilds> items_guilds_list;
+
+    private View.OnClickListener listener;
+
+    public void setOnClickListener(View.OnClickListener listener) {
+        this.listener = listener;
+    }
+
+    /*
+     * IMPLEMENTACION DE LOS METODOS CLICK Y LONGCLICK
+     * */
+    @Override
+    public void onClick(View view) {
+        if(listener != null){
+            listener.onClick(view);
+        }
+    }
+
 
     //constructor
     public AdapterRecyclerViewGuildsList(List<ItemsRecyclerViewGuilds> items_guilds_list){
@@ -29,6 +46,7 @@ public class AdapterRecyclerViewGuildsList extends RecyclerView.Adapter<AdapterR
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View vista = LayoutInflater.from(parent.getContext())
                 .inflate(R.layout.recyclerview_items_guilds,parent,false);
+        vista.setOnClickListener(this);
         return new ViewHolder(vista);
     }
 
