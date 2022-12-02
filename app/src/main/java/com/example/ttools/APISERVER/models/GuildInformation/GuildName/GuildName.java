@@ -14,6 +14,7 @@ public class GuildName {
     private Boolean in_war;
     private int players_online;
     private int members_total;
+    private String founded;
     private ArrayList<MembersGuild> members;
     private ArrayList<GuildHalls> guildhalls;
 
@@ -56,4 +57,6 @@ public class GuildName {
     public ArrayList<GuildHalls> getGuildhalls() {
         return guildhalls;
     }
+
+    public String getFounded() { return founded; }
 }

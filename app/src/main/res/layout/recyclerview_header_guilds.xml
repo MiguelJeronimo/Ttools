@@ -21,14 +21,14 @@
         app:layout_constraintEnd_toStartOf="@+id/primera_division"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        tools:background="@color/fondo_switch"></ImageView>
+        tools:background="@color/fondo_switch"/>
 
     <TextView
         android:id="@+id/textViewGuildName"
         android:layout_width="266dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="60dp"
-        android:text="Xantera Friends Forever"
+        android:text=""
         android:textAlignment="textStart"
         android:textColor="@color/leyenda"
         android:textSize="25dp"
@@ -40,11 +40,11 @@
         tools:text="Xantera Friends Forever" />
 
     <TextView
-        android:id="@+id/textViewRace"
+        android:id="@+id/textViewWorld"
         android:layout_width="266dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="5dp"
-        android:text="Wintera"
+        android:text=""
         android:textColor="@color/letras"
         android:textSize="15dp"
         android:textStyle="italic"
@@ -78,7 +78,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textViewRace"
+        app:layout_constraintTop_toBottomOf="@+id/textViewWorld"
         tools:text="The sky has shifted color tonight, by the blood of our fallen enemies. A dark gathering is held, in an ancient cave far away from mortal eyes. If you look deep inside the eye of the dragon, you will discover a sorrow no words can describe. The world is no longer close to what it used to be, and we strive to protect those left of our kind. But nothing seems to still the constant hunger deep within our souls. Once again we will spread our darkened wings over the lands of Antica." />
 
     <TextView
@@ -105,10 +105,10 @@
         android:textColor="@color/letras"
         android:textSize="17dp"
         android:textStyle="bold"
+        android:text="Guild House"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textViewDescription"
-        tools:text="Guild House" />
+        app:layout_constraintTop_toBottomOf="@+id/textViewDescription" />
 
     <TextView
         android:id="@+id/textViewOnline"

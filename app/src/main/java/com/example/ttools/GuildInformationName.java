@@ -1,8 +1,19 @@
 package com.example.ttools;
 
+import android.annotation.SuppressLint;
+import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 
+import com.bumptech.glide.Glide;
+import com.example.ttools.APISERVER.TibiaAPIServer;
+import com.example.ttools.APISERVER.models.APICriatures;
+import com.example.ttools.APISERVER.models.APICriaturesInformation;
+import com.example.ttools.APISERVER.models.GuildInformation.ApiGuildsName;
+import com.example.ttools.APISERVER.models.GuildInformation.GuildName.GuildName;
+import com.example.ttools.APISERVER.models.GuildInformation.GuildName.Guildss;
 import com.google.android.material.snackbar.Snackbar;
 
 import androidx.annotation.NonNull;
@@ -21,6 +32,12 @@ import androidx.navigation.ui.NavigationUI;
 
 import com.example.ttools.databinding.ActivityGuildInformationNameBinding;
 
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+import retrofit2.Retrofit;
+import retrofit2.converter.gson.GsonConverterFactory;
+
 public class GuildInformationName extends AppCompatActivity {
 
     private AppBarConfiguration appBarConfiguration;
@@ -30,6 +47,7 @@ public class GuildInformationName extends AppCompatActivity {
     ImageView imageViewGuildLogo;
     TextView textViewGuildName,textViewDescription,textViewInWar,textViewOnline,
              textViewNombre,textViewMundo,textViewPiad,textViewFounded,textViewActive;
+    String url = "https://api.tibiadata.com/v3/guild/";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -41,7 +59,7 @@ public class GuildInformationName extends AppCompatActivity {
         //respuesta de la pantalla anterior
         intent = getIntent();
         guildName = intent.getStringExtra("nameGuild");
-        imageViewGuildLogo = binding.getRoot().findViewById(R.id.imageViewLogo);
+        imageViewGuildLogo = binding.getRoot().findViewById(R.id.imageViewGuildLogo);
         textViewGuildName = binding.getRoot().findViewById(R.id.textViewGuildName);
         textViewDescription = binding.getRoot().findViewById(R.id.textViewDescription);
         textViewInWar = binding.getRoot().findViewById(R.id.textViewInWar);
@@ -51,7 +69,7 @@ public class GuildInformationName extends AppCompatActivity {
         textViewPiad = binding.getRoot().findViewById(R.id.textViewPiad);
         textViewFounded = binding.getRoot().findViewById(R.id.textViewFounded);
         textViewActive = binding.getRoot().findViewById(R.id.textViewActive);
-
+        Informacion(url, guildName);
     }
 
     @Override
@@ -62,6 +80,57 @@ public class GuildInformationName extends AppCompatActivity {
             return true;
         }
         return super.onOptionsItemSelected(item);
+    }
+
+
+    public void Informacion(String url, String guildName){
+        Retrofit services = new Retrofit.Builder()
+                .baseUrl(url)
+                .addConverterFactory(GsonConverterFactory.create())
+                .build();
+        TibiaAPIServer tibiaAPIServer = services.create(TibiaAPIServer.class);
+        Call<ApiGuildsName> call = tibiaAPIServer.getGuildsInformationName(guildName);
+        call.enqueue(new Callback<ApiGuildsName>() {
+            @SuppressLint("SetTextI18n")
+            @Override
+            public void onResponse(Call<ApiGuildsName> call, Response<ApiGuildsName> response) {
+                if (!response.isSuccessful()) {
+                    System.out.println("Codigo: " + response.code());
+                    return;
+                }
+                ApiGuildsName apiGuildsName = response.body();
+                Guildss guildss = apiGuildsName.getGuilds();
+                GuildName data = guildss.getGuild();
+                Glide.with(getApplicationContext()).load(data.getLogo_url()).asGif().into(imageViewGuildLogo);
+                textViewGuildName.setText(data.getName());
+                textViewDescription.setText(data.getDescription());
+                if (data.getIn_war()){
+                    textViewInWar.setText("Si");
+                } else{
+                    textViewInWar.setText("No");
+                }
+                textViewOnline.setText(data.getPlayers_online()+"/"+data.getMembers_total());
+                if (data.getGuildhalls() != null){
+                    String name = data.getGuildhalls().get(0).getName();
+                    String Mundo = data.getGuildhalls().get(0).getWorld();
+                    String Paid = data.getGuildhalls().get(0).getPaid_until();
+                    textViewNombre.setText(name);
+                    textViewMundo.setText(Mundo);
+                    textViewPiad.setText(Paid);
+                }
+                textViewFounded.setText("Fundada: "+data.getFounded());
+                if (data.getActive()){
+                    textViewActive.setText("Active: Si");
+                } else {
+                    textViewActive.setText("Active: No");
+                }
+            }
+
+            @Override
+            public void onFailure(Call<ApiGuildsName> call, Throwable t) {
+
+            }
+        });
     }
 
 }

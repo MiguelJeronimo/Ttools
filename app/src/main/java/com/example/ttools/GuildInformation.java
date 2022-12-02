@@ -137,7 +137,7 @@ public class GuildInformation extends AppCompatActivity implements AdapterView.O
                         System.out.println(guilds.getActive().size());
                         itemsRecyclerViewGuilds = new ArrayList<>();
                         for (Active active: guilds.getActive()) {
-                            System.out.println("Guild: " + active.getName()+" Descripción: "+active.getDescription());
+                            System.out.println(active.getLogo_url());
                             itemsRecyclerViewGuilds.add(
                                     new ItemsRecyclerViewGuilds(
                                             active.getName(),
