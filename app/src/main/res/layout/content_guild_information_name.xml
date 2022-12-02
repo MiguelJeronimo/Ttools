@@ -12,7 +12,7 @@
 
         <include
             android:id="@+id/include"
-            layout="@layout/recyclerview_header_guilds" />
+            layout="@layout/recyclerview_header_guilds"/>
 
         <TextView
             android:id="@+id/miembros"

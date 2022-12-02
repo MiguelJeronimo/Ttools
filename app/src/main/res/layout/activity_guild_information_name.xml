@@ -20,5 +20,10 @@
 
     </com.google.android.material.appbar.AppBarLayout>
 
+    <include
+
+        layout="@layout/content_guild_information_name"
+ />
+
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

@@ -14,30 +14,30 @@
         app:layout_constraintGuide_percent="0.25"/>
 
     <ImageView
-        android:id="@+id/imageViewCriature"
+        android:id="@+id/imageViewGuildLogo"
         android:layout_width="64dp"
         android:layout_height="64dp"
-        android:layout_marginTop="16dp"
+        android:layout_marginTop="60dp"
         app:layout_constraintEnd_toStartOf="@+id/primera_division"
         app:layout_constraintStart_toStartOf="parent"
-        tools:background="@color/fondo_switch"
-        app:layout_constraintTop_toTopOf="parent">
-    </ImageView>
+        app:layout_constraintTop_toTopOf="parent"
+        tools:background="@color/fondo_switch"></ImageView>
 
     <TextView
         android:id="@+id/textViewGuildName"
         android:layout_width="266dp"
         android:layout_height="wrap_content"
-        android:layout_marginTop="12dp"
+        android:layout_marginTop="60dp"
+        android:text="Xantera Friends Forever"
+        android:textAlignment="textStart"
         android:textColor="@color/leyenda"
         android:textSize="25dp"
         android:textStyle="bold"
-        tools:text="Xantera Friends Forever"
-        android:textAlignment="textStart"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.555"
         app:layout_constraintStart_toStartOf="@+id/primera_division"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+        tools:text="Xantera Friends Forever" />
 
     <TextView
         android:id="@+id/textViewRace"
@@ -111,7 +111,7 @@
         tools:text="Guild House" />
 
     <TextView
-        android:id="@+id/textView25"
+        android:id="@+id/textViewOnline"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="20dp"
@@ -123,7 +123,7 @@
         app:layout_constraintTop_toBottomOf="@+id/textViewDescription" />
 
     <TextView
-        android:id="@+id/textView37"
+        android:id="@+id/textViewInWar"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="20dp"
@@ -139,12 +139,12 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="10dp"
-        android:text="TextView"
+        android:text="Onlines"
         android:textColor="@color/color_degradado"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="@+id/division_enmedio"
-        app:layout_constraintTop_toBottomOf="@+id/textView25"
-        tools:text="Online" />
+        app:layout_constraintTop_toBottomOf="@+id/textViewOnline"
+        />
 
     <TextView
         android:id="@+id/textView38"
@@ -155,7 +155,7 @@
         android:textColor="@color/color_degradado"
         app:layout_constraintEnd_toStartOf="@+id/division_enmedio"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView37"/>
+        app:layout_constraintTop_toBottomOf="@+id/textViewInWar"/>
 
     <TextView
         android:id="@+id/textView28"
@@ -224,7 +224,7 @@
         tools:text="2022-12-23" />
 
     <TextView
-        android:id="@+id/textView19"
+        android:id="@+id/textViewActive"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="20dp"
