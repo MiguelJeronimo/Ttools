@@ -31,7 +31,7 @@
         tools:text="Selur Zaole" />
 
     <TextView
-        android:id="@+id/textViewRace"
+        android:id="@+id/textViewVocation"
         android:layout_width="200dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="5dp"
@@ -56,12 +56,13 @@
         android:id="@+id/textViewRango"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginTop="12dp"
         android:textColor="@color/letras"
-        tools:text="Rango: Eddard"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="@+id/primera_division2"
-        tools:layout_editor_absoluteY="16dp"
-        tools:ignore="MissingConstraints" />
+        app:layout_constraintTop_toTopOf="parent"
+        tools:ignore="MissingConstraints"
+        tools:text="Rango: Eddard" />
 
     <TextView
         android:id="@+id/textViewTitulo"
@@ -83,7 +84,7 @@
         tools:text="Nivel: 202"
         app:layout_constraintEnd_toStartOf="@+id/primera_division2"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textViewRace" />
+        app:layout_constraintTop_toBottomOf="@+id/textViewVocation" />
 
     <TextView
         android:id="@+id/textViewUnido"
@@ -106,7 +107,7 @@
         tools:text="Status: Offline"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textViewRace" />
+        app:layout_constraintTop_toBottomOf="@+id/textViewVocation" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

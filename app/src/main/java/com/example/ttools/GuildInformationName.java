@@ -14,6 +14,10 @@ import com.example.ttools.APISERVER.models.APICriaturesInformation;
 import com.example.ttools.APISERVER.models.GuildInformation.ApiGuildsName;
 import com.example.ttools.APISERVER.models.GuildInformation.GuildName.GuildName;
 import com.example.ttools.APISERVER.models.GuildInformation.GuildName.Guildss;
+import com.example.ttools.APISERVER.models.GuildInformation.GuildName.members.MembersGuild;
+import com.example.ttools.recyclerview.Adapters.AdapterRecyclerViewGuildName;
+import com.example.ttools.recyclerview.Adapters.AdapterRecyclerViewGuildsList;
+import com.example.ttools.recyclerview.itemsRecyclerViewGuildsName;
 import com.google.android.material.snackbar.Snackbar;
 
 import androidx.annotation.NonNull;
@@ -29,8 +33,13 @@ import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
 import androidx.navigation.ui.AppBarConfiguration;
 import androidx.navigation.ui.NavigationUI;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.ttools.databinding.ActivityGuildInformationNameBinding;
+
+import java.util.ArrayList;
+import java.util.List;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -48,6 +57,9 @@ public class GuildInformationName extends AppCompatActivity {
     TextView textViewGuildName,textViewDescription,textViewInWar,textViewOnline,
              textViewNombre,textViewMundo,textViewPiad,textViewFounded,textViewActive;
     String url = "https://api.tibiadata.com/v3/guild/";
+    RecyclerView recyclerView;
+    AdapterRecyclerViewGuildName adapter;
+    List<itemsRecyclerViewGuildsName> itemsRecyclerViewGuildsNames;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -84,6 +96,8 @@ public class GuildInformationName extends AppCompatActivity {
 
 
     public void Informacion(String url, String guildName){
+        recyclerView = (RecyclerView) findViewById(R.id.recyclerViewGuildName);
+        LinearLayoutManager layoutManager = new LinearLayoutManager(this);
         Retrofit services = new Retrofit.Builder()
                 .baseUrl(url)
                 .addConverterFactory(GsonConverterFactory.create())
@@ -123,6 +137,28 @@ public class GuildInformationName extends AppCompatActivity {
                     textViewActive.setText("Active: Si");
                 } else {
                     textViewActive.setText("Active: No");
+                }
+                if (data.getMembers() != null){
+                    itemsRecyclerViewGuildsNames = new ArrayList<>();
+                    for (MembersGuild membersGuild:data.getMembers()) {
+                        itemsRecyclerViewGuildsNames.add(
+                                new itemsRecyclerViewGuildsName(
+                                        membersGuild.getName(),
+                                        membersGuild.getTitle(),
+                                        membersGuild.getRank(),
+                                        membersGuild.getVocation(),
+                                        membersGuild.getLevel(),
+                                        membersGuild.getJoined(),
+                                        membersGuild.getStatus()
+                                )
+                        );
+                        layoutManager.setOrientation(LinearLayoutManager.VERTICAL);
+                        recyclerView.setLayoutManager(layoutManager);
+                        adapter = new AdapterRecyclerViewGuildName(itemsRecyclerViewGuildsNames);
+                        adapter.notifyDataSetChanged();
+                        recyclerView.setHasFixedSize(true);
+                        recyclerView.setAdapter(adapter);
+                    }
                 }
             }
 

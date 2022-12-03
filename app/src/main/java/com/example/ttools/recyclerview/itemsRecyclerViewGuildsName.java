@@ -7,14 +7,16 @@ public class itemsRecyclerViewGuildsName {
     public itemsRecyclerViewGuildsName(
             String name,
             String title,
+            String rank,
             String vocation,
-            int level,
+            String level,
             String joined,
             String status){
         this.name = name;
         this.title = title;
+        this.rank = rank;
         this.vocation = vocation;
-        this.level = level;
+        this.level = Integer.parseInt(level);
         this.joined = joined;
         this.status = status;
     }
@@ -31,8 +33,8 @@ public class itemsRecyclerViewGuildsName {
         return vocation;
     }
 
-    public int getLevel() {
-        return level;
+    public String getLevel() {
+        return String.valueOf(level);
     }
 
     public String getJoined() {

@@ -33,12 +33,12 @@ public class AdapterRecyclerViewGuildName extends RecyclerView.Adapter<AdapterRe
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         holder.txtName.setText(items_guilds_name.get(position).getName());
-        holder.txtTitle.setText(items_guilds_name.get(position).getTitle());
-        holder.txtRank.setText(items_guilds_name.get(position).getRank());
+        holder.txtTitle.setText("Titulo: "+items_guilds_name.get(position).getTitle());
+        holder.txtRank.setText("Rango: "+items_guilds_name.get(position).getRank());
         holder.txtVocation.setText(items_guilds_name.get(position).getVocation());
-        holder.txtLevel.setText(items_guilds_name.get(position).getLevel());
-        holder.txtStatus.setText(items_guilds_name.get(position).getStatus());
-        holder.txtJouned.setText(items_guilds_name.get(position).getJoined());
+        holder.txtLevel.setText("Level: "+String.valueOf(items_guilds_name.get(position).getLevel()));
+        holder.txtStatus.setText("Status: "+items_guilds_name.get(position).getStatus());
+        holder.txtJouned.setText("Unido: "+items_guilds_name.get(position).getJoined());
     }
 
     @Override
@@ -51,9 +51,9 @@ public class AdapterRecyclerViewGuildName extends RecyclerView.Adapter<AdapterRe
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
             txtName = itemView.findViewById(R.id.textViewGuildName);
-            txtTitle = itemView.findViewById(R.id.textViewRace);
+            txtTitle = itemView.findViewById(R.id.textViewTitulo);
             txtRank = itemView.findViewById(R.id.textViewRango);
-            txtVocation = itemView.findViewById(R.id.textViewTitulo);
+            txtVocation = itemView.findViewById(R.id.textViewVocation);
             txtLevel = itemView.findViewById(R.id.textViewLevel);
             txtRank = itemView.findViewById(R.id.textViewRango);
             txtStatus = itemView.findViewById(R.id.textViewStatus);
