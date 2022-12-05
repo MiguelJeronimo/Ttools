@@ -9,7 +9,7 @@ android {
         targetSdkVersion 32
         //VersionCode cambiar cada que vayamos a subir una actualizacion a la playstore
         versionCode 4
-        versionName "1.0"
+        versionName "2.0"
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
     buildTypes {
