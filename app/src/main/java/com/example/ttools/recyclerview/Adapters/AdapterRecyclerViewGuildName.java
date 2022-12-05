@@ -2,6 +2,8 @@ package com.example.ttools.recyclerview.Adapters;
 
 
 
+import android.annotation.SuppressLint;
+import android.graphics.Color;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -14,6 +16,7 @@ import com.example.ttools.R;
 import com.example.ttools.recyclerview.itemsRecyclerViewGuildsName;
 
 import java.util.List;
+import java.util.Objects;
 
 public class AdapterRecyclerViewGuildName extends RecyclerView.Adapter<AdapterRecyclerViewGuildName.ViewHolder> {
     //Creando el arraylist de objetos de los datos del recyclerview Criatures
@@ -30,6 +33,7 @@ public class AdapterRecyclerViewGuildName extends RecyclerView.Adapter<AdapterRe
         return new ViewHolder(vista);
     }
 
+    @SuppressLint("ResourceAsColor")
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         holder.txtName.setText(items_guilds_name.get(position).getName());
@@ -37,6 +41,12 @@ public class AdapterRecyclerViewGuildName extends RecyclerView.Adapter<AdapterRe
         holder.txtRank.setText("Rango: "+items_guilds_name.get(position).getRank());
         holder.txtVocation.setText(items_guilds_name.get(position).getVocation());
         holder.txtLevel.setText("Level: "+String.valueOf(items_guilds_name.get(position).getLevel()));
+        //Validando si el personaje esta online o no
+        if (Objects.equals(items_guilds_name.get(position).getStatus(), "online")){
+            holder.txtStatus.setTextColor(Color.GREEN);
+        } else{
+            holder.txtStatus.setTextColor(Color.parseColor("#9b0000"));
+        }
         holder.txtStatus.setText("Status: "+items_guilds_name.get(position).getStatus());
         holder.txtJouned.setText("Unido: "+items_guilds_name.get(position).getJoined());
     }

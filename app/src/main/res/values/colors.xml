@@ -10,4 +10,5 @@
     <!--#212121 #4A148C-->
     <color name="recyclerview_items_color">#102027</color>
     <color name="color_degradado">#8d8d8d</color>
+    <color name="errores">#9b0000</color>
 </resources>

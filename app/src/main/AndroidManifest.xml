@@ -13,6 +13,15 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity
+            android:name=".Spells_Tibia"
+            android:exported="false"
+            android:label="@string/title_activity_spells_tibia"
+            android:theme="@style/AppTheme.NoActionBar">
+            <meta-data
+                android:name="android.app.lib_name"
+                android:value="" />
+        </activity>
+        <activity
             android:name=".GuildInformationName"
             android:exported="false"
             android:label="@string/title_activity_guild_information_name"
