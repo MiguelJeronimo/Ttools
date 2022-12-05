@@ -7,6 +7,7 @@
     <color name="leyenda">#EEEEEE</color>
     <color name="letras">#fafafa</color>
     <color name="bless_especiales">#03A9F4</color>
-    <color name="recyclerview_items_color">#4A148C</color>
+    <!--#212121 #4A148C-->
+    <color name="recyclerview_items_color">#102027</color>
     <color name="color_degradado">#8d8d8d</color>
 </resources>
