@@ -35,5 +35,9 @@
             android:id="@+id/nd_criaturas"
             android:icon="@drawable/criatures_icon"
             android:title="@string/nd_criaturas" />
+        <item
+            android:id="@+id/nd_spells"
+            android:icon="@drawable/icon_spells"
+            android:title="@string/nd_spells" />
     </group>
 </menu>

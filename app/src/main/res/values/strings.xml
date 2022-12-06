@@ -25,6 +25,7 @@
     <string name="nd_mundos">Mundos</string>
     <string name="nd_criaturas">Criaturas</string>
     <string name="nd_guild">Guilds</string>
+    <string name="nd_spells">Spells</string>
     <string name="title_activity_guild_information_name">Información de la guild</string>
     <string name="title_activity_spells_tibia">Spells_Tibia</string>
 

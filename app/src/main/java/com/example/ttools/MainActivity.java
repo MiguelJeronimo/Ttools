@@ -59,6 +59,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         navigationView.getMenu().findItem(R.id.nd_experiencia_compartida).setOnMenuItemClickListener(this);
         navigationView.getMenu().findItem(R.id.nd_mundos).setOnMenuItemClickListener(this);
         navigationView.getMenu().findItem(R.id.nd_guilds).setOnMenuItemClickListener(this);
+        navigationView.getMenu().findItem(R.id.nd_spells).setOnMenuItemClickListener(this);
 
         /**Instanciaremos los objetos de los componentes**/
         nivel = (EditText)findViewById(R.id.Nivel);
@@ -218,6 +219,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         } else if (menuItem.getItemId() == R.id.nd_guilds){
             Intent guilds = new Intent(this, GuildInformation.class);
             startActivity(guilds);
+            drawerLayout.close();
+        } else if (menuItem.getItemId() == R.id.nd_spells){
+            Intent spellsTibia = new Intent(this, Spells_Tibia.class);
+            startActivity(spellsTibia);
             drawerLayout.close();
         }
         return false;
