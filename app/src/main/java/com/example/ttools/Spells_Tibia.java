@@ -1,5 +1,6 @@
 package com.example.ttools;
 
+import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -135,7 +136,9 @@ public class Spells_Tibia extends AppCompatActivity {
                             id = id.replace(" ","");
                             //convertir ese id en minusculas
                             String id_minusculas = id.toLowerCase();
-                            System.out.println("Id es: "+id_minusculas);
+                            Intent intent = new Intent(Spells_Tibia.this,SpellInformationActivity.class);
+                            intent.putExtra("ID",id_minusculas);
+                            startActivity(intent);
                         }
                     });
                 }

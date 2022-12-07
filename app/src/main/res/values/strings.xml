@@ -17,6 +17,7 @@
     <string name="title_activity_guilds">Guilds</string>
     <string name="title_activity_guild_information_name">Información de la guild</string>
     <string name="title_activity_spells_tibia">Spells</string>
+    <string name="title_activity_spell_information">Spell Information</string>
     <!-- to toggle the open close button of the navigation drawer -->
     <string name="nav_open">Open</string>
     <string name="nav_close">Close</string>
