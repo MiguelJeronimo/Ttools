@@ -42,7 +42,7 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
-        android:id="@+id/textViewRace"
+        android:id="@+id/textViewFormula"
         android:layout_width="300dp"
         android:layout_height="21dp"
         android:paddingLeft="10dp"
@@ -55,7 +55,7 @@
         app:layout_constraintTop_toBottomOf="@+id/textViewName" />
 
     <TextView
-        android:id="@+id/textViewNivel"
+        android:id="@+id/textViewNivvel"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="10dp"
@@ -63,7 +63,7 @@
         android:textColor="@color/color_degradado"
         app:layout_constraintEnd_toStartOf="@+id/primera_division"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textViewRace" />
+        app:layout_constraintTop_toBottomOf="@+id/textViewFormula" />
 
     <TextView
         android:id="@+id/textViewMana"
@@ -74,10 +74,10 @@
         android:textColor="@color/color_degradado"
         app:layout_constraintEnd_toStartOf="@+id/primera_division2"
         app:layout_constraintStart_toStartOf="@+id/primera_division"
-        app:layout_constraintTop_toBottomOf="@+id/textViewRace" />
+        app:layout_constraintTop_toBottomOf="@+id/textViewFormula" />
 
     <TextView
-        android:id="@+id/textView25"
+        android:id="@+id/textViewPrecio"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
@@ -96,7 +96,7 @@
         android:text="Instance"
         app:layout_constraintEnd_toStartOf="@+id/primera_division3"
         app:layout_constraintStart_toStartOf="@+id/primera_division2"
-        app:layout_constraintTop_toBottomOf="@+id/textViewRace" />
+        app:layout_constraintTop_toBottomOf="@+id/textViewFormula" />
 
     <TextView
         android:id="@+id/textViewGroup"
@@ -107,7 +107,7 @@
         android:text="Attack"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="@+id/primera_division3"
-        app:layout_constraintTop_toBottomOf="@+id/textViewRace" />
+        app:layout_constraintTop_toBottomOf="@+id/textViewFormula" />
 
     <TextView
         android:id="@+id/textViewSpell_Id"
