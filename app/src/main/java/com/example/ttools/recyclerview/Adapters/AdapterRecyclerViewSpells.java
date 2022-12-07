@@ -11,10 +11,13 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.ttools.R;
 import com.example.ttools.recyclerview.ItemsRecyclerViewSpells;
 
+import java.text.DecimalFormat;
 import java.util.List;
 
 public class AdapterRecyclerViewSpells extends RecyclerView.Adapter<AdapterRecyclerViewSpells.ViewHolder> {
     List<ItemsRecyclerViewSpells> items_spells;
+    // para formatear numeros a formato de dinero.
+    DecimalFormat decimalFormat = new DecimalFormat("###,###.00");
 
     public AdapterRecyclerViewSpells(List<ItemsRecyclerViewSpells> items_spells){
         this.items_spells = items_spells;
@@ -23,7 +26,7 @@ public class AdapterRecyclerViewSpells extends RecyclerView.Adapter<AdapterRecyc
     @NonNull
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View vista = LayoutInflater.from(parent.getContext()).inflate(R.layout.activity_spells_tibia,parent,false);
+        View vista = LayoutInflater.from(parent.getContext()).inflate(R.layout.recyclerview_spells_tibia,parent,false);
         return new ViewHolder(vista);
     }
 
@@ -32,9 +35,9 @@ public class AdapterRecyclerViewSpells extends RecyclerView.Adapter<AdapterRecyc
         final ItemsRecyclerViewSpells itemsRecyclerViewSpells = (ItemsRecyclerViewSpells) items_spells.get(position);
         holder.lbName.setText(itemsRecyclerViewSpells.getNombre());
         holder.lbFormula.setText(itemsRecyclerViewSpells.getFormula());
-        holder.lbNivel.setText(itemsRecyclerViewSpells.getLevel());
-        holder.lbMana.setText(itemsRecyclerViewSpells.getMana());
-        holder.lbPrecio.setText(itemsRecyclerViewSpells.getPrecio());
+        holder.lbNivel.setText("Level: "+itemsRecyclerViewSpells.getLevel());
+        holder.lbMana.setText("Mana: "+itemsRecyclerViewSpells.getMana());
+        holder.lbPrecio.setText(decimalFormat.format(Integer.parseInt(itemsRecyclerViewSpells.getPrecio())));
         holder.lbType.setText(itemsRecyclerViewSpells.getTipo());
         holder.lbGrupo.setText(itemsRecyclerViewSpells.getGrupo());
         holder.lbSpell_Id.setText(itemsRecyclerViewSpells.getSpellId());
