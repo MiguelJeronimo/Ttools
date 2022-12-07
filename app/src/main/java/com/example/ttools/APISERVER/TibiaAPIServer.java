@@ -2,6 +2,7 @@ package com.example.ttools.APISERVER;
 
 import com.example.ttools.APISERVER.models.APICriatures;
 import com.example.ttools.APISERVER.models.APICriaturesInformation;
+import com.example.ttools.APISERVER.models.ApiSpells;
 import com.example.ttools.APISERVER.models.CharactersInformation.APIServicesTibia;
 import com.example.ttools.APISERVER.models.GuildInformation.ApiGuilds;
 import com.example.ttools.APISERVER.models.GuildInformation.ApiGuildsName;
@@ -29,5 +30,8 @@ public interface TibiaAPIServer {
 
     @GET("{name}")
     Call<ApiGuildsName> getGuildsInformationName(@Path("name") String name);
-    
+
+    @GET("spells")
+    Call<ApiSpells> getSpells();
+
 }

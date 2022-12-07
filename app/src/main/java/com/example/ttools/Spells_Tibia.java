@@ -16,6 +16,7 @@ import com.example.ttools.databinding.ActivitySpellsTibiaBinding;
 public class Spells_Tibia extends AppCompatActivity {
 
     private ActivitySpellsTibiaBinding binding;
+    String url = "https://api.tibiadata.com/v3/";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
