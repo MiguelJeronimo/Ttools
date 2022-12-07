@@ -7,25 +7,14 @@
     android:background="@color/colorPrimary"
     app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
-    <Spinner
-        android:id="@+id/spinner_spells"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
-        android:backgroundTint="@color/leyenda"
-        android:popupBackground="@color/colorPrimary"
-        app:layout_constraintTop_toTopOf="parent"
-        android:layout_margin="10dp"
-        tools:layout_editor_absoluteX="0dp" />
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recyclerSpells"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_marginTop="50dp"
         android:clickable="true"
         android:focusable="true"
-        app:layout_constraintTop_toTopOf="@id/spinner_spells"
+        app:layout_constraintTop_toTopOf="parent"
         tools:listitem="@layout/recyclerview_spells_tibia" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
