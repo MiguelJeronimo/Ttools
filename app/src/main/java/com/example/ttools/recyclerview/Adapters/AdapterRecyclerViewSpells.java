@@ -38,6 +38,7 @@ public class AdapterRecyclerViewSpells extends RecyclerView.Adapter<AdapterRecyc
         holder.lbType.setText(itemsRecyclerViewSpells.getTipo());
         holder.lbGrupo.setText(itemsRecyclerViewSpells.getGrupo());
         holder.lbSpell_Id.setText(itemsRecyclerViewSpells.getSpellId());
+        holder.lbSpell_Id.setVisibility(View.INVISIBLE);
         holder.lbPremium.setText(itemsRecyclerViewSpells.getPremium());
 
     }
