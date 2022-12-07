@@ -14,19 +14,30 @@ import com.example.ttools.recyclerview.ItemsRecyclerViewSpells;
 import java.text.DecimalFormat;
 import java.util.List;
 
-public class AdapterRecyclerViewSpells extends RecyclerView.Adapter<AdapterRecyclerViewSpells.ViewHolder> {
+public class AdapterRecyclerViewSpells extends RecyclerView.Adapter<AdapterRecyclerViewSpells.ViewHolder> implements View.OnClickListener {
     List<ItemsRecyclerViewSpells> items_spells;
     // para formatear numeros a formato de dinero.
     DecimalFormat decimalFormat = new DecimalFormat("###,###.00");
+    private View.OnClickListener listener;
+    public void setOnClickListener(View.OnClickListener listener){this.listener=listener;}
+
+    @Override
+    public void onClick(View view) {
+        if (listener!=null){
+            listener.onClick(view);
+        }
+    }
 
     public AdapterRecyclerViewSpells(List<ItemsRecyclerViewSpells> items_spells){
         this.items_spells = items_spells;
     }
 
+
     @NonNull
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View vista = LayoutInflater.from(parent.getContext()).inflate(R.layout.recyclerview_spells_tibia,parent,false);
+        vista.setOnClickListener(this);
         return new ViewHolder(vista);
     }
 

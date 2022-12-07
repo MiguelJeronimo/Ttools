@@ -8,7 +8,9 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.LinearLayout;
+import android.widget.Toast;
 
 import com.example.ttools.APISERVER.TibiaAPIServer;
 import com.example.ttools.APISERVER.models.ApiSpells;
@@ -20,6 +22,7 @@ import com.example.ttools.recyclerview.ItemsRecyclerViewSpells;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -122,12 +125,25 @@ public class Spells_Tibia extends AppCompatActivity {
                     adapter.notifyDataSetChanged();
                     recyclerView.hasFixedSize();
                     recyclerView.setAdapter(adapter);
+                    adapter.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View view) {
+                            String id = itemsRecyclerViewSpellsList.get(recyclerView.getChildAdapterPosition(view)).getSpellId();
+                            //para el caso de apprenticestrike, para quietar la 's y el espacio
+                            id = id.replace("'s ","");
+                            //quitar los espacios en blanco y unir los caracteres
+                            id = id.replace(" ","");
+                            //convertir ese id en minusculas
+                            String id_minusculas = id.toLowerCase();
+                            System.out.println("Id es: "+id_minusculas);
+                        }
+                    });
                 }
             }
 
             @Override
             public void onFailure(Call<ApiSpells> call, Throwable t) {
-
+                Toast.makeText(getApplicationContext(), t.getMessage(), Toast.LENGTH_SHORT).show();
             }
         });
     }
