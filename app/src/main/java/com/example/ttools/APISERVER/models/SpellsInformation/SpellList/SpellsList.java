@@ -14,6 +14,36 @@ public class SpellsList {
     private boolean type_rune;
     private boolean premium_only;
 
+    public SpellsList() {}
+
+    public SpellsList(
+            String formula,
+            String level,
+            String mana,
+            String price,
+            boolean group_attack,
+            boolean group_healing,
+            boolean group_support,
+            boolean type_instant,
+            boolean type_rune,
+            boolean premium_only) {
+
+        this.formula=formula;
+        this.level=level;
+        this.mana=mana;
+        this.price=price;
+        this.group_attack=group_attack;
+        this.group_healing=group_healing;
+        this.group_support=group_support;
+        this.type_instant=type_instant;
+        this.type_rune=type_rune;
+        this.premium_only=premium_only;
+    }
+
+    public SpellsList(String name, String spell_id) {
+        this.name=name;
+        this.spell_id=spell_id;
+    }
 
     public String getName() {
         return name;
