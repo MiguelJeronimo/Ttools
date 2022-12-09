@@ -131,11 +131,19 @@ public class Spells_Tibia extends AppCompatActivity {
                         public void onClick(View view) {
                             String id = itemsRecyclerViewSpellsList.get(recyclerView.getChildAdapterPosition(view)).getSpellId();
                             //para el caso de apprenticestrike, para quietar la 's y el espacio
-                            id = id.replace("'s ","");
+                            //id = id.replace("'s ","");
+                            String id1 = id.replace("'s","s");
+                            String id2 = id1;
                             //quitar los espacios en blanco y unir los caracteres
-                            id = id.replace(" ","");
+                            String id3 = id2.replace(" ","");
                             //convertir ese id en minusculas
-                            String id_minusculas = id.toLowerCase();
+                            String id_minusculas = null;
+                             id_minusculas = id3.toLowerCase();
+                            String ids= id_minusculas;
+                            if (ids.equals("apprenticesstrike")){
+                                id = id.replace("'s ","");
+                                id_minusculas = id.toLowerCase();
+                            }
                             Intent intent = new Intent(Spells_Tibia.this,SpellInformationActivity.class);
                             intent.putExtra("ID",id_minusculas);
                             startActivity(intent);
