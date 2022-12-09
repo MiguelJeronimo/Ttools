@@ -4,6 +4,10 @@
         android:id="@+id/group1"
         android:checkableBehavior="single">
         <item
+            android:id="@+id/nd_bless"
+            android:icon="@drawable/icon_bless"
+            android:title="@string/nd_bless" />
+        <item
             android:id="@+id/nd_character"
             android:icon="@drawable/character_icon"
             android:title="@string/nd_character" />

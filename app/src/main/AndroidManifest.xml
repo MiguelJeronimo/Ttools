@@ -13,6 +13,15 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity
+            android:name=".Blessings"
+            android:exported="false"
+            android:label="@string/title_activity_blessings"
+            android:theme="@style/AppTheme.NoActionBar">
+            <meta-data
+                android:name="android.app.lib_name"
+                android:value="" />
+        </activity>
+        <activity
             android:name=".SpellInformationActivity"
             android:exported="false"
             android:label="@string/title_activity_spell_information"

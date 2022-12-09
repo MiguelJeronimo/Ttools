@@ -1,0 +1,318 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:background="@color/colorPrimary"
+    app:layout_behavior="@string/appbar_scrolling_view_behavior">
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        tools:ignore="MissingConstraints"
+        tools:layout_editor_absoluteX="71dp"
+        tools:layout_editor_absoluteY="16dp">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingBottom="30dp">
+
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/layoutNivel"
+                android:layout_width="match_parent"
+                android:layout_height="59dp"
+                android:layout_margin="5dp"
+                android:layout_marginTop="30dp"
+                android:hint="Nivel"
+                android:textColorHint="@android:color/darker_gray"
+                app:boxBackgroundColor="@color/leyenda"
+                app:boxStrokeColor="@color/letras"
+                app:helperTextTextColor="@color/leyenda"
+                app:hintTextColor="@color/leyenda"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintEnd_toStartOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/Nivel"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:backgroundTint="@android:color/holo_purple"
+                    android:freezesText="false"
+                    android:inputType="number"
+                    android:numeric="integer"
+                    android:textAllCaps="false"
+                    android:textColor="@color/leyenda"
+                    android:textColorLink="@color/fondo_switch"
+                    android:textCursorDrawable="@android:color/holo_purple"
+                    android:textIsSelectable="false"
+                    app:layout_constraintTop_toBottomOf="@+id/textView"
+                    tools:layout_editor_absoluteX="4dp">
+
+                </com.google.android.material.textfield.TextInputEditText>
+
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <Button
+                android:id="@+id/calcular"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="5dp"
+                android:layout_marginTop="52dp"
+                android:layout_marginEnd="4dp"
+                android:backgroundTint="#6A1B9A"
+                android:elevation="@dimen/fab_margin"
+                android:foregroundTint="@color/colorAccent"
+                android:text="Calcular"
+                android:textColor="@color/leyenda"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/layoutNivel">
+
+            </Button>
+
+
+            <TextView
+                android:id="@+id/spiritual"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="28dp"
+                android:textColor="@color/letras"
+                android:textSize="34dp"
+                app:layout_constraintEnd_toStartOf="@+id/guideline2"
+                app:layout_constraintHorizontal_bias="0.526"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/calcular" />
+
+            <TextView
+                android:id="@+id/Embrace"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="28dp"
+                android:textColor="@color/letras"
+                android:textSize="34dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="@+id/guideline2"
+                app:layout_constraintTop_toBottomOf="@+id/calcular" />
+
+            <TextView
+                android:id="@+id/lbspiritual"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:text="Spiritual"
+                android:textColor="@color/letras"
+                app:layout_constraintEnd_toStartOf="@+id/guideline2"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/spiritual" />
+
+            <TextView
+                android:id="@+id/lbEmbrace"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:text="Embrace"
+                android:textColor="@color/letras"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="@+id/guideline2"
+                app:layout_constraintTop_toBottomOf="@+id/Embrace" />
+
+            <TextView
+                android:id="@+id/Suns"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="28dp"
+                android:textColor="@color/letras"
+                android:textSize="34dp"
+                app:layout_constraintEnd_toStartOf="@+id/guideline2"
+                app:layout_constraintHorizontal_bias="0.526"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/lbspiritual" />
+
+            <TextView
+                android:id="@+id/Solicitude"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="28dp"
+                android:textColor="@color/letras"
+                android:textSize="34dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="@+id/guideline2"
+                app:layout_constraintTop_toBottomOf="@+id/lbEmbrace" />
+
+            <TextView
+                android:id="@+id/lbSuns"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:text="Suns"
+                android:textColor="@color/letras"
+                app:layout_constraintEnd_toStartOf="@+id/guideline2"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/Suns" />
+
+            <TextView
+                android:id="@+id/lbSolitude"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:text="Solitude"
+                android:textColor="@color/letras"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="@+id/guideline2"
+                app:layout_constraintTop_toBottomOf="@+id/Solicitude" />
+
+            <TextView
+                android:id="@+id/Phoenix"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="28dp"
+                android:textColor="@color/letras"
+                android:textSize="34dp"
+                app:layout_constraintEnd_toStartOf="@+id/guideline2"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/lbSuns" />
+
+            <TextView
+                android:id="@+id/Twits"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="28dp"
+                android:textColor="@color/letras"
+                android:textSize="34dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="@+id/guideline2"
+                app:layout_constraintTop_toBottomOf="@+id/lbSolitude" />
+
+            <TextView
+                android:id="@+id/textView12"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:text="Phoenix"
+                android:textColor="@color/letras"
+                app:layout_constraintEnd_toStartOf="@+id/guideline2"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/Phoenix" />
+
+            <TextView
+                android:id="@+id/textView13"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:text="Twits of Fate"
+                android:textColor="@color/letras"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="@+id/guideline2"
+                app:layout_constraintTop_toBottomOf="@+id/Twits" />
+
+            <Switch
+                android:id="@+id/switch1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
+                android:foregroundTint="@android:color/holo_purple"
+                android:text=""
+                android:theme="@style/SwitchCompatTheme"
+                android:trackTint="@android:color/holo_purple"
+                app:layout_constraintEnd_toStartOf="@+id/guideline2"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/textView12" />
+
+            <Switch
+                android:id="@+id/switch2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
+                android:text=""
+                android:theme="@style/SwitchCompatTheme"
+                android:trackTint="@android:color/holo_purple"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.484"
+                app:layout_constraintStart_toStartOf="@+id/guideline2"
+                app:layout_constraintTop_toBottomOf="@+id/textView13"
+                tools:checked="false" />
+
+            <TextView
+                android:id="@+id/Heart_mountain"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="15dp"
+                android:textColor="@color/bless_especiales"
+                android:textSize="34dp"
+                android:textStyle="bold"
+                app:layout_constraintEnd_toStartOf="@+id/guideline2"
+                app:layout_constraintHorizontal_bias="0.508"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/switch1" />
+
+            <TextView
+                android:id="@+id/Blood_moutain"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="15dp"
+                android:textColor="@color/bless_especiales"
+                android:textSize="34dp"
+                android:textStyle="bold"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="@+id/guideline2"
+                app:layout_constraintTop_toBottomOf="@+id/switch2" />
+
+            <TextView
+                android:id="@+id/lbHeart_mountain"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:text="Heart Mountain"
+                android:textColor="@color/letras"
+                app:layout_constraintEnd_toStartOf="@+id/guideline2"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/Heart_mountain" />
+
+            <TextView
+                android:id="@+id/lbBlood_moutain"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:text="Blood Moutain"
+                android:textColor="@color/letras"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="@+id/guideline2"
+                app:layout_constraintTop_toBottomOf="@+id/Blood_moutain" />
+
+            <TextView
+                android:id="@+id/textView20"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="28dp"
+                android:text="Total:"
+                android:textColor="@color/letras"
+                android:textSize="34dp"
+                app:layout_constraintEnd_toStartOf="@+id/guideline2"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/lbHeart_mountain" />
+
+            <TextView
+                android:id="@+id/Total"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="28dp"
+                android:text=""
+                android:textColor="@color/letras"
+                android:textSize="34dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="@+id/guideline2"
+                app:layout_constraintTop_toBottomOf="@+id/lbBlood_moutain" />
+
+            <androidx.constraintlayout.widget.Guideline
+                android:id="@+id/guideline2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                app:layout_constraintGuide_percent="0.5" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </ScrollView>
+</androidx.constraintlayout.widget.ConstraintLayout>

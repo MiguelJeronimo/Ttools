@@ -9,6 +9,7 @@
 
     <string name="hello_first_fragment">Hello first fragment</string>
     <string name="hello_second_fragment">Hello second fragment. Arg: %1$s</string>
+    <string name="title_activity_blessings">Blessings</string>
     <string name="title_activity_characters">Characters</string>
     <string name="title_activity_stamina">Stamina</string>
     <string name="title_activity_mundos">Mundos</string>
@@ -29,6 +30,7 @@
     <string name="nd_criaturas">Criaturas</string>
     <string name="nd_guild">Guilds</string>
     <string name="nd_spells">Spells</string>
+    <string name="nd_bless">Blessings</string>
 
 
 
