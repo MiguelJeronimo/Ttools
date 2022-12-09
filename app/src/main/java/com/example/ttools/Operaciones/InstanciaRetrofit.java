@@ -1,15 +1,19 @@
 package com.example.ttools.Operaciones;
 
 
+import retrofit2.Converter;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
+import retrofit2.converter.scalars.ScalarsConverterFactory;
 
 public class InstanciaRetrofit {
-    private static Retrofit retrofit = null;
-    public static Retrofit InstanciaRetrofit(String url){
+    public Retrofit retrofit = null;
+    public Retrofit getRetrofit(String url){
        if(retrofit==null){
            retrofit = new Retrofit.Builder().
                    baseUrl(url)
+                   //para traerme data de la api en texto plano
+                   .addConverterFactory(ScalarsConverterFactory.create())
                    .addConverterFactory(GsonConverterFactory.create())
                    .build();
        }

@@ -3,6 +3,10 @@ package com.example.ttools;
 import android.content.Intent;
 import android.os.Bundle;
 
+import com.bumptech.glide.Glide;
+import com.example.ttools.APISERVER.TibiaAPIServer;
+import com.example.ttools.APISERVER.models.Rashid;
+import com.example.ttools.Operaciones.InstanciaRetrofit;
 import com.example.ttools.Operaciones.calcularBlessings;
 import com.google.android.material.navigation.NavigationView;
 
@@ -16,11 +20,16 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.Switch;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import java.text.DecimalFormat;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener, MenuItem.OnMenuItemClickListener {
     /**
@@ -30,6 +39,11 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     ActionBarDrawerToggle actionBarDrawerToggle;
     NavigationView navigationView;
 
+    ImageView imgRashid;
+    TextView lbRashid;
+    String url = "https://api.tibialabs.com/v2/";
+    String url_rashid_image = "https://raw.githubusercontent.com/MiguelJeronimo/TtoolsDesktop/main/src/img/rashid.gif";
+    InstanciaRetrofit servicio = new InstanciaRetrofit();
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -54,6 +68,29 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         navigationView.getMenu().findItem(R.id.nd_spells).setOnMenuItemClickListener(this);
         navigationView.getMenu().findItem(R.id.nd_bless).setOnMenuItemClickListener(this);
 
+        imgRashid = findViewById(R.id.imageViewRashid);
+        lbRashid = findViewById(R.id.textViewRashid);
+        llenarRashid(url);
+    }
+
+    public void llenarRashid(String url){
+        TibiaAPIServer tibiaAPIServer = servicio.getRetrofit(url).create(TibiaAPIServer.class);
+        Call<String> call = tibiaAPIServer.getRashidLocalitation();
+        call.enqueue(new Callback<String>() {
+            @Override
+            public void onResponse(Call<String> call, Response<String> response) {
+                if (response.isSuccessful()){
+                    lbRashid.setText(response.body());
+                    Glide.with(getApplicationContext()).load(url_rashid_image).asGif().into(imgRashid);
+
+                }
+            }
+
+            @Override
+            public void onFailure(Call<String> call, Throwable t) {
+                System.out.println("MENSAJE"+t.getMessage());
+            }
+        });
     }
 
 
