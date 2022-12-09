@@ -26,7 +26,7 @@
                 app:layout_constraintGuide_percent="0.25" />
 
             <ImageView
-                android:id="@+id/imageViewGuildLogo"
+                android:id="@+id/imageViewSpellLogo"
                 android:layout_width="64dp"
                 android:layout_height="64dp"
                 android:layout_marginTop="60dp"

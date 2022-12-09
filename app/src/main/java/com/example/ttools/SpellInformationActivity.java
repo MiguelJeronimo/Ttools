@@ -1,12 +1,15 @@
 package com.example.ttools;
 
 import android.content.Intent;
+import android.graphics.Color;
+import android.graphics.Typeface;
 import android.os.Bundle;
+import android.view.Gravity;
 import android.view.MenuItem;
+import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -17,6 +20,7 @@ import com.example.ttools.APISERVER.models.ApiSpellsInformation;
 import com.example.ttools.APISERVER.models.SpellsInformation.SpellList.Spell;
 import com.example.ttools.APISERVER.models.SpellsInformation.Spells;
 import com.example.ttools.APISERVER.models.SpellsInformation.spell_information.Spell_Information;
+import com.example.ttools.APISERVER.models.SpellsInformation.spell_information.rune_information.rune_information;
 import com.example.ttools.databinding.ActivitySpellInformationBinding;
 
 import retrofit2.Call;
@@ -45,7 +49,7 @@ public class SpellInformationActivity extends AppCompatActivity {
         getSupportActionBar().setDisplayHomeAsUpEnabled(true); //Aparicion del boton regresar en el action bar
         intent = getIntent();
         id_spell = intent.getStringExtra("ID");
-        imgLogo = findViewById(R.id.imageViewGuildLogo);
+        imgLogo = findViewById(R.id.imageViewSpellLogo);
         linearLayoutVocation = findViewById(R.id.linearLayoutVocation);
         linearLayoutProfeciones = findViewById(R.id.linearLayoutProfeciones);
         linearLayoutCitys = findViewById(R.id.linearLayoutCitys);
@@ -77,6 +81,10 @@ public class SpellInformationActivity extends AppCompatActivity {
     }
 
     public void infoSpells(String url, String id_spell){
+        linearLayoutCitys = findViewById(R.id.linearLayoutCitys);
+        linearLayoutProfeciones = findViewById(R.id.linearLayoutProfeciones);
+        linearLayoutVocation = findViewById(R.id.linearLayoutVocation);
+        linearLayoutVocacionesPermitidas = findViewById(R.id.linearLayoutVocacionesPermitidas);
         Retrofit services = new Retrofit.Builder()
                 .baseUrl(url)
                 .addConverterFactory(GsonConverterFactory.create())
@@ -89,7 +97,7 @@ public class SpellInformationActivity extends AppCompatActivity {
                 ApiSpellsInformation information = response.body();
                 Spells spells = information.getSpells();
                 Spell spell = spells.getSpell();
-                Glide.with(getApplicationContext()).load(spell.getImage_url()).asGif().into(imgLogo);
+                Glide.with(getApplicationContext()).load(spell.getImage_url()).into(imgLogo);
                 textViewSpellName.setText(spell.getName());
                 textViewDescription.setText(spell.getDescription());
                 //dentro de spell_information en el api
@@ -131,7 +139,68 @@ public class SpellInformationActivity extends AppCompatActivity {
                 textViewAmount.setText(String.valueOf(spell_information.getAmount()));
                 textViewNivel.setText(String.valueOf(spell_information.getLevel()));
                 textViewMana.setText(String.valueOf(spell_information.getMana()));
+                if (spell_information.getVocation() != null){
+                    TextView txtVocation = new TextView(SpellInformationActivity.this);
+                    txtVocation.setText("Vocation");
+                    txtVocation.setTextColor(getResources().getColor(R.color.leyenda));
+                    txtVocation.setTextSize(32);
+                    txtVocation.setTypeface(null, Typeface.BOLD);
+                    txtVocation.setLayoutParams(new LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT));
+                    txtVocation.setGravity(Gravity.CENTER);
+                    linearLayoutVocation.addView(txtVocation);
+                    for (String vocations:spell_information.getVocation()) {
+                        txtVocation = new TextView(SpellInformationActivity.this);
+                        txtVocation.setText(vocations);
+                        txtVocation.setTextColor(getResources().getColor(R.color.leyenda));
+                        txtVocation.setTextSize(15);
+                        txtVocation.setTextColor(Color.parseColor("#CE93D8"));
+                        txtVocation.setTypeface(null, Typeface.ITALIC);
+                        txtVocation.setLayoutParams(new LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT));
+                        linearLayoutVocation.addView(txtVocation);
+                    }
+                }
+                if (spell_information.getCity()!=null){
+                    TextView txtCitys = new TextView(SpellInformationActivity.this);
+                    txtCitys.setText("Citys");
+                    txtCitys.setTextColor(getResources().getColor(R.color.leyenda));
+                    txtCitys.setTextSize(32);
+                    txtCitys.setTypeface(null, Typeface.BOLD);
+                    txtCitys.setLayoutParams(new LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT));
+                    txtCitys.setGravity(Gravity.CENTER);
+                    linearLayoutCitys.addView(txtCitys);
+                    for (String citys:spell_information.getCity()) {
+                        txtCitys = new TextView(SpellInformationActivity.this);
+                        txtCitys.setText(citys);
+                        txtCitys.setTextColor(getResources().getColor(R.color.leyenda));
+                        txtCitys.setTextSize(15);
+                        txtCitys.setTextColor(Color.parseColor("#CE93D8"));
+                        txtCitys.setTypeface(null, Typeface.ITALIC);
+                        txtCitys.setLayoutParams(new LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT));
+                        linearLayoutCitys.addView(txtCitys);
+                    }
+                }
 
+                rune_information rune_information = spell.getRune_information();
+                if (rune_information.getVocation()!=null){
+                    TextView txtVocacionesPermitidas = new TextView(SpellInformationActivity.this);
+                    txtVocacionesPermitidas.setText("Vocations permited");
+                    txtVocacionesPermitidas.setTextColor(getResources().getColor(R.color.leyenda));
+                    txtVocacionesPermitidas.setTextSize(32);
+                    txtVocacionesPermitidas.setTypeface(null, Typeface.BOLD);
+                    txtVocacionesPermitidas.setLayoutParams(new LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT));
+                    txtVocacionesPermitidas.setGravity(Gravity.CENTER);
+                    linearLayoutVocacionesPermitidas.addView(txtVocacionesPermitidas);
+                    for (String vocaciones_permitidas:rune_information.getVocation()) {
+                        txtVocacionesPermitidas = new TextView(SpellInformationActivity.this);
+                        txtVocacionesPermitidas.setText(vocaciones_permitidas);
+                        txtVocacionesPermitidas.setTextColor(getResources().getColor(R.color.leyenda));
+                        txtVocacionesPermitidas.setTextSize(15);
+                        txtVocacionesPermitidas.setTextColor(Color.parseColor("#CE93D8"));
+                        txtVocacionesPermitidas.setTypeface(null, Typeface.ITALIC);
+                        txtVocacionesPermitidas.setLayoutParams(new LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT));
+                        linearLayoutVocacionesPermitidas.addView(txtVocacionesPermitidas);
+                    }
+                }
             }
 
             @Override

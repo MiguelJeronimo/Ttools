@@ -1,11 +1,17 @@
 package com.example.ttools.APISERVER.models.SpellsInformation.SpellList;
 
 import com.example.ttools.APISERVER.models.SpellsInformation.spell_information.Spell_Information;
+import com.example.ttools.APISERVER.models.SpellsInformation.spell_information.rune_information.rune_information;
 
 public class Spell extends SpellsList{
     String image_url;
     String description;
     Spell_Information spell_information;
+    rune_information rune_information;
+
+    public rune_information getRune_information() {
+        return rune_information;
+    }
 
     public Spell_Information getSpell_information() {
         return spell_information;
