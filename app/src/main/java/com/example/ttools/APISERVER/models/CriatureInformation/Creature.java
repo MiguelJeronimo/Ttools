@@ -1,5 +1,7 @@
 package com.example.ttools.APISERVER.models.CriatureInformation;
 
+import com.example.ttools.APISERVER.models.criatures.Boosted;
+
 import java.util.ArrayList;
 
 public class Creature {

@@ -24,6 +24,9 @@ public interface TibiaAPIServer {
     @GET ("creatures")
     Call<APICriatures> getCreatures();
 
+    @GET("boostablebosses")
+    Call<APICriatures> getBooted();
+
     @GET("{race}")
     Call<APICriaturesInformation> getCriatureInformation(@Path("race") String race);
 

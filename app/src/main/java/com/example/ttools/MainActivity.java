@@ -1,13 +1,15 @@
 package com.example.ttools;
 
 import android.content.Intent;
+import android.os.AsyncTask;
 import android.os.Bundle;
 
 import com.bumptech.glide.Glide;
 import com.example.ttools.APISERVER.TibiaAPIServer;
-import com.example.ttools.APISERVER.models.Rashid;
+import com.example.ttools.APISERVER.models.APICriatures;
+import com.example.ttools.APISERVER.models.criatures.BoostableBosses;
+import com.example.ttools.APISERVER.models.criatures.Criatures;
 import com.example.ttools.Operaciones.InstanciaRetrofit;
-import com.example.ttools.Operaciones.calcularBlessings;
 import com.google.android.material.navigation.NavigationView;
 
 import androidx.appcompat.app.ActionBarDrawerToggle;
@@ -18,14 +20,8 @@ import androidx.drawerlayout.widget.DrawerLayout;
 import android.view.View;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.widget.Button;
-import android.widget.EditText;
 import android.widget.ImageView;
-import android.widget.Switch;
 import android.widget.TextView;
-import android.widget.Toast;
-
-import java.text.DecimalFormat;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -39,11 +35,14 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     ActionBarDrawerToggle actionBarDrawerToggle;
     NavigationView navigationView;
 
-    ImageView imgRashid;
-    TextView lbRashid;
+    ImageView imgRashid, imgBossCreature, imgBossBosstable;
+    TextView lbRashid, textBossCreature,lbBossBosstable;
     String url = "https://api.tibialabs.com/v2/";
     String url_rashid_image = "https://raw.githubusercontent.com/MiguelJeronimo/TtoolsDesktop/main/src/img/rashid.gif";
+    String url_creature_boss = "https://api.tibiadata.com/v3/";
+    String url_boosted_boss = "https://api.tibiadata.com/v3/";
     InstanciaRetrofit servicio = new InstanciaRetrofit();
+    Asincronia asincronia = new Asincronia();
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -70,7 +69,12 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         imgRashid = findViewById(R.id.imageViewRashid);
         lbRashid = findViewById(R.id.textViewRashid);
-        llenarRashid(url);
+        imgBossCreature = findViewById(R.id.BossCreature);
+        textBossCreature = findViewById(R.id.textBossCreature);
+        imgBossBosstable = findViewById(R.id.BossBosstable);
+        lbBossBosstable = findViewById(R.id.lbBossBosstable);
+        //ejecutando los multiple hilos para el consumo de api
+        asincronia.execute();
     }
 
     public void llenarRashid(String url){
@@ -82,7 +86,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 if (response.isSuccessful()){
                     lbRashid.setText(response.body());
                     Glide.with(getApplicationContext()).load(url_rashid_image).asGif().into(imgRashid);
-
                 }
             }
 
@@ -92,6 +95,78 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             }
         });
     }
+
+    public void creatureBoss(String url_creature_boss){
+        TibiaAPIServer tibiaAPIServer =  servicio.getRetrofit(url_creature_boss).create(TibiaAPIServer.class);
+        Call<APICriatures> call = tibiaAPIServer.getCreatures();
+        call.enqueue(new Callback<APICriatures>() {
+            @Override
+            public void onResponse(Call<APICriatures> call, Response<APICriatures> response) {
+                if (response.isSuccessful()){
+                    APICriatures apiCriatures = response.body();
+                    Criatures criatures = apiCriatures.getCreatures();
+                    Glide.with(getApplicationContext()).load(criatures.getBoosted().getImage_url()).asGif().into(imgBossCreature);
+                    textBossCreature.setText(criatures.getBoosted().getName());
+
+                }
+            }
+
+            @Override
+            public void onFailure(Call<APICriatures> call, Throwable t) {
+                System.out.println("ERROR: "+t.getMessage());
+            }
+        });
+    }
+    public void bostedBoss(String url_boosted_boss){
+        TibiaAPIServer apiServer = servicio.getRetrofit(url_boosted_boss).create(TibiaAPIServer.class);
+        Call<APICriatures> call = apiServer.getBooted();
+        call.enqueue(new Callback<APICriatures>() {
+            @Override
+            public void onResponse(Call<APICriatures> call, Response<APICriatures> response) {
+                if (response.isSuccessful()){
+                    APICriatures apiCriatures = response.body();
+                    BoostableBosses boostableBosses = apiCriatures.getBoostable_bosses();
+                    Glide.with(getApplicationContext()).load(boostableBosses.getBoosted().getImage_url()).asGif().into(imgBossBosstable);
+                    lbBossBosstable.setText(boostableBosses.getBoosted().getName());
+                }
+            }
+
+            @Override
+            public void onFailure(Call<APICriatures> call, Throwable t) {
+                System.out.println(t.getMessage());
+            }
+        });
+    }
+
+//implementacion de tareas asincronas
+private class Asincronia extends AsyncTask {
+    Thread hilo = new Thread(new Runnable() {
+        @Override
+        public void run() {
+            llenarRashid(url);
+        }
+    });
+    Thread hilo2 = new Thread(new Runnable() {
+        @Override
+        public void run() {
+            creatureBoss(url_creature_boss);
+        }
+    });
+    Thread hilo3 = new Thread(new Runnable() {
+        @Override
+        public void run() {
+            bostedBoss(url_boosted_boss);
+        }
+    });
+    //Thread hilo = new Thread();
+    @Override
+    protected Object doInBackground(Object[] objects) {
+        hilo.start();
+        hilo2.start();
+        hilo3.start();
+        return null;
+    }
+}
 
 
     @Override

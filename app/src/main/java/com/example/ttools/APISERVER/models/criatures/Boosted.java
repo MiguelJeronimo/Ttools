@@ -3,6 +3,10 @@ package com.example.ttools.APISERVER.models.criatures;
 public class Boosted {
     String name, race, image_url;
 
+    public Boosted(String name, String image_url){
+        this.name=name;
+        this.image_url=image_url;
+    }
     public String getName() {
         return name;
     }
