@@ -44,4 +44,7 @@ public interface TibiaAPIServer {
 
     @GET("rashid")
     Call<String> getRashidLocalitation();
+
+    @GET("news/latest")
+    Call<ApiNews> getNewsLatest();
 }

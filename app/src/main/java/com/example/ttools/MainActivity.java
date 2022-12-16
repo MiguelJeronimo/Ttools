@@ -5,6 +5,7 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 
 import com.bumptech.glide.Glide;
+import com.example.ttools.APISERVER.ApiNews;
 import com.example.ttools.APISERVER.TibiaAPIServer;
 import com.example.ttools.APISERVER.models.APICriatures;
 import com.example.ttools.APISERVER.models.criatures.BoostableBosses;
@@ -37,10 +38,14 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     ImageView imgRashid, imgBossCreature, imgBossBosstable;
     TextView lbRashid, textBossCreature,lbBossBosstable;
+    //para las new latest
+    TextView textViewFecha,textViewCategoria, textViewNoticia,textViewTipo;
+    TextView textViewDate, textViewCategory, textViewNew, textViewtype;
     String url = "https://api.tibialabs.com/v2/";
     String url_rashid_image = "https://raw.githubusercontent.com/MiguelJeronimo/TtoolsDesktop/main/src/img/rashid.gif";
     String url_creature_boss = "https://api.tibiadata.com/v3/";
     String url_boosted_boss = "https://api.tibiadata.com/v3/";
+    String url_new = "https://api.tibiadata.com/v3/";
     InstanciaRetrofit servicio = new InstanciaRetrofit();
     Asincronia asincronia = new Asincronia();
     @Override
@@ -73,6 +78,17 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         textBossCreature = findViewById(R.id.textBossCreature);
         imgBossBosstable = findViewById(R.id.BossBosstable);
         lbBossBosstable = findViewById(R.id.lbBossBosstable);
+        //noticias
+        textViewFecha = findViewById(R.id.textViewFecha);
+        textViewCategoria = findViewById(R.id.textViewCategoria);;
+        textViewNoticia = findViewById(R.id.textViewNoticia);;
+        textViewTipo = findViewById(R.id.textViewTipo);;
+        textViewDate = findViewById(R.id.textViewDate);;
+        textViewCategory = findViewById(R.id.textViewCategory);;
+        textViewNew = findViewById(R.id.textViewNew);;
+        textViewtype = findViewById(R.id.textViewtype);;
+
+
         //ejecutando los multiple hilos para el consumo de api
         asincronia.execute();
     }
@@ -138,6 +154,34 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         });
     }
 
+    public void Noticas(String url_new){
+        TibiaAPIServer tibiaAPIServer = servicio.getRetrofit(url_new).create(TibiaAPIServer.class);
+        Call<ApiNews> call = tibiaAPIServer.getNewsLatest();
+        call.enqueue(new Callback<ApiNews>() {
+            @Override
+            public void onResponse(Call<ApiNews> call, Response<ApiNews> response) {
+                if (response.isSuccessful()){
+                   ApiNews apiNews = response.body();
+                   //Primer Card
+                   textViewFecha.setText(apiNews.getNews().get(0).getDate());
+                   textViewCategoria.setText(apiNews.getNews().get(0).getCategory());
+                   textViewNoticia.setText(apiNews.getNews().get(0).getNews());
+                   textViewTipo.setText(apiNews.getNews().get(0).getType());
+                   //Segundo Card
+                   textViewDate.setText(apiNews.getNews().get(1).getDate());
+                   textViewCategory.setText(apiNews.getNews().get(1).getCategory());
+                   textViewNew.setText(apiNews.getNews().get(1).getNews());
+                   textViewtype.setText(apiNews.getNews().get(1).getType());
+                }
+            }
+
+            @Override
+            public void onFailure(Call<ApiNews> call, Throwable t) {
+                System.out.println(t.getMessage());
+            }
+        });
+    }
+
 //implementacion de tareas asincronas
 private class Asincronia extends AsyncTask {
     Thread hilo = new Thread(new Runnable() {
@@ -158,12 +202,20 @@ private class Asincronia extends AsyncTask {
             bostedBoss(url_boosted_boss);
         }
     });
+
+    Thread hilo4 = new Thread(new Runnable() {
+        @Override
+        public void run() {
+            Noticas(url_new);
+        }
+    });
     //Thread hilo = new Thread();
     @Override
     protected Object doInBackground(Object[] objects) {
         hilo.start();
         hilo2.start();
         hilo3.start();
+        hilo4.start();
         return null;
     }
 }
