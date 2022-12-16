@@ -31,7 +31,7 @@ public class AdapterRecyclerViewNews extends RecyclerView.Adapter<AdapterRecycle
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         final ItemsRecyclerViewNews itemsRecyclerViewNews = (ItemsRecyclerViewNews) items_news.get(position);
         holder.textViewFecha.setText(itemsRecyclerViewNews.getDate());
-        holder.textViewNoticia.setText(itemsRecyclerViewNews.getDate());
+        holder.textViewNoticia.setText(itemsRecyclerViewNews.getNews());
         holder.textViewCategoria.setText(itemsRecyclerViewNews.getCategory());
         holder.textViewTipo.setText(itemsRecyclerViewNews.getType());
     }

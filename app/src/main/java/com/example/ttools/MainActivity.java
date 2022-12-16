@@ -11,18 +11,25 @@ import com.example.ttools.APISERVER.models.APICriatures;
 import com.example.ttools.APISERVER.models.criatures.BoostableBosses;
 import com.example.ttools.APISERVER.models.criatures.Criatures;
 import com.example.ttools.Operaciones.InstanciaRetrofit;
+import com.example.ttools.recyclerview.Adapters.AdapterRecyclerViewNews;
+import com.example.ttools.recyclerview.ItemsRecyclerViewNews;
 import com.google.android.material.navigation.NavigationView;
 
 import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.drawerlayout.widget.DrawerLayout;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import android.view.View;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.ImageView;
 import android.widget.TextView;
+
+import java.util.ArrayList;
+import java.util.List;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -46,6 +53,11 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     String url_creature_boss = "https://api.tibiadata.com/v3/";
     String url_boosted_boss = "https://api.tibiadata.com/v3/";
     String url_new = "https://api.tibiadata.com/v3/";
+    //recyclerview
+    RecyclerView recyclerViewNoticas;
+    AdapterRecyclerViewNews adapterRecyclerViewNews;
+    List<ItemsRecyclerViewNews> itemsRecyclerViewNewsList;
+    //retrofit
     InstanciaRetrofit servicio = new InstanciaRetrofit();
     Asincronia asincronia = new Asincronia();
     @Override
@@ -155,6 +167,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     }
 
     public void Noticas(String url_new){
+        recyclerViewNoticas = findViewById(R.id.recyclerNews);
+        LinearLayoutManager layoutManager = new LinearLayoutManager(this);
         TibiaAPIServer tibiaAPIServer = servicio.getRetrofit(url_new).create(TibiaAPIServer.class);
         Call<ApiNews> call = tibiaAPIServer.getNewsLatest();
         call.enqueue(new Callback<ApiNews>() {
@@ -172,6 +186,23 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                    textViewCategory.setText(apiNews.getNews().get(1).getCategory());
                    textViewNew.setText(apiNews.getNews().get(1).getNews());
                    textViewtype.setText(apiNews.getNews().get(1).getType());
+
+                   itemsRecyclerViewNewsList = new ArrayList<>();
+                   for (int i=0; i<5; i++){
+                       itemsRecyclerViewNewsList.add(new ItemsRecyclerViewNews(
+                               apiNews.getNews().get(i).getId(),
+                               apiNews.getNews().get(i).getDate(),
+                               apiNews.getNews().get(i).getNews(),
+                               apiNews.getNews().get(i).getCategory(),
+                               apiNews.getNews().get(i).getType(),
+                               apiNews.getNews().get(i).getUrl()
+                       ));
+                    }
+                   recyclerViewNoticas.setLayoutManager(layoutManager);
+                   adapterRecyclerViewNews = new AdapterRecyclerViewNews(itemsRecyclerViewNewsList);
+                   layoutManager.setOrientation(LinearLayoutManager.HORIZONTAL);
+                   recyclerViewNoticas.setHasFixedSize(true);
+                   recyclerViewNoticas.setAdapter(adapterRecyclerViewNews);
                 }
             }
 
