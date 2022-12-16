@@ -240,13 +240,14 @@
     </androidx.cardview.widget.CardView>
 
     <androidx.cardview.widget.CardView
+        android:id="@+id/cardView5"
         android:layout_width="400dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="10dp"
-        android:paddingBottom="5dp"
         android:clickable="true"
         android:focusable="true"
         android:foreground="?android:attr/selectableItemBackground"
+        android:paddingBottom="5dp"
         app:cardBackgroundColor="@color/colorAccent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -255,6 +256,7 @@
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent">
+
             <androidx.constraintlayout.widget.Guideline
                 android:id="@+id/primera_division6"
                 android:layout_width="wrap_content"
@@ -275,54 +277,64 @@
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
                 app:layout_constraintGuide_percent="0.25" />
+
             <TextView
                 android:id="@+id/textViewDate"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"
-                tools:text="15/12/2022"
                 android:textColor="@color/color_degradado"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="@+id/primera_division6"
-                app:layout_constraintTop_toTopOf="parent" />
+                app:layout_constraintTop_toTopOf="parent"
+                tools:text="15/12/2022" />
 
             <TextView
                 android:id="@+id/textViewCategory"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"
-                tools:text="Community"
                 android:textColor="@color/color_degradado"
                 app:layout_constraintEnd_toStartOf="@+id/primera_division8"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
+                app:layout_constraintTop_toTopOf="parent"
+                tools:text="Community" />
 
             <TextView
                 android:id="@+id/textViewNew"
                 android:layout_width="171dp"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="5dp"
-                tools:text="Extended Double XP and Skill Event"
                 android:textColor="@color/letras"
                 android:textStyle="bold"
                 app:layout_constraintEnd_toStartOf="@+id/primera_division7"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/textViewCategory" />
+                app:layout_constraintTop_toBottomOf="@+id/textViewCategory"
+                tools:text="Extended Double XP and Skill Event" />
 
             <TextView
                 android:id="@+id/textViewtype"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="5dp"
-                tools:text="news"
                 android:textColor="@color/letras"
                 app:layout_constraintEnd_toStartOf="@+id/primera_division6"
                 app:layout_constraintStart_toStartOf="@+id/primera_division8"
-                app:layout_constraintTop_toTopOf="parent" />
+                app:layout_constraintTop_toTopOf="parent"
+                tools:text="news" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 
     </androidx.cardview.widget.CardView>
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/recyclerNews"
+        android:layout_width="match_parent"
+        android:layout_height="60dp"
+        android:layout_marginTop="10dp"
+        tools:layout_editor_absoluteX="0dp"
+        tools:listitem="@layout/recyclerview_news_items"
+        app:layout_constraintTop_toBottomOf="@+id/cardView5"/>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
 
