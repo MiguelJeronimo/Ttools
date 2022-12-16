@@ -336,7 +336,7 @@
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recyclerNews"
         android:layout_width="380dp"
-        android:layout_height="80dp"
+        android:layout_height="wrap_content"
         android:layout_marginTop="10dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"

@@ -1,4 +1,4 @@
-package com.example.ttools.APISERVER;
+package com.example.ttools.APISERVER.models;
 
 import com.example.ttools.APISERVER.models.News.News;
 

@@ -5,9 +5,10 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 
 import com.bumptech.glide.Glide;
-import com.example.ttools.APISERVER.ApiNews;
+import com.example.ttools.APISERVER.models.ApiNews;
 import com.example.ttools.APISERVER.TibiaAPIServer;
 import com.example.ttools.APISERVER.models.APICriatures;
+import com.example.ttools.APISERVER.models.ApiNewsTicker;
 import com.example.ttools.APISERVER.models.criatures.BoostableBosses;
 import com.example.ttools.APISERVER.models.criatures.Criatures;
 import com.example.ttools.Operaciones.InstanciaRetrofit;
@@ -167,8 +168,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     }
 
     public void Noticas(String url_new){
-        recyclerViewNoticas = findViewById(R.id.recyclerNews);
-        LinearLayoutManager layoutManager = new LinearLayoutManager(this);
         TibiaAPIServer tibiaAPIServer = servicio.getRetrofit(url_new).create(TibiaAPIServer.class);
         Call<ApiNews> call = tibiaAPIServer.getNewsLatest();
         call.enqueue(new Callback<ApiNews>() {
@@ -186,28 +185,47 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                    textViewCategory.setText(apiNews.getNews().get(1).getCategory());
                    textViewNew.setText(apiNews.getNews().get(1).getNews());
                    textViewtype.setText(apiNews.getNews().get(1).getType());
-
-                   itemsRecyclerViewNewsList = new ArrayList<>();
-                   for (int i=0; i<5; i++){
-                       itemsRecyclerViewNewsList.add(new ItemsRecyclerViewNews(
-                               apiNews.getNews().get(i).getId(),
-                               apiNews.getNews().get(i).getDate(),
-                               apiNews.getNews().get(i).getNews(),
-                               apiNews.getNews().get(i).getCategory(),
-                               apiNews.getNews().get(i).getType(),
-                               apiNews.getNews().get(i).getUrl()
-                       ));
-                    }
-                   recyclerViewNoticas.setLayoutManager(layoutManager);
-                   adapterRecyclerViewNews = new AdapterRecyclerViewNews(itemsRecyclerViewNewsList);
-                   layoutManager.setOrientation(LinearLayoutManager.HORIZONTAL);
-                   recyclerViewNoticas.setHasFixedSize(true);
-                   recyclerViewNoticas.setAdapter(adapterRecyclerViewNews);
                 }
             }
 
             @Override
             public void onFailure(Call<ApiNews> call, Throwable t) {
+                System.out.println(t.getMessage());
+            }
+        });
+    }
+
+    public void NewsTickers(String url_new){
+        recyclerViewNoticas = findViewById(R.id.recyclerNews);
+        LinearLayoutManager layoutManager = new LinearLayoutManager(this);
+        TibiaAPIServer tibiaAPIServer = servicio.getRetrofit(url_new).create(TibiaAPIServer.class);
+        Call<ApiNewsTicker> call = tibiaAPIServer.getNewsTickers();
+        call.enqueue(new Callback<ApiNewsTicker>() {
+            @Override
+            public void onResponse(Call<ApiNewsTicker> call, Response<ApiNewsTicker> response) {
+                if (response.isSuccessful()){
+                    ApiNewsTicker apiNewsTicker = response.body();
+                    itemsRecyclerViewNewsList = new ArrayList<>();
+                    for (int i=0; i<5; i++){
+                        itemsRecyclerViewNewsList.add(new ItemsRecyclerViewNews(
+                                apiNewsTicker.getNews().get(i).getId(),
+                                apiNewsTicker.getNews().get(i).getDate(),
+                                apiNewsTicker.getNews().get(i).getNews(),
+                                apiNewsTicker.getNews().get(i).getCategory(),
+                                apiNewsTicker.getNews().get(i).getType(),
+                                apiNewsTicker.getNews().get(i).getUrl()
+                        ));
+                    }
+                    recyclerViewNoticas.setLayoutManager(layoutManager);
+                    adapterRecyclerViewNews = new AdapterRecyclerViewNews(itemsRecyclerViewNewsList);
+                    layoutManager.setOrientation(LinearLayoutManager.HORIZONTAL);
+                    recyclerViewNoticas.setHasFixedSize(true);
+                    recyclerViewNoticas.setAdapter(adapterRecyclerViewNews);
+                }
+            }
+
+            @Override
+            public void onFailure(Call<ApiNewsTicker> call, Throwable t) {
                 System.out.println(t.getMessage());
             }
         });
@@ -240,6 +258,12 @@ private class Asincronia extends AsyncTask {
             Noticas(url_new);
         }
     });
+    Thread hilo5 = new Thread(new Runnable() {
+        @Override
+        public void run() {
+            NewsTickers(url_new);
+        }
+    });
     //Thread hilo = new Thread();
     @Override
     protected Object doInBackground(Object[] objects) {
@@ -247,6 +271,7 @@ private class Asincronia extends AsyncTask {
         hilo2.start();
         hilo3.start();
         hilo4.start();
+        hilo5.start();
         return null;
     }
 }

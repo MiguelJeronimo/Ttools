@@ -12,7 +12,7 @@
         android:clickable="true"
         android:focusable="true"
         android:foreground="?android:attr/selectableItemBackground"
-        android:paddingBottom="5dp"
+        android:paddingBottom="10dp"
         app:cardBackgroundColor="@color/colorAccent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -58,7 +58,7 @@
                 android:id="@+id/textViewCategoria"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="10dp"
+                android:layout_marginTop="5dp"
                 tools:text="Community"
                 android:textColor="@color/color_degradado"
                 app:layout_constraintEnd_toStartOf="@+id/primera_division4"
@@ -67,7 +67,8 @@
 
             <TextView
                 android:id="@+id/textViewNoticia"
-                android:layout_width="171dp"
+                android:layout_width="match_parent"
+                android:paddingLeft="10dp"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="5dp"
                 tools:text="Winterlight Solstice"
