@@ -84,6 +84,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         navigationView.getMenu().findItem(R.id.nd_guilds).setOnMenuItemClickListener(this);
         navigationView.getMenu().findItem(R.id.nd_spells).setOnMenuItemClickListener(this);
         navigationView.getMenu().findItem(R.id.nd_bless).setOnMenuItemClickListener(this);
+        navigationView.getMenu().findItem(R.id.nd_highscores).setOnMenuItemClickListener(this);
 
         imgRashid = findViewById(R.id.imageViewRashid);
         lbRashid = findViewById(R.id.textViewRashid);
@@ -354,6 +355,9 @@ private class Asincronia extends AsyncTask {
             Intent blessTibia= new Intent(this, Blessings.class);
             startActivity(blessTibia);
             drawerLayout.close();
+        } else if(menuItem.getItemId() == R.id.nd_highscores){
+            Intent HighscoresTibia= new Intent(this, Highscores.class);
+            startActivity(HighscoresTibia);
         }
         return false;
     }

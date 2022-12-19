@@ -13,6 +13,15 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity
+            android:name=".Highscores"
+            android:exported="false"
+            android:label="@string/title_activity_highscores"
+            android:theme="@style/AppTheme.NoActionBar">
+            <meta-data
+                android:name="android.app.lib_name"
+                android:value="" />
+        </activity>
+        <activity
             android:name=".Blessings"
             android:exported="false"
             android:label="@string/title_activity_blessings"
