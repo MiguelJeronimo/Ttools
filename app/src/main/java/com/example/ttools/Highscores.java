@@ -98,6 +98,10 @@ public class Highscores extends AppCompatActivity implements AdapterView.OnItemS
         });
     };
 
+    public void llenarRecyclerViewHighScores(String world, String category, String vocation){
+
+    }
+
     public void spinners(){
         Spinners spinners = new Spinners();
         adapterVocations = new ArrayAdapter<String>(getApplicationContext(),R.layout.spinner_text_style,spinners.spinnerVocations());
