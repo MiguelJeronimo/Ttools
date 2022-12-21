@@ -6,6 +6,7 @@ import android.os.Bundle;
 import com.example.ttools.APISERVER.TibiaAPIServer;
 import com.example.ttools.APISERVER.models.ApiHighScores;
 import com.example.ttools.APISERVER.models.HighScores.HighScore;
+import com.example.ttools.APISERVER.models.HighScores.HighscoreList.HighscoreList;
 import com.example.ttools.APISERVER.models.Worlds.DataWords;
 import com.example.ttools.APISERVER.models.Worlds.RegularWorlds;
 import com.example.ttools.APISERVER.models.Worlds.Worlds;
@@ -13,18 +14,24 @@ import com.example.ttools.Operaciones.InstanciaRetrofit;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Spinner;
+import android.widget.Toast;
 
 import com.example.ttools.databinding.ActivityHighscoresBinding;
+import com.example.ttools.recyclerview.Adapters.AdapterRecyclerViewHighScores;
+import com.example.ttools.recyclerview.ItemsRecyclerViewHighScores;
 import com.example.ttools.utilidades.DataHighScores;
 import com.example.ttools.utilidades.Spinners;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -40,6 +47,11 @@ public class Highscores extends AppCompatActivity implements AdapterView.OnItemS
     //retrofit
     InstanciaRetrofit servicio = new InstanciaRetrofit();
     Asincronia asincronia = new Asincronia();
+    //recycler
+    RecyclerView recyclerView;
+    AdapterRecyclerViewHighScores adaptador;
+    List<ItemsRecyclerViewHighScores> lista_highscore;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -88,19 +100,20 @@ public class Highscores extends AppCompatActivity implements AdapterView.OnItemS
                         arrayWorlds.add(mundos.getName());
                     }
                     adapterWorlds = new ArrayAdapter<String>(getApplicationContext(), R.layout.spinner_text_style,arrayWorlds);
-                    System.out.println("Datos: "+arrayWorlds);
                     spinnerWorlds.setAdapter(adapterWorlds);
                 }
             }
 
             @Override
             public void onFailure(Call<DataWords> call, Throwable t) {
-
+                System.out.println(t.getMessage());
             }
         });
     };
 
     public void llenarRecyclerViewHighScores(String world, String category, String vocation){
+        recyclerView = findViewById(R.id.recycler_highscores);
+        LinearLayoutManager manager = new LinearLayoutManager(this);
         String url_highscores = "https://api.tibiadata.com/v3/";
         TibiaAPIServer apiServer = servicio.getRetrofit(url_highscores).create(TibiaAPIServer.class);
         Call <ApiHighScores> call = apiServer.getHighScoreInformation(world,category,vocation);
@@ -110,9 +123,26 @@ public class Highscores extends AppCompatActivity implements AdapterView.OnItemS
                 if (response.isSuccessful()){
                     ApiHighScores apiHighScores = response.body();
                     HighScore highScore = apiHighScores.getHighScores();
-                    System.out.println("HAY RESPUESTA: "+highScore.getHighscore_list().get(0).getName());
+                    lista_highscore = new ArrayList<>();
+                    for (HighscoreList lista : highScore.getHighscore_list()) {
+                        lista_highscore.add(new ItemsRecyclerViewHighScores(
+                           String.valueOf(lista.getRank()),
+                           lista.getName(),
+                           lista.getVocation(),
+                           lista.getWorld(),
+                           String.valueOf(lista.getLevel()),
+                           String.valueOf(lista.getValue()),
+                           lista.getTitle()
+                        ));
+                    }
+                    manager.setOrientation(LinearLayoutManager.VERTICAL);
+                    recyclerView.setLayoutManager(manager);
+                    adaptador = new AdapterRecyclerViewHighScores(lista_highscore);
+                    adaptador.notifyDataSetChanged();
+                    recyclerView.setHasFixedSize(true);
+                    recyclerView.setAdapter(adaptador);
                 }else{
-                    System.out.println("NO TIENE RESPUESTA");
+                    Toast.makeText(getApplicationContext(),"No hay respuesta del servidor", Toast.LENGTH_SHORT).show();
                 }
             }
 
