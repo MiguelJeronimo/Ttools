@@ -31,7 +31,7 @@ public class AdapterRecyclerViewHighScores extends RecyclerView.Adapter<AdapterR
         holder.textViewRank.setText(highscores.get(position).getRank());
         holder.textViewName.setText(highscores.get(position).getName());
         holder.textViewVocation.setText(highscores.get(position).getVocation());
-        holder.textViewLevel.setText(highscores.get(position).getLevel());
+        holder.textViewLevel.setText("Level: "+highscores.get(position).getLevel());
         holder.textViewValue.setText(highscores.get(position).getValue());
         holder.textViewTittle.setText(highscores.get(position).getTitle());
     }
@@ -50,7 +50,7 @@ public class AdapterRecyclerViewHighScores extends RecyclerView.Adapter<AdapterR
             textViewVocation = itemView.findViewById(R.id.textViewVocation);
             textViewLevel = itemView.findViewById(R.id.textViewLevel);
             textViewValue = itemView.findViewById(R.id.textViewValue);
-            textViewTittle = itemView.findViewById(R.id.textViewTittle);
+            textViewTittle = itemView.findViewById(R.id.textViewTittlee);
         }
     }
 }

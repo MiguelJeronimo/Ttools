@@ -30,6 +30,7 @@ import com.example.ttools.recyclerview.ItemsRecyclerViewHighScores;
 import com.example.ttools.utilidades.DataHighScores;
 import com.example.ttools.utilidades.Spinners;
 
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -114,6 +115,9 @@ public class Highscores extends AppCompatActivity implements AdapterView.OnItemS
     public void llenarRecyclerViewHighScores(String world, String category, String vocation){
         recyclerView = findViewById(R.id.recycler_highscores);
         LinearLayoutManager manager = new LinearLayoutManager(this);
+        String pattern = "#,###.###";
+        DecimalFormat decimalFormat = new DecimalFormat(pattern);
+        decimalFormat.setGroupingSize(3);
         String url_highscores = "https://api.tibiadata.com/v3/";
         TibiaAPIServer apiServer = servicio.getRetrofit(url_highscores).create(TibiaAPIServer.class);
         Call <ApiHighScores> call = apiServer.getHighScoreInformation(world,category,vocation);
@@ -124,14 +128,48 @@ public class Highscores extends AppCompatActivity implements AdapterView.OnItemS
                     ApiHighScores apiHighScores = response.body();
                     HighScore highScore = apiHighScores.getHighScores();
                     lista_highscore = new ArrayList<>();
+                    String value = null;
+                    String categorias = null;
                     for (HighscoreList lista : highScore.getHighscore_list()) {
+                        categorias = highScore.getCategory();
+                        if (categorias.equalsIgnoreCase("achievements")){
+                            value = "Archivements: "+decimalFormat.format(lista.getValue());}
+                        if (categorias.equalsIgnoreCase("axefighting")){
+                            value = "Axe Fighting : "+decimalFormat.format(lista.getValue());}
+                        if (categorias.equalsIgnoreCase("charmpoints")){
+                            value = "Charm Points: "+decimalFormat.format(lista.getValue());}
+                        if (categorias.equalsIgnoreCase("clubfighting")){
+                            value = "Club Fighting: "+decimalFormat.format(lista.getValue());}
+                        if (categorias.equalsIgnoreCase("distancefighting")){
+                            value = "Distance Fighting: "+decimalFormat.format(lista.getValue());}
+                        if (categorias.equalsIgnoreCase("experience")){
+                            value = "Experience: "+decimalFormat.format(lista.getValue());}
+                        if (categorias.equalsIgnoreCase("fishing")){
+                            value = "Fishing: "+decimalFormat.format(lista.getValue());}
+                        if (categorias.equalsIgnoreCase("fistfighting")){
+                            value = "Fist Fighting: "+decimalFormat.format(lista.getValue());}
+                        if (categorias.equalsIgnoreCase("goshnarstaint")){
+                            value = "Goshnar's Taint: "+decimalFormat.format(lista.getValue());}
+                        if (categorias.equalsIgnoreCase("loyaltypoints")){
+                            value = "Loyalty Points: "+decimalFormat.format(lista.getValue());}
+                        if (categorias.equalsIgnoreCase("magiclevel")){
+                            value = "Magic Level: "+decimalFormat.format(lista.getValue());}
+                        if (categorias.equalsIgnoreCase("shielding")){
+                            value = "Shielding: "+decimalFormat.format(lista.getValue());}
+                        if (categorias.equalsIgnoreCase("swordfighting")){
+                            value = "Sword Fighting: "+decimalFormat.format(lista.getValue());}
+                        if (categorias.equalsIgnoreCase("dromescore")){
+                            value = "Drome Score: "+decimalFormat.format(lista.getValue());}
+                        if (categorias.equalsIgnoreCase("bosspoints")){
+                            value = "Boss Points: "+decimalFormat.format(lista.getValue());}
+
                         lista_highscore.add(new ItemsRecyclerViewHighScores(
                            String.valueOf(lista.getRank()),
                            lista.getName(),
                            lista.getVocation(),
                            lista.getWorld(),
                            String.valueOf(lista.getLevel()),
-                           String.valueOf(lista.getValue()),
+                           value,
                            lista.getTitle()
                         ));
                     }
@@ -178,8 +216,8 @@ public class Highscores extends AppCompatActivity implements AdapterView.OnItemS
                 vocacion = (String) spinnerVocations.getItemAtPosition(i);
                 dataHighScores.setVocacion(vocacion);
             }
-            llenarRecyclerViewHighScores(dataHighScores.getMundo(),dataHighScores.getCategoria(),dataHighScores.getVocacion());
-            System.out.println("Mundo: "+dataHighScores.getMundo()+" Categoria: "+dataHighScores.getCategoria().replace(" ","")+" Vocacion: "+dataHighScores.getVocacion());
+            llenarRecyclerViewHighScores(dataHighScores.getMundo(),dataHighScores.getCategoria().replace(" ","").toLowerCase(),dataHighScores.getVocacion());
+            //System.out.println("Mundo: "+dataHighScores.getMundo()+" Categoria: "+dataHighScores.getCategoria().replace(" ","").toLowerCase()+" Vocacion: "+dataHighScores.getVocacion());
     }
 
     @Override

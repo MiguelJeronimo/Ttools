@@ -358,6 +358,7 @@ private class Asincronia extends AsyncTask {
         } else if(menuItem.getItemId() == R.id.nd_highscores){
             Intent HighscoresTibia= new Intent(this, Highscores.class);
             startActivity(HighscoresTibia);
+            drawerLayout.close();
         }
         return false;
     }
