@@ -1,7 +1,8 @@
 package com.example.ttools.APISERVER.models.HighScores.HighscoreList;
 
 public class HighscoreList {
-    int rank, level, value;
+    int rank, level;
+    float value;
     String name, vocation, world, title;
 
     public String getTitle() {
@@ -28,7 +29,7 @@ public class HighscoreList {
         return level;
     }
 
-    public int getValue() {
+    public float getValue() {
         return value;
     }
 }

@@ -2,6 +2,7 @@ package com.example.ttools.APISERVER;
 
 import com.example.ttools.APISERVER.models.APICriatures;
 import com.example.ttools.APISERVER.models.APICriaturesInformation;
+import com.example.ttools.APISERVER.models.ApiHighScores;
 import com.example.ttools.APISERVER.models.ApiNews;
 import com.example.ttools.APISERVER.models.ApiNewsTicker;
 import com.example.ttools.APISERVER.models.ApiSpells;
@@ -51,4 +52,7 @@ public interface TibiaAPIServer {
 
     @GET("news/newsticker")
     Call<ApiNewsTicker> getNewsTickers();
+
+    @GET("highscores/{world}/{category}/{vocation}")
+    Call<ApiHighScores> getHighScoreInformation(@Path("world") String world, @Path("category") String category, @Path("vocation") String vocation);
 }

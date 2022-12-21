@@ -4,10 +4,10 @@ import com.example.ttools.APISERVER.models.HighScores.HighscoreList.HighscoreLis
 
 import java.util.ArrayList;
 
-public class HighScores {
+public class HighScore {
     String world, category, vocation;
     int highscore_age;
-    ArrayList<HighscoreList> highscore_list;
+    ArrayList<HighscoreList> highscore_list = new ArrayList<>();
 
     public ArrayList<HighscoreList> getHighscore_list() {
         return highscore_list;

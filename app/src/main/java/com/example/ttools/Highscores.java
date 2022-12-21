@@ -4,6 +4,8 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 
 import com.example.ttools.APISERVER.TibiaAPIServer;
+import com.example.ttools.APISERVER.models.ApiHighScores;
+import com.example.ttools.APISERVER.models.HighScores.HighScore;
 import com.example.ttools.APISERVER.models.Worlds.DataWords;
 import com.example.ttools.APISERVER.models.Worlds.RegularWorlds;
 import com.example.ttools.APISERVER.models.Worlds.Worlds;
@@ -32,7 +34,7 @@ public class Highscores extends AppCompatActivity implements AdapterView.OnItemS
 
     private ActivityHighscoresBinding binding;
     String url = "https://api.tibiadata.com/v3/";
-    DataHighScores highscores = new DataHighScores();
+    DataHighScores dataHighScores = new DataHighScores();
     Spinner spinnerWorlds, spinnerVocations, spinnerCategorys;
     ArrayAdapter<String> adapterWorlds, adapterVocations, adapterCategorys;
     //retrofit
@@ -81,7 +83,7 @@ public class Highscores extends AppCompatActivity implements AdapterView.OnItemS
                     DataWords dataWords = response.body();
                     Worlds worlds = dataWords.getWorlds();
                     //foreach en java
-                    arrayWorlds.add("Seleccione");
+                    arrayWorlds.add("All");
                     for (RegularWorlds mundos: worlds.getRegular_worlds()) {
                         arrayWorlds.add(mundos.getName());
                     }
@@ -99,7 +101,26 @@ public class Highscores extends AppCompatActivity implements AdapterView.OnItemS
     };
 
     public void llenarRecyclerViewHighScores(String world, String category, String vocation){
+        String url_highscores = "https://api.tibiadata.com/v3/";
+        TibiaAPIServer apiServer = servicio.getRetrofit(url_highscores).create(TibiaAPIServer.class);
+        Call <ApiHighScores> call = apiServer.getHighScoreInformation(world,category,vocation);
+        call.enqueue(new Callback<ApiHighScores>() {
+            @Override
+            public void onResponse(Call<ApiHighScores> call, Response<ApiHighScores> response) {
+                if (response.isSuccessful()){
+                    ApiHighScores apiHighScores = response.body();
+                    HighScore highScore = apiHighScores.getHighScores();
+                    System.out.println("HAY RESPUESTA: "+highScore.getHighscore_list().get(0).getName());
+                }else{
+                    System.out.println("NO TIENE RESPUESTA");
+                }
+            }
 
+            @Override
+            public void onFailure(Call<ApiHighScores> call, Throwable t) {
+                System.out.println("MENSAJE: "+t.getMessage());
+            }
+        });
     }
 
     public void spinners(){
@@ -116,22 +137,19 @@ public class Highscores extends AppCompatActivity implements AdapterView.OnItemS
             String mundo = null, categoria = null, vocacion = null;
             //System.out.println(spinnerWorlds.getItemAtPosition(i));
             if (adapterView.getId() == R.id.spinner_worldss){
-                System.out.println(spinnerWorlds.getItemAtPosition(i));
                 mundo = (String) spinnerWorlds.getItemAtPosition(i);
-                highscores.setMundo(mundo);
-
+                dataHighScores.setMundo(mundo);
             }
             if (adapterView.getId() == R.id.spinner_category){
-                System.out.println(spinnerCategorys.getItemAtPosition(i));
                 categoria = (String) spinnerCategorys.getItemAtPosition(i);
-                highscores.setCategoria(categoria);
+                dataHighScores.setCategoria(categoria);
             }
             if (adapterView.getId()== R.id.spinner_vocationss){
-                System.out.println(spinnerVocations.getItemAtPosition(i));
                 vocacion = (String) spinnerVocations.getItemAtPosition(i);
-                highscores.setVocacion(vocacion);
+                dataHighScores.setVocacion(vocacion);
             }
-            //System.out.println("Mundo: "+highscores.getMundo()+" Categoria: "+highscores.getCategoria()+" Vocacion: "+highscores.getVocacion());
+            llenarRecyclerViewHighScores(dataHighScores.getMundo(),dataHighScores.getCategoria(),dataHighScores.getVocacion());
+            System.out.println("Mundo: "+dataHighScores.getMundo()+" Categoria: "+dataHighScores.getCategoria().replace(" ","")+" Vocacion: "+dataHighScores.getVocacion());
     }
 
     @Override

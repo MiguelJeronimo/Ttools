@@ -1,11 +1,11 @@
 package com.example.ttools.APISERVER.models;
 
-import com.example.ttools.APISERVER.models.HighScores.HighScores;
+import com.example.ttools.APISERVER.models.HighScores.HighScore;
 
 public class ApiHighScores {
-    HighScores highScores;
+    HighScore highscores;
 
-    public HighScores getHighScores() {
-        return highScores;
+    public HighScore getHighScores() {
+        return highscores;
     }
 }
