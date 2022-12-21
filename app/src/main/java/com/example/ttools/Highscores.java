@@ -181,12 +181,16 @@ public class Highscores extends AppCompatActivity implements AdapterView.OnItemS
                     recyclerView.setAdapter(adaptador);
                 }else{
                     Toast.makeText(getApplicationContext(),"No hay respuesta del servidor", Toast.LENGTH_SHORT).show();
+                    lista_highscore.clear();
+                    adaptador.notifyDataSetChanged();
                 }
             }
 
             @Override
             public void onFailure(Call<ApiHighScores> call, Throwable t) {
                 System.out.println("MENSAJE: "+t.getMessage());
+                lista_highscore.clear();
+                adaptador.notifyDataSetChanged();
             }
         });
     }
