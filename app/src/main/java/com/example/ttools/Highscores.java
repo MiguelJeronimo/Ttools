@@ -189,8 +189,8 @@ public class Highscores extends AppCompatActivity implements AdapterView.OnItemS
             @Override
             public void onFailure(Call<ApiHighScores> call, Throwable t) {
                 System.out.println("MENSAJE: "+t.getMessage());
-                lista_highscore.clear();
-                adaptador.notifyDataSetChanged();
+                //lista_highscore.clear();
+                //adaptador.notifyDataSetChanged();
             }
         });
     }
