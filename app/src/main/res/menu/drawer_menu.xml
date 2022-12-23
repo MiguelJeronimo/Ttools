@@ -19,6 +19,10 @@
             android:id="@+id/nd_highscores"
             android:icon="@drawable/icon_highscores"
             android:title="@string/nd_highscores" />
+        <item
+            android:id="@+id/nd_houses"
+            android:icon="@drawable/house_icon"
+            android:title="@string/nd_houses" />
     </group>
     <group
         android:id="@+id/group2"

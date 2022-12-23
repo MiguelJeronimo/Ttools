@@ -85,6 +85,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         navigationView.getMenu().findItem(R.id.nd_spells).setOnMenuItemClickListener(this);
         navigationView.getMenu().findItem(R.id.nd_bless).setOnMenuItemClickListener(this);
         navigationView.getMenu().findItem(R.id.nd_highscores).setOnMenuItemClickListener(this);
+        navigationView.getMenu().findItem(R.id.nd_houses).setOnMenuItemClickListener(this);
 
         imgRashid = findViewById(R.id.imageViewRashid);
         lbRashid = findViewById(R.id.textViewRashid);
@@ -101,8 +102,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         textViewCategory = findViewById(R.id.textViewCategory);;
         textViewNew = findViewById(R.id.textViewNew);;
         textViewtype = findViewById(R.id.textViewtype);;
-
-
         //ejecutando los multiple hilos para el consumo de api
         asincronia.execute();
     }
@@ -358,6 +357,10 @@ private class Asincronia extends AsyncTask {
         } else if(menuItem.getItemId() == R.id.nd_highscores){
             Intent HighscoresTibia= new Intent(this, Highscores.class);
             startActivity(HighscoresTibia);
+            drawerLayout.close();
+        } else if (menuItem.getItemId() == R.id.nd_houses){
+            Intent tibiaHouses = new Intent(this, HouseActivity.class);
+            startActivity(tibiaHouses);
             drawerLayout.close();
         }
         return false;
