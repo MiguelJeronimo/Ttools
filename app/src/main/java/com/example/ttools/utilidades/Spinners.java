@@ -47,14 +47,19 @@ public class Spinners {
      *
      * @return Devuelve un ArrayList con la data de las ciudades leidas desde un archivo de texto
      * */
-    public ArrayList<String> LeerDataCitys(InputStream documento) throws IOException {
+    public ArrayList<String> LeerDataCitys(InputStream documento) {
         BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(documento));
-        String data;
+        String data = null;
         ArrayList<String> citys = new ArrayList<>();
-        while ((data  = bufferedReader.readLine())!=null){
-            citys.add(data);
+        try{
+            while ((data  = bufferedReader.readLine())!=null){
+                citys.add(data);
+            }
+            documento.close();
+        }catch (IOException e){
+            e.printStackTrace();
         }
-        documento.close();
+
         return citys;
     }
 }

@@ -90,12 +90,6 @@ public class Highscores extends AppCompatActivity implements AdapterView.OnItemS
         TibiaAPIServer tibiaAPIServer = servicio.getRetrofit(url).create(TibiaAPIServer.class);
         Call<DataWords> call = tibiaAPIServer.getWorlds();
         ArrayList<String> arrayWorlds = new ArrayList<>();
-        Spinners spinners = new Spinners();
-        try {
-            System.out.println(spinners.LeerDataCitys(getResources().openRawResource(R.raw.data)));
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
         call.enqueue(new Callback<DataWords>() {
             @Override
             public void onResponse(Call<DataWords> call, Response<DataWords> response) {
