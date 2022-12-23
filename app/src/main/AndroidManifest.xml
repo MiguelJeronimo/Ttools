@@ -16,6 +16,7 @@
             android:name=".HouseActivity"
             android:exported="false"
             android:label="@string/title_activity_house"
+            android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar">
             <meta-data
                 android:name="android.app.lib_name"
@@ -25,6 +26,7 @@
             android:name=".Highscores"
             android:exported="false"
             android:label="@string/title_activity_highscores"
+            android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar">
             <meta-data
                 android:name="android.app.lib_name"
@@ -34,6 +36,7 @@
             android:name=".Blessings"
             android:exported="false"
             android:label="@string/title_activity_blessings"
+            android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar">
             <meta-data
                 android:name="android.app.lib_name"
@@ -43,6 +46,7 @@
             android:name=".SpellInformationActivity"
             android:exported="false"
             android:label="@string/title_activity_spell_information"
+            android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar">
             <meta-data
                 android:name="android.app.lib_name"
@@ -52,6 +56,7 @@
             android:name=".Spells_Tibia"
             android:exported="false"
             android:label="@string/title_activity_spells_tibia"
+            android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar">
             <meta-data
                 android:name="android.app.lib_name"
@@ -61,6 +66,7 @@
             android:name=".GuildInformationName"
             android:exported="false"
             android:label="@string/title_activity_guild_information_name"
+            android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar">
             <meta-data
                 android:name="android.app.lib_name"
