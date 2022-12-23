@@ -18,7 +18,7 @@ public class Spinners {
         ArrayList<String> categories = new ArrayList<>();
         while (true){
             try {
-                if (!((data  = bufferedReader.readLine())!=null)) break;
+                if ((data = bufferedReader.readLine()) == null) break;
             } catch (IOException e) {
                 e.printStackTrace();
             }
@@ -44,7 +44,7 @@ public class Spinners {
         ArrayList<String> categories = new ArrayList<>();
         while (true){
             try {
-                if (!((data  = bufferedReader.readLine())!=null)) break;
+                if ((data = bufferedReader.readLine()) == null) break;
             } catch (IOException e) {
                 e.printStackTrace();
             }
