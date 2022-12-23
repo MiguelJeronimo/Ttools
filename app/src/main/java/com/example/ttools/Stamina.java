@@ -41,7 +41,6 @@ public class Stamina extends AppCompatActivity implements View.OnClickListener {
         lbHora = findViewById(R.id.labelHora);
         lbmedio = findViewById(R.id.medio);
         lbMinutos = findViewById(R.id.lableMinutos);
-
     }
 
     @Override
@@ -62,7 +61,6 @@ public class Stamina extends AppCompatActivity implements View.OnClickListener {
 
     @Override
     public void onClick(View v) {
-
         if (v.getId() == R.id.calcular){
             String txtTiempo =  tiempo.getText().toString();
             //objetos para la expresiones regulares
@@ -91,9 +89,6 @@ public class Stamina extends AppCompatActivity implements View.OnClickListener {
                 Snackbar.make(v, "El dato ingresado no es valido", Snackbar.LENGTH_LONG)
                         .setAction("Action", null).show();
             }
-
         }
-
     }
-
 }

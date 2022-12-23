@@ -48,7 +48,6 @@ public class Spells_Tibia extends AppCompatActivity {
         setSupportActionBar(binding.toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true); //Aparicion del boton regresar en el action bar
         llenarRecyclerViewSpells(url);
-
     }
 
     @Override

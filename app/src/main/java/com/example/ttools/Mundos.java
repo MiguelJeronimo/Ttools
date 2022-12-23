@@ -42,7 +42,6 @@ public class Mundos extends AppCompatActivity {
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true); //Aparicion del boton regresar en el action bar
         playersOnline = (TextView) findViewById(R.id.playersOnline);
-
         API(url);
 
         FloatingActionButton fab = findViewById(R.id.fab);
@@ -106,9 +105,7 @@ public class Mundos extends AppCompatActivity {
                                 worlds.getRegular_worlds().get(i).getGame_world_type(),
                                 worlds.getRegular_worlds().get(i).getTournament_world_type()
                         ));
-                        System.out.println(worlds.getRegular_worlds().get(i).getName());
                 }
-
                     recyclerView.setHasFixedSize(true);
                     layoutManager.setOrientation(LinearLayoutManager.VERTICAL);
                     recyclerView.setLayoutManager(layoutManager);
