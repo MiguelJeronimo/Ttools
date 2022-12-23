@@ -14,39 +14,32 @@ public class Spinners {
         ArrayList<String> arrayVocations = new ArrayList<>();
         BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(documento));
         String data = null;
-        while (true){
             try {
-                if ((data = bufferedReader.readLine()) == null) break;
+                while ((data = bufferedReader.readLine()) != null){
+                    arrayVocations.add(data);
+                }
+                documento.close();
             } catch (IOException e) {
                 e.printStackTrace();
             }
-            arrayVocations.add(data);
-        }
-
         return arrayVocations;
     }
     /**
      * @return categorias del tipo de skill y algunos bonos
      * */
     public ArrayList<String> spinnerCategory(InputStream documento){
-        /*
-        *  achievements ┃ axefighting ┃ charmpoints ┃ clubfighting
-        * ┃ distancefighting ┃ experience ┃ fishing ┃ fistfighting
-        * ┃ goshnarstaint ┃ loyaltypoints ┃ magiclevel ┃ shielding
-        * ┃ swordfighting ┃ dromescore ┃ bosspoints
-        * */
         //Al acceder a los datos del array, hay que quitarle el espacio
         BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(documento));
         String data = null;
         ArrayList<String> categories = new ArrayList<>();
-        while (true){
             try {
-                if ((data = bufferedReader.readLine()) == null) break;
+                while ((data = bufferedReader.readLine()) != null){
+                    categories.add(data);
+                }
+                documento.close();
             } catch (IOException e) {
                 e.printStackTrace();
             }
-            categories.add(data);
-        }
         return categories;
     }
 
@@ -61,6 +54,7 @@ public class Spinners {
         while ((data  = bufferedReader.readLine())!=null){
             citys.add(data);
         }
+        documento.close();
         return citys;
     }
 }
