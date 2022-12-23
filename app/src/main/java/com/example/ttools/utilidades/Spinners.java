@@ -1,9 +1,8 @@
 package com.example.ttools.utilidades;
 
 import java.io.BufferedReader;
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
 
@@ -70,5 +69,19 @@ public class Spinners {
         data.add("Venore");
         data.add("Yalahar");
         return data;
+    }
+    /**
+     *
+     * @return Devuelve un ArrayList con la data de las ciudades leidas desde un archivo de texto
+     * */
+    public ArrayList<String> LeerData(InputStream documento) throws IOException {
+        BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(documento));
+        StringBuilder stringBuilder = new StringBuilder();
+        String data;
+        ArrayList<String> citys = new ArrayList<>();
+        while ((data  = bufferedReader.readLine())!=null){
+            citys.add(data);
+        }
+        return citys;
     }
 }

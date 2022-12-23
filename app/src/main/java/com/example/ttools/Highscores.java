@@ -30,6 +30,8 @@ import com.example.ttools.recyclerview.ItemsRecyclerViewHighScores;
 import com.example.ttools.utilidades.DataHighScores;
 import com.example.ttools.utilidades.Spinners;
 
+import java.io.IOException;
+import java.io.InputStream;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.List;
@@ -67,7 +69,6 @@ public class Highscores extends AppCompatActivity implements AdapterView.OnItemS
         spinnerCategorys.setOnItemSelectedListener(this);
         spinnerWorlds.setOnItemSelectedListener(this);
         asincronia.execute();
-
     }
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
@@ -89,6 +90,12 @@ public class Highscores extends AppCompatActivity implements AdapterView.OnItemS
         TibiaAPIServer tibiaAPIServer = servicio.getRetrofit(url).create(TibiaAPIServer.class);
         Call<DataWords> call = tibiaAPIServer.getWorlds();
         ArrayList<String> arrayWorlds = new ArrayList<>();
+        Spinners spinners = new Spinners();
+        try {
+            System.out.println(spinners.LeerData(getResources().openRawResource(R.raw.data)));
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
         call.enqueue(new Callback<DataWords>() {
             @Override
             public void onResponse(Call<DataWords> call, Response<DataWords> response) {
