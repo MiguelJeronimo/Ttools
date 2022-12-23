@@ -1,5 +1,10 @@
 package com.example.ttools.utilidades;
 
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.InputStreamReader;
 import java.util.ArrayList;
 
 public class Spinners {
@@ -43,5 +48,27 @@ public class Spinners {
         arrayCategory.add("Drome score");
         arrayCategory.add("Boss points");
         return arrayCategory;
+    }
+
+    public ArrayList<String> dataCitysTxt() {
+        ArrayList<String> data = new ArrayList<>();
+        data.add("Ab'Dendriel");
+        data.add("Ankrahmun");
+        data.add("Carlin");
+        data.add("Darashia");
+        data.add("Edron");
+        data.add("Farmine");
+        data.add("Gray Beach");
+        data.add("Issavi");
+        data.add("Kazordoon");
+        data.add("Liberty Bay");
+        data.add("Moonfall");
+        data.add("Port Hope");
+        data.add("Silvertides");
+        data.add("Svargrond");
+        data.add("Thais");
+        data.add("Venore");
+        data.add("Yalahar");
+        return data;
     }
 }
