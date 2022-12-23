@@ -13,9 +13,7 @@ public class Spinners {
     public ArrayList<String> spinnerVocations(InputStream documento){
         ArrayList<String> arrayVocations = new ArrayList<>();
         BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(documento));
-        StringBuilder stringBuilder = new StringBuilder();
         String data = null;
-        ArrayList<String> categories = new ArrayList<>();
         while (true){
             try {
                 if ((data = bufferedReader.readLine()) == null) break;
@@ -39,7 +37,6 @@ public class Spinners {
         * */
         //Al acceder a los datos del array, hay que quitarle el espacio
         BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(documento));
-        StringBuilder stringBuilder = new StringBuilder();
         String data = null;
         ArrayList<String> categories = new ArrayList<>();
         while (true){
@@ -59,7 +56,6 @@ public class Spinners {
      * */
     public ArrayList<String> LeerDataCitys(InputStream documento) throws IOException {
         BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(documento));
-        StringBuilder stringBuilder = new StringBuilder();
         String data;
         ArrayList<String> citys = new ArrayList<>();
         while ((data  = bufferedReader.readLine())!=null){
