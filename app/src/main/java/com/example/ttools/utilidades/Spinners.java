@@ -49,32 +49,11 @@ public class Spinners {
         return arrayCategory;
     }
 
-    public ArrayList<String> dataCitysTxt() {
-        ArrayList<String> data = new ArrayList<>();
-        data.add("Ab'Dendriel");
-        data.add("Ankrahmun");
-        data.add("Carlin");
-        data.add("Darashia");
-        data.add("Edron");
-        data.add("Farmine");
-        data.add("Gray Beach");
-        data.add("Issavi");
-        data.add("Kazordoon");
-        data.add("Liberty Bay");
-        data.add("Moonfall");
-        data.add("Port Hope");
-        data.add("Silvertides");
-        data.add("Svargrond");
-        data.add("Thais");
-        data.add("Venore");
-        data.add("Yalahar");
-        return data;
-    }
     /**
      *
      * @return Devuelve un ArrayList con la data de las ciudades leidas desde un archivo de texto
      * */
-    public ArrayList<String> LeerData(InputStream documento) throws IOException {
+    public ArrayList<String> LeerDataCitys(InputStream documento) throws IOException {
         BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(documento));
         StringBuilder stringBuilder = new StringBuilder();
         String data;
