@@ -25,10 +25,8 @@ public class Stamina extends AppCompatActivity implements View.OnClickListener {
     EditText tiempo;
     TextView lbHora, lbMinutos,lbmedio;
     Button btnalcular;
-
     //Objeto de la clase Stamina
     staminaTibia Stamina = new staminaTibia();
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -66,42 +64,30 @@ public class Stamina extends AppCompatActivity implements View.OnClickListener {
     public void onClick(View v) {
 
         if (v.getId() == R.id.calcular){
-
             String txtTiempo =  tiempo.getText().toString();
-
             //objetos para la expresiones regulares
             Pattern pattern = Pattern.compile("^([01]?[0-9]|2[0-9]|3[0-9]|4[0-2]):[0-5][0-9]$"); //Patron para que acepte tiempo hasta 42:00
             Matcher matcher = pattern.matcher(txtTiempo);
             //pattern.matcher(txtTiempo);
-
             if (matcher.matches()){//si la expresión entra dentro del patrón
             //Vamos a partir la cadena para optener las horas y los minutos
                 String  particion [] = txtTiempo.split(":");
                 int horas, minutos, horaReal, minutosReales;
-
                 horas = Integer.parseInt(particion[0]);
                 minutos = Integer.parseInt(particion[1]);
-
                 if (horas > 0 && horas <= 42){ //42 significa que la stimana esta llena
-
                    Stamina.convertirHoraMinutosStamina(horas,minutos);
                    int minutoStamina = Stamina.getConvertirHoraMinutosStamina();
-
                    Stamina.minutoStamina(minutoStamina);
                    int tiempoStamina = Stamina.getminutoStamina();
-
                    Stamina.convertirMinutosHora(tiempoStamina);
-
                    horaReal = Stamina.getHorasReales();
                    minutosReales = Stamina.getMinutosReales();
-
                    lbHora.setText(String.valueOf(horaReal));
                    lbmedio.setText(":");
                    lbMinutos.setText(String.valueOf(minutosReales));
                 }
-
             } else {
-
                 Snackbar.make(v, "El dato ingresado no es valido", Snackbar.LENGTH_LONG)
                         .setAction("Action", null).show();
             }

@@ -70,15 +70,12 @@ public class experiencia_compartida extends AppCompatActivity implements View.On
 
     @Override
     public void onClick(View v) {
-
         if (v.getId()==R.id.calcular){
-
             String nivel = txtnivel.getText().toString();
             if (nivel.equals("")){
                 Toast.makeText(this, "Debe ingresar el nivel", Toast.LENGTH_SHORT).show();
                 rangoMayor.setText("-");
                 rangoMenor.setText("-");
-
             } else{
                 double n = Double.parseDouble(nivel);
                 exp.CalculoRangoMayor(n);
@@ -87,15 +84,7 @@ public class experiencia_compartida extends AppCompatActivity implements View.On
                 String rmenor = Integer.toString(exp.getRangoMenor());
                 rangoMayor.setText(rmayor);
                 rangoMenor.setText(rmenor);
-
-                //txtnivel.setText("");
-
             }
-
-
         }
-
-
-
     }
 }
