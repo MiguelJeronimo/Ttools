@@ -17,12 +17,22 @@
         app:layout_constraintTop_toTopOf="parent"
         tools:layout_editor_absoluteX="33dp" />
 
+    <Spinner
+        android:id="@+id/spinner_mundos"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:backgroundTint="@color/leyenda"
+        android:popupBackground="@color/colorPrimary"
+        app:layout_constraintTop_toTopOf="@id/spinner_citys"
+        tools:layout_editor_absoluteX="33dp" />
+
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recycler_highscores"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_marginTop="50dp"
-        app:layout_constraintTop_toTopOf="@+id/spinner_citys"
+        app:layout_constraintTop_toTopOf="@+id/spinner_mundos"
         tools:listitem="@layout/recyclerview_items_houses"
         />
 </androidx.constraintlayout.widget.ConstraintLayout>
