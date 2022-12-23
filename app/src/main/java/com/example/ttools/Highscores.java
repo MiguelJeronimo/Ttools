@@ -205,8 +205,7 @@ public class Highscores extends AppCompatActivity implements AdapterView.OnItemS
     public void spinners(){
         Spinners spinners = new Spinners();
         adapterVocations = new ArrayAdapter<String>(getApplicationContext(),R.layout.spinner_text_style,spinners.spinnerVocations());
-        adapterCategorys = new ArrayAdapter<String>(getApplicationContext(),R.layout.spinner_text_style,spinners.spinnerCategory());
-        System.out.println("DATOS: "+ spinners.spinnerCategory());
+        adapterCategorys = new ArrayAdapter<String>(getApplicationContext(),R.layout.spinner_text_style,spinners.spinnerCategory(getResources().openRawResource(R.raw.categorias)));
         spinnerVocations.setAdapter(adapterVocations);
         spinnerCategorys.setAdapter(adapterCategorys);
     }

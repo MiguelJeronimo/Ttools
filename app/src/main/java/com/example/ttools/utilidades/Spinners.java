@@ -22,7 +22,7 @@ public class Spinners {
     /**
      * @return categorias del tipo de skill y algunos bonos
      * */
-    public ArrayList<String> spinnerCategory(){
+    public ArrayList<String> spinnerCategory(InputStream documento){
         /*
         *  achievements ┃ axefighting ┃ charmpoints ┃ clubfighting
         * ┃ distancefighting ┃ experience ┃ fishing ┃ fistfighting
@@ -31,22 +31,19 @@ public class Spinners {
         * */
         //Al acceder a los datos del array, hay que quitarle el espacio
         ArrayList<String> arrayCategory = new ArrayList<>();
-        arrayCategory.add("Experience");
-        arrayCategory.add("Axe fighting");
-        arrayCategory.add("Club fighting");
-        arrayCategory.add("Sword fighting");
-        arrayCategory.add("Distance fighting");
-        arrayCategory.add("Magic level");
-        arrayCategory.add("shielding");
-        arrayCategory.add("Fist fighting");
-        arrayCategory.add("Fishing");
-        arrayCategory.add("Achievements");
-        arrayCategory.add("Charm points");
-        arrayCategory.add("Goshnars taint");
-        arrayCategory.add("Loyalty points");
-        arrayCategory.add("Drome score");
-        arrayCategory.add("Boss points");
-        return arrayCategory;
+        BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(documento));
+        StringBuilder stringBuilder = new StringBuilder();
+        String data = null;
+        ArrayList<String> citys = new ArrayList<>();
+        while (true){
+            try {
+                if (!((data  = bufferedReader.readLine())!=null)) break;
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            citys.add(data);
+        }
+        return citys;
     }
 
     /**
