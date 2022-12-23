@@ -112,6 +112,15 @@ public class HouseActivity extends AppCompatActivity implements AdapterView.OnIt
 
     @Override
     public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+        String mundo = null, ciudad = null;
+        if (adapterView.getId() == R.id.spinner_mundos){
+            mundo = (String) spinnerWorlds.getItemAtPosition(i);
+            dataHighScores.setMundo(mundo);
+        }
+        if (adapterView.getId() == R.id.spinner_citys){
+            ciudad = (String) spinnerCitys.getItemAtPosition(i);
+            dataHighScores.setCiudad(ciudad);
+        }
 
     }
 

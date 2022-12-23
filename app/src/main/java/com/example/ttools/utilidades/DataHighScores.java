@@ -4,6 +4,7 @@ public class DataHighScores {
     private String vocacion;
     private String categoria;
     private String mundo;
+    private String ciudad;
 
     public String getVocacion() {
         return vocacion;
@@ -27,5 +28,13 @@ public class DataHighScores {
 
     public void setMundo(String mundo) {
         this.mundo = mundo;
+    }
+
+    public String getCiudad() {
+        return ciudad;
+    }
+
+    public void setCiudad(String ciudad) {
+        this.ciudad = ciudad;
     }
 }
