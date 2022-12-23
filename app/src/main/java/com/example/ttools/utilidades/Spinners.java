@@ -10,13 +10,21 @@ public class Spinners {
     /**
      * @return regresa un array con las vocaciones
      * */
-    public ArrayList<String> spinnerVocations(){
+    public ArrayList<String> spinnerVocations(InputStream documento){
         ArrayList<String> arrayVocations = new ArrayList<>();
-        arrayVocations.add("all");
-        arrayVocations.add("Knights");
-        arrayVocations.add("Paladins");
-        arrayVocations.add("Sorcerers");
-        arrayVocations.add("Druids");
+        BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(documento));
+        StringBuilder stringBuilder = new StringBuilder();
+        String data = null;
+        ArrayList<String> categories = new ArrayList<>();
+        while (true){
+            try {
+                if (!((data  = bufferedReader.readLine())!=null)) break;
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            arrayVocations.add(data);
+        }
+
         return arrayVocations;
     }
     /**
@@ -30,20 +38,19 @@ public class Spinners {
         * ┃ swordfighting ┃ dromescore ┃ bosspoints
         * */
         //Al acceder a los datos del array, hay que quitarle el espacio
-        ArrayList<String> arrayCategory = new ArrayList<>();
         BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(documento));
         StringBuilder stringBuilder = new StringBuilder();
         String data = null;
-        ArrayList<String> citys = new ArrayList<>();
+        ArrayList<String> categories = new ArrayList<>();
         while (true){
             try {
                 if (!((data  = bufferedReader.readLine())!=null)) break;
             } catch (IOException e) {
                 e.printStackTrace();
             }
-            citys.add(data);
+            categories.add(data);
         }
-        return citys;
+        return categories;
     }
 
     /**
