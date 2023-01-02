@@ -13,9 +13,10 @@ import com.example.ttools.recyclerview.ItemsRecyclerViewHouses;
 
 import java.util.List;
 
-public class AdapterRecyclerViewHouses extends RecyclerView.Adapter<AdapterRecyclerViewHouses.ViewHolder> {
+public class AdapterRecyclerViewHouses extends RecyclerView.Adapter<AdapterRecyclerViewHouses.ViewHolder> implements View.OnClickListener {
     List<ItemsRecyclerViewHouses> items_hoses;
-
+    private View.OnClickListener listener;
+    public void setOnClickListener(View.OnClickListener listener){this.listener=listener;}
     public AdapterRecyclerViewHouses(List<ItemsRecyclerViewHouses> items_hoses){this.items_hoses = items_hoses;}
 
     @NonNull
@@ -23,6 +24,7 @@ public class AdapterRecyclerViewHouses extends RecyclerView.Adapter<AdapterRecyc
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View vista = LayoutInflater.from(parent.getContext())
                 .inflate(R.layout.recyclerview_items_houses,parent,false);
+        vista.setOnClickListener(this);
         return new ViewHolder(vista);
     }
 
@@ -38,6 +40,13 @@ public class AdapterRecyclerViewHouses extends RecyclerView.Adapter<AdapterRecyc
     @Override
     public int getItemCount() {
         return items_hoses.size();
+    }
+
+    @Override
+    public void onClick(View view) {
+        if (listener!=null){
+            listener.onClick(view);
+        }
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder {
