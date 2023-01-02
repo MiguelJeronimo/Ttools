@@ -1,5 +1,6 @@
 package com.example.ttools;
 
+import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
 
@@ -43,6 +44,7 @@ public class HouseActivity extends AppCompatActivity implements AdapterView.OnIt
     private AppBarConfiguration appBarConfiguration;
     private ActivityHouseBinding binding;
     String url = "https://api.tibiadata.com/v3/";
+    String mundo;
     DataHighScores dataHighScores = new DataHighScores();
     Spinner spinnerWorlds, spinnerCitys;
     ArrayAdapter<String> adapterWorlds,adapterCitys;
@@ -127,6 +129,7 @@ public class HouseActivity extends AppCompatActivity implements AdapterView.OnIt
                 if (response.isSuccessful()){
                     ApiHouses apiHouses = response.body();
                     Houses houses = apiHouses.getHouses();
+                    mundo = houses.getWorld();
                     list_houses = new ArrayList<>();
                     String rented;
                     for (HouseList houseList: houses.getHouse_list()) {
@@ -150,11 +153,22 @@ public class HouseActivity extends AppCompatActivity implements AdapterView.OnIt
                 recyclerView.setLayoutManager(linearLayoutManager);
                 adapterRecyclerViewHouses = new AdapterRecyclerViewHouses(list_houses);
                 recyclerView.setAdapter(adapterRecyclerViewHouses);
+                adapterRecyclerViewHouses.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        //Enviando el id de la casa a al activity HousesInformation
+                        String id_house = list_houses.get(recyclerView.getChildAdapterPosition(view)).getHouseId();
+                        Intent intent = new Intent(HouseActivity.this,HousesInformation.class);
+                        intent.putExtra("ID",id_house);
+                        intent.putExtra("mundo", mundo);
+                        startActivity(intent);
+                    }
+                });
             }
 
             @Override
             public void onFailure(Call<ApiHouses> call, Throwable t) {
-
+                System.out.println(t.getMessage());
             }
         });
 
