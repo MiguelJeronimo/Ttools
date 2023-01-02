@@ -5,6 +5,14 @@ public class HouseList {
     int house_id, size, rent;
     boolean rented;
 
+    public HouseList(String name, int house_id, int size,int rent, boolean rented){
+        this.name = name;
+        this.house_id = house_id;
+        this.size = size;
+        this.rent = rent;
+        this.rented = rented;
+    }
+
     public boolean isRented(){
         return rented;
     }

@@ -1,10 +1,12 @@
 package com.example.ttools;
 
 import android.content.Intent;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.MenuItem;
 import android.widget.ImageView;
+import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -16,6 +18,8 @@ import com.example.ttools.APISERVER.models.Houses.House;
 import com.example.ttools.Operaciones.InstanciaRetrofit;
 import com.example.ttools.databinding.ActivityHousesInformationBinding;
 
+import java.text.DecimalFormat;
+
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -23,10 +27,14 @@ import retrofit2.Response;
 public class HousesInformation extends AppCompatActivity {
     Intent intent;
     String id_house, mundo;
+    TextView txtName,txtWorld,txtCity,txtType,txtBeds,txtSize,txtPrice,txtOwner;
     String url = "https://api.tibiadata.com/v3/";
     ImageView imgCasa;
     private ActivityHousesInformationBinding binding;
     InstanciaRetrofit services = new InstanciaRetrofit();
+    // para formatear numeros a formato de dinero.
+    DecimalFormat decimalFormat = new DecimalFormat("###,###.00");
+    Asincronia asincronia = new Asincronia();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -39,6 +47,15 @@ public class HousesInformation extends AppCompatActivity {
         id_house = intent.getStringExtra("ID");
         mundo = intent.getStringExtra("mundo");
         imgCasa = findViewById(R.id.imgCasa);
+        txtName = findViewById(R.id.txtName);
+        txtWorld = findViewById(R.id.txtWorld);
+        txtCity = findViewById(R.id.txtCity);
+        txtType = findViewById(R.id.txtType);
+        txtBeds = findViewById(R.id.txtBeds);
+        txtSize = findViewById(R.id.txtSize);
+        txtPrice = findViewById(R.id.txtPrice);
+        txtOwner = findViewById(R.id.txtOwner);
+        asincronia.execute();
     }
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
@@ -65,13 +82,38 @@ public class HousesInformation extends AppCompatActivity {
                     ApiHousesInformation apiHousesInformation = response.body();
                     House house = apiHousesInformation.getHouse();
                     Glide.with(getApplicationContext()).load(house.getImg()).into(imgCasa);
+                    txtName.setText(house.getName());
+                    txtWorld.setText(house.getWorld());
+                    txtCity.setText(house.getTown());
+                    txtType.setText(house.getType());
+                    txtBeds.setText(String.valueOf(house.getBeds()));
+                    txtSize.setText(String.valueOf(house.getSize()));
+                    txtPrice.setText(decimalFormat.format(house.getRent()));
+                    txtOwner.setText(house.getStatus().getOriginal());
                 }
             }
 
             @Override
             public void onFailure(Call<ApiHousesInformation> call, Throwable t) {
-
+                System.out.println(t.getMessage());
             }
         });
+    }
+
+    //implementacion de tareas asincronas
+    private class Asincronia extends AsyncTask {
+        Thread hilo = new Thread(new Runnable() {
+            @Override
+            public void run() {
+                llenarData(url, mundo, id_house);
+            }
+        });
+
+        //Thread hilo = new Thread();
+        @Override
+        protected Object doInBackground(Object[] objects) {
+            hilo.start();
+            return null;
+        }
     }
 }

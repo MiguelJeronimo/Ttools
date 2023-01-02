@@ -61,5 +61,5 @@ public interface TibiaAPIServer {
     @GET("houses/{world}/{town}")
     Call<ApiHouses> getHousesInformation(@Path("world") String world, @Path("town") String town);
     @GET("house/{world}/{house_id}")
-    Call<ApiHousesInformation> getHouseInformation(@Path("world") String world, @Path("id") String id);
+    Call<ApiHousesInformation> getHouseInformation(@Path("world") String world, @Path("house_id") String house_id);
 }

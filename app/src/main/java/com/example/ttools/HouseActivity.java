@@ -7,6 +7,7 @@ import android.os.Bundle;
 import com.example.ttools.APISERVER.TibiaAPIServer;
 import com.example.ttools.APISERVER.models.ApiHouses;
 import com.example.ttools.APISERVER.models.Houses.Houses;
+import com.example.ttools.APISERVER.models.Houses.house_list.GuildhallList;
 import com.example.ttools.APISERVER.models.Houses.house_list.HouseList;
 import com.example.ttools.APISERVER.models.Worlds.DataWords;
 import com.example.ttools.APISERVER.models.Worlds.RegularWorlds;
@@ -144,6 +145,20 @@ public class HouseActivity extends AppCompatActivity implements AdapterView.OnIt
                                 String.valueOf(houseList.getRent()),
                                 rented,
                                 String.valueOf(houseList.getHouse_id())
+                        ));
+                    }
+                    for (GuildhallList guildhallList: houses.getGuildhall_list()) {
+                        if (guildhallList.isRented()){
+                            rented = "Ocupada";
+                        } else{
+                            rented = "Desocupada";
+                        }
+                        list_houses.add(new ItemsRecyclerViewHouses(
+                                guildhallList.getName(),
+                                String.valueOf(guildhallList.getSize()),
+                                String.valueOf(guildhallList.getRent()),
+                                rented,
+                                String.valueOf(guildhallList.getHouse_id())
                         ));
                     }
 

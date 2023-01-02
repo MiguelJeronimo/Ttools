@@ -21,7 +21,7 @@
     <string name="title_activity_spell_information">Spell Information</string>
     <string name="title_activity_house">Houses</string>
     <string name="title_activity_highscores">Highscores</string>
-    <string name="title_activity_houses_information">HousesInformation</string>
+    <string name="title_activity_houses_information">Houses Information</string>
     <!-- to toggle the open close button of the navigation drawer -->
     <string name="nav_open">Open</string>
     <string name="nav_close">Close</string>
