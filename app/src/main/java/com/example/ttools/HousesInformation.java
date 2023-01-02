@@ -9,7 +9,16 @@ import android.widget.ImageView;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.bumptech.glide.Glide;
+import com.example.ttools.APISERVER.TibiaAPIServer;
+import com.example.ttools.APISERVER.models.ApiHousesInformation;
+import com.example.ttools.APISERVER.models.Houses.House;
+import com.example.ttools.Operaciones.InstanciaRetrofit;
 import com.example.ttools.databinding.ActivityHousesInformationBinding;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 public class HousesInformation extends AppCompatActivity {
     Intent intent;
@@ -17,6 +26,7 @@ public class HousesInformation extends AppCompatActivity {
     String url = "https://api.tibiadata.com/v3/";
     ImageView imgCasa;
     private ActivityHousesInformationBinding binding;
+    InstanciaRetrofit services = new InstanciaRetrofit();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -46,6 +56,22 @@ public class HousesInformation extends AppCompatActivity {
     }
 
     public void llenarData(String url, String mundo, String id_house){
+        TibiaAPIServer tibiaAPIServer = services.getRetrofit(url).create(TibiaAPIServer.class);
+        Call<ApiHousesInformation> call = tibiaAPIServer.getHouseInformation(mundo, id_house);
+        call.enqueue(new Callback<ApiHousesInformation>() {
+            @Override
+            public void onResponse(Call<ApiHousesInformation> call, Response<ApiHousesInformation> response) {
+                if (response.isSuccessful()){
+                    ApiHousesInformation apiHousesInformation = response.body();
+                    House house = apiHousesInformation.getHouse();
+                    Glide.with(getApplicationContext()).load(house.getImg()).into(imgCasa);
+                }
+            }
 
+            @Override
+            public void onFailure(Call<ApiHousesInformation> call, Throwable t) {
+
+            }
+        });
     }
 }
