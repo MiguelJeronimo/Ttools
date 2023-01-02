@@ -4,31 +4,34 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 
 import com.example.ttools.APISERVER.TibiaAPIServer;
+import com.example.ttools.APISERVER.models.ApiHouses;
+import com.example.ttools.APISERVER.models.Houses.Houses;
+import com.example.ttools.APISERVER.models.Houses.house_list.HouseList;
 import com.example.ttools.APISERVER.models.Worlds.DataWords;
 import com.example.ttools.APISERVER.models.Worlds.RegularWorlds;
 import com.example.ttools.APISERVER.models.Worlds.Worlds;
 import com.example.ttools.Operaciones.InstanciaRetrofit;
+import com.example.ttools.recyclerview.Adapters.AdapterRecyclerViewHouses;
+import com.example.ttools.recyclerview.ItemsRecyclerViewHouses;
 import com.example.ttools.utilidades.DataHighScores;
 import com.example.ttools.utilidades.Spinners;
-import com.google.android.material.snackbar.Snackbar;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Spinner;
 
-import androidx.navigation.NavController;
-import androidx.navigation.Navigation;
 import androidx.navigation.ui.AppBarConfiguration;
-import androidx.navigation.ui.NavigationUI;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.ttools.databinding.ActivityHouseBinding;
 
-import java.io.IOException;
 import java.util.ArrayList;
 
 import retrofit2.Call;
@@ -43,6 +46,10 @@ public class HouseActivity extends AppCompatActivity implements AdapterView.OnIt
     DataHighScores dataHighScores = new DataHighScores();
     Spinner spinnerWorlds, spinnerCitys;
     ArrayAdapter<String> adapterWorlds,adapterCitys;
+    //Recyclerview
+    RecyclerView recyclerView;
+    AdapterRecyclerViewHouses adapterRecyclerViewHouses;
+    ArrayList<ItemsRecyclerViewHouses> list_houses;
     //retrofit
     InstanciaRetrofit servicio = new InstanciaRetrofit();
     Asincronia asincronia = new Asincronia();
@@ -94,7 +101,6 @@ public class HouseActivity extends AppCompatActivity implements AdapterView.OnIt
                     DataWords dataWords = response.body();
                     Worlds worlds = dataWords.getWorlds();
                     //foreach en java
-                    arrayWorlds.add("All");
                     for (RegularWorlds mundos: worlds.getRegular_worlds()) {
                         arrayWorlds.add(mundos.getName());
                     }
@@ -110,18 +116,63 @@ public class HouseActivity extends AppCompatActivity implements AdapterView.OnIt
         });
     }
 
+    public void Casas(String url, String World, String Town){
+        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this);
+        recyclerView = findViewById(R.id.recycler_houses);
+        TibiaAPIServer tibiaAPIServer = servicio.getRetrofit(url).create(TibiaAPIServer.class);
+        Call<ApiHouses> call = tibiaAPIServer.getHousesInformation(World, Town);
+        call.enqueue(new Callback<ApiHouses>() {
+            @Override
+            public void onResponse(Call<ApiHouses> call, Response<ApiHouses> response) {
+                if (response.isSuccessful()){
+                    ApiHouses apiHouses = response.body();
+                    Houses houses = apiHouses.getHouses();
+                    list_houses = new ArrayList<>();
+                    String rented;
+                    for (HouseList houseList: houses.getHouse_list()) {
+                        if (houseList.isRented()){
+                            rented = "Ocupada";
+                        } else{
+                            rented = "Desocupada";
+                        }
+                        list_houses.add(new ItemsRecyclerViewHouses(
+                                houseList.getName(),
+                                String.valueOf(houseList.getSize()),
+                                String.valueOf(houseList.getRent()),
+                                rented,
+                                String.valueOf(houseList.getHouse_id())
+                        ));
+                    }
+
+                }
+                recyclerView.setHasFixedSize(true);
+                linearLayoutManager.setOrientation(linearLayoutManager.VERTICAL);
+                recyclerView.setLayoutManager(linearLayoutManager);
+                adapterRecyclerViewHouses = new AdapterRecyclerViewHouses(list_houses);
+                recyclerView.setAdapter(adapterRecyclerViewHouses);
+            }
+
+            @Override
+            public void onFailure(Call<ApiHouses> call, Throwable t) {
+
+            }
+        });
+
+    }
+
     @Override
     public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
         String mundo = null, ciudad = null;
         if (adapterView.getId() == R.id.spinner_mundos){
             mundo = (String) spinnerWorlds.getItemAtPosition(i);
             dataHighScores.setMundo(mundo);
+
         }
         if (adapterView.getId() == R.id.spinner_citys){
             ciudad = (String) spinnerCitys.getItemAtPosition(i);
             dataHighScores.setCiudad(ciudad);
         }
-
+        Casas(url,dataHighScores.getMundo(),dataHighScores.getCiudad());
     }
 
     @Override
