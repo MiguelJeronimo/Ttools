@@ -20,6 +20,8 @@
     <string name="title_activity_spells_tibia">Spells</string>
     <string name="title_activity_spell_information">Spell Information</string>
     <string name="title_activity_house">Houses</string>
+    <string name="title_activity_highscores">Highscores</string>
+    <string name="title_activity_houses_information">HousesInformation</string>
     <!-- to toggle the open close button of the navigation drawer -->
     <string name="nav_open">Open</string>
     <string name="nav_close">Close</string>
@@ -34,7 +36,6 @@
     <string name="nd_bless">Blessings</string>
     <string name="nd_highscores">Highscores</string>
     <string name="nd_houses">Houses</string>
-    <string name="title_activity_highscores">Highscores</string>
 
 
 
