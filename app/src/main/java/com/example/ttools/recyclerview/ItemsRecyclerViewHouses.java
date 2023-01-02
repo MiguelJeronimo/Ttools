@@ -1,8 +1,6 @@
 package com.example.ttools.recyclerview;
 
-import androidx.recyclerview.widget.RecyclerView;
-
-public class ItemsRecyclerViewHouses extends RecyclerView.ViewHolder {
+public class ItemsRecyclerViewHouses {
     private String houseName;
     private String houseSize;
     private String houseRent;
