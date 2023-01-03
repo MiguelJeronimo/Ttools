@@ -14,6 +14,7 @@ import com.example.ttools.APISERVER.models.criatures.Criatures;
 import com.example.ttools.Operaciones.InstanciaRetrofit;
 import com.example.ttools.recyclerview.Adapters.AdapterRecyclerViewNews;
 import com.example.ttools.recyclerview.ItemsRecyclerViewNews;
+import com.example.ttools.utilidades.RedValidator;
 import com.google.android.material.navigation.NavigationView;
 
 import androidx.appcompat.app.ActionBarDrawerToggle;
@@ -28,6 +29,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -58,6 +60,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     RecyclerView recyclerViewNoticas;
     AdapterRecyclerViewNews adapterRecyclerViewNews;
     List<ItemsRecyclerViewNews> itemsRecyclerViewNewsList;
+    RedValidator redValidator = new RedValidator();
     //retrofit
     InstanciaRetrofit servicio = new InstanciaRetrofit();
     Asincronia asincronia = new Asincronia();
@@ -95,15 +98,21 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         lbBossBosstable = findViewById(R.id.lbBossBosstable);
         //noticias
         textViewFecha = findViewById(R.id.textViewFecha);
-        textViewCategoria = findViewById(R.id.textViewCategoria);;
-        textViewNoticia = findViewById(R.id.textViewNoticia);;
-        textViewTipo = findViewById(R.id.textViewTipo);;
-        textViewDate = findViewById(R.id.textViewDate);;
-        textViewCategory = findViewById(R.id.textViewCategory);;
-        textViewNew = findViewById(R.id.textViewNew);;
-        textViewtype = findViewById(R.id.textViewtype);;
-        //ejecutando los multiple hilos para el consumo de api
-        asincronia.execute();
+        textViewCategoria = findViewById(R.id.textViewCategoria);
+        textViewNoticia = findViewById(R.id.textViewNoticia);
+        textViewTipo = findViewById(R.id.textViewTipo);
+        textViewDate = findViewById(R.id.textViewDate);
+        textViewCategory = findViewById(R.id.textViewCategory);
+        textViewNew = findViewById(R.id.textViewNew);
+        textViewtype = findViewById(R.id.textViewtype);
+        //Validamos si tenenemos conexion a internet
+        if (redValidator.ValidarInternet(this)){
+            //ejecutando los multiple hilos para el consumo de api
+            asincronia.execute();
+        } else{
+            Toast.makeText(this,"Revisa tu conexion a internet :)",Toast.LENGTH_SHORT).show();
+        }
+
     }
 
     public void llenarRashid(String url){
