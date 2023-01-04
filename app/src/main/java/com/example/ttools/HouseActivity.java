@@ -147,19 +147,22 @@ public class HouseActivity extends AppCompatActivity implements AdapterView.OnIt
                                 String.valueOf(houseList.getHouse_id())
                         ));
                     }
-                    for (GuildhallList guildhallList: houses.getGuildhall_list()) {
-                        if (guildhallList.isRented()){
-                            rented = "Ocupada";
-                        } else{
-                            rented = "Desocupada";
+                    //validar que el array de guildhall es diferente de null
+                    if (houses.getGuildhall_list()!=null){
+                        for (GuildhallList guildhallList: houses.getGuildhall_list()) {
+                            if (guildhallList.isRented()){
+                                rented = "Ocupada";
+                            } else{
+                                rented = "Desocupada";
+                            }
+                            list_houses.add(new ItemsRecyclerViewHouses(
+                                    guildhallList.getName(),
+                                    String.valueOf(guildhallList.getSize()),
+                                    String.valueOf(guildhallList.getRent()),
+                                    rented,
+                                    String.valueOf(guildhallList.getHouse_id())
+                            ));
                         }
-                        list_houses.add(new ItemsRecyclerViewHouses(
-                                guildhallList.getName(),
-                                String.valueOf(guildhallList.getSize()),
-                                String.valueOf(guildhallList.getRent()),
-                                rented,
-                                String.valueOf(guildhallList.getHouse_id())
-                        ));
                     }
 
                 }

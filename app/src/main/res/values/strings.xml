@@ -1,27 +1,23 @@
 <resources>
     <string name="app_name">Ttools</string>
     <string name="title_activity_experiencia_compartida">Experiencia compartida</string>
-    <!-- Strings used for fragments for navigation -->
-    <string name="first_fragment_label">First Fragment</string>
-    <string name="second_fragment_label">Second Fragment</string>
+
     <string name="next">Next</string>
     <string name="previous">Previous</string>
 
-    <string name="hello_first_fragment">Hello first fragment</string>
-    <string name="hello_second_fragment">Hello second fragment. Arg: %1$s</string>
     <string name="title_activity_blessings">Blessings</string>
-    <string name="title_activity_characters">Characters</string>
+    <string name="title_activity_characters">Jugadores</string>
     <string name="title_activity_stamina">Stamina</string>
     <string name="title_activity_mundos">Mundos</string>
     <string name="title_activity_criaturas">Criaturas</string>
     <string name="title_activity_criatures_information">Información de la Criatura</string>
     <string name="title_activity_guilds">Guilds</string>
-    <string name="title_activity_guild_information_name">Información de la guild</string>
+    <string name="title_activity_guild_information_name">Información de la Guild</string>
     <string name="title_activity_spells_tibia">Spells</string>
-    <string name="title_activity_spell_information">Spell Information</string>
+    <string name="title_activity_spell_information">Información de la Spell</string>
     <string name="title_activity_house">Houses</string>
     <string name="title_activity_highscores">Highscores</string>
-    <string name="title_activity_houses_information">Houses Information</string>
+    <string name="title_activity_houses_information">Información de la House</string>
     <!-- to toggle the open close button of the navigation drawer -->
     <string name="nav_open">Open</string>
     <string name="nav_close">Close</string>
@@ -36,7 +32,5 @@
     <string name="nd_bless">Blessings</string>
     <string name="nd_highscores">Highscores</string>
     <string name="nd_houses">Houses</string>
-
-
 
 </resources>
