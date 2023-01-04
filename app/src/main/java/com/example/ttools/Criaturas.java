@@ -115,7 +115,6 @@ public class Criaturas extends AppCompatActivity {
                 Toast.makeText(Criaturas.this, t.getMessage(), Toast.LENGTH_SHORT).show();
             }
         });
-
     }
 }
 
