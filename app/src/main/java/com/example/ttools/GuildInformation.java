@@ -1,6 +1,7 @@
 package com.example.ttools;
 import android.annotation.SuppressLint;
 import android.content.Intent;
+import android.os.AsyncTask;
 import android.os.Bundle;
 
 import com.example.ttools.APISERVER.TibiaAPIServer;
@@ -34,8 +35,6 @@ import java.util.List;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
-import retrofit2.Retrofit;
-import retrofit2.converter.gson.GsonConverterFactory;
 
 public class GuildInformation extends AppCompatActivity implements AdapterView.OnItemSelectedListener {
     private ActivityGuildsBinding binding;
@@ -45,7 +44,9 @@ public class GuildInformation extends AppCompatActivity implements AdapterView.O
     RecyclerView recyclerView;
     AdapterRecyclerViewGuildsList adaptador;
     List<ItemsRecyclerViewGuilds> itemsRecyclerViewGuilds;
-    InstanciaRetrofit services = new InstanciaRetrofit();
+    String url = "https://api.tibiadata.com/v3/";
+    Asincronia asincronia = new Asincronia();
+    InstanciaRetrofit servicio = new InstanciaRetrofit();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -56,8 +57,7 @@ public class GuildInformation extends AppCompatActivity implements AdapterView.O
         getSupportActionBar().setDisplayHomeAsUpEnabled(true); //Aparicion del boton regresar en el action bar
         spinner = findViewById(R.id.spinner_guild);
         spinner.setOnItemSelectedListener(this);
-        String url = "https://api.tibiadata.com/v3/";
-        llenarSpinner(url);
+        asincronia.execute();
         /***binding.fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -86,7 +86,7 @@ public class GuildInformation extends AppCompatActivity implements AdapterView.O
 
     public void llenarSpinner(String url){
         ArrayList<String> arrayWorlds = new ArrayList<>();
-        TibiaAPIServer tibiaAPIServer = services.getRetrofit(url).create(TibiaAPIServer.class);
+        TibiaAPIServer tibiaAPIServer = servicio.getRetrofit(url).create(TibiaAPIServer.class);
         Call <DataWords> call = tibiaAPIServer.getWorlds();
         call.enqueue(new Callback<DataWords>() {
             @Override
@@ -115,12 +115,13 @@ public class GuildInformation extends AppCompatActivity implements AdapterView.O
             recyclerView = (RecyclerView) findViewById(R.id.recyclerGuilds);
             LinearLayoutManager layoutManager = new LinearLayoutManager(this);
             String url_world = "https://api.tibiadata.com/v3/guilds/";
-            Retrofit retrofit = new Retrofit.Builder()
+            InstanciaRetrofit retrofit = new InstanciaRetrofit();
+            /**Retrofit retrofit = new Retrofit.Builder()
                     .baseUrl(url_world)
                     .addConverterFactory(GsonConverterFactory.create())
-                    .build();
-            TibiaAPIServer services = retrofit.create(TibiaAPIServer.class);
-            Call<ApiGuilds> call = services.getGuildsInformation(world);
+                    .build();*/
+            TibiaAPIServer tibiaAPIServer = retrofit.getRetrofit(url_world).create(TibiaAPIServer.class);
+            Call<ApiGuilds> call = tibiaAPIServer.getGuildsInformation(world);
             call.enqueue(new Callback<ApiGuilds>() {
                 @SuppressLint("NotifyDataSetChanged")
                 @Override
@@ -170,6 +171,22 @@ public class GuildInformation extends AppCompatActivity implements AdapterView.O
                 itemsRecyclerViewGuilds.clear();
                 adaptador.notifyDataSetChanged();
             }
+        }
+    }
+    //implementacion de tareas asincronas
+    private class Asincronia extends AsyncTask {
+        Thread hilo = new Thread(new Runnable() {
+            @Override
+            public void run() {
+                llenarSpinner(url);
+            }
+        });
+
+        //Thread hilo = new Thread();
+        @Override
+        protected Object doInBackground(Object[] objects) {
+            hilo.start();
+            return null;
         }
     }
 
