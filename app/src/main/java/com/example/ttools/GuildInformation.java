@@ -116,10 +116,6 @@ public class GuildInformation extends AppCompatActivity implements AdapterView.O
             LinearLayoutManager layoutManager = new LinearLayoutManager(this);
             String url_world = "https://api.tibiadata.com/v3/guilds/";
             InstanciaRetrofit retrofit = new InstanciaRetrofit();
-            /**Retrofit retrofit = new Retrofit.Builder()
-                    .baseUrl(url_world)
-                    .addConverterFactory(GsonConverterFactory.create())
-                    .build();*/
             TibiaAPIServer tibiaAPIServer = retrofit.getRetrofit(url_world).create(TibiaAPIServer.class);
             Call<ApiGuilds> call = tibiaAPIServer.getGuildsInformation(world);
             call.enqueue(new Callback<ApiGuilds>() {
