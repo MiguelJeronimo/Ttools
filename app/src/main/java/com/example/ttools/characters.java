@@ -7,6 +7,7 @@ import android.os.Bundle;
 import com.example.ttools.APISERVER.TibiaAPIServer;
 import com.example.ttools.APISERVER.models.CharactersInformation.APIServicesTibia;
 import com.example.ttools.APISERVER.models.CharactersInformation.Characters.Characters;
+import com.example.ttools.Operaciones.InstanciaRetrofit;
 import com.example.ttools.utilidades.ConvertidorFecha;
 import com.google.android.material.snackbar.Snackbar;
 
@@ -36,6 +37,7 @@ public class characters extends AppCompatActivity implements View.OnClickListene
     Button btnenviar;
     ConvertidorFecha convertidorFecha = new ConvertidorFecha();
     LinearLayout linearLayoutDeaths, linearLayoutOtherCharacters, linearLayoutHouses,linearLayoutAchievements;
+    InstanciaRetrofit services = new InstanciaRetrofit();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -111,14 +113,8 @@ public class characters extends AppCompatActivity implements View.OnClickListene
         textViewLoyalty.setText("");
         textViewCreated.setText("");
         String urlAPI = "https://api.tibiadata.com/v3/character/";
-
-            Retrofit retrofit = new Retrofit
-                    .Builder()
-                    .baseUrl(urlAPI)
-                    .addConverterFactory(GsonConverterFactory.create())
-                    .build();
-            TibiaAPIServer services = retrofit.create(TibiaAPIServer.class);
-            Call <APIServicesTibia> repo = services.getPersonajes(nombre_persona);
+            TibiaAPIServer tibiaAPIServer = services.getRetrofit(urlAPI).create(TibiaAPIServer.class);
+            Call <APIServicesTibia> repo = tibiaAPIServer.getPersonajes(nombre_persona);
             repo.enqueue(new Callback<APIServicesTibia>() {
                 @Override
                 public void onResponse(Call<APIServicesTibia> call, Response<APIServicesTibia> response) {

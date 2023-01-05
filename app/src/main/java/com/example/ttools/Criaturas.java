@@ -6,6 +6,7 @@ import android.os.Bundle;
 import com.example.ttools.APISERVER.TibiaAPIServer;
 import com.example.ttools.APISERVER.models.APICriatures;
 import com.example.ttools.APISERVER.models.criatures.Criatures;
+import com.example.ttools.Operaciones.InstanciaRetrofit;
 import com.example.ttools.recyclerview.Adapters.adapterRecyclerViewCriatures;
 import com.example.ttools.recyclerview.ItemsRecyclerViewCriatures;
 import androidx.annotation.NonNull;
@@ -36,6 +37,7 @@ public class Criaturas extends AppCompatActivity {
     String url = "https://api.tibiadata.com/v3/";
     private AppBarConfiguration appBarConfiguration;
     private ActivityCriaturasBinding binding;
+    InstanciaRetrofit services = new InstanciaRetrofit();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -68,11 +70,7 @@ public class Criaturas extends AppCompatActivity {
     public void llenarRecyclerViewCriaturas(String url) {
         recyclerView = findViewById(R.id.recyclerCriaturas);
         LinearLayoutManager layoutManager = new LinearLayoutManager(this);
-        Retrofit retrofit = new Retrofit.Builder()
-                .baseUrl(url)
-                .addConverterFactory(GsonConverterFactory.create())
-                .build();
-        TibiaAPIServer tibiaAPIServer = retrofit.create(TibiaAPIServer.class);
+        TibiaAPIServer tibiaAPIServer = services.getRetrofit(url).create(TibiaAPIServer.class);
         Call<APICriatures> call = tibiaAPIServer.getCreatures();
         call.enqueue(new retrofit2.Callback<APICriatures>() {
             @Override

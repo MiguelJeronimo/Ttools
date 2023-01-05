@@ -16,6 +16,7 @@ import com.example.ttools.APISERVER.TibiaAPIServer;
 import com.example.ttools.APISERVER.models.ApiSpells;
 import com.example.ttools.APISERVER.models.SpellsInformation.SpellList.SpellsList;
 import com.example.ttools.APISERVER.models.SpellsInformation.Spells;
+import com.example.ttools.Operaciones.InstanciaRetrofit;
 import com.example.ttools.databinding.ActivitySpellsTibiaBinding;
 import com.example.ttools.recyclerview.Adapters.AdapterRecyclerViewSpells;
 import com.example.ttools.recyclerview.ItemsRecyclerViewSpells;
@@ -37,6 +38,7 @@ public class Spells_Tibia extends AppCompatActivity {
     RecyclerView recyclerView;
     AdapterRecyclerViewSpells adapter;
     List<ItemsRecyclerViewSpells> itemsRecyclerViewSpellsList;
+    InstanciaRetrofit services = new InstanciaRetrofit();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -67,11 +69,7 @@ public class Spells_Tibia extends AppCompatActivity {
         recyclerView = findViewById(R.id.recyclerSpells);
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this);
         itemsRecyclerViewSpellsList = new ArrayList<>();
-        Retrofit services = new Retrofit.Builder()
-                .baseUrl(url)
-                .addConverterFactory(GsonConverterFactory.create())
-                .build();
-        TibiaAPIServer tibiaAPIServer = services.create(TibiaAPIServer.class);
+        TibiaAPIServer tibiaAPIServer = services.getRetrofit(url).create(TibiaAPIServer.class);
         Call <ApiSpells> call = tibiaAPIServer.getSpells();
         call.enqueue(new Callback<ApiSpells>() {
             @Override

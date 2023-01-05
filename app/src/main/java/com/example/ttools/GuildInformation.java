@@ -10,6 +10,7 @@ import com.example.ttools.APISERVER.models.GuildInformation.guilds.Guilds;
 import com.example.ttools.APISERVER.models.Worlds.DataWords;
 import com.example.ttools.APISERVER.models.Worlds.RegularWorlds;
 import com.example.ttools.APISERVER.models.Worlds.Worlds;
+import com.example.ttools.Operaciones.InstanciaRetrofit;
 import com.example.ttools.recyclerview.Adapters.AdapterRecyclerViewGuildsList;
 import com.example.ttools.recyclerview.ItemsRecyclerViewGuilds;
 
@@ -44,6 +45,7 @@ public class GuildInformation extends AppCompatActivity implements AdapterView.O
     RecyclerView recyclerView;
     AdapterRecyclerViewGuildsList adaptador;
     List<ItemsRecyclerViewGuilds> itemsRecyclerViewGuilds;
+    InstanciaRetrofit services = new InstanciaRetrofit();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -83,12 +85,8 @@ public class GuildInformation extends AppCompatActivity implements AdapterView.O
     }
 
     public void llenarSpinner(String url){
-        Retrofit retrofit = new Retrofit.Builder()
-                .baseUrl(url)
-                .addConverterFactory(GsonConverterFactory.create())
-                .build();
         ArrayList<String> arrayWorlds = new ArrayList<>();
-        TibiaAPIServer tibiaAPIServer = retrofit.create(TibiaAPIServer.class);
+        TibiaAPIServer tibiaAPIServer = services.getRetrofit(url).create(TibiaAPIServer.class);
         Call <DataWords> call = tibiaAPIServer.getWorlds();
         call.enqueue(new Callback<DataWords>() {
             @Override

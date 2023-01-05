@@ -10,6 +10,7 @@ import com.example.ttools.APISERVER.models.GuildInformation.ApiGuildsName;
 import com.example.ttools.APISERVER.models.GuildInformation.GuildName.GuildName;
 import com.example.ttools.APISERVER.models.GuildInformation.GuildName.Guildss;
 import com.example.ttools.APISERVER.models.GuildInformation.GuildName.members.MembersGuild;
+import com.example.ttools.Operaciones.InstanciaRetrofit;
 import com.example.ttools.recyclerview.Adapters.AdapterRecyclerViewGuildName;
 import com.example.ttools.recyclerview.itemsRecyclerViewGuildsName;
 
@@ -48,6 +49,7 @@ public class GuildInformationName extends AppCompatActivity {
     RecyclerView recyclerView;
     AdapterRecyclerViewGuildName adapter;
     List<itemsRecyclerViewGuildsName> itemsRecyclerViewGuildsNames;
+    InstanciaRetrofit services = new InstanciaRetrofit();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -86,11 +88,7 @@ public class GuildInformationName extends AppCompatActivity {
     public void Informacion(String url, String guildName){
         recyclerView = (RecyclerView) findViewById(R.id.recyclerViewGuildName);
         LinearLayoutManager layoutManager = new LinearLayoutManager(this);
-        Retrofit services = new Retrofit.Builder()
-                .baseUrl(url)
-                .addConverterFactory(GsonConverterFactory.create())
-                .build();
-        TibiaAPIServer tibiaAPIServer = services.create(TibiaAPIServer.class);
+        TibiaAPIServer tibiaAPIServer = services.getRetrofit(url).create(TibiaAPIServer.class);
         Call<ApiGuildsName> call = tibiaAPIServer.getGuildsInformationName(guildName);
         call.enqueue(new Callback<ApiGuildsName>() {
             @SuppressLint("SetTextI18n")

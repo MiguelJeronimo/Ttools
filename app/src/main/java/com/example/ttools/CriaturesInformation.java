@@ -21,6 +21,7 @@ import android.widget.Toast;
 import androidx.navigation.ui.AppBarConfiguration;
 
 import com.example.ttools.APISERVER.models.CriatureInformation.Creature;
+import com.example.ttools.Operaciones.InstanciaRetrofit;
 import com.example.ttools.databinding.ActivityCriaturesInformationBinding;
 import com.squareup.picasso.Picasso;
 
@@ -39,6 +40,7 @@ public class CriaturesInformation extends AppCompatActivity {
     TextView creatureName, creatureDescription, creatureBehaviour, creatureHealth, creatureExp;
     ImageView creatureImage;
     LinearLayout linearLayout, linearLayoutInmune, linearLayoutStrong, linearLayoutWeakness;
+    InstanciaRetrofit services = new InstanciaRetrofit();
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -73,13 +75,8 @@ public class CriaturesInformation extends AppCompatActivity {
         linearLayoutInmune = binding.getRoot().findViewById(R.id.linearLayoutInmune);
         linearLayoutStrong = binding.getRoot().findViewById(R.id.linearLayoutStrong);
         linearLayoutWeakness = binding.getRoot().findViewById(R.id.linearLayoutWeakness);
-        Retrofit retrofit = new Retrofit.Builder()
-                .baseUrl(url)
-                .addConverterFactory(GsonConverterFactory.create())
-                .build();
-
-        TibiaAPIServer services = retrofit.create(TibiaAPIServer.class);
-        Call<APICriaturesInformation> call = services.getCriatureInformation(raceCriatures);
+        TibiaAPIServer tibiaAPIServer = services.getRetrofit(url).create(TibiaAPIServer.class);
+        Call<APICriaturesInformation> call = tibiaAPIServer.getCriatureInformation(raceCriatures);
         call.enqueue(new Callback<APICriaturesInformation>() {
             @Override
             public void onResponse(Call<APICriaturesInformation> call, Response<APICriaturesInformation> response) {

@@ -6,6 +6,7 @@ import android.os.Bundle;
 import com.example.ttools.APISERVER.TibiaAPIServer;
 import com.example.ttools.APISERVER.models.Worlds.DataWords;
 import com.example.ttools.APISERVER.models.Worlds.Worlds;
+import com.example.ttools.Operaciones.InstanciaRetrofit;
 import com.example.ttools.recyclerview.Adapters.adapterRecyclerviewMundos;
 import com.example.ttools.recyclerview.ItemsRecyclerViewMundos;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
@@ -34,6 +35,7 @@ public class Mundos extends AppCompatActivity {
     List<ItemsRecyclerViewMundos> itemsRecyclerViewMundos;
     String url = "https://api.tibiadata.com/v3/";
     TextView playersOnline;
+    InstanciaRetrofit services = new InstanciaRetrofit();
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -75,11 +77,7 @@ public class Mundos extends AppCompatActivity {
         //aqui se hace la llamada a la api
         recyclerView = (RecyclerView) findViewById(R.id.recyclerviewmundos);
         LinearLayoutManager layoutManager = new LinearLayoutManager(this);
-        Retrofit retrofit = new Retrofit.Builder()
-                .baseUrl(url)
-                .addConverterFactory(GsonConverterFactory.create())
-                .build();
-        TibiaAPIServer tibiaAPIServer = retrofit.create(TibiaAPIServer.class);
+        TibiaAPIServer tibiaAPIServer = services.getRetrofit(url).create(TibiaAPIServer.class);
         Call <DataWords> call = tibiaAPIServer.getWorlds();
         call.enqueue(new retrofit2.Callback<DataWords>() {
             @Override

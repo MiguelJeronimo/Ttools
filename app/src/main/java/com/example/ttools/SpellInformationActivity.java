@@ -21,6 +21,7 @@ import com.example.ttools.APISERVER.models.SpellsInformation.SpellList.Spell;
 import com.example.ttools.APISERVER.models.SpellsInformation.Spells;
 import com.example.ttools.APISERVER.models.SpellsInformation.spell_information.Spell_Information;
 import com.example.ttools.APISERVER.models.SpellsInformation.spell_information.rune_information.rune_information;
+import com.example.ttools.Operaciones.InstanciaRetrofit;
 import com.example.ttools.databinding.ActivitySpellInformationBinding;
 
 import retrofit2.Call;
@@ -39,7 +40,7 @@ public class SpellInformationActivity extends AppCompatActivity {
             textViewCooldown,textViewSoulPoint,textViewAmount,textViewMana,textViewNivel,textViewPrice,textViewStatus,
             textViewCooldownGroup;
     String url="https://api.tibiadata.com/v3/spell/";
-
+    InstanciaRetrofit services = new InstanciaRetrofit();
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -85,11 +86,7 @@ public class SpellInformationActivity extends AppCompatActivity {
         linearLayoutProfeciones = findViewById(R.id.linearLayoutProfeciones);
         linearLayoutVocation = findViewById(R.id.linearLayoutVocation);
         linearLayoutVocacionesPermitidas = findViewById(R.id.linearLayoutVocacionesPermitidas);
-        Retrofit services = new Retrofit.Builder()
-                .baseUrl(url)
-                .addConverterFactory(GsonConverterFactory.create())
-                .build();
-        TibiaAPIServer tibiaAPIServer = services.create(TibiaAPIServer.class);
+        TibiaAPIServer tibiaAPIServer = services.getRetrofit(url).create(TibiaAPIServer.class);
         Call<ApiSpellsInformation> call = tibiaAPIServer.getSpellInformation(id_spell);
         call.enqueue(new Callback<ApiSpellsInformation>() {
             @Override
