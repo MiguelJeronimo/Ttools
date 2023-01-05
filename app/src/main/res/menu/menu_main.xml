@@ -3,35 +3,15 @@
     xmlns:tools="http://schemas.android.com/tools"
     tools:context="com.example.ttools.MainActivity">
     <item
-        android:id="@+id/menu_characters"
+        android:id="@+id/nd_about"
         android:orderInCategory="100"
-        android:title="Jugadores"
+        android:title="Acerca de"
         android:color="@color/colorPrimary"
         app:showAsAction="never" />
     <item
-        android:id="@+id/menu_experiencia"
+        android:id="@+id/nd_salir"
         android:orderInCategory="100"
-        android:title="Experiencia compartida"
+        android:title="Salir"
         android:color="@color/colorPrimary"
         app:showAsAction="never" />
-
-    <item
-        android:id="@+id/menu_stamina"
-        android:orderInCategory="100"
-        android:title="Stamina"
-        android:color="@color/colorPrimary"
-        app:showAsAction="never" />
-    <item
-        android:id="@+id/menu_mundos"
-        android:orderInCategory="100"
-        android:title="Mundos"
-        android:color="@color/colorPrimary"
-        app:showAsAction="never" />
-    <item
-        android:id="@+id/menu_criaturas"
-        android:orderInCategory="100"
-        android:title="Criaturas"
-        android:color="@color/colorPrimary"
-        app:showAsAction="never" />
-
 </menu>

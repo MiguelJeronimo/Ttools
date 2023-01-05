@@ -52,4 +52,11 @@
             android:icon="@drawable/icon_spells"
             android:title="@string/nd_spells" />
     </group>
+    <group>
+        <item
+            android:id="@+id/id_about"
+            android:icon="@drawable/icon_about"
+            android:title="@string/nd_about"
+            />
+    </group>
 </menu>

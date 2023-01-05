@@ -89,6 +89,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         navigationView.getMenu().findItem(R.id.nd_bless).setOnMenuItemClickListener(this);
         navigationView.getMenu().findItem(R.id.nd_highscores).setOnMenuItemClickListener(this);
         navigationView.getMenu().findItem(R.id.nd_houses).setOnMenuItemClickListener(this);
+        navigationView.getMenu().findItem(R.id.id_about).setOnMenuItemClickListener(this);
 
         imgRashid = findViewById(R.id.imageViewRashid);
         lbRashid = findViewById(R.id.textViewRashid);
@@ -303,21 +304,11 @@ private class Asincronia extends AsyncTask {
         /**if (id == R.id.menu_rashid) {
             return true;
         } **/
-        if (id == R.id.menu_experiencia){
-            Intent expcompartida = new Intent(this, experiencia_compartida.class);
-            startActivity(expcompartida);
-        } else if (id == R.id.menu_characters){
-            Intent characters = new Intent(this, characters.class);
-            startActivity(characters);
-        } else if (id == R.id.menu_stamina){
-            Intent stamina = new Intent(this, Stamina.class);
-            startActivity(stamina);
-        }else if (id == R.id.menu_mundos){
-            Intent mundos = new Intent(this, Mundos.class);
-            startActivity(mundos);
-        }else if(id == R.id.menu_criaturas){
-            Intent criaturas = new Intent(this, Criaturas.class);
-            startActivity(criaturas);
+        if (id == R.id.nd_about){
+            Intent about = new Intent(this, About.class);
+            startActivity(about);
+        } else if (id == R.id.nd_salir){
+            finish();
         }
 
         return super.onOptionsItemSelected(item);
@@ -370,6 +361,10 @@ private class Asincronia extends AsyncTask {
         } else if (menuItem.getItemId() == R.id.nd_houses){
             Intent tibiaHouses = new Intent(this, HouseActivity.class);
             startActivity(tibiaHouses);
+            drawerLayout.close();
+        } else if(menuItem.getItemId() == R.id.id_about){
+            Intent about = new Intent(this, About.class);
+            startActivity(about);
             drawerLayout.close();
         }
         return false;
