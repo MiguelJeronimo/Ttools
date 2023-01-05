@@ -117,7 +117,6 @@ public class Mundos extends AppCompatActivity {
 
             }
 
-
             @Override
             public void onFailure(Call<DataWords> call, Throwable t) {
                 playersOnline.setText(t.getMessage());
@@ -125,9 +124,6 @@ public class Mundos extends AppCompatActivity {
                 System.out.println(t.getMessage());
             }
         });
-
-
-
-        }
+    }
 }
 

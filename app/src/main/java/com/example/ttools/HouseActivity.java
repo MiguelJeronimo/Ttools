@@ -21,14 +21,12 @@ import com.example.ttools.utilidades.Spinners;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
-import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Spinner;
 
-import androidx.navigation.ui.AppBarConfiguration;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -42,7 +40,6 @@ import retrofit2.Response;
 
 public class HouseActivity extends AppCompatActivity implements AdapterView.OnItemSelectedListener {
 
-    private AppBarConfiguration appBarConfiguration;
     private ActivityHouseBinding binding;
     String url = "https://api.tibiadata.com/v3/";
     String mundo;

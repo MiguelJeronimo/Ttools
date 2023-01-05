@@ -24,8 +24,6 @@ import com.example.ttools.APISERVER.models.CriatureInformation.Creature;
 import com.example.ttools.databinding.ActivityCriaturesInformationBinding;
 import com.squareup.picasso.Picasso;
 
-import java.util.ArrayList;
-
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;

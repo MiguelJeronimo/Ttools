@@ -3,7 +3,6 @@ package com.example.ttools;
 import android.os.Bundle;
 
 import com.example.ttools.Operaciones.calcularBlessings;
-import com.google.android.material.snackbar.Snackbar;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -16,10 +15,7 @@ import android.widget.Switch;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import androidx.navigation.NavController;
-import androidx.navigation.Navigation;
 import androidx.navigation.ui.AppBarConfiguration;
-import androidx.navigation.ui.NavigationUI;
 
 import com.example.ttools.databinding.ActivityBlessingsBinding;
 

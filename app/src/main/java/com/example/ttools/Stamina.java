@@ -3,7 +3,6 @@ package com.example.ttools;
 import android.os.Bundle;
 
 import com.example.ttools.Operaciones.staminaTibia;
-import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.snackbar.Snackbar;
 
 import androidx.annotation.NonNull;
@@ -18,7 +17,6 @@ import android.widget.TextView;
 
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
-import com.example.ttools.Operaciones.staminaTibia;
 
 public class Stamina extends AppCompatActivity implements View.OnClickListener {
 

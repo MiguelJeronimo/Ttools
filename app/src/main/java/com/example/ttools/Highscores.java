@@ -30,8 +30,6 @@ import com.example.ttools.recyclerview.ItemsRecyclerViewHighScores;
 import com.example.ttools.utilidades.DataHighScores;
 import com.example.ttools.utilidades.Spinners;
 
-import java.io.IOException;
-import java.io.InputStream;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.List;

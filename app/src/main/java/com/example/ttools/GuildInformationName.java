@@ -1,38 +1,26 @@
 package com.example.ttools;
 
 import android.annotation.SuppressLint;
-import android.app.Activity;
-import android.content.Context;
 import android.content.Intent;
-import android.net.Uri;
 import android.os.Bundle;
 
 import com.bumptech.glide.Glide;
 import com.example.ttools.APISERVER.TibiaAPIServer;
-import com.example.ttools.APISERVER.models.APICriatures;
-import com.example.ttools.APISERVER.models.APICriaturesInformation;
 import com.example.ttools.APISERVER.models.GuildInformation.ApiGuildsName;
 import com.example.ttools.APISERVER.models.GuildInformation.GuildName.GuildName;
 import com.example.ttools.APISERVER.models.GuildInformation.GuildName.Guildss;
 import com.example.ttools.APISERVER.models.GuildInformation.GuildName.members.MembersGuild;
 import com.example.ttools.recyclerview.Adapters.AdapterRecyclerViewGuildName;
-import com.example.ttools.recyclerview.Adapters.AdapterRecyclerViewGuildsList;
 import com.example.ttools.recyclerview.itemsRecyclerViewGuildsName;
-import com.google.android.material.snackbar.Snackbar;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.view.MenuItem;
-import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
-import androidx.navigation.NavController;
-import androidx.navigation.Navigation;
 import androidx.navigation.ui.AppBarConfiguration;
-import androidx.navigation.ui.NavigationUI;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 

@@ -1,6 +1,5 @@
 package com.example.ttools;
 import android.annotation.SuppressLint;
-import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 
@@ -13,12 +12,9 @@ import com.example.ttools.APISERVER.models.Worlds.RegularWorlds;
 import com.example.ttools.APISERVER.models.Worlds.Worlds;
 import com.example.ttools.recyclerview.Adapters.AdapterRecyclerViewGuildsList;
 import com.example.ttools.recyclerview.ItemsRecyclerViewGuilds;
-import com.google.android.material.snackbar.Snackbar;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.widget.Toolbar;
-import androidx.coordinatorlayout.widget.CoordinatorLayout;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 

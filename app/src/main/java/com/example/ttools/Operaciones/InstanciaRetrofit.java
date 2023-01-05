@@ -1,7 +1,5 @@
 package com.example.ttools.Operaciones;
 
-
-import retrofit2.Converter;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 import retrofit2.converter.scalars.ScalarsConverterFactory;

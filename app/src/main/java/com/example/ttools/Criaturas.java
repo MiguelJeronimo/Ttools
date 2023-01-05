@@ -8,7 +8,6 @@ import com.example.ttools.APISERVER.models.APICriatures;
 import com.example.ttools.APISERVER.models.criatures.Criatures;
 import com.example.ttools.recyclerview.Adapters.adapterRecyclerViewCriatures;
 import com.example.ttools.recyclerview.ItemsRecyclerViewCriatures;
-import com.google.android.material.snackbar.Snackbar;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 

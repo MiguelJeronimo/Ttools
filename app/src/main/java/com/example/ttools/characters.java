@@ -9,7 +9,6 @@ import com.example.ttools.APISERVER.models.CharactersInformation.APIServicesTibi
 import com.example.ttools.APISERVER.models.CharactersInformation.Characters.Characters;
 import com.example.ttools.utilidades.ConvertidorFecha;
 import com.google.android.material.snackbar.Snackbar;
-import com.google.gson.Gson;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
