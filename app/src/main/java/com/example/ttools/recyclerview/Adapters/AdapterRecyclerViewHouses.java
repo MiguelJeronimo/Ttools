@@ -1,5 +1,6 @@
 package com.example.ttools.recyclerview.Adapters;
 
+import android.graphics.Color;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -12,6 +13,7 @@ import com.example.ttools.R;
 import com.example.ttools.recyclerview.ItemsRecyclerViewHouses;
 
 import java.util.List;
+import java.util.Objects;
 
 public class AdapterRecyclerViewHouses extends RecyclerView.Adapter<AdapterRecyclerViewHouses.ViewHolder> implements View.OnClickListener {
     List<ItemsRecyclerViewHouses> items_hoses;
@@ -33,6 +35,11 @@ public class AdapterRecyclerViewHouses extends RecyclerView.Adapter<AdapterRecyc
         holder.house_name.setText(items_hoses.get(position).getHouseName());
         holder.house_size.setText(items_hoses.get(position).getHouseSize());
         holder.house_rent.setText(items_hoses.get(position).getHouseRent());
+        if (Objects.equals(items_hoses.get(position).getHouseRented(), "Ocupada")){
+            holder.house_rented.setTextColor(Color.parseColor("#00FF00"));
+        } else{
+            holder.house_rented.setTextColor(Color.parseColor("#F10300"));
+        }
         holder.house_rented.setText(items_hoses.get(position).getHouseRented());
         holder.house_id.setText(items_hoses.get(position).getHouseId());
     }
