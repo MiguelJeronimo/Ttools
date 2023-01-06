@@ -22,7 +22,6 @@ public class ConvertidorFecha {
         formatter.setTimeZone(TimeZone.getTimeZone("America/Tijuana"));
         try {
             date = formatter.parse(getExpiryDateString());
-            //System.out.println(date);
         } catch (ParseException e) {
             e.printStackTrace();
         }

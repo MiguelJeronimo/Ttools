@@ -26,13 +26,11 @@ public class staminaTibia {
     }
     //retornando el valor de las horas convertidas en minutos
     public int getConvertirHoraMinutosStamina(){
-
         return  totalMinutosStamina;
     }
 
     //calculando los minutos reales que tardara la stamina en recargarse
     public void minutoStamina(int minutoStamina){
-
         tiempoReal = (minutoStamina * 6)+10;
     }
 
@@ -43,9 +41,9 @@ public class staminaTibia {
 
     //Conversión de horas a minutos
     public void convertirHoraMinutosReales(int hora){
-
         minutosStamina = hora * 60;
     }
+
     //retornamos los minutos reales
     public int getHora(){
         return minutosStamina;
@@ -65,5 +63,4 @@ public class staminaTibia {
         return minutosRestantes;
     }
 
-/***/
 }
