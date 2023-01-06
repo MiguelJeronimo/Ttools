@@ -49,12 +49,12 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="10dp"
-        android:textStyle="bold"
-        android:textColor="@color/letras"
         android:text="Creado por: Miguel Angel Jerónimo"
+        android:textColor="@color/letras"
+        android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView25" />
+        app:layout_constraintTop_toBottomOf="@+id/textView46" />
 
     <TextView
         android:id="@+id/textView40"
@@ -83,11 +83,25 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="5dp"
-        android:textColor="@color/color_degradado"
+        android:textColorLink="@color/fondo_switch"
         android:text="https://tibiadata.com/"
+        android:autoLink="web"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textView42" />
+
+    <TextView
+        android:id="@+id/textView46"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="5dp"
+        android:autoLink="web"
+        android:textColor="@color/color_degradado"
+        android:textColorLink="@color/fondo_switch"
+        android:text="Web oficial del juego: www.tibia.com"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textView25" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>
