@@ -31,5 +31,5 @@
         android:layout_height="wrap_content"
         android:paddingLeft="20dp"
         android:paddingBottom="20dp"
-        android:text="Herramienta para Tibia" />
+        android:text="Herramienta de apoyo para Tibia Online" />
 </LinearLayout>

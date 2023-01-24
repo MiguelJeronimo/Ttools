@@ -37,10 +37,10 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="10dp"
+        android:textAlignment="center"
+        android:text="Es una herramienta de consulta para el juego \nTibia Online"
         android:textColor="@color/color_degradado"
-        android:text="Es una herramienta de consulta para el juego Tibia Online\nTibia es propiedad de CipSoft GmbH"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.521"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textView35" />
 
@@ -96,9 +96,20 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="5dp"
         android:autoLink="web"
+        android:text="Web oficial del juego: www.tibia.com"
         android:textColor="@color/color_degradado"
         android:textColorLink="@color/fondo_switch"
-        android:text="Web oficial del juego: www.tibia.com"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textView47" />
+
+    <TextView
+        android:id="@+id/textView47"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="5dp"
+        android:text="Tibia es propiedad de CipSoft GmbH"
+        android:textColor="@color/color_degradado"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textView25" />

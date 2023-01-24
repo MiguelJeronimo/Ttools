@@ -28,13 +28,14 @@
                 android:hint="Nivel"
                 android:textColorHint="@android:color/darker_gray"
                 app:boxBackgroundColor="@color/leyenda"
-                app:boxStrokeColor="@color/letras"
+                app:boxStrokeColor="@color/fondo_switch"
                 app:helperTextTextColor="@color/leyenda"
-                app:hintTextColor="@color/leyenda"
+                app:hintTextColor="@color/fondo_switch"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintEnd_toStartOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent">
+                app:layout_constraintTop_toTopOf="parent"
+                app:suffixTextColor="@color/fondo_switch">
 
                 <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/Nivel"
