@@ -1,7 +1,6 @@
 package com.example.ttools;
 
 import android.content.Intent;
-import android.os.AsyncTask;
 import android.os.Bundle;
 
 import com.example.ttools.APISERVER.TibiaAPIServer;
@@ -52,7 +51,6 @@ public class HouseActivity extends AppCompatActivity implements AdapterView.OnIt
     ArrayList<ItemsRecyclerViewHouses> list_houses;
     //retrofit
     InstanciaRetrofit servicio = new InstanciaRetrofit();
-    Asincronia asincronia = new Asincronia();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -65,7 +63,7 @@ public class HouseActivity extends AppCompatActivity implements AdapterView.OnIt
         spinnerCitys = (Spinner) findViewById(R.id.spinner_citys);
         spinnerWorlds.setOnItemSelectedListener(this);
         spinnerCitys.setOnItemSelectedListener(this);
-        asincronia.execute();
+        Hilos();
     }
 
     @Override
@@ -209,8 +207,8 @@ public class HouseActivity extends AppCompatActivity implements AdapterView.OnIt
 
     }
 
-    //implementacion de tareas asincronas
-    private class Asincronia extends AsyncTask {
+    //llamadas asincornas con hilos
+    public void Hilos(){
         Thread hilo = new Thread(new Runnable() {
             @Override
             public void run() {
@@ -223,12 +221,7 @@ public class HouseActivity extends AppCompatActivity implements AdapterView.OnIt
                 spinnersCity();
             }
         });
-        //Thread hilo = new Thread();
-        @Override
-        protected Object doInBackground(Object[] objects) {
-            hilo.start();
-            hilo2.start();
-            return null;
-        }
+        hilo.start();
+        hilo2.start();
     }
 }

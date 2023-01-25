@@ -107,7 +107,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         textViewNew = findViewById(R.id.textViewNew);
         textViewtype = findViewById(R.id.textViewtype);
         //Validamos si tenenemos conexion a internet
-        if (RedValidator.ValidarInternet(this)){
+        if (RedValidator.ValidarInternet(getApplication())){
             //ejecutando los multiple hilos para el consumo de api
             //asincronia.execute();
             Hilos();

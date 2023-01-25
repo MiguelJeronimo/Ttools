@@ -1,7 +1,6 @@
 package com.example.ttools;
 
 import android.content.Intent;
-import android.os.AsyncTask;
 import android.os.Bundle;
 import android.view.MenuItem;
 import android.widget.ImageView;
@@ -33,7 +32,6 @@ public class HousesInformation extends AppCompatActivity {
     InstanciaRetrofit services = new InstanciaRetrofit();
     // para formatear numeros a formato de dinero.
     DecimalFormat decimalFormat = new DecimalFormat("###,###.00");
-    Asincronia asincronia = new Asincronia();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -54,7 +52,7 @@ public class HousesInformation extends AppCompatActivity {
         txtSize = findViewById(R.id.txtSize);
         txtPrice = findViewById(R.id.txtPrice);
         txtOwner = findViewById(R.id.txtOwner);
-        asincronia.execute();
+        Hilos();
     }
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
@@ -98,21 +96,14 @@ public class HousesInformation extends AppCompatActivity {
             }
         });
     }
-
-    //implementacion de tareas asincronas
-    private class Asincronia extends AsyncTask {
+    //implementacion de llamadas asincronas con hilos
+    public void Hilos(){
         Thread hilo = new Thread(new Runnable() {
             @Override
             public void run() {
                 llenarData(url, mundo, id_house);
             }
         });
-
-        //Thread hilo = new Thread();
-        @Override
-        protected Object doInBackground(Object[] objects) {
-            hilo.start();
-            return null;
-        }
+        hilo.start();
     }
 }

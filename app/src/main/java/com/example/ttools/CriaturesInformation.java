@@ -18,6 +18,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.core.content.ContextCompat;
 import androidx.navigation.ui.AppBarConfiguration;
 
 import com.example.ttools.APISERVER.models.CriatureInformation.Creature;
@@ -95,7 +96,7 @@ public class CriaturesInformation extends AppCompatActivity {
                     for (int i = 0; i < criature.getLoot_list().size(); i++) {
                         TextView textViewLoot = new TextView(CriaturesInformation.this);
                         textViewLoot.setText("-"+criature.getLoot_list().get(i));
-                        textViewLoot.setTextColor(getResources().getColor(R.color.leyenda));
+                        textViewLoot.setTextColor(ContextCompat.getColor(getApplicationContext(),R.color.leyenda));
                         textViewLoot.setTextSize(20);
                         textViewLoot.setTextColor(Color.parseColor("#CE93D8"));
                         textViewLoot.setTypeface(null, Typeface.ITALIC);
@@ -106,7 +107,7 @@ public class CriaturesInformation extends AppCompatActivity {
                         for(int i = 0; i < criature.getImmune().size(); i++) {
                             TextView textViewImmune = new TextView(CriaturesInformation.this);
                             textViewImmune.setText("-"+criature.getImmune().get(i));
-                            textViewImmune.setTextColor(getResources().getColor(R.color.leyenda));
+                            textViewImmune.setTextColor(ContextCompat.getColor(getApplicationContext(),R.color.leyenda));
                             textViewImmune.setTextSize(20);
                             textViewImmune.setTextColor(Color.parseColor("#CE93D8"));
                             textViewImmune.setTypeface(null, Typeface.ITALIC);
@@ -118,7 +119,7 @@ public class CriaturesInformation extends AppCompatActivity {
                         for(int i = 0; i < criature.getStrong().size(); i++) {
                             TextView textViewStrong = new TextView(CriaturesInformation.this);
                             textViewStrong.setText("-"+criature.getStrong().get(i));
-                            textViewStrong.setTextColor(getResources().getColor(R.color.leyenda));
+                            textViewStrong.setTextColor(ContextCompat.getColor(getApplicationContext(),R.color.leyenda));
                             textViewStrong.setTextSize(20);
                             textViewStrong.setTextColor(Color.parseColor("#CE93D8"));
                             textViewStrong.setTypeface(null, Typeface.ITALIC);
@@ -130,7 +131,7 @@ public class CriaturesInformation extends AppCompatActivity {
                         for(int i = 0; i < criature.getWeakness().size(); i++) {
                             TextView textViewWeakness = new TextView(CriaturesInformation.this);
                             textViewWeakness.setText("-"+criature.getWeakness().get(i));
-                            textViewWeakness.setTextColor(getResources().getColor(R.color.leyenda));
+                            textViewWeakness.setTextColor(ContextCompat.getColor(getApplicationContext(),R.color.leyenda));
                             textViewWeakness.setTextSize(20);
                             textViewWeakness.setTextColor(Color.parseColor("#CE93D8"));
                             textViewWeakness.setTypeface(null, Typeface.ITALIC);

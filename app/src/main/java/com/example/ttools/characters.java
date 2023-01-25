@@ -15,6 +15,7 @@ import com.google.android.material.snackbar.Snackbar;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
+import androidx.core.content.ContextCompat;
 
 import android.view.MenuItem;
 import android.view.View;
@@ -152,7 +153,7 @@ public class characters extends AppCompatActivity implements View.OnClickListene
                                             + characters.getCharacter().getHouses().get(i).getName() +
                                             "\n Town: " + characters.getCharacter().getHouses().get(i).getTown() +
                                             "\n Paid: " + characters.getCharacter().getHouses().get(i).getPaid());
-                                    textViewHouses.setTextColor(getResources().getColor(R.color.leyenda));
+                                    textViewHouses.setTextColor(ContextCompat.getColor(getApplicationContext(),R.color.leyenda));
                                     textViewHouses.setTextSize(15);
                                     textViewHouses.setTextColor(Color.parseColor("#CE93D8"));
                                     textViewHouses.setTypeface(null, Typeface.ITALIC);
@@ -168,7 +169,7 @@ public class characters extends AppCompatActivity implements View.OnClickListene
                                     convertidorFecha.setExpiryDateString(characters.getDeaths().get(i).getTime());
                                     convertidorFecha.convertirFecha();
                                     textViewWeakness.setText("☠️️" + " " + convertidorFecha.getFechaConvertida() + " - " + characters.getDeaths().get(i).getReason());
-                                    textViewWeakness.setTextColor(getResources().getColor(R.color.leyenda));
+                                    textViewWeakness.setTextColor(ContextCompat.getColor(getApplicationContext(),R.color.leyenda));
                                     textViewWeakness.setTextSize(15);
                                     textViewWeakness.setTextColor(Color.parseColor("#CE93D8"));
                                     textViewWeakness.setTypeface(null, Typeface.ITALIC);
@@ -205,7 +206,7 @@ public class characters extends AppCompatActivity implements View.OnClickListene
                                     textViewWeakness.setText("\uD83C\uDF1F" + " Name: " + characters.getAchievements().get(i).getName() +
                                             "\n Grade: " + characters.getAchievements().get(i).getGrade() +
                                             "\n Secret: " + characters.getAchievements().get(i).isSecret());
-                                    textViewWeakness.setTextColor(getResources().getColor(R.color.leyenda));
+                                    textViewWeakness.setTextColor(ContextCompat.getColor(getApplicationContext(),R.color.leyenda));
                                     textViewWeakness.setTextSize(15);
                                     textViewWeakness.setTextColor(Color.parseColor("#CE93D8"));
                                     textViewWeakness.setTypeface(null, Typeface.ITALIC);
