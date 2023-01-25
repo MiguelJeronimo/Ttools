@@ -1,6 +1,5 @@
 package com.example.ttools;
 
-import android.os.AsyncTask;
 import android.os.Bundle;
 
 import com.example.ttools.APISERVER.TibiaAPIServer;
@@ -47,7 +46,6 @@ public class Highscores extends AppCompatActivity implements AdapterView.OnItemS
     ArrayAdapter<String> adapterWorlds, adapterVocations, adapterCategorys;
     //retrofit
     InstanciaRetrofit servicio = new InstanciaRetrofit();
-    Asincronia asincronia = new Asincronia();
     //recycler
     RecyclerView recyclerView;
     AdapterRecyclerViewHighScores adaptador;
@@ -66,7 +64,7 @@ public class Highscores extends AppCompatActivity implements AdapterView.OnItemS
         spinnerVocations.setOnItemSelectedListener(this);
         spinnerCategorys.setOnItemSelectedListener(this);
         spinnerWorlds.setOnItemSelectedListener(this);
-        asincronia.execute();
+        Hilos();
     }
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
@@ -228,7 +226,7 @@ public class Highscores extends AppCompatActivity implements AdapterView.OnItemS
     }
 
     //implementacion de tareas asincronas
-    private class Asincronia extends AsyncTask {
+    public void Hilos(){
         Thread hilo = new Thread(new Runnable() {
             @Override
             public void run() {
@@ -241,12 +239,7 @@ public class Highscores extends AppCompatActivity implements AdapterView.OnItemS
                 spinners();
             }
         });
-        //Thread hilo = new Thread();
-        @Override
-        protected Object doInBackground(Object[] objects) {
-            hilo.start();
-            hilo2.start();
-            return null;
-        }
+        hilo.start();
+        hilo2.start();
     }
 }

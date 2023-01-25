@@ -1,5 +1,6 @@
 package com.example.ttools;
 
+import android.annotation.SuppressLint;
 import android.graphics.Color;
 import android.graphics.Typeface;
 import android.os.Bundle;
@@ -116,6 +117,7 @@ public class characters extends AppCompatActivity implements View.OnClickListene
             TibiaAPIServer tibiaAPIServer = services.getRetrofit(urlAPI).create(TibiaAPIServer.class);
             Call <APIServicesTibia> repo = tibiaAPIServer.getPersonajes(nombre_persona);
             repo.enqueue(new Callback<APIServicesTibia>() {
+                @SuppressLint("SetTextI18n")
                 @Override
                 public void onResponse(Call<APIServicesTibia> call, Response<APIServicesTibia> response) {
                     if (response.isSuccessful()) {

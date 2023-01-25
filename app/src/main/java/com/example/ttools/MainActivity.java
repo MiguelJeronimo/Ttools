@@ -1,7 +1,6 @@
 package com.example.ttools;
 
 import android.content.Intent;
-import android.os.AsyncTask;
 import android.os.Bundle;
 
 import com.bumptech.glide.Glide;
@@ -17,6 +16,7 @@ import com.example.ttools.recyclerview.ItemsRecyclerViewNews;
 import com.example.ttools.utilidades.RedValidator;
 import com.google.android.material.navigation.NavigationView;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
@@ -60,10 +60,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     RecyclerView recyclerViewNoticas;
     AdapterRecyclerViewNews adapterRecyclerViewNews;
     List<ItemsRecyclerViewNews> itemsRecyclerViewNewsList;
-    RedValidator redValidator = new RedValidator();
+    //RedValidator redValidator = new RedValidator();
     //retrofit
     InstanciaRetrofit servicio = new InstanciaRetrofit();
-    Asincronia asincronia = new Asincronia();
+    //Asincronia asincronia = new Asincronia();
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -77,7 +77,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         drawerLayout.addDrawerListener(actionBarDrawerToggle);
         //sincroniza los estados del navigationDrawer
         actionBarDrawerToggle.syncState();
-        navigationView = (NavigationView) findViewById(R.id.barraNavegacion);
+        navigationView = findViewById(R.id.barraNavegacion);
         //a cada item del menuo agregamos su evento MenuItemClickListener
         navigationView.getMenu().findItem(R.id.nd_character).setOnMenuItemClickListener(this);
         navigationView.getMenu().findItem(R.id.nd_criaturas).setOnMenuItemClickListener(this);
@@ -107,9 +107,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         textViewNew = findViewById(R.id.textViewNew);
         textViewtype = findViewById(R.id.textViewtype);
         //Validamos si tenenemos conexion a internet
-        if (redValidator.ValidarInternet(this)){
+        if (RedValidator.ValidarInternet(this)){
             //ejecutando los multiple hilos para el consumo de api
-            asincronia.execute();
+            //asincronia.execute();
+            Hilos();
         } else{
             Toast.makeText(this,"Revisa tu conexion a internet :)",Toast.LENGTH_SHORT).show();
         }
@@ -141,13 +142,15 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         call.enqueue(new Callback<APICriatures>() {
             @Override
             public void onResponse(Call<APICriatures> call, Response<APICriatures> response) {
-                if (response.isSuccessful()){
-                    APICriatures apiCriatures = response.body();
-                    Criatures criatures = apiCriatures.getCreatures();
-                    Glide.with(getApplicationContext()).load(criatures.getBoosted().getImage_url()).asGif().into(imgBossCreature);
-                    textBossCreature.setText(criatures.getBoosted().getName());
-
+                if (!response.isSuccessful()) {
+                    return;
                 }
+                APICriatures apiCriatures = response.body();
+                assert apiCriatures != null;
+                Criatures criatures = apiCriatures.getCreatures();
+                Glide.with(getApplicationContext()).load(criatures.getBoosted().getImage_url()).asGif().into(imgBossCreature);
+                textBossCreature.setText(criatures.getBoosted().getName());
+
             }
 
             @Override
@@ -164,6 +167,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             public void onResponse(Call<APICriatures> call, Response<APICriatures> response) {
                 if (response.isSuccessful()){
                     APICriatures apiCriatures = response.body();
+                    assert apiCriatures != null;
                     BoostableBosses boostableBosses = apiCriatures.getBoostable_bosses();
                     Glide.with(getApplicationContext()).load(boostableBosses.getBoosted().getImage_url()).asGif().into(imgBossBosstable);
                     lbBossBosstable.setText(boostableBosses.getBoosted().getName());
@@ -229,20 +233,58 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                     recyclerViewNoticas.setLayoutManager(layoutManager);
                     adapterRecyclerViewNews = new AdapterRecyclerViewNews(itemsRecyclerViewNewsList);
                     layoutManager.setOrientation(LinearLayoutManager.HORIZONTAL);
-                    recyclerViewNoticas.setHasFixedSize(true);
+                    //recyclerViewNoticas.setHasFixedSize(true);
                     recyclerViewNoticas.setAdapter(adapterRecyclerViewNews);
                 }
             }
 
             @Override
-            public void onFailure(Call<ApiNewsTicker> call, Throwable t) {
+            public void onFailure(@NonNull Call<ApiNewsTicker> call, Throwable t) {
                 System.out.println(t.getMessage());
             }
         });
     }
+    public void Hilos(){
+        Thread hilo = new Thread(new Runnable() {
+            @Override
+            public void run() {
+                llenarRashid(url);
+            }
+        });
+        Thread hilo2 = new Thread(new Runnable() {
+            @Override
+            public void run() {
+                creatureBoss(url_creature_boss);
+            }
+        });
+        Thread hilo3 = new Thread(new Runnable() {
+            @Override
+            public void run() {
+                bostedBoss(url_boosted_boss);
+            }
+        });
+
+        Thread hilo4 = new Thread(new Runnable() {
+            @Override
+            public void run() {
+                Noticas(url_new);
+            }
+        });
+        Thread hilo5 = new Thread(new Runnable() {
+            @Override
+            public void run() {
+                NewsTickers(url_new);
+            }
+        });
+        hilo.start();
+        hilo2.start();
+        hilo3.start();
+        hilo4.start();
+        hilo5.start();
+    }
 
 //implementacion de tareas asincronas
-private class Asincronia extends AsyncTask {
+/*private class Asincronia extends AsyncTask <String, Void, String> {
     Thread hilo = new Thread(new Runnable() {
         @Override
         public void run() {
@@ -274,9 +316,9 @@ private class Asincronia extends AsyncTask {
             NewsTickers(url_new);
         }
     });
-    //Thread hilo = new Thread();
+
     @Override
-    protected Object doInBackground(Object[] objects) {
+    protected String doInBackground(String... strings) {
         hilo.start();
         hilo2.start();
         hilo3.start();
@@ -284,9 +326,7 @@ private class Asincronia extends AsyncTask {
         hilo5.start();
         return null;
     }
-}
-
-
+}*/
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
@@ -301,9 +341,6 @@ private class Asincronia extends AsyncTask {
         // as you specify a parent activity in AndroidManifest.xml.
         int id = item.getItemId();
         //noinspection SimplifiableIfStatement
-        /**if (id == R.id.menu_rashid) {
-            return true;
-        } **/
         if (id == R.id.nd_about){
             Intent about = new Intent(this, About.class);
             startActivity(about);

@@ -1,5 +1,6 @@
 package com.example.ttools;
 
+import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.Typeface;
@@ -89,6 +90,7 @@ public class SpellInformationActivity extends AppCompatActivity {
         TibiaAPIServer tibiaAPIServer = services.getRetrofit(url).create(TibiaAPIServer.class);
         Call<ApiSpellsInformation> call = tibiaAPIServer.getSpellInformation(id_spell);
         call.enqueue(new Callback<ApiSpellsInformation>() {
+            @SuppressLint("SetTextI18n")
             @Override
             public void onResponse(Call<ApiSpellsInformation> call, Response<ApiSpellsInformation> response) {
                 ApiSpellsInformation information = response.body();

@@ -1,9 +1,7 @@
 package com.example.ttools;
 import android.annotation.SuppressLint;
 import android.content.Intent;
-import android.os.AsyncTask;
 import android.os.Bundle;
-
 import com.example.ttools.APISERVER.TibiaAPIServer;
 import com.example.ttools.APISERVER.models.GuildInformation.ApiGuilds;
 import com.example.ttools.APISERVER.models.GuildInformation.guilds.Active.Active;
@@ -45,7 +43,6 @@ public class GuildInformation extends AppCompatActivity implements AdapterView.O
     AdapterRecyclerViewGuildsList adaptador;
     List<ItemsRecyclerViewGuilds> itemsRecyclerViewGuilds;
     String url = "https://api.tibiadata.com/v3/";
-    Asincronia asincronia = new Asincronia();
     InstanciaRetrofit servicio = new InstanciaRetrofit();
 
     @Override
@@ -57,14 +54,7 @@ public class GuildInformation extends AppCompatActivity implements AdapterView.O
         getSupportActionBar().setDisplayHomeAsUpEnabled(true); //Aparicion del boton regresar en el action bar
         spinner = findViewById(R.id.spinner_guild);
         spinner.setOnItemSelectedListener(this);
-        asincronia.execute();
-        /***binding.fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
-            }
-        });**/
+        Hilo();
     }
 
     //para que el boton regresar funcione
@@ -169,21 +159,15 @@ public class GuildInformation extends AppCompatActivity implements AdapterView.O
             }
         }
     }
-    //implementacion de tareas asincronas
-    private class Asincronia extends AsyncTask {
+
+    public void Hilo(){
         Thread hilo = new Thread(new Runnable() {
             @Override
             public void run() {
                 llenarSpinner(url);
             }
         });
-
-        //Thread hilo = new Thread();
-        @Override
-        protected Object doInBackground(Object[] objects) {
-            hilo.start();
-            return null;
-        }
+        hilo.start();
     }
 
 //eventos del spinner
