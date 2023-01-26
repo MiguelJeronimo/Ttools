@@ -1,0 +1,10 @@
+package com.example.TibiaTools.APISERVER.models.criatures.BoostedBoss;
+
+import com.example.TibiaTools.APISERVER.models.criatures.Boosted;
+
+public class BoostedBoss extends Boosted {
+
+    public BoostedBoss(String name, String image_url) {
+        super(name, image_url);
+    }
+}
