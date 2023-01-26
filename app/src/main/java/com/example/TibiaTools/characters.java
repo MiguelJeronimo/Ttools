@@ -27,6 +27,8 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import java.util.Objects;
+
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -46,26 +48,26 @@ public class characters extends AppCompatActivity implements View.OnClickListene
         setContentView(R.layout.activity_characters);
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true); //Aparicion del boton regresar en el action bar
+        Objects.requireNonNull(getSupportActionBar()).setDisplayHomeAsUpEnabled(true); //Aparicion del boton regresar en el action bar
 
         //inicializando los componentes de la interfaz
-        nombre_persona = (EditText) findViewById(R.id.editTextTextPersonName);
-        nombre = (TextView)findViewById(R.id.nombre);
-        titulo = (TextView) findViewById(R.id.titulo);
-        sexo = (TextView) findViewById(R.id.sexo);
-        vocacion = (TextView) findViewById(R.id.vocacion);
-        nivel = (TextView) findViewById(R.id.nivel);
-        archiviement = (TextView) findViewById(R.id.achivement);
-        mundo = (TextView) findViewById(R.id.mundo);
-        residencia = (TextView) findViewById(R.id.residencia);
-        guild = (TextView) findViewById(R.id.guild);
-        lastlogin = (TextView) findViewById(R.id.last_loguin);
-        comentario= (TextView) findViewById(R.id.comentario);
-        textViewPremium = (TextView) findViewById(R.id.textViewPremium);
-        textViewMirried = (TextView) findViewById(R.id.textViewMirried);
-        textViewLoyalty = (TextView) findViewById(R.id.textViewLoyalty);
-        textViewCreated = (TextView) findViewById(R.id.textViewCreated);
-        btnenviar = (Button)findViewById(R.id.btnenviar);
+        nombre_persona = findViewById(R.id.editTextTextPersonName);
+        nombre = findViewById(R.id.nombre);
+        titulo = findViewById(R.id.titulo);
+        sexo = findViewById(R.id.sexo);
+        vocacion = findViewById(R.id.vocacion);
+        nivel = findViewById(R.id.nivel);
+        archiviement = findViewById(R.id.achivement);
+        mundo = findViewById(R.id.mundo);
+        residencia = findViewById(R.id.residencia);
+        guild = findViewById(R.id.guild);
+        lastlogin = findViewById(R.id.last_loguin);
+        comentario= findViewById(R.id.comentario);
+        textViewPremium = findViewById(R.id.textViewPremium);
+        textViewMirried = findViewById(R.id.textViewMirried);
+        textViewLoyalty = findViewById(R.id.textViewLoyalty);
+        textViewCreated = findViewById(R.id.textViewCreated);
+        btnenviar = findViewById(R.id.btnenviar);
         btnenviar.setOnClickListener(this);
 
     }
@@ -102,10 +104,10 @@ public class characters extends AppCompatActivity implements View.OnClickListene
     }
 
     public void infoCharacters(String nombre_persona){
-        linearLayoutDeaths = (LinearLayout) findViewById(R.id.linearLayoutDeaths);
-        linearLayoutOtherCharacters = (LinearLayout) findViewById(R.id.linearLayoutOtherCharacters);
-        linearLayoutHouses = (LinearLayout) findViewById(R.id.linearLayoutHouses);
-        linearLayoutAchievements = (LinearLayout) findViewById(R.id.linearLayoutAchievements);
+        linearLayoutDeaths = findViewById(R.id.linearLayoutDeaths);
+        linearLayoutOtherCharacters = findViewById(R.id.linearLayoutOtherCharacters);
+        linearLayoutHouses = findViewById(R.id.linearLayoutHouses);
+        linearLayoutAchievements = findViewById(R.id.linearLayoutAchievements);
         linearLayoutOtherCharacters.removeAllViews();
         linearLayoutDeaths.removeAllViews();
         linearLayoutHouses.removeAllViews();
@@ -178,8 +180,7 @@ public class characters extends AppCompatActivity implements View.OnClickListene
                             }
                             if (characters.getOther_characters() != null) {
                                 for (int i = 0; i < characters.getOther_characters().size(); i++) {
-                                    TextView textViewOther = new TextView(characters.this);
-                                    // System.out.println(characters.getDeaths().get(i).getReason());
+                                    TextView textViewOther = new TextView(characters.this);;
                                     textViewOther.setText("\uD83D\uDC4A\uD83C\uDFFE" + " "
                                             + characters.getOther_characters().get(i).getName() +
                                             "\nMain: " + characters.getOther_characters().get(i).getMain() +
@@ -200,7 +201,6 @@ public class characters extends AppCompatActivity implements View.OnClickListene
 
                             if (characters.getAchievements() != null) {
                                 for (int i = 0; i < characters.getAchievements().size(); i++) {
-                                    // System.out.println(characters.getDeaths().get(i).getReason());
                                     TextView textViewWeakness = new TextView(characters.this);
                                     textViewWeakness.setText("\uD83C\uDF1F" + " Name: " + characters.getAchievements().get(i).getName() +
                                             "\n Grade: " + characters.getAchievements().get(i).getGrade() +
