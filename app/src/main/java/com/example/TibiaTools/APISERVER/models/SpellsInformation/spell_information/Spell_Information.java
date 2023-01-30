@@ -1,9 +1,11 @@
 package com.example.TibiaTools.APISERVER.models.SpellsInformation.spell_information;
 
+import androidx.annotation.Keep;
+
 import com.example.TibiaTools.APISERVER.models.SpellsInformation.SpellList.SpellsList;
 
 import java.util.ArrayList;
-
+@Keep
 public class Spell_Information extends SpellsList {
     ArrayList<String> vocation,city;
     String damage_type;

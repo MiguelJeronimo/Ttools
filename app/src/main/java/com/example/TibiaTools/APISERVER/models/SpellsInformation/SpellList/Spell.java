@@ -1,8 +1,10 @@
 package com.example.TibiaTools.APISERVER.models.SpellsInformation.SpellList;
 
+import androidx.annotation.Keep;
+
 import com.example.TibiaTools.APISERVER.models.SpellsInformation.spell_information.Spell_Information;
 import com.example.TibiaTools.APISERVER.models.SpellsInformation.spell_information.rune_information.rune_information;
-
+@Keep
 public class Spell extends SpellsList{
     String image_url;
     String description;

@@ -1,10 +1,13 @@
 package com.example.TibiaTools.APISERVER.models.CharactersInformation.Characters.CharacterData;
 
+import androidx.annotation.Keep;
+
 import com.example.TibiaTools.APISERVER.models.CharactersInformation.Characters.CharacterData.Guild.Guild;
 import com.example.TibiaTools.APISERVER.models.CharactersInformation.Characters.CharacterData.Houses.House;
 
 import java.util.ArrayList;
 
+@Keep
 public class Character {
     private String name;
     private String sex;

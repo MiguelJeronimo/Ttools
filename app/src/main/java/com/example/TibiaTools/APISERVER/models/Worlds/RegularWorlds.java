@@ -1,5 +1,8 @@
 package com.example.TibiaTools.APISERVER.models.Worlds;
 
+import androidx.annotation.Keep;
+
+@Keep
 public class RegularWorlds {
     private String name;
     private String status;

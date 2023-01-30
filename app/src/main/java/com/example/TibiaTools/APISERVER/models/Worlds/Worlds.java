@@ -1,7 +1,9 @@
 package com.example.TibiaTools.APISERVER.models.Worlds;
 
-import java.util.ArrayList;
+import androidx.annotation.Keep;
 
+import java.util.ArrayList;
+@Keep
 public class Worlds {
     private int players_online;
     private String record_date;

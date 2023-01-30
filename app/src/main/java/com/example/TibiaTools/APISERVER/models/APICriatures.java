@@ -1,11 +1,14 @@
 package com.example.TibiaTools.APISERVER.models;
 
+import androidx.annotation.Keep;
+
 import com.example.TibiaTools.APISERVER.models.criatures.BoostableBosses;
 import com.example.TibiaTools.APISERVER.models.criatures.Criatures;
 import com.example.TibiaTools.APISERVER.models.criatures.CriaturesList;
 
 import java.util.ArrayList;
 
+@Keep
 public class APICriatures {
     Criatures creatures;
     BoostableBosses boostable_bosses;

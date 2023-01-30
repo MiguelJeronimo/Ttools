@@ -1,5 +1,8 @@
 package com.example.TibiaTools.APISERVER.models.CharactersInformation.Characters.CharacterData.Houses;
 
+import androidx.annotation.Keep;
+
+@Keep
 public class House {
     private String name;
     private String town;

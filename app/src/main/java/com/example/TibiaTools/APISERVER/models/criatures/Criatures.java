@@ -1,7 +1,9 @@
 package com.example.TibiaTools.APISERVER.models.criatures;
 
-import java.util.ArrayList;
+import androidx.annotation.Keep;
 
+import java.util.ArrayList;
+@Keep
 public class Criatures {
     Boosted boosted;
 

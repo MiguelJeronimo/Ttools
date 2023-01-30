@@ -1,5 +1,8 @@
 package com.example.TibiaTools.APISERVER.models.Houses.house_list;
 
+import androidx.annotation.Keep;
+
+@Keep
 public class HouseList {
     String name;
     int house_id, size, rent;

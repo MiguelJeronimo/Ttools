@@ -1,5 +1,8 @@
 package com.example.TibiaTools.APISERVER.models.News;
 
+import androidx.annotation.Keep;
+
+@Keep
 public class News {
     String id, date, news, category, type, url;
 

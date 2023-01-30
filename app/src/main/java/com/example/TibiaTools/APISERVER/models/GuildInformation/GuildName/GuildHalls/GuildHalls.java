@@ -1,5 +1,8 @@
 package com.example.TibiaTools.APISERVER.models.GuildInformation.GuildName.GuildHalls;
 
+import androidx.annotation.Keep;
+
+@Keep
 public class GuildHalls {
     String name, world, paid_until;
 

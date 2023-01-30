@@ -1,7 +1,10 @@
 package com.example.TibiaTools.APISERVER.models.CriatureInformation;
 
+import androidx.annotation.Keep;
+
 import java.util.ArrayList;
 
+@Keep
 public class Creature {
     String name, race, image_url, description,behaviour,hitpoints,experience_points;
     ArrayList<String> loot_list = new ArrayList<String>();

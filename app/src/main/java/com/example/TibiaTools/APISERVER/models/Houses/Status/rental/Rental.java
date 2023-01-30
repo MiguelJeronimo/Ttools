@@ -1,5 +1,8 @@
 package com.example.TibiaTools.APISERVER.models.Houses.Status.rental;
 
+import androidx.annotation.Keep;
+
+@Keep
 public class Rental {
     String owner,owner_sex,paid_until,moving_date,transfer_receiver;
     int transfer_price;

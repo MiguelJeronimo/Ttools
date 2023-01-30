@@ -1,5 +1,8 @@
 package com.example.TibiaTools.APISERVER.models.HighScores.HighscoreList;
 
+import androidx.annotation.Keep;
+
+@Keep
 public class HighscoreList {
     int rank, level;
     float value;

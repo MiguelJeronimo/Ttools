@@ -1,5 +1,8 @@
 package com.example.TibiaTools.APISERVER.models.GuildInformation.guilds;
 
+import androidx.annotation.Keep;
+
+@Keep
 public class World {
     String world;
 

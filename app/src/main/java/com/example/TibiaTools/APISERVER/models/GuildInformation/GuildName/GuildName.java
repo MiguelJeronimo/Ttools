@@ -1,10 +1,13 @@
 package com.example.TibiaTools.APISERVER.models.GuildInformation.GuildName;
 
+import androidx.annotation.Keep;
+
 import com.example.TibiaTools.APISERVER.models.GuildInformation.GuildName.GuildHalls.GuildHalls;
 import com.example.TibiaTools.APISERVER.models.GuildInformation.GuildName.members.MembersGuild;
 
 import java.util.ArrayList;
 
+@Keep
 public class GuildName {
     private String name;
     private String world;

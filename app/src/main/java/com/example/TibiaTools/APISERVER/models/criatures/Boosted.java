@@ -1,5 +1,8 @@
 package com.example.TibiaTools.APISERVER.models.criatures;
 
+import androidx.annotation.Keep;
+
+@Keep
 public class Boosted {
     String name, race, image_url;
 

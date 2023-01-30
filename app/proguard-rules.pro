@@ -19,23 +19,12 @@
 # If you keep the line number information, uncomment this to
 # hide the original source file name.
 #-renamesourcefileattribute SourceFile
--keepattributes Signature, InnerClasses, EnclosingMethod
--keepattributes RuntimeVisibleAnnotations, RuntimeVisibleParameterAnnotations
--keepattributes AnnotationDefault
--keepclassmembers,allowshrinking,allowobfuscation interface * {
-    @retrofit2.http.* <methods>;
-}
--dontwarn org.codehaus.mojo.animal_sniffer.IgnoreJRERequirement
--dontwarn javax.annotation.**
--dontwarn kotlin.Unit
--dontwarn retrofit2.KotlinExtensions
--keepnames class okhttp3.internal.publicsuffix.PublicSuffixDatabase
--dontwarn org.codehaus.mojo.animal_sniffer.*
--dontwarn okhttp3.internal.platform.ConscryptPlatform
--dontwarn org.conscrypt.ConscryptHostnameVerifier
 
--if interface * { @retrofit2.http.* <methods>; }
--keep,allowobfuscation interface <1>
--keep,allowobfuscation,allowshrinking interface retrofit2.Call
--keep,allowobfuscation,allowshrinking class retrofit2.Response
--keep,allowobfuscation,allowshrinking class kotlin.coroutines.Continuation
+    # Platform calls Class.forName on types which do not exist on Android to determine platform.
+    -dontnote retrofit2.Platform
+    # Platform used when running on Java 8 VMs. Will not be used at runtime.
+    -dontwarn retrofit2.Platform$Java8
+    # Retain generic type information for use by reflection by converters and adapters.
+    -keepattributes Signature
+    # Retain declared checked exceptions for use by a Proxy instance.
+    -keepattributes Exceptions

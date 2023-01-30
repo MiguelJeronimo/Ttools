@@ -1,5 +1,8 @@
 package com.example.TibiaTools.APISERVER.models.Houses.Status;
 
+import androidx.annotation.Keep;
+
+@Keep
 public class Status {
     Boolean is_auctioned,is_rented,is_moving,is_transfering;
     String original;

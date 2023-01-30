@@ -1,10 +1,12 @@
 package com.example.TibiaTools.APISERVER.models.Houses;
 
+import androidx.annotation.Keep;
+
 import com.example.TibiaTools.APISERVER.models.Houses.house_list.GuildhallList;
 import com.example.TibiaTools.APISERVER.models.Houses.house_list.HouseList;
 
 import java.util.ArrayList;
-
+@Keep
 public class Houses {
     String world, town;
     ArrayList<HouseList> house_list;

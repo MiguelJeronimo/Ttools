@@ -1,5 +1,7 @@
 package com.example.TibiaTools.APISERVER.models.CharactersInformation.Characters;
 
+import androidx.annotation.Keep;
+
 import com.example.TibiaTools.APISERVER.models.CharactersInformation.Characters.CharacterData.AccountInformation;
 import com.example.TibiaTools.APISERVER.models.CharactersInformation.Characters.CharacterData.Achievements;
 import com.example.TibiaTools.APISERVER.models.CharactersInformation.Characters.CharacterData.Character;
@@ -8,6 +10,7 @@ import com.example.TibiaTools.APISERVER.models.CharactersInformation.Characters.
 
 import java.util.ArrayList;
 
+@Keep
 public class Characters {
     Character character;
     ArrayList<OtherCharacters> other_characters = new ArrayList<OtherCharacters>();

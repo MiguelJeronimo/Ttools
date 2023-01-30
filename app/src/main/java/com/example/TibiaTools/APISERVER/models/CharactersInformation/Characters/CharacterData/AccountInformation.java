@@ -1,5 +1,8 @@
 package com.example.TibiaTools.APISERVER.models.CharactersInformation.Characters.CharacterData;
 
+import androidx.annotation.Keep;
+
+@Keep
 public class AccountInformation {
     private String created, loyalty_title;
 

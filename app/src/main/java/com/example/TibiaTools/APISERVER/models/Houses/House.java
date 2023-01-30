@@ -1,7 +1,9 @@
 package com.example.TibiaTools.APISERVER.models.Houses;
 
-import com.example.TibiaTools.APISERVER.models.Houses.Status.Status;
+import androidx.annotation.Keep;
 
+import com.example.TibiaTools.APISERVER.models.Houses.Status.Status;
+@Keep
 public class House {
     String world, town, img;
     String name, type;

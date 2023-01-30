@@ -1,5 +1,8 @@
 package com.example.TibiaTools.APISERVER.models.CharactersInformation.Characters.CharacterData.Guild;
 
+import androidx.annotation.Keep;
+
+@Keep
 public class Guild {
     private String name;
     private String rank;
