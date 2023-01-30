@@ -110,6 +110,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         if (RedValidator.ValidarInternet(getApplication())){
             //ejecutando los multiple hilos para el consumo de api
             Hilos();
+
         } else{
            Toast.makeText(this,"Revisa tu conexion a internet :)",Toast.LENGTH_SHORT).show();
         }
@@ -185,7 +186,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         Call<ApiNews> call = tibiaAPIServer.getNewsLatest();
         call.enqueue(new Callback<ApiNews>() {
             @Override
-            public void onResponse(@NonNull Call<ApiNews> call, @NonNull Response<ApiNews> response) {
+            public void onResponse(@NonNull Call<ApiNews> call, @NonNull Response<ApiNews> response) throws NullPointerException{
                 if (response.isSuccessful()){
                    ApiNews apiNews = response.body();
                    assert apiNews != null;
@@ -271,11 +272,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         executor.execute(() -> bostedBoss(url_boosted_boss));
         executor.execute(() -> Noticas(url_new));
         executor.execute(() -> NewsTickers(url_new));
-
     }
 
     @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
+    public boolean onCreateOptionsMenu(@NonNull Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.menu_main, menu);
         return true;
