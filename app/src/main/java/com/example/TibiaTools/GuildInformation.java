@@ -30,6 +30,7 @@ import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -52,10 +53,11 @@ public class GuildInformation extends AppCompatActivity implements AdapterView.O
         binding = ActivityGuildsBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
         setSupportActionBar(binding.toolbar);
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true); //Aparicion del boton regresar en el action bar
+        Objects.requireNonNull(getSupportActionBar()).setDisplayHomeAsUpEnabled(true); //Aparicion del boton regresar en el action bar
         spinner = findViewById(R.id.spinner_guild);
         spinner.setOnItemSelectedListener(this);
-        Hilo();
+        //Hilo();
+        llenarSpinner(url);
     }
 
     //para que el boton regresar funcione
@@ -81,26 +83,28 @@ public class GuildInformation extends AppCompatActivity implements AdapterView.O
         Call <DataWords> call = tibiaAPIServer.getWorlds();
         call.enqueue(new Callback<DataWords>() {
             @Override
-            public void onResponse(Call<DataWords> call, Response<DataWords> response) {
+            public void onResponse(@NonNull Call<DataWords> call, @NonNull Response<DataWords> response) {
                 if (response.isSuccessful()){
                     DataWords dataWords = response.body();
+                    assert dataWords != null;
                     Worlds worlds = dataWords.getWorlds();
                     //foreach en java
                     arrayWorlds.add("Seleccione");
                     for (RegularWorlds mundos: worlds.getRegular_worlds()) {
                         arrayWorlds.add(mundos.getName());
                     }
-                    adapter = new ArrayAdapter<String>(getApplicationContext(), R.layout.spinner_text_style,arrayWorlds);
+                    adapter = new ArrayAdapter<>(getApplicationContext(), R.layout.spinner_text_style, arrayWorlds);
                     spinner.setAdapter(adapter);
                 }
             }
             @Override
-            public void onFailure(Call<DataWords> call, Throwable t) {
+            public void onFailure(@NonNull Call<DataWords> call, @NonNull Throwable t) {
                 Toast.makeText(GuildInformation.this,t.getMessage(),Toast.LENGTH_SHORT).show();
             }
         });
     }
 
+    @SuppressLint("NotifyDataSetChanged")
     public void llenarRecyclerView(String world){
         if (!world.equals("Seleccione")){
             recyclerView = (RecyclerView) findViewById(R.id.recyclerGuilds);
@@ -112,14 +116,18 @@ public class GuildInformation extends AppCompatActivity implements AdapterView.O
             call.enqueue(new Callback<ApiGuilds>() {
                 @SuppressLint("NotifyDataSetChanged")
                 @Override
-                public void onResponse(Call<ApiGuilds> call, Response<ApiGuilds> response) {
+                public void onResponse(@NonNull Call<ApiGuilds> call, @NonNull Response<ApiGuilds> response) {
                     if (response.isSuccessful()){
                         ApiGuilds apiGuilds = response.body();
+                        assert apiGuilds != null;
                         Guilds guilds = apiGuilds.getGuilds();
                         System.out.println(guilds.getActive().size());
                         itemsRecyclerViewGuilds = new ArrayList<>();
+                        Toast.makeText(getApplicationContext(),
+                                String.valueOf(guilds.getActive().size())
+                                ,Toast.LENGTH_SHORT).show();
                         for (Active active: guilds.getActive()) {
-                            System.out.println(active.getLogo_url());
+                            //System.out.println("Name: "+active.getName()+": "+active.getLogo_url());
                             itemsRecyclerViewGuilds.add(
                                     new ItemsRecyclerViewGuilds(
                                             active.getName(),
@@ -133,14 +141,12 @@ public class GuildInformation extends AppCompatActivity implements AdapterView.O
                         adaptador.notifyDataSetChanged();
                         recyclerView.setHasFixedSize(true);
                         recyclerView.setAdapter(adaptador);
-                        adaptador.setOnClickListener(new View.OnClickListener() {
-                            @Override
-                            public void onClick(View view) {
-                               String nameGuild = itemsRecyclerViewGuilds.get(recyclerView.getChildAdapterPosition(view)).getLbName();
-                                Intent intent = new Intent(GuildInformation.this,GuildInformationName.class);
-                                intent.putExtra("nameGuild",nameGuild);
-                                startActivity(intent);
-                            }
+                        //agregando el evento onclick con un lambda en java
+                        adaptador.setOnClickListener(view -> {
+                           String nameGuild = itemsRecyclerViewGuilds.get(recyclerView.getChildAdapterPosition(view)).getLbName();
+                            Intent intent = new Intent(GuildInformation.this,GuildInformationName.class);
+                            intent.putExtra("nameGuild",nameGuild);
+                            startActivity(intent);
                         });
 
                     } else {
@@ -148,7 +154,7 @@ public class GuildInformation extends AppCompatActivity implements AdapterView.O
                     }
                 }
                 @Override
-                public void onFailure(Call<ApiGuilds> call, Throwable t) {
+                public void onFailure(@NonNull Call<ApiGuilds> call, @NonNull Throwable t) {
                     Toast.makeText(GuildInformation.this, "ERROR: "+t.getMessage(), Toast.LENGTH_SHORT).show();
                 }
             });
@@ -162,12 +168,7 @@ public class GuildInformation extends AppCompatActivity implements AdapterView.O
     }
 
     public void Hilo(){
-        Thread hilo = new Thread(new Runnable() {
-            @Override
-            public void run() {
-                llenarSpinner(url);
-            }
-        });
+        Thread hilo = new Thread(() -> llenarSpinner(url));
         hilo.start();
     }
 

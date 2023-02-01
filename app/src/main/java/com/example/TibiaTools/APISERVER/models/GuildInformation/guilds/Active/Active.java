@@ -1,5 +1,8 @@
 package com.example.TibiaTools.APISERVER.models.GuildInformation.guilds.Active;
 
+import androidx.annotation.Keep;
+
+@Keep
 public class Active {
     private String name;
     private String logo_url;
