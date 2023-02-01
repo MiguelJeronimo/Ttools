@@ -56,8 +56,7 @@ public class GuildInformation extends AppCompatActivity implements AdapterView.O
         Objects.requireNonNull(getSupportActionBar()).setDisplayHomeAsUpEnabled(true); //Aparicion del boton regresar en el action bar
         spinner = findViewById(R.id.spinner_guild);
         spinner.setOnItemSelectedListener(this);
-        //Hilo();
-        llenarSpinner(url);
+        Hilo();
     }
 
     //para que el boton regresar funcione
@@ -123,9 +122,6 @@ public class GuildInformation extends AppCompatActivity implements AdapterView.O
                         Guilds guilds = apiGuilds.getGuilds();
                         System.out.println(guilds.getActive().size());
                         itemsRecyclerViewGuilds = new ArrayList<>();
-                        Toast.makeText(getApplicationContext(),
-                                String.valueOf(guilds.getActive().size())
-                                ,Toast.LENGTH_SHORT).show();
                         for (Active active: guilds.getActive()) {
                             //System.out.println("Name: "+active.getName()+": "+active.getLogo_url());
                             itemsRecyclerViewGuilds.add(

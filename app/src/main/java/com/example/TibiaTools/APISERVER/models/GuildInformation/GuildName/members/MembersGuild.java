@@ -1,5 +1,8 @@
 package com.example.TibiaTools.APISERVER.models.GuildInformation.GuildName.members;
 
+import androidx.annotation.Keep;
+
+@Keep
 public class MembersGuild {
     String name, title, rank, vocation, level, joined, status;
 
