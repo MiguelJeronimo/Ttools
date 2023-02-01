@@ -15,7 +15,7 @@ android {
         minSdkVersion 21
         targetSdkVersion 33
         //VersionCode cambiar cada que vayamos a subir una actualizacion a la playstore
-        versionCode 7
+        versionCode 8
         versionName "2.0"
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
