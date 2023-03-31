@@ -1,8 +1,13 @@
 package com.example.TibiaTools.Operaciones;
 
 public class calcularBlessings {
-    private int nivel, blessing, blessing_especial, suma_blessings_principales,
-                totalBlessings, setHeartOfMountain, setBloodOfMountain;
+    private int nivel;
+    private int blessing;
+    private int blessing_especial;
+    private int suma_blessings_principales;
+    private int bless_pvp;
+    private int setHeartOfMountain;
+    private int setBloodOfMountain;
 
     public calcularBlessings() { }
 
@@ -19,8 +24,24 @@ public class calcularBlessings {
          } else if(nivel>=31&&nivel<120){//si entra en el rango de 31 a 120 aplica la formula
              blessing = constante*(nivel - 20);
          }else{
-             blessing = 20000;
+             //20000 + 75 gps por cada nivel adicional
+             //twist of fate no tiene cambios, sigue igual que siempre
+             int constanteBless = 20000;
+             blessing = ((nivel - 120) *75 ) + constanteBless;
          }
+    }
+    /*
+    * Bless del pvp
+    * */
+    public void blessingTwistOfFate (int nivel){ //Calculo de las blessings principales individualmente (el precio aplica tambien para la twits of fate)
+        int constante = 200;
+        if (nivel <= 30){
+            bless_pvp = 2000;
+        } else if(nivel>=31&&nivel<120){//si entra en el rango de 31 a 120 aplica la formula
+            bless_pvp = constante*(nivel - 20);
+        }else{
+            bless_pvp = 20000;
+        }
     }
 
     public void blessingEspecial(int nivel){  // calculo de las blessings especiales (Heart of the Mountain y 	Blood of the Mountain) individualmente
@@ -30,7 +51,9 @@ public class calcularBlessings {
         } else if (nivel>=31&&nivel<120){//si entra en el rango de 31 a 120 aplica la formula
             blessing_especial = constante *(nivel -20);
         } else{
-            blessing_especial = 26000;
+            //20000 + 100 gps por cada nivel adicional
+            int constanteBless = 26000;
+            blessing_especial = ((nivel - 120) * 100) + constanteBless;
         }
     }
 
@@ -62,4 +85,7 @@ public class calcularBlessings {
     public int getBloodOfMountain(){
         return setBloodOfMountain;
     }
+
+    public int getblessingTwistOfFate(){return bless_pvp;}
+
 }

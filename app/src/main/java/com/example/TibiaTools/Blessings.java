@@ -89,20 +89,23 @@ public class Blessings extends AppCompatActivity implements View.OnClickListener
                 Toast.makeText(this,"Favor de ingresar el nivel",Toast.LENGTH_SHORT).show();
             } else{
                 int Nivel = Integer.parseInt(nivel_personaje);
-                // Blessings individual (costo unitario de las bless principales y twits of fate)
+                // Blessings individual (costo unitario de las bless principales)
                 c.blessingIndividual(Nivel);
+                //Calculo de la Twist of Fate
+                c.blessingTwistOfFate(Nivel);
                 //Suma de las 5 bless principales
                 c.sumaBlessingsPrincipales(Nivel);
                 //formateamos el costo a formato de moneda
                 String blessing_individual = decimalFormat.format(c.getBlessingIndividual());
-                String total_blessings_principales = decimalFormat.format(c.getSumaBlessingsPrincipales() + c.getBlessingIndividual());
+                String blessing_twits_of_fate = decimalFormat.format(c.getblessingTwistOfFate());
+                //String total_blessings_principales = decimalFormat.format(c.getSumaBlessingsPrincipales() + c.getblessingTwistOfFate());
                 /**UNA VEZ VALIDADO EL CAMPO DE TEXTO, IMPRIMIMOS LOS RESULTADOS EN LAS ETIQUETAS CORRESPONDIENTES**/
                 spiritual.setText(blessing_individual);
                 embrace.setText(blessing_individual);
                 suns.setText(blessing_individual);
                 solitude.setText(blessing_individual);
                 phoenix.setText(blessing_individual);
-                twits_of_fate.setText(blessing_individual);
+                twits_of_fate.setText(blessing_twits_of_fate);
             }
 
         }
@@ -147,7 +150,7 @@ public class Blessings extends AppCompatActivity implements View.OnClickListener
             c.setBloodOfMountain(0);
         }
 
-        String total_blessing = decimalFormat.format(c.getSumaBlessingsPrincipales() + c.getBlessingIndividual()+c.getHeartOfMountain()+c.getBloodOfMountain());
+        String total_blessing = decimalFormat.format(c.getSumaBlessingsPrincipales() + c.getblessingTwistOfFate()+c.getHeartOfMountain()+c.getBloodOfMountain());
         // imprimiendo los totales en las etiquetas de total de blessings opcionales y el total de todas las blessings
         total.setText(total_blessing);
     }
