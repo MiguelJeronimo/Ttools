@@ -31,6 +31,7 @@ import retrofit2.Response;
 public class Mundos extends AppCompatActivity {
     RecyclerView recyclerView;
     adapterRecyclerviewMundos myAdapter;
+
     List<ItemsRecyclerViewMundos> itemsRecyclerViewMundos;
     String url = "https://api.tibiadata.com/v3/";
     TextView playersOnline;
