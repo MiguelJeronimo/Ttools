@@ -1,7 +1,7 @@
 apply plugin: 'com.android.application'
 
 android {
-    compileSdkVersion 33
+    compileSdk 33
     //buildToolsVersion "29.0.2"
     compileOptions {
         sourceCompatibility = 1.8
@@ -12,8 +12,8 @@ android {
         minSdkVersion 21
         targetSdkVersion 33
         //VersionCode cambiar cada que vayamos a subir una actualizacion a la playstore
-        versionCode 8
-        versionName "2.0"
+        versionCode 10
+        versionName "2.1"
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
 
