@@ -9,24 +9,32 @@
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
     tools:context=".MainActivity"
     tools:showIn="@layout/activity_main">
+
     <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent">
+
             <androidx.constraintlayout.widget.Guideline
                 android:id="@+id/primera_division"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
-                app:layout_constraintGuide_percent="0.25"/>
+                app:layout_constraintGuide_percent="0.25" />
+
             <androidx.constraintlayout.widget.Guideline
                 android:id="@+id/primera_division2"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
-                app:layout_constraintGuide_percent="0.50"/>
+                app:layout_constraintGuide_percent="0.50" />
 
             <ImageView
                 android:id="@+id/imageViewRashid"
@@ -35,9 +43,8 @@
                 android:layout_marginTop="16dp"
                 app:layout_constraintEnd_toStartOf="@+id/primera_division"
                 app:layout_constraintStart_toStartOf="parent"
-                tools:background="@color/fondo_switch"
-                app:layout_constraintTop_toTopOf="parent">
-            </ImageView>
+                app:layout_constraintTop_toTopOf="parent"
+                tools:background="@color/fondo_switch"></ImageView>
 
             <TextView
                 android:id="@+id/textViewRashid"
@@ -46,11 +53,11 @@
                 android:layout_marginTop="16dp"
                 android:textColor="@color/leyenda"
                 android:textStyle="bold"
-                tools:text="Rashid se encuentra en Edron"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.555"
                 app:layout_constraintStart_toStartOf="@+id/primera_division"
-                app:layout_constraintTop_toTopOf="parent" />
+                app:layout_constraintTop_toTopOf="parent"
+                tools:text="Rashid se encuentra en Edron" />
 
 
             <androidx.cardview.widget.CardView
@@ -74,8 +81,8 @@
                         android:id="@+id/lbBossBosstable2"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:textColor="#8d8d8d"
                         android:text="Boosted Boss"
+                        android:textColor="#8d8d8d"
                         app:layout_constraintBottom_toTopOf="@+id/BossBosstable"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
@@ -160,16 +167,20 @@
 
             <androidx.cardview.widget.CardView
                 android:id="@+id/cardView4"
-                android:layout_width="360dp"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="5dp"
                 android:layout_marginTop="20dp"
                 android:layout_marginEnd="5dp"
+                android:layout_marginBottom="5dp"
                 android:clickable="true"
                 android:focusable="true"
                 android:foreground="?android:attr/selectableItemBackground"
                 android:paddingBottom="5dp"
                 app:cardBackgroundColor="@color/colorAccent"
+                app:cardCornerRadius="10dp"
+                app:cardElevation="10dp"
+                app:layout_constraintBottom_toTopOf="@+id/cardView5"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/cardView3">
@@ -190,7 +201,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:orientation="vertical"
-                        app:layout_constraintGuide_percent="0.50" />
+                        app:layout_constraintGuide_begin="201dp" />
 
                     <androidx.constraintlayout.widget.Guideline
                         android:id="@+id/primera_division4"
@@ -226,8 +237,10 @@
                         android:layout_width="171dp"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="5dp"
+                        android:layout_marginBottom="5dp"
                         android:textColor="@color/letras"
                         android:textStyle="bold"
+                        app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintEnd_toStartOf="@+id/primera_division5"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toBottomOf="@+id/textViewCategoria"
@@ -249,7 +262,7 @@
 
             <androidx.cardview.widget.CardView
                 android:id="@+id/cardView5"
-                android:layout_width="360dp"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="5dp"
                 android:layout_marginTop="10dp"
@@ -257,10 +270,12 @@
                 android:clickable="true"
                 android:focusable="true"
                 android:foreground="?android:attr/selectableItemBackground"
-                android:paddingBottom="5dp"
-                android:paddingEnd="5dp"
                 android:paddingStart="5dp"
+                android:paddingEnd="5dp"
+                android:paddingBottom="5dp"
                 app:cardBackgroundColor="@color/colorAccent"
+                app:cardCornerRadius="10dp"
+                app:cardElevation="10dp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/cardView4">
@@ -306,7 +321,9 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="10dp"
+                        android:layout_marginBottom="5dp"
                         android:textColor="@color/color_degradado"
+                        app:layout_constraintBottom_toTopOf="@+id/textViewNew"
                         app:layout_constraintEnd_toStartOf="@+id/primera_division8"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toTopOf="parent"
@@ -317,8 +334,10 @@
                         android:layout_width="171dp"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="5dp"
+                        android:layout_marginBottom="5dp"
                         android:textColor="@color/letras"
                         android:textStyle="bold"
+                        app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintEnd_toStartOf="@+id/primera_division7"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toBottomOf="@+id/textViewCategory"
@@ -341,9 +360,10 @@
 
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/recyclerNews"
-                android:layout_width="380dp"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"
+                android:orientation="vertical"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/cardView5"

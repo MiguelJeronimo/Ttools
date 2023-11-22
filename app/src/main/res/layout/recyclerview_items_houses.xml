@@ -1,59 +1,83 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
+<androidx.constraintlayout.widget.ConstraintLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_height="wrap_content"
-    android:clickable="true"
-    android:focusable="true"
-    android:foreground="?android:attr/selectableItemBackground"
-    android:background="@color/colorPrimary"
-    android:orientation="vertical">
-    <TextView
-        android:id="@+id/house_name"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:paddingStart="10dp"
-        android:paddingTop="5dp"
-        android:text="Dagger Alley 1"
-        android:textColor="@color/letras"
-        android:textSize="25dp"
-        />
-    <TextView
-        android:id="@+id/house_size"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:paddingStart="20dp"
-        android:textStyle="italic"
-        android:text="Size: 57"
-        android:textColor="@color/color_degradado"
-        />
-    <TextView
-        android:id="@+id/house_rent"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:paddingStart="20dp"
-        android:textStyle="italic"
-        android:text="200,000 golds de renta"
-        android:textColor="@color/color_degradado"
-        />
-    <TextView
-        android:id="@+id/house_rented"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:textAlignment="center"
-        android:textStyle="bold"
-        android:text="Ocupada"
-        android:textColor="@color/letras"
-        />
-    <TextView
-        android:id="@+id/house_id"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:textAlignment="center"
-        android:textStyle="bold"
-        android:text="Ocupada"
-        android:visibility="invisible"
-        android:textColor="@color/letras"
-        />
+    android:layout_width="match_parent">
 
-</LinearLayout>
+    <com.google.android.material.card.MaterialCardView
+        android:id="@+id/materialCardView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="10dp"
+        android:layout_marginTop="5dp"
+        android:layout_marginEnd="10dp"
+        android:layout_marginBottom="5dp"
+        app:cardBackgroundColor="@color/colorPrimary"
+        app:cardCornerRadius="15dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/colorPrimary"
+            android:clickable="true"
+            android:focusable="true"
+            android:foreground="?android:attr/selectableItemBackground"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/house_name"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:paddingStart="10dp"
+                android:paddingTop="5dp"
+                android:text="Dagger Alley 1"
+                android:textColor="@color/letras"
+                android:textSize="25dp" />
+
+            <TextView
+                android:id="@+id/house_size"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:paddingStart="20dp"
+                android:text="Size: 57"
+                android:textColor="@color/color_degradado"
+                android:textStyle="italic" />
+
+            <TextView
+                android:id="@+id/house_rent"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:paddingStart="20dp"
+                android:text="200,000 golds de renta"
+                android:textColor="@color/color_degradado"
+                android:textStyle="italic" />
+
+            <TextView
+                android:id="@+id/house_rented"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Ocupada"
+                android:textAlignment="center"
+                android:textColor="@color/letras"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/house_id"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Ocupada"
+                android:textAlignment="center"
+                android:textColor="@color/letras"
+                android:textStyle="bold"
+                android:visibility="invisible" />
+        </LinearLayout>
+    </com.google.android.material.card.MaterialCardView>
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>
+

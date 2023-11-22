@@ -24,6 +24,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.AutoCompleteTextView;
 import android.widget.Spinner;
 import android.widget.Toast;
 
@@ -36,9 +37,9 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public class GuildInformation extends AppCompatActivity implements AdapterView.OnItemSelectedListener {
+public class GuildInformation extends AppCompatActivity {
     private ActivityGuildsBinding binding;
-    Spinner spinner;
+    AutoCompleteTextView spinner;
     ArrayAdapter<String> adapter;
     //recyclerview
     RecyclerView recyclerView;
@@ -55,8 +56,15 @@ public class GuildInformation extends AppCompatActivity implements AdapterView.O
         setSupportActionBar(binding.toolbar);
         Objects.requireNonNull(getSupportActionBar()).setDisplayHomeAsUpEnabled(true); //Aparicion del boton regresar en el action bar
         spinner = findViewById(R.id.spinner_guild);
-        spinner.setOnItemSelectedListener(this);
         Hilo();
+        spinner.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                if (parent.getItemAtPosition(position).toString() != "Seleccione un mundo"){
+                    llenarRecyclerView(parent.getItemAtPosition(position).toString());
+                }
+            }
+        });
     }
 
     //para que el boton regresar funcione
@@ -169,17 +177,18 @@ public class GuildInformation extends AppCompatActivity implements AdapterView.O
     }
 
 //eventos del spinner
-    @Override
+    /*@Override
     public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
-        System.out.println("OPCIONES"+adapterView.getItemAtPosition(i));
-        if (adapterView.getItemAtPosition(i).toString() != "Seleccione un mundo"){
-            //System.out.println(adapterView.getItemAtPosition(i).toString());
-           llenarRecyclerView(adapterView.getItemAtPosition(i).toString());
+        System.out.println("option: "+adapterView.getItemAtPosition(i).toString());
+        if (adapterView.isSelected() !=)
+        /*if (adapterView.getItemAtPosition(i).toString() != "Seleccione un mundo"){
+            System.out.println(adapterView.getItemAtPosition(i).toString());
+           //llenarRecyclerView(adapterView.getItemAtPosition(i).toString());
         }
-    }
+    }*/
 
-    @Override
+   /* @Override
     public void onNothingSelected(AdapterView<?> adapterView) {
         adapterView.getItemAtPosition(1);
-    }
+    }*/
 }
