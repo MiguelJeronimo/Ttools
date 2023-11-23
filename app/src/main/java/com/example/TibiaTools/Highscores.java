@@ -16,10 +16,13 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.os.Handler;
+import android.os.Looper;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.AutoCompleteTextView;
 import android.widget.Spinner;
 import android.widget.Toast;
 
@@ -33,24 +36,27 @@ import com.example.ttools.databinding.ActivityHighscoresBinding;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.Executor;
+import java.util.concurrent.Executors;
 
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public class Highscores extends AppCompatActivity implements AdapterView.OnItemSelectedListener {
+public class Highscores extends AppCompatActivity implements AdapterView.OnItemClickListener {
 
     private ActivityHighscoresBinding binding;
     String url = "https://api.tibiadata.com/v3/";
     DataHighScores dataHighScores = new DataHighScores();
-    Spinner spinnerWorlds, spinnerVocations, spinnerCategorys;
-    ArrayAdapter<String> adapterWorlds, adapterVocations, adapterCategorys;
+    AutoCompleteTextView spinnerWorlds, spinnerVocations, spinnerCategorys;
+    ArrayAdapter<String> adapterWorlds;
     //retrofit
     InstanciaRetrofit servicio = new InstanciaRetrofit();
     //recycler
     RecyclerView recyclerView;
     AdapterRecyclerViewHighScores adaptador;
     List<ItemsRecyclerViewHighScores> lista_highscore;
+    String mundo = null, categoria = null, vocacion = null;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -59,13 +65,13 @@ public class Highscores extends AppCompatActivity implements AdapterView.OnItemS
         setContentView(binding.getRoot());
         setSupportActionBar(binding.toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true); //Aparicion del boton regresar en el action bar
-        spinnerWorlds = (Spinner) findViewById(R.id.spinner_worldss);
-        spinnerVocations = (Spinner) findViewById(R.id.spinner_vocationss);
-        spinnerCategorys = (Spinner) findViewById(R.id.spinner_category);
-        spinnerVocations.setOnItemSelectedListener(this);
-        spinnerCategorys.setOnItemSelectedListener(this);
-        spinnerWorlds.setOnItemSelectedListener(this);
+        spinnerWorlds = findViewById(R.id.spinner_worldss);
+        spinnerVocations = findViewById(R.id.spinner_vocationss);
+        spinnerCategorys = findViewById(R.id.spinner_category);
         Hilos();
+        spinnerWorlds.setOnItemClickListener(this);
+        spinnerVocations.setOnItemClickListener(this);
+        spinnerCategorys.setOnItemClickListener(this);
     }
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
@@ -195,52 +201,45 @@ public class Highscores extends AppCompatActivity implements AdapterView.OnItemS
 
     public void spinners(){
         Spinners spinners = new Spinners();
-        adapterVocations = new ArrayAdapter<String>(getApplicationContext(),R.layout.spinner_text_style,spinners.spinnerVocations(getResources().openRawResource(R.raw.vocations)));
-        adapterCategorys = new ArrayAdapter<String>(getApplicationContext(),R.layout.spinner_text_style,spinners.spinnerCategory(getResources().openRawResource(R.raw.categorias)));
-        spinnerVocations.setAdapter(adapterVocations);
-        spinnerCategorys.setAdapter(adapterCategorys);
-    }
-
-    @Override
-    public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
-            String mundo = null, categoria = null, vocacion = null;
-            //System.out.println(spinnerWorlds.getItemAtPosition(i));
-            if (adapterView.getId() == R.id.spinner_worldss){
-                mundo = (String) spinnerWorlds.getItemAtPosition(i);
-                dataHighScores.setMundo(mundo);
-            }
-            if (adapterView.getId() == R.id.spinner_category){
-                categoria = (String) spinnerCategorys.getItemAtPosition(i);
-                dataHighScores.setCategoria(categoria);
-            }
-            if (adapterView.getId()== R.id.spinner_vocationss){
-                vocacion = (String) spinnerVocations.getItemAtPosition(i);
-                dataHighScores.setVocacion(vocacion);
-            }
-            llenarRecyclerViewHighScores(dataHighScores.getMundo(),dataHighScores.getCategoria().replace(" ","").toLowerCase(),dataHighScores.getVocacion());
-            //System.out.println("Mundo: "+dataHighScores.getMundo()+" Categoria: "+dataHighScores.getCategoria().replace(" ","").toLowerCase()+" Vocacion: "+dataHighScores.getVocacion());
-    }
-
-    @Override
-    public void onNothingSelected(AdapterView<?> adapterView) {
-        System.out.println("NO ESTA CHECKEADO");
+        ArrayAdapter<String> adapterVocations, adapterCategorys;
+        ArrayList<String> dataVocation = spinners.spinnerVocations(getResources().openRawResource(R.raw.vocations));
+        ArrayList<String> dataCategorys= spinners.spinnerCategory(getResources().openRawResource(R.raw.categorias));
+        adapterVocations = new ArrayAdapter<>(getApplicationContext(), R.layout.spinner_text_style, dataVocation);
+        adapterCategorys = new ArrayAdapter<>(getApplicationContext(), R.layout.spinner_text_style, dataCategorys);
+        // Crea un nuevo Handler para enviar la actualización de la UI al hilo principal
+        new Handler(Looper.getMainLooper()).post(() -> {
+            spinnerVocations.setAdapter(adapterVocations);
+            spinnerCategorys.setAdapter(adapterCategorys);
+        });
     }
 
     //implementacion de tareas asincronas
     public void Hilos(){
-        Thread hilo = new Thread(new Runnable() {
-            @Override
-            public void run() {
-                spinnerWorlds(url);
-            }
-        });
-        Thread hilo2 = new Thread(new Runnable() {
-            @Override
-            public void run() {
-                spinners();
-            }
-        });
-        hilo.start();
-        hilo2.start();
+        Executor executor = Executors.newFixedThreadPool(2);
+        executor.execute(()->spinnerWorlds(url));
+        executor.execute(()->spinners());
+    }
+
+    @Override
+    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+        System.out.println("DATA: "+spinnerWorlds.getText());
+        System.out.println("DATA: "+spinnerCategorys.getText());
+        System.out.println("DATA: "+spinnerVocations.getText());
+        if (
+                !spinnerWorlds.getText().toString().isEmpty() &&
+                !spinnerCategorys.getText().toString().isEmpty() &&
+                !spinnerVocations.getText().toString().isEmpty()
+        ){
+            mundo = spinnerWorlds.getText().toString();
+            dataHighScores.setMundo(mundo);
+            vocacion = spinnerVocations.getText().toString();
+            dataHighScores.setVocacion(vocacion);
+            categoria = spinnerCategorys.getText().toString();
+            dataHighScores.setCategoria(categoria);
+            llenarRecyclerViewHighScores(
+                    dataHighScores.getMundo(),
+                    dataHighScores.getCategoria().replace(" ","").toLowerCase(),
+                    dataHighScores.getVocacion());
+        }
     }
 }
