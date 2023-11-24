@@ -6,11 +6,14 @@
     xmlns:tools="http://schemas.android.com/tools"
     app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
-<androidx.recyclerview.widget.RecyclerView
-    android:id="@+id/recyclerCriaturas"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:clickable="true"
-    tools:listitem="@layout/recyclerview_items_criatures"
-    />
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/recyclerCriaturas"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:clickable="true"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:listitem="@layout/recyclerview_items_criatures" />
 </androidx.constraintlayout.widget.ConstraintLayout>

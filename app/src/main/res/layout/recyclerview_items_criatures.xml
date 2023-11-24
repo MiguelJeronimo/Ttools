@@ -52,5 +52,16 @@
         app:layout_constraintStart_toStartOf="@+id/primera_division"
         app:layout_constraintTop_toBottomOf="@+id/textViewName" />
 
+    <com.google.android.material.divider.MaterialDivider
+        android:id="@+id/separador"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="10dp"
+        android:layout_marginEnd="10dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/imageViewCriature"
+        app:layout_constraintVertical_bias="1.0" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
