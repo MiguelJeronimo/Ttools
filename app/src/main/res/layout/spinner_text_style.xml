@@ -1,11 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
 <TextView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:id="@android:id/text1"
     style="@style/Widget.AppCompat.TextView.SpinnerItem"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
+    android:layout_height="50dp"
+    tools:background="@color/recyclerview_items_color"
     android:textStyle="bold"
     android:ellipsize="end"
-    android:padding="7dp"
+    android:paddingStart="20dp"
+    android:paddingTop="13dp"
+    android:paddingBottom="15dp"
+    tools:text="ALGO"
     android:textColor="@color/letras" />

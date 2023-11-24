@@ -8,16 +8,6 @@
     app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
 
-    <!--<Spinner
-        android:id="@+id/spinner_guild"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
-        android:backgroundTint="@color/leyenda"
-        android:popupBackground="@color/colorPrimary"
-        app:layout_constraintTop_toTopOf="parent"
-        android:layout_margin="10dp"
-        tools:layout_editor_absoluteX="0dp" />-->
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/spinner_guild_container"
         style="@style/Widget.MaterialComponents.TextInputLayout.FilledBox.Dense.ExposedDropdownMenu"
@@ -38,6 +28,7 @@
             android:layout_height="wrap_content"
             android:textColor="@color/letras"
             android:textStyle="bold"
+            android:text="Seleccione un mundo"
             android:popupBackground="@color/recyclerview_items_color"
             android:inputType="none" />
     </com.google.android.material.textfield.TextInputLayout>

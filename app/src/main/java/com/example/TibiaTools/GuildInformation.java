@@ -57,12 +57,9 @@ public class GuildInformation extends AppCompatActivity {
         Objects.requireNonNull(getSupportActionBar()).setDisplayHomeAsUpEnabled(true); //Aparicion del boton regresar en el action bar
         spinner = findViewById(R.id.spinner_guild);
         Hilo();
-        spinner.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                if (parent.getItemAtPosition(position).toString() != "Seleccione un mundo"){
-                    llenarRecyclerView(parent.getItemAtPosition(position).toString());
-                }
+        spinner.setOnItemClickListener((parent, view, position, id) -> {
+            if (parent.getItemAtPosition(position).toString() != "Seleccione un mundo"){
+                llenarRecyclerView(parent.getItemAtPosition(position).toString());
             }
         });
     }

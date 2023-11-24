@@ -22,10 +22,13 @@ import com.example.ttools.databinding.ActivityHouseBinding;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.os.Handler;
+import android.os.Looper;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.AutoCompleteTextView;
 import android.widget.Spinner;
 
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -35,18 +38,20 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.ArrayList;
 import java.util.Objects;
+import java.util.concurrent.Executor;
+import java.util.concurrent.Executors;
 
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public class HouseActivity extends AppCompatActivity implements AdapterView.OnItemSelectedListener {
+public class HouseActivity extends AppCompatActivity implements AdapterView.OnItemClickListener {
 
     private ActivityHouseBinding binding;
     String url = "https://api.tibiadata.com/v3/";
     String mundo;
     DataHighScores dataHighScores = new DataHighScores();
-    Spinner spinnerWorlds, spinnerCitys;
+    AutoCompleteTextView spinnerWorlds, spinnerCitys;
     ArrayAdapter<String> adapterWorlds,adapterCitys;
     //Recyclerview
     RecyclerView recyclerView;
@@ -64,8 +69,8 @@ public class HouseActivity extends AppCompatActivity implements AdapterView.OnIt
         Objects.requireNonNull(getSupportActionBar()).setDisplayHomeAsUpEnabled(true); //Aparicion del boton regresar en el action bar
         spinnerWorlds = findViewById(R.id.spinner_mundos);
         spinnerCitys = findViewById(R.id.spinner_citys);
-        spinnerWorlds.setOnItemSelectedListener(this);
-        spinnerCitys.setOnItemSelectedListener(this);
+        spinnerWorlds.setOnItemClickListener(this);
+        spinnerCitys.setOnItemClickListener(this);
         Hilos();
     }
 
@@ -88,7 +93,9 @@ public class HouseActivity extends AppCompatActivity implements AdapterView.OnIt
     public void spinnersCity(){
         Spinners spinners = new Spinners();
         adapterCitys = new ArrayAdapter<>(getApplicationContext(), R.layout.spinner_text_style, spinners.LeerDataCitys(getResources().openRawResource(R.raw.data)));
-        spinnerCitys.setAdapter(adapterCitys);
+        new Handler(Looper.getMainLooper()).post(()->{
+            spinnerCitys.setAdapter(adapterCitys);
+        });
     }
 
     public void spinnerWorlds(String url){
@@ -190,7 +197,7 @@ public class HouseActivity extends AppCompatActivity implements AdapterView.OnIt
 
     }
 
-    @Override
+    /*@Override
     public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
         String mundo, ciudad;
         if (adapterView.getId() == R.id.spinner_mundos){
@@ -208,13 +215,25 @@ public class HouseActivity extends AppCompatActivity implements AdapterView.OnIt
     @Override
     public void onNothingSelected(AdapterView<?> adapterView) {
 
-    }
-
+    }*/
     //llamadas asincornas con hilos
     public void Hilos(){
-        Thread hilo = new Thread(() -> spinnerWorlds(url));
-        Thread hilo2 = new Thread(() -> spinnersCity());
-        hilo.start();
-        hilo2.start();
+        Executor executor = Executors.newFixedThreadPool(2);
+        executor.execute(() -> spinnerWorlds(url));
+        executor.execute(() -> spinnersCity());
+    }
+
+    @Override
+    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+        if (!spinnerCitys.getText().toString().isEmpty() && !spinnerWorlds.getText().toString().isEmpty()){
+            if (!spinnerCitys.getText().toString().equalsIgnoreCase("Seleccione una ciudad") && !spinnerWorlds.getText().toString().equalsIgnoreCase("Seleccione un mundo")){
+                String mundo, ciudad;
+                mundo = spinnerWorlds.getText().toString();
+                ciudad = spinnerCitys.getText().toString();
+                dataHighScores.setMundo(mundo);
+                dataHighScores.setCiudad(ciudad);
+                Casas(url,dataHighScores.getMundo(),dataHighScores.getCiudad());
+            }
+        }
     }
 }

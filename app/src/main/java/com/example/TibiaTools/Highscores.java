@@ -222,9 +222,6 @@ public class Highscores extends AppCompatActivity implements AdapterView.OnItemC
 
     @Override
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-        System.out.println("DATA: "+spinnerWorlds.getText());
-        System.out.println("DATA: "+spinnerCategorys.getText());
-        System.out.println("DATA: "+spinnerVocations.getText());
         if (
                 !spinnerWorlds.getText().toString().isEmpty() &&
                 !spinnerCategorys.getText().toString().isEmpty() &&
