@@ -17,14 +17,13 @@
         <com.google.android.material.appbar.AppBarLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:theme="@style/AppTheme.AppBarOverlay">
+            android:theme="@style/AppTheme">
 
             <androidx.appcompat.widget.Toolbar
                 android:id="@+id/toolbar"
                 android:layout_width="match_parent"
                 android:layout_height="?attr/actionBarSize"
-                android:background="?attr/colorPrimary"
-                app:popupTheme="@style/AppTheme.PopupOverlay" />
+                app:popupTheme="@style/AppTheme" />
 
         </com.google.android.material.appbar.AppBarLayout>
 
@@ -34,6 +33,7 @@
 
     <!--Generaremos una barra de navegacion con un header-->
     <com.google.android.material.navigation.NavigationView
+        android:id="@+id/barraNavegacion"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_gravity="start"
@@ -42,47 +42,9 @@
         android:clickable="true"
         android:focusable="true"
         android:foreground="?android:attr/selectableItemBackground"
-        android:background="@color/colorAccent"
         android:fitsSystemWindows="true"
         app:headerLayout="@layout/nav_bar_header"
-        app:itemIconTint="@color/leyenda"
-        app:itemTextColor="@color/leyenda"
         app:menu="@menu/drawer_menu"
         tools:context=".Panel">
-    <androidx.core.widget.NestedScrollView
-        android:layout_width="match_parent"
-        android:fillViewport="true"
-        android:layout_height="match_parent"
-        android:scrollbars="vertical">
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical"
-            >
-            <!--Generaremos una barra de navegacion con un header-->
-            <com.google.android.material.navigation.NavigationView
-                android:id="@+id/barraNavegacion"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:background="@color/colorAccent"
-                android:clipToPadding="false"
-                android:fitsSystemWindows="true"
-                app:elevation="0dp"
-                app:headerLayout="@layout/nav_bar_header"
-                app:itemIconTint="@color/leyenda"
-                app:itemTextColor="@color/leyenda"
-                app:menu="@menu/drawer_menu"
-                tools:context=".Panel" />
-            <LinearLayout
-                android:id="@+id/spacer_to_bottom"
-                android:layout_width="match_parent"
-                android:orientation="vertical"
-                android:layout_height="0dp"
-                android:layout_weight="1"/>
-
-            <include
-                layout="@layout/footer_drawer"/>
-        </LinearLayout>
-    </androidx.core.widget.NestedScrollView>
     </com.google.android.material.navigation.NavigationView>
 </androidx.drawerlayout.widget.DrawerLayout>

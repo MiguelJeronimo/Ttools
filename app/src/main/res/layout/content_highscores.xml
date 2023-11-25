@@ -4,7 +4,6 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/colorPrimary"
     app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
     <com.google.android.material.textfield.TextInputLayout
@@ -13,10 +12,8 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_margin="10dp"
-        app:boxBackgroundColor="@color/recyclerview_items_color"
         app:boxCornerRadiusTopEnd="10dp"
         app:boxCornerRadiusTopStart="10dp"
-        app:hintTextColor="@color/letras"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
@@ -26,8 +23,6 @@
             android:layout_height="wrap_content"
             android:inputType="none"
             android:text="Seleccione un mundo"
-            android:popupBackground="@color/recyclerview_items_color"
-            android:textColor="@color/letras"
             android:textStyle="bold" />
     </com.google.android.material.textfield.TextInputLayout>
 
@@ -37,10 +32,8 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_margin="10dp"
-        app:boxBackgroundColor="@color/recyclerview_items_color"
         app:boxCornerRadiusTopEnd="10dp"
         app:boxCornerRadiusTopStart="10dp"
-        app:hintTextColor="@color/letras"
         app:layout_constraintTop_toBottomOf="@+id/spinner_worldss_container"
         tools:layout_editor_absoluteX="10dp">
 
@@ -49,8 +42,6 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:inputType="none"
-            android:popupBackground="@color/recyclerview_items_color"
-            android:textColor="@color/letras"
             android:text="Seleccione una categoria"
             android:textStyle="bold" />
     </com.google.android.material.textfield.TextInputLayout>
@@ -61,10 +52,8 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_margin="10dp"
-        app:boxBackgroundColor="@color/recyclerview_items_color"
         app:boxCornerRadiusTopEnd="10dp"
         app:boxCornerRadiusTopStart="10dp"
-        app:hintTextColor="@color/letras"
         app:layout_constraintTop_toBottomOf="@+id/spinner_category_container"
         tools:layout_editor_absoluteX="10dp">
 
@@ -74,8 +63,6 @@
             android:layout_height="wrap_content"
             android:inputType="none"
             android:text="Seleccione una vocación"
-            android:popupBackground="@color/recyclerview_items_color"
-            android:textColor="@color/letras"
             android:textStyle="bold" />
     </com.google.android.material.textfield.TextInputLayout>
 

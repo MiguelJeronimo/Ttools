@@ -4,7 +4,6 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#263238"
     app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
     <com.google.android.material.textfield.TextInputLayout
@@ -13,7 +12,6 @@
         android:layout_height="59dp"
         android:layout_margin="5dp"
         android:hint="Nivel"
-        style="@style/tema_autocomplete"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
@@ -22,9 +20,7 @@
             android:id="@+id/Nivel"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:backgroundTint="@android:color/holo_purple"
             android:freezesText="false"
-            android:textColor="@color/leyenda"
             android:inputType="number"
             android:numeric="integer"
             android:textAllCaps="false"
@@ -44,11 +40,8 @@
         android:layout_marginStart="4dp"
         android:layout_marginTop="52dp"
         android:layout_marginEnd="4dp"
-        android:backgroundTint="#6A1B9A"
         android:elevation="@dimen/fab_margin"
-        android:foregroundTint="@color/colorAccent"
         android:text="Calcular"
-        android:textColor="@color/leyenda"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/layoutNivel">
@@ -61,7 +54,6 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="15dp"
         android:text="Rango de niveles para compartir experiencia:"
-        android:textColor="#ffff"
         android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -72,7 +64,6 @@
         android:layout_height="99dp"
         android:layout_marginStart="10dp"
         android:layout_marginTop="15dp"
-        app:cardBackgroundColor="@color/colorAccent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textView9">
 
@@ -85,7 +76,6 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Nivel Mínimo"
-                android:textColor="#8d8d8d"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent" />
@@ -95,7 +85,6 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="-"
-                android:textColor="#fafafa"
                 android:textSize="40dp"
                 android:textStyle="bold"
                 app:layout_constraintBottom_toBottomOf="parent"
@@ -112,7 +101,6 @@
         android:layout_height="99dp"
         android:layout_marginTop="15dp"
         android:layout_marginEnd="10dp"
-        app:cardBackgroundColor="@color/colorPrimary"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textView9">
 
@@ -125,7 +113,6 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="-"
-                android:textColor="#fafafa"
                 android:textSize="40dp"
                 android:textStyle="bold"
                 app:layout_constraintBottom_toBottomOf="parent"
@@ -139,7 +126,6 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Nivel Máximo"
-                android:textColor="#8d8d8d"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent" />

@@ -4,7 +4,6 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/colorPrimary"
     app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
 
@@ -14,8 +13,6 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_margin="10dp"
-        app:hintTextColor="@color/letras"
-        app:boxBackgroundColor="@color/recyclerview_items_color"
         app:boxCornerRadiusTopEnd="10dp"
         app:boxCornerRadiusTopStart="10dp"
         app:layout_constraintEnd_toEndOf="parent"
@@ -26,10 +23,8 @@
             android:id="@+id/spinner_guild"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:textColor="@color/letras"
             android:textStyle="bold"
             android:text="Seleccione un mundo"
-            android:popupBackground="@color/recyclerview_items_color"
             android:inputType="none" />
     </com.google.android.material.textfield.TextInputLayout>
 

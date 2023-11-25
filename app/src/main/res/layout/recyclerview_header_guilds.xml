@@ -3,7 +3,6 @@
     android:layout_width="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:background="@color/colorPrimary"
     android:layout_height="match_parent">
 
     <androidx.constraintlayout.widget.Guideline
@@ -20,8 +19,7 @@
         android:layout_marginTop="60dp"
         app:layout_constraintEnd_toStartOf="@+id/primera_division"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        tools:background="@color/fondo_switch"/>
+        app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
         android:id="@+id/textViewGuildName"
@@ -30,7 +28,6 @@
         android:layout_marginTop="60dp"
         android:text=""
         android:textAlignment="textStart"
-        android:textColor="@color/leyenda"
         android:textSize="25dp"
         android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"
@@ -45,7 +42,6 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="5dp"
         android:text=""
-        android:textColor="@color/letras"
         android:textSize="15dp"
         android:textStyle="italic"
         app:layout_constraintEnd_toEndOf="parent"
@@ -72,7 +68,6 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="28dp"
         android:padding="10dp"
-        android:textColor="@color/letras"
         android:textSize="15dp"
         android:textStyle="italic"
         app:layout_constraintEnd_toEndOf="parent"
@@ -88,8 +83,6 @@
         android:layout_marginTop="20dp"
         android:gravity="left"
         android:padding="3dip"
-        android:text=""
-        android:textColor="@color/color_degradado"
         android:textSize="15dp"
         app:layout_constraintEnd_toStartOf="@+id/division_enmedio"
         app:layout_constraintHorizontal_bias="0.417"
@@ -102,7 +95,6 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="110dp"
-        android:textColor="@color/letras"
         android:textSize="17dp"
         android:textStyle="bold"
         android:text="Guild House"
@@ -115,7 +107,6 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="20dp"
-        android:textColor="@color/letras"
         tools:text="1/100"
         android:textSize="32dp"
         app:layout_constraintEnd_toEndOf="parent"
@@ -127,7 +118,6 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="20dp"
-        android:textColor="@color/letras"
         android:textSize="32dp"
         app:layout_constraintEnd_toStartOf="@+id/division_enmedio"
         app:layout_constraintStart_toStartOf="parent"
@@ -140,7 +130,6 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="10dp"
         android:text="Onlines"
-        android:textColor="@color/color_degradado"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="@+id/division_enmedio"
         app:layout_constraintTop_toBottomOf="@+id/textViewOnline"
@@ -152,7 +141,6 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="10dp"
         android:text="En guerra"
-        android:textColor="@color/color_degradado"
         app:layout_constraintEnd_toStartOf="@+id/division_enmedio"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textViewInWar"/>
@@ -163,7 +151,6 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="10dp"
         android:text="Nombre"
-        android:textColor="@color/color_degradado"
         app:layout_constraintEnd_toStartOf="@+id/division_enmedio"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textView24" />
@@ -174,7 +161,6 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="10dp"
         android:text="Mundo"
-        android:textColor="@color/color_degradado"
         app:layout_constraintEnd_toStartOf="@+id/division_enmedio"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textView28" />
@@ -185,7 +171,6 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="10dp"
         android:text="Pagada hasta"
-        android:textColor="@color/color_degradado"
         app:layout_constraintEnd_toStartOf="@+id/division_enmedio"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textView29" />
@@ -195,7 +180,6 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="10dp"
-        android:textColor="@color/letras"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="@+id/division_enmedio"
         app:layout_constraintTop_toBottomOf="@+id/textView24"
@@ -206,7 +190,6 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="10dp"
-        android:textColor="@color/letras"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="@+id/division_enmedio"
         app:layout_constraintTop_toBottomOf="@+id/textViewNombre"
@@ -217,7 +200,6 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="10dp"
-        android:textColor="@color/letras"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="@+id/division_enmedio"
         app:layout_constraintTop_toBottomOf="@+id/textViewMundo"
@@ -228,7 +210,6 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="20dp"
-        android:textColor="@color/letras"
         android:textStyle="bold"
         tools:text="Active: si"
         app:layout_constraintEnd_toEndOf="parent"

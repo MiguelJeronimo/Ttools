@@ -4,7 +4,6 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/colorPrimary"
     app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
     <ImageView
@@ -24,7 +23,6 @@
         android:layout_marginTop="10dp"
         android:paddingBottom="5dp"
         android:text="@string/app_name"
-        android:textColor="@color/letras"
         android:textStyle="bold"
         android:textAppearance="@style/TextAppearance.AppCompat.Body1"
         android:textSize="32dp"
@@ -39,7 +37,6 @@
         android:layout_marginTop="10dp"
         android:textAlignment="center"
         android:text="Es una herramienta de consulta para el juego \nTibia Online"
-        android:textColor="@color/color_degradado"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textView35" />
@@ -50,7 +47,6 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="10dp"
         android:text="Creado por: Miguel Angel Jerónimo"
-        android:textColor="@color/letras"
         android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -61,7 +57,6 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="10dp"
-        android:textColor="@color/letras"
         android:text="Esta aplicación contiene información del proyecto:"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -73,7 +68,6 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="10dp"
         android:text="TibiaData API"
-        android:textColor="@color/color_degradado"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textView40" />
@@ -83,7 +77,6 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="5dp"
-        android:textColorLink="@color/fondo_switch"
         android:text="https://tibiadata.com/"
         android:autoLink="web"
         app:layout_constraintEnd_toEndOf="parent"
@@ -97,8 +90,6 @@
         android:layout_marginTop="5dp"
         android:autoLink="web"
         android:text="Web oficial del juego: www.tibia.com"
-        android:textColor="@color/color_degradado"
-        android:textColorLink="@color/fondo_switch"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textView47" />
@@ -109,7 +100,6 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="5dp"
         android:text="Tibia es propiedad de CipSoft GmbH"
-        android:textColor="@color/color_degradado"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textView25" />

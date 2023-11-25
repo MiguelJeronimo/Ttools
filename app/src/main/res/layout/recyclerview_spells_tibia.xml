@@ -6,7 +6,6 @@
     android:clickable="true"
     android:focusable="true"
     android:foreground="?android:attr/selectableItemBackground"
-    android:background="@color/colorPrimary"
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <androidx.constraintlayout.widget.Guideline
@@ -35,7 +34,6 @@
         android:layout_marginTop="16dp"
         android:paddingLeft="15dp"
         android:text="Avatar of Nature (uteta res dru)"
-        android:textColor="@color/leyenda"
         android:textStyle="bold"
         app:layout_constraintEnd_toStartOf="@+id/primera_division3"
         app:layout_constraintStart_toStartOf="parent"
@@ -48,7 +46,6 @@
         android:paddingLeft="15dp"
         android:layout_marginTop="5dp"
         android:text="uteta res dru"
-        android:textColor="@color/letras"
         android:textStyle="italic"
         app:layout_constraintEnd_toStartOf="@+id/primera_division3"
         app:layout_constraintStart_toStartOf="parent"
@@ -60,7 +57,6 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="10dp"
         android:text="Level: 1000"
-        android:textColor="@color/color_degradado"
         app:layout_constraintEnd_toStartOf="@+id/primera_division"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textViewFormula" />
@@ -71,7 +67,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="10dp"
         android:text="Mana: 200000"
-        android:textColor="@color/color_degradado"
+
         app:layout_constraintEnd_toStartOf="@+id/primera_division2"
         app:layout_constraintStart_toStartOf="@+id/primera_division"
         app:layout_constraintTop_toBottomOf="@+id/textViewFormula" />
@@ -82,7 +78,6 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
         android:text="Price: 100000"
-        android:textColor="@color/color_degradado"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="@+id/primera_division3"
         app:layout_constraintTop_toTopOf="parent" />
@@ -92,7 +87,6 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="10dp"
-        android:textColor="@color/color_degradado"
         android:text="Instance"
         app:layout_constraintEnd_toStartOf="@+id/primera_division3"
         app:layout_constraintStart_toStartOf="@+id/primera_division2"
@@ -103,7 +97,6 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="10dp"
-        android:textColor="@color/color_degradado"
         android:text="Attack"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="@+id/primera_division3"
@@ -125,7 +118,6 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="10dp"
         android:text="Premium Only"
-        android:textColor="@color/leyenda"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textViewMana" />

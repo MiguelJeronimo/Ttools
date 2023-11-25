@@ -101,7 +101,7 @@ public class GuildInformationName extends AppCompatActivity {
                 ApiGuildsName apiGuildsName = response.body();
                 Guildss guildss = apiGuildsName.getGuilds();
                 GuildName data = guildss.getGuild();
-                Glide.with(getApplicationContext()).load(data.getLogo_url()).asGif().into(imageViewGuildLogo);
+                Glide.with(getApplicationContext()).load(data.getLogo_url()).into(imageViewGuildLogo);
                 textViewGuildName.setText(data.getName());
                 textViewDescription.setText(data.getDescription());
                 if (data.getIn_war()){

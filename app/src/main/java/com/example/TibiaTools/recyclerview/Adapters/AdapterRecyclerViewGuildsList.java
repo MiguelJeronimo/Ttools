@@ -55,7 +55,7 @@ public class AdapterRecyclerViewGuildsList extends RecyclerView.Adapter<AdapterR
         holder.lbNombre.setText(items_guilds_list.get(position).getLbName());
         holder.lbDescripcion.setText(items_guilds_list.get(position).getLbDescripcion());
         String urlImage = items_guilds_list.get(position).getLbLogoUrl();
-        Glide.with(holder.imgLogo.getContext()).load(urlImage).asGif().into(holder.imgLogo);
+        Glide.with(holder.imgLogo.getContext()).load(urlImage).into(holder.imgLogo);
     }
 
     @Override

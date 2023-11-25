@@ -6,8 +6,7 @@
     android:clickable="true"
     android:focusable="true"
     android:foreground="?android:attr/selectableItemBackground"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:background="@color/colorPrimary">
+    xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <androidx.constraintlayout.widget.Guideline
         android:id="@+id/primera_division"
@@ -23,7 +22,6 @@
         android:layout_marginTop="16dp"
         app:layout_constraintEnd_toStartOf="@+id/primera_division"
         app:layout_constraintStart_toStartOf="parent"
-        tools:background="@color/fondo_switch"
         app:layout_constraintTop_toTopOf="parent">
     </ImageView>
 
@@ -33,7 +31,6 @@
         android:layout_height="21dp"
         android:layout_marginTop="16dp"
         android:text="Dragon Lord Hatchlings"
-        android:textColor="@color/leyenda"
         android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.555"
@@ -46,7 +43,6 @@
         android:layout_height="21dp"
         android:layout_marginTop="5dp"
         android:text="Dragon Lord Hatchlings"
-        android:textColor="@color/letras"
         android:textStyle="italic"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="@+id/primera_division"

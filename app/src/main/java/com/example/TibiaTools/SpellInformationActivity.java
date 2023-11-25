@@ -143,7 +143,7 @@ public class SpellInformationActivity extends AppCompatActivity {
                 if (spell_information.getVocation() != null){
                     TextView txtVocation = new TextView(SpellInformationActivity.this);
                     txtVocation.setText("Vocation");
-                    txtVocation.setTextColor(ContextCompat.getColor(getApplicationContext(),R.color.leyenda));
+                    txtVocation.setTextColor(ContextCompat.getColor(getApplicationContext(),R.color.md_theme_light_primary));
                     txtVocation.setTextSize(32);
                     txtVocation.setTypeface(null, Typeface.BOLD);
                     txtVocation.setLayoutParams(new LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT));
@@ -152,7 +152,7 @@ public class SpellInformationActivity extends AppCompatActivity {
                     for (String vocations:spell_information.getVocation()) {
                         txtVocation = new TextView(SpellInformationActivity.this);
                         txtVocation.setText(vocations);
-                        txtVocation.setTextColor(ContextCompat.getColor(getApplicationContext(),R.color.leyenda));
+                        txtVocation.setTextColor(ContextCompat.getColor(getApplicationContext(),R.color.md_theme_light_primary));
                         txtVocation.setTextSize(15);
                         txtVocation.setTextColor(Color.parseColor("#CE93D8"));
                         txtVocation.setTypeface(null, Typeface.ITALIC);
@@ -163,7 +163,7 @@ public class SpellInformationActivity extends AppCompatActivity {
                 if (spell_information.getCity()!=null){
                     TextView txtCitys = new TextView(SpellInformationActivity.this);
                     txtCitys.setText("Citys");
-                    txtCitys.setTextColor(ContextCompat.getColor(getApplicationContext(),R.color.leyenda));
+                    txtCitys.setTextColor(ContextCompat.getColor(getApplicationContext(),R.color.md_theme_light_primary));
                     txtCitys.setTextSize(32);
                     txtCitys.setTypeface(null, Typeface.BOLD);
                     txtCitys.setLayoutParams(new LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT));
@@ -172,7 +172,7 @@ public class SpellInformationActivity extends AppCompatActivity {
                     for (String citys:spell_information.getCity()) {
                         txtCitys = new TextView(SpellInformationActivity.this);
                         txtCitys.setText(citys);
-                        txtCitys.setTextColor(ContextCompat.getColor(getApplicationContext(),R.color.leyenda));
+                        txtCitys.setTextColor(ContextCompat.getColor(getApplicationContext(),R.color.md_theme_light_primary));
                         txtCitys.setTextSize(15);
                         txtCitys.setTextColor(Color.parseColor("#CE93D8"));
                         txtCitys.setTypeface(null, Typeface.ITALIC);
@@ -185,7 +185,7 @@ public class SpellInformationActivity extends AppCompatActivity {
                 if (rune_information.getVocation()!=null){
                     TextView txtVocacionesPermitidas = new TextView(SpellInformationActivity.this);
                     txtVocacionesPermitidas.setText("Vocations permited");
-                    txtVocacionesPermitidas.setTextColor(ContextCompat.getColor(getApplicationContext(),R.color.leyenda));
+                    txtVocacionesPermitidas.setTextColor(ContextCompat.getColor(getApplicationContext(),R.color.md_theme_light_primary));
                     txtVocacionesPermitidas.setTextSize(32);
                     txtVocacionesPermitidas.setTypeface(null, Typeface.BOLD);
                     txtVocacionesPermitidas.setLayoutParams(new LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT));
@@ -194,7 +194,7 @@ public class SpellInformationActivity extends AppCompatActivity {
                     for (String vocaciones_permitidas:rune_information.getVocation()) {
                         txtVocacionesPermitidas = new TextView(SpellInformationActivity.this);
                         txtVocacionesPermitidas.setText(vocaciones_permitidas);
-                        txtVocacionesPermitidas.setTextColor(ContextCompat.getColor(getApplicationContext(),R.color.leyenda));
+                        txtVocacionesPermitidas.setTextColor(ContextCompat.getColor(getApplicationContext(),R.color.md_theme_light_primary));
                         txtVocacionesPermitidas.setTextSize(15);
                         txtVocacionesPermitidas.setTextColor(Color.parseColor("#CE93D8"));
                         txtVocacionesPermitidas.setTypeface(null, Typeface.ITALIC);

@@ -125,7 +125,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             public void onResponse(@NonNull Call<String> call, @NonNull Response<String> response) {
                 if (response.isSuccessful()){
                     lbRashid.setText(response.body());
-                    Glide.with(getApplicationContext()).load(url_rashid_image).asGif().into(imgRashid);
+                    Glide.with(getApplicationContext()).load(url_rashid_image).into(imgRashid);
                 }
             }
 
@@ -145,7 +145,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 if (response.isSuccessful() && response.body() != null) {
                     APICriatures apiCriatures = response.body();
                     Criatures criatures = apiCriatures.getCreatures();
-                    Glide.with(getApplicationContext()).load(criatures.getBoosted().getImage_url()).asGif().into(imgBossCreature);
+                    Glide.with(getApplicationContext()).load(criatures.getBoosted().getImage_url()).into(imgBossCreature);
                     textBossCreature.setText(criatures.getBoosted().getName());
                 } else{
                     Toast.makeText(getApplicationContext(),response.code(),Toast.LENGTH_LONG).show();
@@ -169,7 +169,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                     APICriatures apiCriatures = response.body();
                     assert apiCriatures != null;
                     BoostableBosses boostableBosses = apiCriatures.getBoostable_bosses();
-                    Glide.with(getApplicationContext()).load(boostableBosses.getBoosted().getImage_url()).asGif().into(imgBossBosstable);
+                    Glide.with(getApplicationContext()).load(boostableBosses.getBoosted().getImage_url()).into(imgBossBosstable);
                     lbBossBosstable.setText(boostableBosses.getBoosted().getName());
                 }
             }
