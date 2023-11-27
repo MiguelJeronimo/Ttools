@@ -5,6 +5,7 @@ import android.os.Bundle;
 import com.example.TibiaTools.Operaciones.calcularBlessings;
 import com.example.ttools.R;
 import com.example.ttools.databinding.ActivityBlessingsBinding;
+import com.google.android.material.materialswitch.MaterialSwitch;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -13,7 +14,6 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.Switch;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -30,7 +30,7 @@ public class Blessings extends AppCompatActivity implements View.OnClickListener
     TextView spiritual, embrace, suns, solitude, phoenix, twits_of_fate, heart, blood,total;
     EditText nivel;
     Button calcular;
-    Switch swtich_heart, swtich_blood;
+    MaterialSwitch swtich_heart, swtich_blood;
     calcularBlessings c = new calcularBlessings();
     // para formatear numeros a formato de dinero.
     DecimalFormat decimalFormat = new DecimalFormat("###,###.00");
@@ -58,10 +58,10 @@ public class Blessings extends AppCompatActivity implements View.OnClickListener
         calcular = (Button)findViewById(R.id.calcular);
         calcular.setOnClickListener(this);
 
-        swtich_heart = (Switch)findViewById(R.id.switch1);
+        swtich_heart = findViewById(R.id.switch1);
         swtich_heart.setOnClickListener(this);
 
-        swtich_blood = (Switch)findViewById(R.id.switch2);
+        swtich_blood = findViewById(R.id.switch2);
         swtich_blood.setOnClickListener(this);
     }
 
