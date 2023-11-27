@@ -16,11 +16,14 @@ import com.example.TibiaTools.recyclerview.ItemsRecyclerViewNews;
 import com.example.TibiaTools.utilidades.RedValidator;
 
 import com.example.ttools.R;
+import com.google.android.material.card.MaterialCardView;
 import com.google.android.material.navigation.NavigationView;
+import com.google.android.material.progressindicator.LinearProgressIndicator;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.app.AppCompatDelegate;
 import androidx.appcompat.widget.Toolbar;
 import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -31,6 +34,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.ThemedSpinnerAdapter;
 import android.widget.Toast;
 
 import java.util.ArrayList;
@@ -59,7 +63,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     //recyclerview
     RecyclerView recyclerViewNoticas;
     AdapterRecyclerViewNews adapterRecyclerViewNews;
+    LinearProgressIndicator linearProgressIndicator;
     List<ItemsRecyclerViewNews> itemsRecyclerViewNewsList;
+    MaterialCardView cardCreatureBooss,cardBoostedBoos,cardNews, cardNews2;
     //RedValidator redValidator = new RedValidator();
     //retrofit
     InstanciaRetrofit servicio = new InstanciaRetrofit();
@@ -67,9 +73,15 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
         setContentView(R.layout.activity_main);
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+        //Cards
+        cardCreatureBooss = findViewById(R.id.cardView3);
+        cardBoostedBoos = findViewById(R.id.cardView2);
+        cardNews = findViewById(R.id.cardView4);
+        cardNews2 = findViewById(R.id.cardView5);
         drawerLayout = findViewById(R.id.navegacion);
         //Agrega utilidades a la toolbar, asi como el incono de hamburguesa, y los iconos de cuando se despliegue el menu y cuando este cerrado
         actionBarDrawerToggle = new ActionBarDrawerToggle(this, drawerLayout, toolbar, R.string.nav_open,R.string.nav_close);
@@ -77,6 +89,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         drawerLayout.addDrawerListener(actionBarDrawerToggle);
         //sincroniza los estados del navigationDrawer
         actionBarDrawerToggle.syncState();
+        linearProgressIndicator = findViewById(R.id.carga_main);
         navigationView = findViewById(R.id.barraNavegacion);
         //a cada item del menuo agregamos su evento MenuItemClickListener
         navigationView.getMenu().findItem(R.id.nd_character).setOnMenuItemClickListener(this);
@@ -110,9 +123,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         if (RedValidator.ValidarInternet(getApplication())){
             //ejecutando los multiple hilos para el consumo de api
             Hilos();
-
         } else{
            Toast.makeText(this,"Revisa tu conexion a internet :)",Toast.LENGTH_SHORT).show();
+           linearProgressIndicator.setVisibility(View.GONE);
         }
 
     }
@@ -126,6 +139,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 if (response.isSuccessful()){
                     lbRashid.setText(response.body());
                     Glide.with(getApplicationContext()).load(url_rashid_image).into(imgRashid);
+                    imgRashid.setVisibility(View.VISIBLE);
+                    lbRashid.setVisibility(View.VISIBLE);
                 }
             }
 
@@ -147,8 +162,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                     Criatures criatures = apiCriatures.getCreatures();
                     Glide.with(getApplicationContext()).load(criatures.getBoosted().getImage_url()).into(imgBossCreature);
                     textBossCreature.setText(criatures.getBoosted().getName());
+                    cardCreatureBooss.setVisibility(View.VISIBLE);
                 } else{
-                    Toast.makeText(getApplicationContext(),response.code(),Toast.LENGTH_LONG).show();
+                    linearProgressIndicator.setVisibility(View.GONE);
+                    Toast.makeText(getApplicationContext(),String.valueOf(response.code()),Toast.LENGTH_LONG).show();
                 }
 
             }
@@ -156,6 +173,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             @Override
             public void onFailure(@NonNull Call<APICriatures> call, @NonNull Throwable t) {
                 System.out.println("ERROR: "+t.getMessage());
+                linearProgressIndicator.setVisibility(View.GONE);
             }
         });
     }
@@ -171,6 +189,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                     BoostableBosses boostableBosses = apiCriatures.getBoostable_bosses();
                     Glide.with(getApplicationContext()).load(boostableBosses.getBoosted().getImage_url()).into(imgBossBosstable);
                     lbBossBosstable.setText(boostableBosses.getBoosted().getName());
+                    cardBoostedBoos.setVisibility(View.VISIBLE);
+                }else{
+                    linearProgressIndicator.setVisibility(View.GONE);
                 }
             }
 
@@ -203,14 +224,19 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                            textViewCategory.setText(apiNews.getNews().get(i+1).getCategory());
                            textViewNew.setText(apiNews.getNews().get(i+1).getNews());
                            textViewtype.setText(apiNews.getNews().get(i+1).getType());
+                           cardNews.setVisibility(View.VISIBLE);
+                           cardNews2.setVisibility(View.VISIBLE);
                        }
                    }
+                } else {
+                    linearProgressIndicator.setVisibility(View.GONE);
                 }
             }
 
             @Override
             public void onFailure(@NonNull Call<ApiNews> call, @NonNull Throwable t) {
                 System.out.println(t.getMessage());
+                linearProgressIndicator.setVisibility(View.GONE);
             }
         });
     }
@@ -247,14 +273,18 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                     recyclerViewNoticas.setLayoutManager(layoutManager);
                     adapterRecyclerViewNews = new AdapterRecyclerViewNews(itemsRecyclerViewNewsList);
                     layoutManager.setOrientation(LinearLayoutManager.HORIZONTAL);
-                    //recyclerViewNoticas.setHasFixedSize(true);
+                    recyclerViewNoticas.setHasFixedSize(true);
                     recyclerViewNoticas.setAdapter(adapterRecyclerViewNews);
+                    linearProgressIndicator.setVisibility(View.GONE);
+                }else{
+                    linearProgressIndicator.setVisibility(View.GONE);
                 }
             }
 
             @Override
             public void onFailure(@NonNull Call<ApiNewsTicker> call, @NonNull Throwable t) {
                 System.out.println(t.getMessage());
+                linearProgressIndicator.setVisibility(View.GONE);
             }
         });
     }
@@ -267,11 +297,48 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         //crear el pool de hilos
         Executor executor = Executors.newFixedThreadPool(5);
         // Submit tasks to the thread pool
-        executor.execute(() -> llenarRashid(url));
-        executor.execute(() -> creatureBoss(url_creature_boss));
-        executor.execute(() -> bostedBoss(url_boosted_boss));
-        executor.execute(() -> Noticas(url_new));
-        executor.execute(() -> NewsTickers(url_new));
+        executor.execute(() -> {
+            try {
+                Thread.sleep(3000);
+                llenarRashid(url);
+            } catch (InterruptedException e) {
+                throw new RuntimeException(e);
+            }
+        });
+        executor.execute(() -> {
+            try {
+                Thread.sleep(3000);
+                creatureBoss(url_creature_boss);
+            } catch (InterruptedException e) {
+                throw new RuntimeException(e);
+            }
+        });
+        executor.execute(() -> {
+            try {
+                Thread.sleep(3000);
+                bostedBoss(url_boosted_boss);
+            } catch (InterruptedException e) {
+                throw new RuntimeException(e);
+            }
+
+        });
+        executor.execute(() -> {
+            try {
+                Thread.sleep(3000);
+                Noticas(url_new);
+            } catch (InterruptedException e) {
+                throw new RuntimeException(e);
+            }
+        });
+        executor.execute(() -> {
+            try {
+                Thread.sleep(3000);
+                NewsTickers(url_new);
+            } catch (InterruptedException e) {
+                throw new RuntimeException(e);
+            }
+        });
+
     }
 
     @Override
