@@ -107,7 +107,7 @@
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toBottomOf="@+id/BossBosstable"
                         tools:text="Ekatrix" />
-
+|
                     <ImageView
                         android:id="@+id/BossBosstable"
                         android:layout_width="64dp"
@@ -180,10 +180,10 @@
                 android:layout_marginEnd="5dp"
                 android:layout_marginBottom="5dp"
                 android:clickable="true"
-                android:visibility="gone"
                 android:focusable="true"
                 android:foreground="?android:attr/selectableItemBackground"
                 android:paddingBottom="5dp"
+                android:visibility="gone"
                 app:layout_constraintBottom_toTopOf="@+id/cardView5"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
@@ -229,7 +229,8 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="10dp"
-                        app:layout_constraintEnd_toStartOf="@+id/primera_division4"
+                        app:layout_constraintEnd_toStartOf="@+id/primera_division5"
+                        app:layout_constraintHorizontal_bias="0.10"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toTopOf="parent"
                         tools:text="Community" />
@@ -243,6 +244,7 @@
                         android:textStyle="bold"
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintEnd_toStartOf="@+id/primera_division5"
+                        app:layout_constraintHorizontal_bias="0.25"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toBottomOf="@+id/textViewCategoria"
                         tools:text="Winterlight Solstice" />
@@ -317,10 +319,9 @@
                         android:id="@+id/textViewCategory"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginTop="10dp"
-                        android:layout_marginBottom="5dp"
-                        app:layout_constraintBottom_toTopOf="@+id/textViewNew"
-                        app:layout_constraintEnd_toStartOf="@+id/primera_division8"
+                        android:layout_marginTop="8dp"
+                        app:layout_constraintEnd_toStartOf="@+id/primera_division7"
+                        app:layout_constraintHorizontal_bias="0.10"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toTopOf="parent"
                         tools:text="Community" />
@@ -333,6 +334,7 @@
                         android:layout_marginBottom="5dp"
                         android:textStyle="bold"
                         app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintHorizontal_bias="0.25"
                         app:layout_constraintEnd_toStartOf="@+id/primera_division7"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toBottomOf="@+id/textViewCategory"

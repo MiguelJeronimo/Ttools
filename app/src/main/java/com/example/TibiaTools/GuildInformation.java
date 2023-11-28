@@ -14,6 +14,7 @@ import com.example.TibiaTools.recyclerview.Adapters.AdapterRecyclerViewGuildsLis
 import com.example.TibiaTools.recyclerview.ItemsRecyclerViewGuilds;
 import com.example.ttools.R;
 import com.example.ttools.databinding.ActivityGuildsBinding;
+import com.google.android.material.progressindicator.LinearProgressIndicator;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -47,6 +48,7 @@ public class GuildInformation extends AppCompatActivity {
     List<ItemsRecyclerViewGuilds> itemsRecyclerViewGuilds;
     String url = "https://api.tibiadata.com/v3/";
     InstanciaRetrofit servicio = new InstanciaRetrofit();
+    LinearProgressIndicator linearProgressIndicator;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -54,11 +56,13 @@ public class GuildInformation extends AppCompatActivity {
         binding = ActivityGuildsBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
         setSupportActionBar(binding.toolbar);
+        linearProgressIndicator = findViewById(R.id.carga_guilds);
         Objects.requireNonNull(getSupportActionBar()).setDisplayHomeAsUpEnabled(true); //Aparicion del boton regresar en el action bar
         spinner = findViewById(R.id.spinner_guild);
         Hilo();
         spinner.setOnItemClickListener((parent, view, position, id) -> {
             if (parent.getItemAtPosition(position).toString() != "Seleccione un mundo"){
+                linearProgressIndicator.setVisibility(View.VISIBLE);
                 llenarRecyclerView(parent.getItemAtPosition(position).toString());
             }
         });
@@ -99,11 +103,13 @@ public class GuildInformation extends AppCompatActivity {
                     }
                     adapter = new ArrayAdapter<>(getApplicationContext(), R.layout.spinner_text_style, arrayWorlds);
                     spinner.setAdapter(adapter);
+                    linearProgressIndicator.setVisibility(View.GONE);
                 }
             }
             @Override
             public void onFailure(@NonNull Call<DataWords> call, @NonNull Throwable t) {
                 Toast.makeText(GuildInformation.this,t.getMessage(),Toast.LENGTH_SHORT).show();
+                linearProgressIndicator.setVisibility(View.GONE);
             }
         });
     }
@@ -135,13 +141,13 @@ public class GuildInformation extends AppCompatActivity {
                                             active.getLogo_url(),
                                             active.getDescription()));
                         }
-
                         layoutManager.setOrientation(LinearLayoutManager.VERTICAL);
                         recyclerView.setLayoutManager(layoutManager);
                         adaptador = new AdapterRecyclerViewGuildsList(itemsRecyclerViewGuilds);
                         adaptador.notifyDataSetChanged();
                         recyclerView.setHasFixedSize(true);
                         recyclerView.setAdapter(adaptador);
+                        linearProgressIndicator.setVisibility(View.GONE);
                         //agregando el evento onclick con un lambda en java
                         adaptador.setOnClickListener(view -> {
                            String nameGuild = itemsRecyclerViewGuilds.get(recyclerView.getChildAdapterPosition(view)).getLbName();
@@ -169,7 +175,14 @@ public class GuildInformation extends AppCompatActivity {
     }
 
     public void Hilo(){
-        Thread hilo = new Thread(() -> llenarSpinner(url));
+        Thread hilo = new Thread(() -> {
+            try {
+                Thread.sleep(3000);
+                llenarSpinner(url);
+            } catch (InterruptedException e) {
+                throw new RuntimeException(e);
+            }
+        });
         hilo.start();
     }
 
