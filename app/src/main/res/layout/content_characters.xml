@@ -371,7 +371,7 @@
                 app:layout_constraintTop_toBottomOf="@+id/comentario"
                 tools:layout_editor_absoluteX="206dp"/>
 
-            <LinearLayout
+            <!--<LinearLayout
                 android:id="@+id/linearLayoutOtherCharacters"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
@@ -379,8 +379,15 @@
                 android:orientation="vertical"
                 android:padding="20dp"
                 app:layout_constraintTop_toBottomOf="@+id/linearLayoutDeaths"
-                tools:layout_editor_absoluteY="46dp"/>
-
+                tools:layout_editor_absoluteY="46dp"/>-->
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/linearLayoutOtherCharacters"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                app:layout_constraintTop_toBottomOf="@+id/linearLayoutDeaths"
+                tools:listitem="@layout/items_characters_list"
+                />
             <TextView
                 android:id="@+id/textView3"
                 android:layout_width="183dp"

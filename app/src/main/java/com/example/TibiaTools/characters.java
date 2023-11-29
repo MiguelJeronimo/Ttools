@@ -3,22 +3,27 @@ package com.example.TibiaTools;
 import android.annotation.SuppressLint;
 import android.graphics.Color;
 import android.graphics.Typeface;
+import android.os.Build;
 import android.os.Bundle;
 
 import com.example.TibiaTools.APISERVER.TibiaAPIServer;
 import com.example.TibiaTools.APISERVER.models.CharactersInformation.APIServicesTibia;
 import com.example.TibiaTools.APISERVER.models.CharactersInformation.Characters.CharacterData.Houses.House;
+import com.example.TibiaTools.APISERVER.models.CharactersInformation.Characters.CharacterData.OtherCharacters;
 import com.example.TibiaTools.APISERVER.models.CharactersInformation.Characters.Characters;
 import com.example.TibiaTools.Operaciones.InstanciaRetrofit;
 import com.example.TibiaTools.recyclerview.Adapters.AdapterHouseCharacters;
+import com.example.TibiaTools.recyclerview.Adapters.AdapterOtherCharacters;
 import com.example.TibiaTools.recyclerview.Adapters.adapterRecyclerViewCriatures;
 import com.example.TibiaTools.recyclerview.Adapters.adapterRecyclerviewMundos;
+import com.example.TibiaTools.recyclerview.ItemsCharacters;
 import com.example.TibiaTools.recyclerview.ItemsHousesCharacters;
 import com.example.TibiaTools.utilidades.ConvertidorFecha;
 import com.example.ttools.R;
 import com.google.android.material.snackbar.Snackbar;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.core.content.ContextCompat;
@@ -48,11 +53,14 @@ public class characters extends AppCompatActivity implements View.OnClickListene
     private TextView nombre,titulo, sexo, vocacion, nivel, archiviement, mundo, residencia, guild, lastlogin, comentario, textViewPremium,textViewMirried, textViewLoyalty,textViewCreated;
     Button btnenviar;
     ConvertidorFecha convertidorFecha = new ConvertidorFecha();
-    LinearLayout linearLayoutDeaths, linearLayoutOtherCharacters,linearLayoutAchievements;
-    RecyclerView linearLayoutHouses;
+    LinearLayout linearLayoutDeaths,linearLayoutAchievements;
+    RecyclerView linearLayoutHouses, linearLayoutOtherCharacters;
     AdapterHouseCharacters adapterHouseCharacters;
     List<ItemsHousesCharacters> itemsHousesCharacters;
+    AdapterOtherCharacters adapterOtherCharacters;
+    List<ItemsCharacters> itemsCharacters;
     InstanciaRetrofit services = new InstanciaRetrofit();
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -61,7 +69,6 @@ public class characters extends AppCompatActivity implements View.OnClickListene
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         Objects.requireNonNull(getSupportActionBar()).setDisplayHomeAsUpEnabled(true); //Aparicion del boton regresar en el action bar
-
         //inicializando los componentes de la interfaz
         nombre_persona = findViewById(R.id.editTextTextPersonName);
         nombre = findViewById(R.id.nombre);
@@ -82,6 +89,7 @@ public class characters extends AppCompatActivity implements View.OnClickListene
         btnenviar = findViewById(R.id.btnenviar);
         btnenviar.setOnClickListener(this);
         linearLayoutHouses = findViewById(R.id.linearLayoutHouses);
+        linearLayoutOtherCharacters = findViewById(R.id.linearLayoutOtherCharacters);
     }
 
     @Override
@@ -117,8 +125,6 @@ public class characters extends AppCompatActivity implements View.OnClickListene
 
     public void infoCharacters(String nombre_persona){
         linearLayoutDeaths = findViewById(R.id.linearLayoutDeaths);
-        linearLayoutOtherCharacters = findViewById(R.id.linearLayoutOtherCharacters);
-        linearLayoutHouses = findViewById(R.id.linearLayoutHouses);
         linearLayoutAchievements = findViewById(R.id.linearLayoutAchievements);
         linearLayoutOtherCharacters.removeAllViews();
         linearLayoutDeaths.removeAllViews();
@@ -131,6 +137,7 @@ public class characters extends AppCompatActivity implements View.OnClickListene
             TibiaAPIServer tibiaAPIServer = services.getRetrofit(urlAPI).create(TibiaAPIServer.class);
             Call <APIServicesTibia> repo = tibiaAPIServer.getPersonajes(nombre_persona);
             repo.enqueue(new Callback<APIServicesTibia>() {
+                @RequiresApi(api = Build.VERSION_CODES.N)
                 @SuppressLint("SetTextI18n")
                 @Override
                 public void onResponse(Call<APIServicesTibia> call, Response<APIServicesTibia> response) {
@@ -178,24 +185,7 @@ public class characters extends AppCompatActivity implements View.OnClickListene
                                 }
                             }
                             if (characters.getOther_characters() != null) {
-                                for (int i = 0; i < characters.getOther_characters().size(); i++) {
-                                    TextView textViewOther = new TextView(characters.this);;
-                                    textViewOther.setText("\uD83D\uDC4A\uD83C\uDFFE" + " "
-                                            + characters.getOther_characters().get(i).getName() +
-                                            "\nMain: " + characters.getOther_characters().get(i).getMain() +
-                                            "\nWorld: " + characters.getOther_characters().get(i).getWorld() +
-                                            "\nStatus: " + characters.getOther_characters().get(i).getStatus() +
-                                            "\nDelete: " + characters.getOther_characters().get(i).getDeleted());
-                                    if (characters.getOther_characters().get(i).getStatus().equals("online")) {
-                                        textViewOther.setTextColor(Color.GREEN);
-                                    } else {
-                                        textViewOther.setTextColor(Color.parseColor("#E53935"));
-                                    }
-                                    textViewOther.setTextSize(15);
-                                    textViewOther.setTypeface(null, Typeface.ITALIC);
-                                    textViewOther.setLayoutParams(new LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT));
-                                    linearLayoutOtherCharacters.addView(textViewOther);
-                                }
+                                RecyclerCharacters(characters.getOther_characters());
                             }
 
                             if (characters.getAchievements() != null) {
@@ -253,5 +243,26 @@ public class characters extends AppCompatActivity implements View.OnClickListene
         linearLayoutHouses.setLayoutManager(linearLayoutManager);
         adapterHouseCharacters = new AdapterHouseCharacters(itemsHousesCharacters);
         linearLayoutHouses.setAdapter(adapterHouseCharacters);
+    }
+
+    @RequiresApi(api = Build.VERSION_CODES.N)
+    public void RecyclerCharacters(ArrayList<OtherCharacters> otherCharacters){
+        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this);
+        itemsCharacters = new ArrayList<>();
+        otherCharacters.forEach(characters ->{
+            itemsCharacters.add(new ItemsCharacters(
+                    characters.getName(),
+                    characters.getWorld(),
+                    characters.getStatus(),
+                    characters.getDeleted(),
+                    characters.getMain(),
+                    characters.getTraded()
+            ));
+        });
+        linearLayoutOtherCharacters.setHasFixedSize(true);
+        linearLayoutManager.setOrientation(LinearLayoutManager.HORIZONTAL);
+        linearLayoutOtherCharacters.setLayoutManager(linearLayoutManager);
+        adapterOtherCharacters = new AdapterOtherCharacters(itemsCharacters);
+        linearLayoutOtherCharacters.setAdapter(adapterOtherCharacters);
     }
 }
