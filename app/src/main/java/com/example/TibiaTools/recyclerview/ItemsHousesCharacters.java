@@ -1,23 +1,18 @@
-package com.example.TibiaTools.APISERVER.models.CharactersInformation.Characters.CharacterData.Houses;
+package com.example.TibiaTools.recyclerview;
 
-import androidx.annotation.Keep;
-
-@Keep
-public class House {
+public class ItemsHousesCharacters {
     private String name;
     private String town;
     private String paid;
-
     private int houseid;
 
-    public int getHouseid() {
-        return houseid;
-    }
-
-    public void setHouseid(int houseid) {
+    public ItemsHousesCharacters(String name, String town, String paid, int houseid){
+        this.name = name;
+        this.town = town;
+        this.paid = paid;
         this.houseid = houseid;
-    }
 
+    }
     public String getName() {
         return name;
     }
@@ -40,5 +35,13 @@ public class House {
 
     public void setPaid(String paid) {
         this.paid = paid;
+    }
+
+    public int getHouseid() {
+        return houseid;
+    }
+
+    public void setHouseid(int houseid) {
+        this.houseid = houseid;
     }
 }

@@ -7,8 +7,13 @@ import android.os.Bundle;
 
 import com.example.TibiaTools.APISERVER.TibiaAPIServer;
 import com.example.TibiaTools.APISERVER.models.CharactersInformation.APIServicesTibia;
+import com.example.TibiaTools.APISERVER.models.CharactersInformation.Characters.CharacterData.Houses.House;
 import com.example.TibiaTools.APISERVER.models.CharactersInformation.Characters.Characters;
 import com.example.TibiaTools.Operaciones.InstanciaRetrofit;
+import com.example.TibiaTools.recyclerview.Adapters.AdapterHouseCharacters;
+import com.example.TibiaTools.recyclerview.Adapters.adapterRecyclerViewCriatures;
+import com.example.TibiaTools.recyclerview.Adapters.adapterRecyclerviewMundos;
+import com.example.TibiaTools.recyclerview.ItemsHousesCharacters;
 import com.example.TibiaTools.utilidades.ConvertidorFecha;
 import com.example.ttools.R;
 import com.google.android.material.snackbar.Snackbar;
@@ -17,6 +22,8 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.core.content.ContextCompat;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import android.view.MenuItem;
 import android.view.View;
@@ -27,6 +34,8 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Objects;
 
 import retrofit2.Call;
@@ -39,7 +48,10 @@ public class characters extends AppCompatActivity implements View.OnClickListene
     private TextView nombre,titulo, sexo, vocacion, nivel, archiviement, mundo, residencia, guild, lastlogin, comentario, textViewPremium,textViewMirried, textViewLoyalty,textViewCreated;
     Button btnenviar;
     ConvertidorFecha convertidorFecha = new ConvertidorFecha();
-    LinearLayout linearLayoutDeaths, linearLayoutOtherCharacters, linearLayoutHouses,linearLayoutAchievements;
+    LinearLayout linearLayoutDeaths, linearLayoutOtherCharacters,linearLayoutAchievements;
+    RecyclerView linearLayoutHouses;
+    AdapterHouseCharacters adapterHouseCharacters;
+    List<ItemsHousesCharacters> itemsHousesCharacters;
     InstanciaRetrofit services = new InstanciaRetrofit();
 
     @Override
@@ -69,7 +81,7 @@ public class characters extends AppCompatActivity implements View.OnClickListene
         textViewCreated = findViewById(R.id.textViewCreated);
         btnenviar = findViewById(R.id.btnenviar);
         btnenviar.setOnClickListener(this);
-
+        linearLayoutHouses = findViewById(R.id.linearLayoutHouses);
     }
 
     @Override
@@ -147,20 +159,7 @@ public class characters extends AppCompatActivity implements View.OnClickListene
                                 textViewMirried.setText("\uD83D\uDC8D️\u200D\uD83D\uDD25: " + characters.getCharacter().getMarried_to());
                             }
                             if (characters.getCharacter().getHouses() != null) {
-                                for (int i = 0; i < characters.getCharacter().getHouses().size(); i++) {
-                                    // System.out.println(characters.getDeaths().get(i).getReason());
-                                    TextView textViewHouses = new TextView(characters.this);
-                                    textViewHouses.setText("\uD83C\uDFD8️" + " Name:"
-                                            + characters.getCharacter().getHouses().get(i).getName() +
-                                            "\n Town: " + characters.getCharacter().getHouses().get(i).getTown() +
-                                            "\n Paid: " + characters.getCharacter().getHouses().get(i).getPaid());
-                                    textViewHouses.setTextColor(ContextCompat.getColor(getApplicationContext(),R.color.md_theme_light_primary));
-                                    textViewHouses.setTextSize(15);
-                                    textViewHouses.setTextColor(Color.parseColor("#CE93D8"));
-                                    textViewHouses.setTypeface(null, Typeface.ITALIC);
-                                    textViewHouses.setLayoutParams(new LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT));
-                                    linearLayoutHouses.addView(textViewHouses);
-                                }
+                                RecyclerHouse(characters.getCharacter().getHouses());
                             }
 
                             if (characters.getDeaths() != null) {
@@ -236,7 +235,23 @@ public class characters extends AppCompatActivity implements View.OnClickListene
                     Toast.makeText(characters.this, t.getMessage(), Toast.LENGTH_SHORT).show();
                 }
             });
-
-
+    }
+    //llenado de recyclerviews
+    public void RecyclerHouse(ArrayList<House> houses){
+        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this);
+        itemsHousesCharacters = new ArrayList<>();
+        for (int i = 0; i < houses.size(); i++) {
+            itemsHousesCharacters.add(new ItemsHousesCharacters(
+                houses.get(i).getName(),
+                houses.get(i).getTown(),
+                houses.get(i).getPaid(),
+                houses.get(i).getHouseid()
+            ));
+        }
+        linearLayoutHouses.setHasFixedSize(true);
+        linearLayoutManager.setOrientation(LinearLayoutManager.HORIZONTAL);
+        linearLayoutHouses.setLayoutManager(linearLayoutManager);
+        adapterHouseCharacters = new AdapterHouseCharacters(itemsHousesCharacters);
+        linearLayoutHouses.setAdapter(adapterHouseCharacters);
     }
 }
