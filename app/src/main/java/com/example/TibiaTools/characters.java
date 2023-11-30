@@ -8,14 +8,17 @@ import android.os.Bundle;
 
 import com.example.TibiaTools.APISERVER.TibiaAPIServer;
 import com.example.TibiaTools.APISERVER.models.CharactersInformation.APIServicesTibia;
+import com.example.TibiaTools.APISERVER.models.CharactersInformation.Characters.CharacterData.Achievements;
 import com.example.TibiaTools.APISERVER.models.CharactersInformation.Characters.CharacterData.Houses.House;
 import com.example.TibiaTools.APISERVER.models.CharactersInformation.Characters.CharacterData.OtherCharacters;
 import com.example.TibiaTools.APISERVER.models.CharactersInformation.Characters.Characters;
 import com.example.TibiaTools.Operaciones.InstanciaRetrofit;
+import com.example.TibiaTools.recyclerview.Adapters.AdapterArchievementsCharacter;
 import com.example.TibiaTools.recyclerview.Adapters.AdapterHouseCharacters;
 import com.example.TibiaTools.recyclerview.Adapters.AdapterOtherCharacters;
 import com.example.TibiaTools.recyclerview.Adapters.adapterRecyclerViewCriatures;
 import com.example.TibiaTools.recyclerview.Adapters.adapterRecyclerviewMundos;
+import com.example.TibiaTools.recyclerview.ItemsArchievementsCharacter;
 import com.example.TibiaTools.recyclerview.ItemsCharacters;
 import com.example.TibiaTools.recyclerview.ItemsHousesCharacters;
 import com.example.TibiaTools.utilidades.ConvertidorFecha;
@@ -53,12 +56,14 @@ public class characters extends AppCompatActivity implements View.OnClickListene
     private TextView nombre,titulo, sexo, vocacion, nivel, archiviement, mundo, residencia, guild, lastlogin, comentario, textViewPremium,textViewMirried, textViewLoyalty,textViewCreated;
     Button btnenviar;
     ConvertidorFecha convertidorFecha = new ConvertidorFecha();
-    LinearLayout linearLayoutDeaths,linearLayoutAchievements;
-    RecyclerView linearLayoutHouses, linearLayoutOtherCharacters;
+    LinearLayout linearLayoutDeaths;
+    RecyclerView linearLayoutHouses, linearLayoutOtherCharacters, linearLayoutAchievements;
     AdapterHouseCharacters adapterHouseCharacters;
     List<ItemsHousesCharacters> itemsHousesCharacters;
     AdapterOtherCharacters adapterOtherCharacters;
     List<ItemsCharacters> itemsCharacters;
+    AdapterArchievementsCharacter adapterArchievementsCharacter;
+    List<ItemsArchievementsCharacter> itemsArchievementsCharacters;
     InstanciaRetrofit services = new InstanciaRetrofit();
 
 
@@ -90,6 +95,7 @@ public class characters extends AppCompatActivity implements View.OnClickListene
         btnenviar.setOnClickListener(this);
         linearLayoutHouses = findViewById(R.id.linearLayoutHouses);
         linearLayoutOtherCharacters = findViewById(R.id.linearLayoutOtherCharacters);
+        linearLayoutAchievements = findViewById(R.id.linearLayoutAchievements);
     }
 
     @Override
@@ -125,11 +131,9 @@ public class characters extends AppCompatActivity implements View.OnClickListene
 
     public void infoCharacters(String nombre_persona){
         linearLayoutDeaths = findViewById(R.id.linearLayoutDeaths);
-        linearLayoutAchievements = findViewById(R.id.linearLayoutAchievements);
         linearLayoutOtherCharacters.removeAllViews();
         linearLayoutDeaths.removeAllViews();
         linearLayoutHouses.removeAllViews();
-        linearLayoutAchievements.removeAllViews();
         textViewMirried.setText("");
         textViewLoyalty.setText("");
         textViewCreated.setText("");
@@ -189,18 +193,7 @@ public class characters extends AppCompatActivity implements View.OnClickListene
                             }
 
                             if (characters.getAchievements() != null) {
-                                for (int i = 0; i < characters.getAchievements().size(); i++) {
-                                    TextView textViewWeakness = new TextView(characters.this);
-                                    textViewWeakness.setText("\uD83C\uDF1F" + " Name: " + characters.getAchievements().get(i).getName() +
-                                            "\n Grade: " + characters.getAchievements().get(i).getGrade() +
-                                            "\n Secret: " + characters.getAchievements().get(i).isSecret());
-                                    textViewWeakness.setTextColor(ContextCompat.getColor(getApplicationContext(),R.color.md_theme_light_primary));
-                                    textViewWeakness.setTextSize(15);
-                                    textViewWeakness.setTextColor(Color.parseColor("#CE93D8"));
-                                    textViewWeakness.setTypeface(null, Typeface.ITALIC);
-                                    textViewWeakness.setLayoutParams(new LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT));
-                                    linearLayoutAchievements.addView(textViewWeakness);
-                                }
+                                RecyclerArchievements(characters.getAchievements());
                             }
                             /*
                              * Llenar los campos de AccountInformation
@@ -264,5 +257,23 @@ public class characters extends AppCompatActivity implements View.OnClickListene
         linearLayoutOtherCharacters.setLayoutManager(linearLayoutManager);
         adapterOtherCharacters = new AdapterOtherCharacters(itemsCharacters);
         linearLayoutOtherCharacters.setAdapter(adapterOtherCharacters);
+    }
+
+    @RequiresApi(api = Build.VERSION_CODES.N)
+    public void RecyclerArchievements(ArrayList<Achievements> achievements){
+        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this);
+        itemsArchievementsCharacters = new ArrayList<>();
+        achievements.forEach(achievement ->{
+            itemsArchievementsCharacters.add(new ItemsArchievementsCharacter(
+                    achievement.getName(),
+                    achievement.getGrade(),
+                    achievement.isSecret()
+            ));
+        });
+        linearLayoutAchievements.setHasFixedSize(true);
+        linearLayoutManager.setOrientation(LinearLayoutManager.HORIZONTAL);
+        linearLayoutAchievements.setLayoutManager(linearLayoutManager);
+        adapterArchievementsCharacter = new AdapterArchievementsCharacter(itemsArchievementsCharacters);
+        linearLayoutAchievements.setAdapter(adapterArchievementsCharacter);
     }
 }
