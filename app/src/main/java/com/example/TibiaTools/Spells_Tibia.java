@@ -122,6 +122,8 @@ public class Spells_Tibia extends AppCompatActivity {
                     adapter.notifyDataSetChanged();
                     recyclerView.hasFixedSize();
                     recyclerView.setAdapter(adapter);
+                    binding.getRoot().findViewById(R.id.carga_spells).setVisibility(View.GONE);
+                    recyclerView.setVisibility(View.VISIBLE);
                     adapter.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View view) {
@@ -145,12 +147,17 @@ public class Spells_Tibia extends AppCompatActivity {
                             startActivity(intent);
                         }
                     });
+                }else{
+                    binding.getRoot().findViewById(R.id.carga_spells).setVisibility(View.GONE);
+                    Toast.makeText(getApplicationContext(),"No hay respuesta del servidor", Toast.LENGTH_SHORT).show();
                 }
             }
 
             @Override
             public void onFailure(Call<ApiSpells> call, Throwable t) {
-                Toast.makeText(getApplicationContext(), t.getMessage(), Toast.LENGTH_SHORT).show();
+                System.out.println(t.getMessage());
+                binding.getRoot().findViewById(R.id.carga_spells).setVisibility(View.GONE);
+                Toast.makeText(getApplicationContext(),"Error de conexión intente mas tarde :)", Toast.LENGTH_SHORT).show();
             }
         });
     }
