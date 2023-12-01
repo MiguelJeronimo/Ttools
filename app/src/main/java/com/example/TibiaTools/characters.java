@@ -16,13 +16,13 @@ import com.example.TibiaTools.Operaciones.InstanciaRetrofit;
 import com.example.TibiaTools.recyclerview.Adapters.AdapterArchievementsCharacter;
 import com.example.TibiaTools.recyclerview.Adapters.AdapterHouseCharacters;
 import com.example.TibiaTools.recyclerview.Adapters.AdapterOtherCharacters;
-import com.example.TibiaTools.recyclerview.Adapters.adapterRecyclerViewCriatures;
-import com.example.TibiaTools.recyclerview.Adapters.adapterRecyclerviewMundos;
 import com.example.TibiaTools.recyclerview.ItemsArchievementsCharacter;
 import com.example.TibiaTools.recyclerview.ItemsCharacters;
 import com.example.TibiaTools.recyclerview.ItemsHousesCharacters;
 import com.example.TibiaTools.utilidades.ConvertidorFecha;
+import com.example.TibiaTools.utilidades.IsVisibillityCharacters;
 import com.example.ttools.R;
+import com.example.ttools.databinding.ActivityCharactersBinding;
 import com.google.android.material.snackbar.Snackbar;
 
 import androidx.annotation.NonNull;
@@ -33,6 +33,7 @@ import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
@@ -51,7 +52,7 @@ import retrofit2.Callback;
 import retrofit2.Response;
 
 public class characters extends AppCompatActivity implements View.OnClickListener {
-
+    ActivityCharactersBinding binding;
     private EditText nombre_persona;
     private TextView nombre,titulo, sexo, vocacion, nivel, archiviement, mundo, residencia, guild, lastlogin, comentario, textViewPremium,textViewMirried, textViewLoyalty,textViewCreated;
     Button btnenviar;
@@ -65,12 +66,13 @@ public class characters extends AppCompatActivity implements View.OnClickListene
     AdapterArchievementsCharacter adapterArchievementsCharacter;
     List<ItemsArchievementsCharacter> itemsArchievementsCharacters;
     InstanciaRetrofit services = new InstanciaRetrofit();
-
+    IsVisibillityCharacters isVisibillityCharacters;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_characters);
+        binding = ActivityCharactersBinding.inflate(getLayoutInflater());
+        setContentView(binding.getRoot());
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         Objects.requireNonNull(getSupportActionBar()).setDisplayHomeAsUpEnabled(true); //Aparicion del boton regresar en el action bar
@@ -130,6 +132,7 @@ public class characters extends AppCompatActivity implements View.OnClickListene
     }
 
     public void infoCharacters(String nombre_persona){
+        isVisibillityCharacters = new IsVisibillityCharacters();
         linearLayoutDeaths = findViewById(R.id.linearLayoutDeaths);
         linearLayoutOtherCharacters.removeAllViews();
         linearLayoutDeaths.removeAllViews();
@@ -137,6 +140,14 @@ public class characters extends AppCompatActivity implements View.OnClickListene
         textViewMirried.setText("");
         textViewLoyalty.setText("");
         textViewCreated.setText("");
+        isVisibillityCharacters.setVisibility(false);
+        isVisibillityCharacters.VisibilityDataGeneral(binding);
+        binding.getRoot().findViewById(R.id.carga_characters).setVisibility(View.VISIBLE);
+        binding.getRoot().findViewById(R.id.CardStatus).setVisibility(View.GONE);
+        linearLayoutDeaths.setVisibility(View.GONE);
+        linearLayoutHouses.setVisibility(View.GONE);
+        linearLayoutAchievements.setVisibility(View.GONE);
+        linearLayoutOtherCharacters.setVisibility(View.GONE);
         String urlAPI = "https://api.tibiadata.com/v3/character/";
             TibiaAPIServer tibiaAPIServer = services.getRetrofit(urlAPI).create(TibiaAPIServer.class);
             Call <APIServicesTibia> repo = tibiaAPIServer.getPersonajes(nombre_persona);
@@ -153,6 +164,7 @@ public class characters extends AppCompatActivity implements View.OnClickListene
                                     .setAction("Action", null).show();
                         } else {
                             nombre.setText(characters.getCharacter().getName());
+                            nombre.setVisibility(View.VISIBLE);
                             titulo.setText(characters.getCharacter().getTitle());
                             sexo.setText(characters.getCharacter().getSex());
                             vocacion.setText(characters.getCharacter().getVocation());
@@ -160,12 +172,21 @@ public class characters extends AppCompatActivity implements View.OnClickListene
                             archiviement.setText(String.valueOf(characters.getCharacter().getAchievement_points()));
                             mundo.setText(characters.getCharacter().getWorld());
                             residencia.setText(characters.getCharacter().getResidence());
-                            guild.setText(characters.getCharacter().getGuild().getRank() + " of the " + characters.getCharacter().getGuild().getName());
+                            String guildRank = characters.getCharacter().getGuild().getRank();
+                            String nameGuild = characters.getCharacter().getGuild().getName();
+                            if (guildRank != null && nameGuild != null){
+                                guild.setText(characters.getCharacter().getGuild().getRank() + " of the " + characters.getCharacter().getGuild().getName());
+                            } else{
+                                guild.setText("No pertenece a una guild");
+                            }
                             convertidorFecha.setExpiryDateString(characters.getCharacter().getLast_login());
                             convertidorFecha.convertirFecha();
                             lastlogin.setText(convertidorFecha.getFechaConvertida());
                             comentario.setText(characters.getCharacter().getComment());
                             textViewPremium.setText(characters.getCharacter().getAccount_status());
+                            isVisibillityCharacters.setVisibility(true);
+                            isVisibillityCharacters.VisibilityDataGeneral(binding);
+                            binding.getRoot().findViewById(R.id.CardStatus).setVisibility(View.VISIBLE);
                             if (characters.getCharacter().getMarried_to() != null) {
                                 textViewMirried.setText("\uD83D\uDC8D️\u200D\uD83D\uDD25: " + characters.getCharacter().getMarried_to());
                             }
@@ -186,6 +207,7 @@ public class characters extends AppCompatActivity implements View.OnClickListene
                                     textViewWeakness.setTypeface(null, Typeface.ITALIC);
                                     textViewWeakness.setLayoutParams(new LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT));
                                     linearLayoutDeaths.addView(textViewWeakness);
+                                    linearLayoutDeaths.setVisibility(View.VISIBLE);
                                 }
                             }
                             if (characters.getOther_characters() != null) {
@@ -199,7 +221,10 @@ public class characters extends AppCompatActivity implements View.OnClickListene
                              * Llenar los campos de AccountInformation
                              * */
                             if (characters.getAccount_information() != null) {
-                                textViewLoyalty.setText("Loyalty Title: "+characters.getAccount_information().getLoyalty_title());
+                                if (characters.getAccount_information().getLoyalty_title() != null){
+                                    textViewLoyalty.setText("Loyalty Title: "+characters.getAccount_information().getLoyalty_title());
+                                }
+
                                 if (characters.getAccount_information().getCreated() != null){
                                     convertidorFecha.setExpiryDateString(characters.getAccount_information().getCreated());
                                     convertidorFecha.convertirFecha();
@@ -211,11 +236,14 @@ public class characters extends AppCompatActivity implements View.OnClickListene
                         Snackbar.make(findViewById(R.id.btnenviar), "Error al conectar con la API", Snackbar.LENGTH_LONG)
                                 .setAction("Action", null).show();
                     }
+                    binding.getRoot().findViewById(R.id.carga_characters).setVisibility(View.GONE);
                 }
 
                 @Override
                 public void onFailure(Call<APIServicesTibia> call, Throwable t) {
-                    Toast.makeText(characters.this, t.getMessage(), Toast.LENGTH_SHORT).show();
+                    Log.i("Error en la conexion", t.getMessage());
+                    Toast.makeText(characters.this, "Error en la conexión", Toast.LENGTH_SHORT).show();
+                    binding.getRoot().findViewById(R.id.carga_characters).setVisibility(View.GONE);
                 }
             });
     }
@@ -236,6 +264,7 @@ public class characters extends AppCompatActivity implements View.OnClickListene
         linearLayoutHouses.setLayoutManager(linearLayoutManager);
         adapterHouseCharacters = new AdapterHouseCharacters(itemsHousesCharacters);
         linearLayoutHouses.setAdapter(adapterHouseCharacters);
+        linearLayoutHouses.setVisibility(View.VISIBLE);
     }
 
     @RequiresApi(api = Build.VERSION_CODES.N)
@@ -257,6 +286,7 @@ public class characters extends AppCompatActivity implements View.OnClickListene
         linearLayoutOtherCharacters.setLayoutManager(linearLayoutManager);
         adapterOtherCharacters = new AdapterOtherCharacters(itemsCharacters);
         linearLayoutOtherCharacters.setAdapter(adapterOtherCharacters);
+        linearLayoutOtherCharacters.setVisibility(View.VISIBLE);
     }
 
     @RequiresApi(api = Build.VERSION_CODES.N)
@@ -275,5 +305,6 @@ public class characters extends AppCompatActivity implements View.OnClickListene
         linearLayoutAchievements.setLayoutManager(linearLayoutManager);
         adapterArchievementsCharacter = new AdapterArchievementsCharacter(itemsArchievementsCharacters);
         linearLayoutAchievements.setAdapter(adapterArchievementsCharacter);
+        linearLayoutAchievements.setVisibility(View.VISIBLE);
     }
 }

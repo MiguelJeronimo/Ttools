@@ -5,7 +5,16 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     app:layout_behavior="@string/appbar_scrolling_view_behavior">
-
+    <com.google.android.material.progressindicator.LinearProgressIndicator
+        android:id="@+id/carga_characters"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:indeterminate="true"
+        android:visibility="gone"
+        app:indeterminateAnimationType="disjoint"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
     <ScrollView
         android:layout_width="match_parent"
@@ -16,6 +25,13 @@
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
+
+            <androidx.constraintlayout.widget.Guideline
+                android:id="@+id/guideline2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                app:layout_constraintGuide_percent="0.5" />
 
             <com.google.android.material.textfield.TextInputLayout
                 android:id="@+id/layoutNivel"
@@ -65,6 +81,7 @@
                 android:layout_height="wrap_content"
                 android:text="Name"
                 android:textColor="#8d8d8d"
+                android:visibility="gone"
                 app:layout_constraintEnd_toStartOf="@+id/guideline2"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/nombre"
@@ -78,6 +95,7 @@
                 android:gravity="left"
                 android:padding="3dip"
                 android:text=""
+                android:visibility="gone"
                 android:textSize="15dp"
                 app:layout_constraintEnd_toStartOf="@+id/guideline2"
                 app:layout_constraintStart_toStartOf="parent"
@@ -90,6 +108,8 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Sex"
+                android:textColor="#8d8d8d"
+                android:visibility="gone"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.482"
                 app:layout_constraintStart_toStartOf="@+id/guideline2"
@@ -104,6 +124,7 @@
                 android:gravity="left"
                 android:padding="3dip"
                 android:text=""
+                android:visibility="gone"
                 android:textSize="15dp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="@+id/guideline2"
@@ -117,6 +138,8 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="5dp"
                 android:text="Tittle"
+                android:textColor="#8d8d8d"
+                android:visibility="gone"
                 app:layout_constraintEnd_toStartOf="@+id/guideline2"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/titulo"
@@ -129,6 +152,7 @@
                 android:layout_marginTop="12dp"
                 android:gravity="left"
                 android:text=""
+                android:visibility="gone"
                 app:layout_constraintEnd_toStartOf="@+id/guideline2"
                 app:layout_constraintHorizontal_bias="0.485"
                 app:layout_constraintStart_toStartOf="parent"
@@ -141,6 +165,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="12dp"
                 android:text=""
+                android:visibility="gone"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="@+id/guideline2"
                 app:layout_constraintTop_toBottomOf="@+id/textView5"
@@ -152,6 +177,8 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="5dp"
                 android:text="Vocation"
+                android:textColor="#8d8d8d"
+                android:visibility="gone"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="@+id/guideline2"
                 app:layout_constraintTop_toBottomOf="@+id/vocacion"
@@ -163,6 +190,8 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="5dp"
                 android:text="Nivel"
+                android:textColor="#8d8d8d"
+                android:visibility="gone"
                 app:layout_constraintEnd_toStartOf="@+id/guideline2"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/nivel"
@@ -175,6 +204,7 @@
                 android:layout_marginTop="12dp"
                 android:gravity="left"
                 android:text=""
+                android:visibility="gone"
                 android:textSize="15dp"
                 app:layout_constraintEnd_toStartOf="@+id/guideline2"
                 app:layout_constraintStart_toStartOf="parent"
@@ -187,6 +217,8 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="5dp"
                 android:text="Achievement Points"
+                android:visibility="gone"
+                android:textColor="#8d8d8d"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="@+id/guideline2"
                 app:layout_constraintTop_toBottomOf="@+id/achivement"
@@ -199,6 +231,7 @@
                 android:layout_marginTop="12dp"
                 android:gravity="left"
                 android:text=""
+                android:visibility="gone"
                 android:textSize="15dp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="@+id/guideline2"
@@ -212,6 +245,7 @@
                 android:layout_marginTop="12dp"
                 android:text=""
                 android:textSize="32dp"
+                android:visibility="gone"
                 app:layout_constraintEnd_toStartOf="@+id/guideline2"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/textView7"
@@ -224,6 +258,8 @@
                 android:layout_marginTop="5dp"
                 android:gravity="left"
                 android:text="World"
+                android:textColor="#8d8d8d"
+                android:visibility="gone"
                 app:layout_constraintEnd_toStartOf="@+id/guideline2"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/mundo"
@@ -235,6 +271,8 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="5dp"
                 android:text="Residence"
+                android:textColor="#8d8d8d"
+                android:visibility="gone"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="@+id/guideline2"
                 app:layout_constraintTop_toBottomOf="@+id/residencia"
@@ -247,6 +285,7 @@
                 android:layout_marginTop="12dp"
                 android:gravity="left"
                 android:text=""
+                android:visibility="gone"
                 android:textSize="32dp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="@+id/guideline2"
@@ -261,6 +300,8 @@
                 android:layout_marginTop="8dp"
                 android:padding="3dip"
                 android:text="Guild Membership"
+                android:textColor="#8d8d8d"
+                android:visibility="gone"
                 app:layout_constraintEnd_toStartOf="@+id/guideline2"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/guild"
@@ -273,6 +314,7 @@
                 android:layout_marginStart="10dp"
                 android:layout_marginTop="10dp"
                 android:layout_marginEnd="10dp"
+                android:visibility="gone"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
@@ -286,6 +328,7 @@
                 android:layout_marginTop="12dp"
                 android:width="@android:dimen/thumbnail_width"
                 android:padding="3dip"
+                android:visibility="gone"
                 android:text=""
                 android:textAlignment="center"
                 app:layout_constraintEnd_toStartOf="@+id/guideline2"
@@ -300,6 +343,8 @@
                 android:layout_marginTop="8dp"
                 android:padding="3dip"
                 android:text="Last login"
+                android:visibility="gone"
+                android:textColor="#8d8d8d"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="@+id/guideline2"
                 app:layout_constraintTop_toBottomOf="@+id/last_loguin"
@@ -312,12 +357,37 @@
                 android:layout_marginTop="12dp"
                 android:width="@android:dimen/thumbnail_width"
                 android:gravity="left"
+                android:visibility="gone"
                 android:padding="3dip"
                 android:text=""
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="@+id/guideline2"
                 app:layout_constraintTop_toBottomOf="@+id/textView15"
                 tools:ignore="MissingConstraints" />
+
+
+           <!-- <TextView
+                android:id="@+id/textViewPremium"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="15dp"
+                android:text=""
+                android:textStyle="italic"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/linearLayoutHouses" />
+
+            <TextView
+                android:id="@+id/textViewCreated"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:text=""
+                android:textStyle="italic"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/textViewPremium" />
+
 
             <TextView
                 android:id="@+id/textView16"
@@ -343,37 +413,85 @@
                 app:layout_constraintHorizontal_bias="0.493"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/textView16"
-                tools:ignore="MissingConstraints" />
-
-            <androidx.constraintlayout.widget.Guideline
-                android:id="@+id/guideline2"
-                android:layout_width="wrap_content"
+                tools:ignore="MissingConstraints" />-->
+            <com.google.android.material.card.MaterialCardView
+                android:id="@+id/CardStatus"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="vertical"
-                app:layout_constraintGuide_percent="0.5" />
-
-            <TextView
-                android:id="@+id/textViewPremium"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="15dp"
-                android:text=""
-                android:textStyle="italic"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/linearLayoutHouses" />
-
-            <TextView
-                android:id="@+id/textViewCreated"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_marginStart="5dp"
                 android:layout_marginTop="10dp"
-                android:text=""
-                android:textStyle="italic"
+                android:layout_marginEnd="5dp"
+                android:visibility="gone"
+                app:cardCornerRadius="15dp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/textViewPremium" />
+                app:layout_constraintTop_toBottomOf="@+id/textViewMirried">
 
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+                    <TextView
+                        android:id="@+id/textViewPremium"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="10dp"
+                        android:textStyle="italic"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
+
+                    <TextView
+                        android:id="@+id/textViewCreated"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="10dp"
+                        android:text=""
+                        android:textStyle="italic"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@+id/textViewPremium" />
+
+                    <TextView
+                        android:id="@+id/textViewLoyalty"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="10dp"
+                        android:text=""
+                        android:textStyle="italic"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@+id/textViewCreated" />
+
+                    <TextView
+                        android:id="@+id/textView16"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="15dp"
+                        android:text="Comment"
+                        android:textSize="15dp"
+                        android:textStyle="bold"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@+id/textViewLoyalty"
+                        tools:ignore="MissingConstraints" />
+
+                    <TextView
+                        android:id="@+id/comentario"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="16dp"
+                        android:layout_marginBottom="10dp"
+                        android:gravity="left"
+                        android:padding="3dip"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintHorizontal_bias="0.493"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@+id/textView16"
+                        tools:ignore="MissingConstraints" />
+                </androidx.constraintlayout.widget.ConstraintLayout>
+            </com.google.android.material.card.MaterialCardView>
             <LinearLayout
                 android:id="@+id/linearLayoutDeaths"
                 android:layout_width="match_parent"
@@ -381,93 +499,52 @@
                 android:layout_marginTop="16dp"
                 android:orientation="vertical"
                 android:padding="20dp"
-                app:layout_constraintTop_toBottomOf="@+id/comentario"
+                android:visibility="gone"
+                app:layout_constraintTop_toBottomOf="@+id/CardStatus"
                 tools:layout_editor_absoluteX="206dp"/>
-
-            <!--<LinearLayout
-                android:id="@+id/linearLayoutOtherCharacters"
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/linearLayoutHouses"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_marginTop="16dp"
-                android:orientation="vertical"
-                android:padding="20dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="5dp"
+                android:visibility="gone"
+                android:orientation="horizontal"
                 app:layout_constraintTop_toBottomOf="@+id/linearLayoutDeaths"
-                tools:layout_editor_absoluteY="46dp"/>-->
+                tools:listitem="@layout/items_houses_recyclerview_characters" />
+
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/linearLayoutOtherCharacters"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginTop="5dp"
                 android:orientation="horizontal"
-                app:layout_constraintTop_toBottomOf="@+id/linearLayoutDeaths"
-                tools:listitem="@layout/items_characters_list"
-                />
-            <TextView
-                android:id="@+id/textView3"
-                android:layout_width="183dp"
-                android:layout_height="24dp"
-                android:layout_marginTop="20dp"
-                android:text="Houses:"
-                android:paddingLeft="20dp"
-                android:textSize="20dp"
-                app:layout_constraintEnd_toStartOf="@+id/guideline2"
+                android:visibility="gone"
+                app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/separador" />
-
-            <!--<LinearLayout
-                android:id="@+id/linearLayoutHouses"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:orientation="vertical"
-                android:padding="20dp"
-                app:layout_constraintTop_toBottomOf="@+id/textView3"
-                tools:layout_editor_absoluteX="1dp"/>-->
-            <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/linearLayoutHouses"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                app:layout_constraintTop_toBottomOf="@+id/textView3"
-                tools:listitem="@layout/items_houses_recyclerview_characters"
-                />
+                app:layout_constraintTop_toBottomOf="@+id/linearLayoutHouses"
+                tools:listitem="@layout/items_characters_list" />
 
             <TextView
                 android:id="@+id/textViewMirried"
-                android:layout_width="194dp"
-                android:layout_height="21dp"
-                android:layout_marginTop="10dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="15dp"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="@+id/guideline2"
+                app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/textView22" />
 
-            <!--<LinearLayout
-                android:id="@+id/linearLayoutAchievements"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_marginTop="16dp"
-                android:orientation="vertical"
-                android:padding="20dp"
-                app:layout_constraintTop_toBottomOf="@+id/linearLayoutOtherCharacters"
-                tools:layout_editor_absoluteX="1dp"></LinearLayout>-->
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/linearLayoutAchievements"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginBottom="5dp"
                 android:orientation="horizontal"
-                app:layout_constraintTop_toBottomOf="@+id/linearLayoutOtherCharacters"
-                tools:listitem="@layout/items_achievements_character"
-                />
-
-            <TextView
-                android:id="@+id/textViewLoyalty"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="10dp"
-                android:text=""
-                android:textStyle="italic"
+                android:visibility="gone"
+                app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/textViewCreated" />
-
+                app:layout_constraintTop_toBottomOf="@+id/linearLayoutOtherCharacters"
+                tools:listitem="@layout/items_achievements_character" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
     </ScrollView>
