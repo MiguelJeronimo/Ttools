@@ -8,10 +8,14 @@ import com.example.TibiaTools.APISERVER.models.ApiNews;
 import com.example.TibiaTools.APISERVER.TibiaAPIServer;
 import com.example.TibiaTools.APISERVER.models.APICriatures;
 import com.example.TibiaTools.APISERVER.models.ApiNewsTicker;
+import com.example.TibiaTools.APISERVER.models.Worlds.DataWords;
+import com.example.TibiaTools.APISERVER.models.Worlds.Worlds;
 import com.example.TibiaTools.APISERVER.models.criatures.BoostableBosses;
 import com.example.TibiaTools.APISERVER.models.criatures.Criatures;
 import com.example.TibiaTools.Operaciones.InstanciaRetrofit;
 import com.example.TibiaTools.recyclerview.Adapters.AdapterRecyclerViewNews;
+import com.example.TibiaTools.recyclerview.Adapters.adapterRecyclerviewMundos;
+import com.example.TibiaTools.recyclerview.ItemsRecyclerViewMundos;
 import com.example.TibiaTools.recyclerview.ItemsRecyclerViewNews;
 import com.example.TibiaTools.utilidades.RedValidator;
 
@@ -39,6 +43,8 @@ import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Timer;
+import java.util.TimerTask;
 import java.util.concurrent.Executor;
 import java.util.concurrent.Executors;
 
@@ -58,7 +64,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     TextView lbRashid, textBossCreature,lbBossBosstable;
     //para las new latest
     TextView textViewFecha,textViewCategoria, textViewNoticia,textViewTipo;
-    TextView textViewDate, textViewCategory, textViewNew, textViewtype;
+    TextView textViewDate, textViewCategory, textViewNew, textViewtype, textViewPlayesOnline;
     String url_rashid_image = "https://raw.githubusercontent.com/MiguelJeronimo/TtoolsDesktop/main/src/img/rashid.gif";
     //recyclerview
     RecyclerView recyclerViewNoticas;
@@ -119,6 +125,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         textViewCategory = findViewById(R.id.textViewCategory);
         textViewNew = findViewById(R.id.textViewNew);
         textViewtype = findViewById(R.id.textViewtype);
+        textViewPlayesOnline = findViewById(R.id.players_online_main);
         //Validamos si tenenemos conexion a internet
         if (RedValidator.ValidarInternet(getApplication())){
             //ejecutando los multiple hilos para el consumo de api
@@ -288,12 +295,41 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             }
         });
     }
+
+    public void PlayersOnline(String url){
+        //aqui se hace la llamada a la api
+        TibiaAPIServer tibiaAPIServer = servicio.getRetrofit(url).create(TibiaAPIServer.class);
+        Call <DataWords> call = tibiaAPIServer.getWorlds();
+        call.enqueue(new retrofit2.Callback<DataWords>() {
+            @Override
+            public void onResponse(Call<DataWords> call, Response<DataWords> response) {
+                if (response.isSuccessful()){
+                    DataWords dataWords = response.body();
+                    Worlds worlds = dataWords.getWorlds();
+                        String onlines = "Players Online: "+worlds.getPlayers_online();
+                        textViewPlayesOnline.setVisibility(View.VISIBLE);
+                        textViewPlayesOnline.setText(onlines);
+                } else{
+                    textViewPlayesOnline.setText("");
+                }
+
+            }
+
+            @Override
+            public void onFailure(Call<DataWords> call, Throwable t) {
+                //playersOnline.setText(t.getMessage());
+                //playersOnline.setTextColor(Color.RED);
+                textViewPlayesOnline.setText("");
+            }
+        });
+    }
     public void Hilos(){
         String url = "https://api.tibialabs.com/v2/";
         String url_creature_boss = "https://api.tibiadata.com/v3/";
         //creatureBoss(url_creature_boss);
         String url_boosted_boss = "https://api.tibiadata.com/v3/";
         String url_new = "https://api.tibiadata.com/v3/";
+        String url_onlines = "https://api.tibiadata.com/v3/";
         //crear el pool de hilos
         Executor executor = Executors.newFixedThreadPool(5);
         // Submit tasks to the thread pool
@@ -337,6 +373,15 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             } catch (InterruptedException e) {
                 throw new RuntimeException(e);
             }
+        });
+        executor.execute(()->{
+            Timer timer = new Timer();
+            timer.scheduleAtFixedRate(new TimerTask() {
+                @Override
+                public void run() {
+                    PlayersOnline(url_onlines);
+                }
+            }, 0, 3000);
         });
 
     }

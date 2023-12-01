@@ -6,7 +6,6 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
-    tools:context=".MainActivity"
     tools:showIn="@layout/activity_main">
 
     <com.google.android.material.progressindicator.LinearProgressIndicator
@@ -56,19 +55,30 @@
                 app:layout_constraintTop_toTopOf="parent"
                 ></ImageView>
 
+
+            <TextView
+                android:id="@+id/players_online_main"
+                android:layout_width="266dp"
+                android:layout_height="21dp"
+                android:layout_marginTop="10dp"
+                android:textStyle="bold"
+                android:textColor="@color/md_theme_light_inversePrimary"
+                android:visibility="gone"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="@+id/primera_division"
+                app:layout_constraintTop_toTopOf="parent" />
+
             <TextView
                 android:id="@+id/textViewRashid"
                 android:layout_width="266dp"
                 android:layout_height="21dp"
-                android:layout_marginTop="16dp"
+                android:layout_marginTop="5dp"
                 android:textStyle="bold"
                 android:visibility="gone"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.555"
                 app:layout_constraintStart_toStartOf="@+id/primera_division"
-                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/players_online_main"
                 tools:text="Rashid se encuentra en Edron" />
-
 
             <com.google.android.material.card.MaterialCardView
                 android:id="@+id/cardView2"
