@@ -178,8 +178,7 @@ public class HouseActivity extends AppCompatActivity implements AdapterView.OnIt
                             ));
                         }
                     }
-                    binding.getRoot().findViewById(R.id.carga_houses).setVisibility(View.GONE);
-
+                binding.getRoot().findViewById(R.id.carga_houses).setVisibility(View.GONE);
                 recyclerView.setHasFixedSize(true);
                 linearLayoutManager.setOrientation(LinearLayoutManager.VERTICAL);
                 recyclerView.setLayoutManager(linearLayoutManager);

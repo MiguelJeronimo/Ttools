@@ -79,6 +79,8 @@ public class Criaturas extends AppCompatActivity {
             public void onResponse(@NonNull Call<APICriatures> call, @NonNull retrofit2.Response<APICriatures> response) {
                 if (!response.isSuccessful()) {
                     System.out.println("Codigo: " + response.code());
+                    binding.getRoot().findViewById(R.id.carga_criatures).setVisibility(View.GONE);
+                    Toast.makeText(getApplicationContext(),"Error al obtener las criaturas, intente mas tarde", Toast.LENGTH_SHORT).show();
                     return;
                 }
                 APICriatures apiCriatures = response.body();
@@ -99,19 +101,20 @@ public class Criaturas extends AppCompatActivity {
                 layoutManager.setOrientation(LinearLayoutManager.VERTICAL);
                 recyclerView.setHasFixedSize(true);
                 recyclerView.setAdapter(myAdapter);
-                myAdapter.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View view) {
-                        String raceCriatures = itemsRecyclerViewCriatures.get(recyclerView.getChildAdapterPosition(view)).getLbrace();
-                        Intent intent = new Intent(Criaturas.this, CriaturesInformation.class);
-                        intent.putExtra("raceCriatures", raceCriatures);
-                        startActivity(intent);
-                    }
+                binding.getRoot().findViewById(R.id.carga_criatures).setVisibility(View.GONE);
+                recyclerView.setVisibility(View.VISIBLE);
+                myAdapter.setOnClickListener(view -> {
+                    String raceCriatures = itemsRecyclerViewCriatures.get(recyclerView.getChildAdapterPosition(view)).getLbrace();
+                    Intent intent = new Intent(Criaturas.this, CriaturesInformation.class);
+                    intent.putExtra("raceCriatures", raceCriatures);
+                    startActivity(intent);
                 });
             }
             @Override
             public void onFailure(@NonNull Call<APICriatures> call, @NonNull Throwable t) {
-                Toast.makeText(Criaturas.this, t.getMessage(), Toast.LENGTH_SHORT).show();
+                System.out.println(t.getMessage());
+                binding.getRoot().findViewById(R.id.carga_criatures).setVisibility(View.GONE);
+                Toast.makeText(Criaturas.this, "Error de conexión, intente mas tarde...", Toast.LENGTH_SHORT).show();
             }
         });
     }
