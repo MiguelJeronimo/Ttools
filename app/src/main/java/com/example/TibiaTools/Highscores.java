@@ -204,6 +204,7 @@ public class Highscores extends AppCompatActivity implements AdapterView.OnItemC
             public void onFailure(Call<ApiHighScores> call, Throwable t) {
                 System.out.println("MENSAJE: "+t.getMessage());
                 Toast.makeText(getApplicationContext(),"Error de conexión intente mas tarde :)", Toast.LENGTH_SHORT).show();
+                binding.getRoot().findViewById(R.id.carga_highscores).setVisibility(View.GONE);
                 //lista_highscore.clear();
                 //adaptador.notifyDataSetChanged();
             }

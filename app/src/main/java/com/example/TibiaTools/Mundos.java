@@ -10,6 +10,8 @@ import com.example.TibiaTools.Operaciones.InstanciaRetrofit;
 import com.example.TibiaTools.recyclerview.Adapters.adapterRecyclerviewMundos;
 import com.example.TibiaTools.recyclerview.ItemsRecyclerViewMundos;
 import com.example.ttools.R;
+import com.example.ttools.databinding.ActivityHighscoresBinding;
+import com.example.ttools.databinding.ActivityMundosBinding;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import androidx.annotation.NonNull;
@@ -21,6 +23,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -31,7 +34,7 @@ import retrofit2.Response;
 public class Mundos extends AppCompatActivity {
     RecyclerView recyclerView;
     adapterRecyclerviewMundos myAdapter;
-
+    ActivityMundosBinding binding;
     List<ItemsRecyclerViewMundos> itemsRecyclerViewMundos;
     String url = "https://api.tibiadata.com/v3/";
     TextView playersOnline;
@@ -39,11 +42,12 @@ public class Mundos extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_mundos);
+        binding = ActivityMundosBinding.inflate(getLayoutInflater());
+        setContentView(binding.getRoot());
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true); //Aparicion del boton regresar en el action bar
-        playersOnline = (TextView) findViewById(R.id.playersOnline);
+        //playersOnline = (TextView) findViewById(R.id.playersOnline);
         API(url);
 
         FloatingActionButton fab = findViewById(R.id.fab);
@@ -52,7 +56,7 @@ public class Mundos extends AppCompatActivity {
             public void onClick(View view) {
                 /**Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
                         .setAction("Action", null).show();*/
-                playersOnline = (TextView) findViewById(R.id.playersOnline);
+                //playersOnline = (TextView) findViewById(R.id.playersOnline);
                 API(url);
             }
         });
@@ -85,8 +89,8 @@ public class Mundos extends AppCompatActivity {
                 if (response.isSuccessful()){
                     DataWords dataWords = response.body();
                     Worlds worlds = dataWords.getWorlds();
-                    playersOnline.setText("Players Online "+ String.valueOf(worlds.getPlayers_online()));
-                    playersOnline.setTextColor(Color.parseColor("#76FF03"));
+                    //playersOnline.setText("Players Online "+ String.valueOf(worlds.getPlayers_online()));
+                    //playersOnline.setTextColor(Color.parseColor("#76FF03"));
                     System.out.println(worlds.getRegular_worlds().size());
                     itemsRecyclerViewMundos = new ArrayList<>();
                     for (int i = 0; i < worlds.getRegular_worlds().size(); i++) {
@@ -109,17 +113,23 @@ public class Mundos extends AppCompatActivity {
                     recyclerView.setLayoutManager(layoutManager);
                     myAdapter = new adapterRecyclerviewMundos(itemsRecyclerViewMundos);
                     recyclerView.setAdapter(myAdapter);
-            } else{
-                    playersOnline.setText("No tienes internet :v");
+                    binding.getRoot().findViewById(R.id.carga_mundos).setVisibility(View.GONE);
+                    recyclerView.setVisibility(View.VISIBLE);
+                } else{
+                    Toast.makeText(getApplicationContext(),"No hay respuesta del servidor", Toast.LENGTH_SHORT).show();
+                    binding.getRoot().findViewById(R.id.carga_mundos).setVisibility(View.GONE);
+                    recyclerView.setVisibility(View.GONE);
                 }
 
             }
 
             @Override
             public void onFailure(Call<DataWords> call, Throwable t) {
-                playersOnline.setText(t.getMessage());
-                playersOnline.setTextColor(Color.RED);
+                //playersOnline.setText(t.getMessage());
+                //playersOnline.setTextColor(Color.RED);
+                Toast.makeText(getApplicationContext(),"Error de conexión intente mas tarde :)", Toast.LENGTH_SHORT).show();
                 System.out.println(t.getMessage());
+                binding.getRoot().findViewById(R.id.carga_mundos).setVisibility(View.GONE);
             }
         });
     }
