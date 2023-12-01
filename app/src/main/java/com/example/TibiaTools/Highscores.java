@@ -64,7 +64,9 @@ public class Highscores extends AppCompatActivity implements AdapterView.OnItemC
         binding = ActivityHighscoresBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
         setSupportActionBar(binding.toolbar);
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true); //Aparicion del boton regresar en el action bar
+        //Aparicion del boton regresar en el action bar
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        binding.getRoot().findViewById(R.id.carga_highscores).setVisibility(View.VISIBLE);
         spinnerWorlds = findViewById(R.id.spinner_worldss);
         spinnerVocations = findViewById(R.id.spinner_vocationss);
         spinnerCategorys = findViewById(R.id.spinner_category);
@@ -106,12 +108,17 @@ public class Highscores extends AppCompatActivity implements AdapterView.OnItemC
                     }
                     adapterWorlds = new ArrayAdapter<String>(getApplicationContext(), R.layout.spinner_text_style,arrayWorlds);
                     spinnerWorlds.setAdapter(adapterWorlds);
+                    binding.getRoot().findViewById(R.id.carga_highscores).setVisibility(View.GONE);
+                }else{
+                    binding.getRoot().findViewById(R.id.carga_highscores).setVisibility(View.GONE);
                 }
             }
 
             @Override
             public void onFailure(Call<DataWords> call, Throwable t) {
                 System.out.println(t.getMessage());
+                binding.getRoot().findViewById(R.id.carga_highscores).setVisibility(View.GONE);
+                Toast.makeText(getApplicationContext(), "Error al llenar lista de mundos...\n intente de nuevo mas tarde", Toast.LENGTH_SHORT).show();
             }
         });
     };
@@ -125,6 +132,7 @@ public class Highscores extends AppCompatActivity implements AdapterView.OnItemC
         String url_highscores = "https://api.tibiadata.com/v3/";
         TibiaAPIServer apiServer = servicio.getRetrofit(url_highscores).create(TibiaAPIServer.class);
         Call <ApiHighScores> call = apiServer.getHighScoreInformation(world,category,vocation);
+        binding.getRoot().findViewById(R.id.carga_highscores).setVisibility(View.VISIBLE);
         call.enqueue(new Callback<ApiHighScores>() {
             @Override
             public void onResponse(Call<ApiHighScores> call, Response<ApiHighScores> response) {
@@ -183,16 +191,19 @@ public class Highscores extends AppCompatActivity implements AdapterView.OnItemC
                     adaptador.notifyDataSetChanged();
                     recyclerView.setHasFixedSize(true);
                     recyclerView.setAdapter(adaptador);
+                    binding.getRoot().findViewById(R.id.carga_highscores).setVisibility(View.GONE);
                 }else{
                     Toast.makeText(getApplicationContext(),"No hay respuesta del servidor", Toast.LENGTH_SHORT).show();
                     lista_highscore.clear();
                     adaptador.notifyDataSetChanged();
+                    binding.getRoot().findViewById(R.id.carga_highscores).setVisibility(View.GONE);
                 }
             }
 
             @Override
             public void onFailure(Call<ApiHighScores> call, Throwable t) {
                 System.out.println("MENSAJE: "+t.getMessage());
+                Toast.makeText(getApplicationContext(),"Error de conexión intente mas tarde :)", Toast.LENGTH_SHORT).show();
                 //lista_highscore.clear();
                 //adaptador.notifyDataSetChanged();
             }
