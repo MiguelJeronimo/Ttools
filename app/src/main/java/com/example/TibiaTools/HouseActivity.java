@@ -30,6 +30,7 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 import android.widget.Spinner;
+import android.widget.Toast;
 
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -67,6 +68,7 @@ public class HouseActivity extends AppCompatActivity implements AdapterView.OnIt
         setContentView(binding.getRoot());
         setSupportActionBar(binding.toolbar);
         Objects.requireNonNull(getSupportActionBar()).setDisplayHomeAsUpEnabled(true); //Aparicion del boton regresar en el action bar
+        binding.getRoot().findViewById(R.id.carga_houses).setVisibility(View.VISIBLE);
         spinnerWorlds = findViewById(R.id.spinner_mundos);
         spinnerCitys = findViewById(R.id.spinner_citys);
         spinnerWorlds.setOnItemClickListener(this);
@@ -114,12 +116,18 @@ public class HouseActivity extends AppCompatActivity implements AdapterView.OnIt
                     }
                     adapterWorlds = new ArrayAdapter<String>(getApplicationContext(), R.layout.spinner_text_style,arrayWorlds);
                     spinnerWorlds.setAdapter(adapterWorlds);
+                    binding.getRoot().findViewById(R.id.carga_houses).setVisibility(View.GONE);
+                }else{
+                    Toast.makeText(getApplicationContext(),"Fallo en la opcion mundos.. Intente mas tarde", Toast.LENGTH_SHORT).show();
+                    binding.getRoot().findViewById(R.id.carga_houses).setVisibility(View.GONE);
                 }
             }
 
             @Override
             public void onFailure(Call<DataWords> call, Throwable t) {
                 System.out.println(t.getMessage());
+                Toast.makeText(getApplicationContext(),"Error de conexión intente mas tarde :)", Toast.LENGTH_SHORT).show();
+                binding.getRoot().findViewById(R.id.carga_houses).setVisibility(View.GONE);
             }
         });
     }
@@ -129,6 +137,7 @@ public class HouseActivity extends AppCompatActivity implements AdapterView.OnIt
         recyclerView = findViewById(R.id.recycler_houses);
         TibiaAPIServer tibiaAPIServer = servicio.getRetrofit(url).create(TibiaAPIServer.class);
         Call<ApiHouses> call = tibiaAPIServer.getHousesInformation(World, Town);
+        binding.getRoot().findViewById(R.id.carga_houses).setVisibility(View.VISIBLE);
         call.enqueue(new Callback<ApiHouses>() {
             @Override
             public void onResponse(Call<ApiHouses> call, Response<ApiHouses> response) {
@@ -169,53 +178,37 @@ public class HouseActivity extends AppCompatActivity implements AdapterView.OnIt
                             ));
                         }
                     }
+                    binding.getRoot().findViewById(R.id.carga_houses).setVisibility(View.GONE);
 
-                }
                 recyclerView.setHasFixedSize(true);
                 linearLayoutManager.setOrientation(LinearLayoutManager.VERTICAL);
                 recyclerView.setLayoutManager(linearLayoutManager);
                 adapterRecyclerViewHouses = new AdapterRecyclerViewHouses(list_houses);
                 recyclerView.setAdapter(adapterRecyclerViewHouses);
-                adapterRecyclerViewHouses.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View view) {
-                        //Enviando el id de la casa a al activity HousesInformation
-                        String id_house = list_houses.get(recyclerView.getChildAdapterPosition(view)).getHouseId();
-                        Intent intent = new Intent(HouseActivity.this,HousesInformation.class);
-                        intent.putExtra("ID",id_house);
-                        intent.putExtra("mundo", mundo);
-                        startActivity(intent);
-                    }
+                adapterRecyclerViewHouses.setOnClickListener(view -> {
+                    //Enviando el id de la casa a al activity HousesInformation
+                    String id_house = list_houses.get(recyclerView.getChildAdapterPosition(view)).getHouseId();
+                    Intent intent = new Intent(HouseActivity.this,HousesInformation.class);
+                    intent.putExtra("ID",id_house);
+                    intent.putExtra("mundo", mundo);
+                    startActivity(intent);
                 });
+                }else{
+                    Toast.makeText(getApplicationContext(),"Fallo en la opcion mundos.. Intente mas tarde", Toast.LENGTH_SHORT).show();
+                    binding.getRoot().findViewById(R.id.carga_houses).setVisibility(View.GONE);
+                }
             }
 
             @Override
             public void onFailure(Call<ApiHouses> call, Throwable t) {
                 System.out.println(t.getMessage());
+                Toast.makeText(getApplicationContext(),"Error de conexión intente mas tarde :)", Toast.LENGTH_SHORT).show();
+                binding.getRoot().findViewById(R.id.carga_houses).setVisibility(View.GONE);
             }
         });
 
     }
 
-    /*@Override
-    public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
-        String mundo, ciudad;
-        if (adapterView.getId() == R.id.spinner_mundos){
-            mundo = (String) spinnerWorlds.getItemAtPosition(i);
-            dataHighScores.setMundo(mundo);
-
-        }
-        if (adapterView.getId() == R.id.spinner_citys){
-            ciudad = (String) spinnerCitys.getItemAtPosition(i);
-            dataHighScores.setCiudad(ciudad);
-        }
-        Casas(url,dataHighScores.getMundo(),dataHighScores.getCiudad());
-    }
-
-    @Override
-    public void onNothingSelected(AdapterView<?> adapterView) {
-
-    }*/
     //llamadas asincornas con hilos
     public void Hilos(){
         Executor executor = Executors.newFixedThreadPool(2);
