@@ -20,8 +20,10 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.navigation.ui.AppBarConfiguration;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -96,6 +98,7 @@ public class GuildInformationName extends AppCompatActivity {
             public void onResponse(Call<ApiGuildsName> call, Response<ApiGuildsName> response) {
                 if (!response.isSuccessful()) {
                     System.out.println("Codigo: " + response.code());
+                    binding.getRoot().findViewById(R.id.carga_guild_information).setVisibility(View.GONE);
                     return;
                 }
                 ApiGuildsName apiGuildsName = response.body();
@@ -144,13 +147,19 @@ public class GuildInformationName extends AppCompatActivity {
                         adapter.notifyDataSetChanged();
                         recyclerView.setHasFixedSize(true);
                         recyclerView.setAdapter(adapter);
+                        recyclerView.setVisibility(View.VISIBLE);
+                        binding.getRoot().findViewById(R.id.cardHeader).setVisibility(View.VISIBLE);
+                        binding.getRoot().findViewById(R.id.separador_header_guild).setVisibility(View.VISIBLE);
+                        binding.getRoot().findViewById(R.id.miembros).setVisibility(View.VISIBLE);
+                        binding.getRoot().findViewById(R.id.carga_guild_information).setVisibility(View.GONE);
                     }
                 }
             }
 
             @Override
             public void onFailure(Call<ApiGuildsName> call, Throwable t) {
-
+                Toast.makeText(getApplicationContext(),"Error de conexión", Toast.LENGTH_SHORT).show();
+                binding.getRoot().findViewById(R.id.carga_guild_information).setVisibility(View.GONE);
             }
         });
     }

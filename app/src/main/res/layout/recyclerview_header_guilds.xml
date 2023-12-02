@@ -5,216 +5,264 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_height="match_parent">
 
-    <androidx.constraintlayout.widget.Guideline
-        android:id="@+id/primera_division"
-        android:layout_width="wrap_content"
+    <com.google.android.material.card.MaterialCardView
+        android:id="@+id/cardHeader"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical"
-        app:layout_constraintGuide_percent="0.25"/>
-
-    <ImageView
-        android:id="@+id/imageViewGuildLogo"
-        android:layout_width="64dp"
-        android:layout_height="64dp"
-        android:layout_marginTop="60dp"
-        app:layout_constraintEnd_toStartOf="@+id/primera_division"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
-    <TextView
-        android:id="@+id/textViewGuildName"
-        android:layout_width="266dp"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="60dp"
-        android:text=""
-        android:textAlignment="textStart"
-        android:textSize="25dp"
-        android:textStyle="bold"
+        android:layout_marginStart="5dp"
+        android:visibility="gone"
+        android:layout_marginTop="5dp"
+        android:layout_marginEnd="5dp"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.555"
-        app:layout_constraintStart_toStartOf="@+id/primera_division"
-        app:layout_constraintTop_toTopOf="parent"
-        tools:text="Xantera Friends Forever" />
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <androidx.constraintlayout.widget.Guideline
+                android:id="@+id/primera_division"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                app:layout_constraintGuide_percent="0.25" />
+
+            <ImageView
+                android:id="@+id/imageViewGuildLogo"
+                android:layout_width="64dp"
+                android:layout_height="64dp"
+                android:layout_marginTop="60dp"
+                app:layout_constraintEnd_toStartOf="@+id/primera_division"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <TextView
+                android:id="@+id/textViewGuildName"
+                android:layout_width="266dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="60dp"
+                android:text=""
+                android:textAlignment="textStart"
+                android:textSize="25dp"
+                android:textStyle="bold"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.555"
+                app:layout_constraintStart_toStartOf="@+id/primera_division"
+                app:layout_constraintTop_toTopOf="parent"
+                tools:text="Xantera Friends Forever" />
+
+            <TextView
+                android:id="@+id/textViewWorld"
+                android:layout_width="266dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="5dp"
+                android:text=""
+                android:textSize="15dp"
+                android:textStyle="italic"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="@+id/primera_division"
+                app:layout_constraintTop_toBottomOf="@+id/textViewGuildName" />
+
+            <androidx.constraintlayout.widget.Guideline
+                android:id="@+id/segunda_division"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                app:layout_constraintGuide_percent="0.15" />
+
+            <androidx.constraintlayout.widget.Guideline
+                android:id="@+id/division_enmedio"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                app:layout_constraintGuide_percent="0.50" />
+
+            <TextView
+                android:id="@+id/textViewDescription"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="28dp"
+                android:padding="10dp"
+                android:textSize="15dp"
+                android:textStyle="italic"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.0"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/textViewWorld"
+                tools:text="The sky has shifted color tonight, by the blood of our fallen enemies. A dark gathering is held, in an ancient cave far away from mortal eyes. If you look deep inside the eye of the dragon, you will discover a sorrow no words can describe. The world is no longer close to what it used to be, and we strive to protect those left of our kind. But nothing seems to still the constant hunger deep within our souls. Once again we will spread our darkened wings over the lands of Antica." />
+
+            <TextView
+                android:id="@+id/textViewFounded"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
+                android:layout_marginBottom="10dp"
+                android:gravity="left"
+                android:padding="3dip"
+                android:textSize="15dp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toStartOf="@+id/division_enmedio"
+                app:layout_constraintHorizontal_bias="0.417"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/textView30"
+                tools:text="Fundada: 2016-06-02" />
+
+            <TextView
+                android:id="@+id/textView24"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="110dp"
+                android:text="Guild House"
+                android:textSize="17dp"
+                android:textStyle="bold"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/textViewDescription" />
+
+            <TextView
+                android:id="@+id/textViewOnline"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
+                android:textSize="32dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="@+id/division_enmedio"
+                app:layout_constraintTop_toBottomOf="@+id/textViewDescription"
+                tools:text="1/100" />
+
+            <TextView
+                android:id="@+id/textViewInWar"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
+                android:textSize="32dp"
+                app:layout_constraintEnd_toStartOf="@+id/division_enmedio"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/textViewDescription"
+                tools:text="Si" />
+
+            <TextView
+                android:id="@+id/textView26"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:text="Onlines"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="@+id/division_enmedio"
+                app:layout_constraintTop_toBottomOf="@+id/textViewOnline" />
+
+            <TextView
+                android:id="@+id/textView38"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:text="En guerra"
+                app:layout_constraintEnd_toStartOf="@+id/division_enmedio"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/textViewInWar" />
+
+            <TextView
+                android:id="@+id/textView28"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:text="Nombre"
+                app:layout_constraintEnd_toStartOf="@+id/division_enmedio"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/textView24" />
+
+            <TextView
+                android:id="@+id/textView29"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:text="Mundo"
+                app:layout_constraintEnd_toStartOf="@+id/division_enmedio"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/textView28" />
+
+            <TextView
+                android:id="@+id/textView30"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:text="Pagada hasta"
+                app:layout_constraintEnd_toStartOf="@+id/division_enmedio"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/textView29" />
+
+            <TextView
+                android:id="@+id/textViewNombre"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="@+id/division_enmedio"
+                app:layout_constraintTop_toBottomOf="@+id/textView24"
+                tools:text="Iron Guildhall" />
+
+            <TextView
+                android:id="@+id/textViewMundo"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="@+id/division_enmedio"
+                app:layout_constraintTop_toBottomOf="@+id/textViewNombre"
+                tools:text="Wintera" />
+
+            <TextView
+                android:id="@+id/textViewPiad"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="@+id/division_enmedio"
+                app:layout_constraintTop_toBottomOf="@+id/textViewMundo"
+                tools:text="2022-12-23" />
+
+            <TextView
+                android:id="@+id/textViewActive"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
+                android:textStyle="bold"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="@+id/division_enmedio"
+                app:layout_constraintTop_toBottomOf="@+id/textViewPiad"
+                tools:text="Active: si" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </com.google.android.material.card.MaterialCardView>
+
+
+    <com.google.android.material.divider.MaterialDivider
+        android:id="@+id/separador_header_guild"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="10dp"
+        android:visibility="gone"
+        android:layout_marginEnd="10dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/cardHeader"
+        app:layout_constraintVertical_bias="0.100000024" />
 
     <TextView
-        android:id="@+id/textViewWorld"
-        android:layout_width="266dp"
+        android:id="@+id/miembros"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="5dp"
-        android:text=""
-        android:textSize="15dp"
-        android:textStyle="italic"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="@+id/primera_division"
-        app:layout_constraintTop_toBottomOf="@+id/textViewGuildName" />
-
-    <androidx.constraintlayout.widget.Guideline
-        android:id="@+id/segunda_division"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        app:layout_constraintGuide_percent="0.15"/>
-
-    <androidx.constraintlayout.widget.Guideline
-        android:id="@+id/division_enmedio"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:orientation="vertical"
-        app:layout_constraintGuide_percent="0.50"/>
-
-    <TextView
-        android:id="@+id/textViewDescription"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="28dp"
-        android:padding="10dp"
-        android:textSize="15dp"
-        android:textStyle="italic"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textViewWorld"
-        tools:text="The sky has shifted color tonight, by the blood of our fallen enemies. A dark gathering is held, in an ancient cave far away from mortal eyes. If you look deep inside the eye of the dragon, you will discover a sorrow no words can describe. The world is no longer close to what it used to be, and we strive to protect those left of our kind. But nothing seems to still the constant hunger deep within our souls. Once again we will spread our darkened wings over the lands of Antica." />
-
-    <TextView
-        android:id="@+id/textViewFounded"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="20dp"
-        android:gravity="left"
-        android:padding="3dip"
-        android:textSize="15dp"
-        app:layout_constraintEnd_toStartOf="@+id/division_enmedio"
-        app:layout_constraintHorizontal_bias="0.417"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView30"
-        tools:text="Fundada: 2016-06-02" />
-
-    <TextView
-        android:id="@+id/textView24"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="110dp"
+        android:text="Miembros"
+        android:textAlignment="center"
         android:textSize="17dp"
         android:textStyle="bold"
-        android:text="Guild House"
+        android:visibility="gone"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textViewDescription" />
-
-    <TextView
-        android:id="@+id/textViewOnline"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="20dp"
-        tools:text="1/100"
-        android:textSize="32dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="@+id/division_enmedio"
-        app:layout_constraintTop_toBottomOf="@+id/textViewDescription" />
-
-    <TextView
-        android:id="@+id/textViewInWar"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="20dp"
-        android:textSize="32dp"
-        app:layout_constraintEnd_toStartOf="@+id/division_enmedio"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textViewDescription"
-        tools:text="Si" />
-
-    <TextView
-        android:id="@+id/textView26"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="10dp"
-        android:text="Onlines"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="@+id/division_enmedio"
-        app:layout_constraintTop_toBottomOf="@+id/textViewOnline"
-        />
-
-    <TextView
-        android:id="@+id/textView38"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="10dp"
-        android:text="En guerra"
-        app:layout_constraintEnd_toStartOf="@+id/division_enmedio"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textViewInWar"/>
-
-    <TextView
-        android:id="@+id/textView28"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="10dp"
-        android:text="Nombre"
-        app:layout_constraintEnd_toStartOf="@+id/division_enmedio"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView24" />
-
-    <TextView
-        android:id="@+id/textView29"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="10dp"
-        android:text="Mundo"
-        app:layout_constraintEnd_toStartOf="@+id/division_enmedio"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView28" />
-
-    <TextView
-        android:id="@+id/textView30"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="10dp"
-        android:text="Pagada hasta"
-        app:layout_constraintEnd_toStartOf="@+id/division_enmedio"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView29" />
-
-    <TextView
-        android:id="@+id/textViewNombre"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="10dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="@+id/division_enmedio"
-        app:layout_constraintTop_toBottomOf="@+id/textView24"
-        tools:text="Iron Guildhall" />
-
-    <TextView
-        android:id="@+id/textViewMundo"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="10dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="@+id/division_enmedio"
-        app:layout_constraintTop_toBottomOf="@+id/textViewNombre"
-        tools:text="Wintera" />
-
-    <TextView
-        android:id="@+id/textViewPiad"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="10dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="@+id/division_enmedio"
-        app:layout_constraintTop_toBottomOf="@+id/textViewMundo"
-        tools:text="2022-12-23" />
-
-    <TextView
-        android:id="@+id/textViewActive"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="20dp"
-        android:textStyle="bold"
-        tools:text="Active: si"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="@+id/division_enmedio"
-        app:layout_constraintTop_toBottomOf="@+id/textViewPiad" />
-
+        app:layout_constraintTop_toBottomOf="@+id/separador_header_guild"
+        app:layout_constraintVertical_bias="0.18" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

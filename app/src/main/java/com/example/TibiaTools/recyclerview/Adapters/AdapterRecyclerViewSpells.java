@@ -48,13 +48,12 @@ public class AdapterRecyclerViewSpells extends RecyclerView.Adapter<AdapterRecyc
         holder.lbFormula.setText(itemsRecyclerViewSpells.getFormula());
         holder.lbNivel.setText("Level: "+itemsRecyclerViewSpells.getLevel());
         holder.lbMana.setText("Mana: "+itemsRecyclerViewSpells.getMana());
-        holder.lbPrecio.setText(decimalFormat.format(Integer.parseInt(itemsRecyclerViewSpells.getPrecio())));
+        holder.lbPrecio.setText(decimalFormat.format(Integer.parseInt(itemsRecyclerViewSpells.getPrecio()))+" gold coins");
         holder.lbType.setText(itemsRecyclerViewSpells.getTipo());
         holder.lbGrupo.setText(itemsRecyclerViewSpells.getGrupo());
         holder.lbSpell_Id.setText(itemsRecyclerViewSpells.getSpellId());
         holder.lbSpell_Id.setVisibility(View.INVISIBLE);
         holder.lbPremium.setText(itemsRecyclerViewSpells.getPremium());
-
     }
 
     @Override
