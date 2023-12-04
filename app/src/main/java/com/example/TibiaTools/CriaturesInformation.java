@@ -12,6 +12,7 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.view.MenuItem;
+import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -84,63 +85,69 @@ public class CriaturesInformation extends AppCompatActivity {
                     APICriaturesInformation apiCriaturesInformation = response.body();
                     Creature criature = apiCriaturesInformation.getCreature();
                     creatureName.setText(criature.getName());
+                    creatureName.setVisibility(View.VISIBLE);
                     creatureDescription.setText(criature.getDescription());
                     creatureBehaviour.setText(criature.getBehaviour());
                     creatureHealth.setText("Hit Point: "+criature.getExperience_points());
                     creatureHealth.setTextColor(Color.parseColor("#4CAF50"));
+                    creatureHealth.setVisibility(View.VISIBLE);
                     creatureExp.setTextColor(Color.parseColor("#FFAB00"));
                     creatureExp.setText("Experience Points: "+criature.getHitpoints());
+                    creatureExp.setVisibility(View.VISIBLE);
                     String imageCreature = criature.getImage_url();
                     Picasso.get().load(imageCreature).into(creatureImage);
-                    for (int i = 0; i < criature.getLoot_list().size(); i++) {
-                        TextView textViewLoot = new TextView(CriaturesInformation.this);
-                        textViewLoot.setText("-"+criature.getLoot_list().get(i));
-                        textViewLoot.setTextColor(ContextCompat.getColor(getApplicationContext(),R.color.md_theme_light_primary));
-                        textViewLoot.setTextSize(20);
-                        textViewLoot.setTextColor(Color.parseColor("#CE93D8"));
-                        textViewLoot.setTypeface(null, Typeface.ITALIC);
-                        textViewLoot.setLayoutParams(new LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT));
-                        linearLayout.addView(textViewLoot);
+                    creatureImage.setVisibility(View.VISIBLE);
+                    binding.getRoot().findViewById(R.id.cardDescriptionCreature).setVisibility(View.VISIBLE);
+                    binding.getRoot().findViewById(R.id.cardBehavior).setVisibility(View.VISIBLE);
+                    if (criature.getLoot_list() != null){
+                        for (int i = 0; i < criature.getLoot_list().size(); i++) {
+                            TextView textViewLoot = new TextView(CriaturesInformation.this);
+                            textViewLoot.setText("- "+criature.getLoot_list().get(i));
+                            textViewLoot.setTextColor(ContextCompat.getColor(getApplicationContext(),R.color.md_theme_light_primary));
+                            textViewLoot.setTextColor(Color.parseColor("#CE93D8"));
+                            textViewLoot.setTypeface(null, Typeface.ITALIC);
+                            textViewLoot.setLayoutParams(new LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT));
+                            linearLayout.addView(textViewLoot);
+                            binding.getRoot().findViewById(R.id.CardLootList).setVisibility(View.VISIBLE);
+                        }
                     }
                     if (criature.getImmune()!=null){
                         for(int i = 0; i < criature.getImmune().size(); i++) {
                             TextView textViewImmune = new TextView(CriaturesInformation.this);
-                            textViewImmune.setText("-"+criature.getImmune().get(i));
+                            textViewImmune.setText("- "+criature.getImmune().get(i));
                             textViewImmune.setTextColor(ContextCompat.getColor(getApplicationContext(),R.color.md_theme_light_primary));
-                            textViewImmune.setTextSize(20);
                             textViewImmune.setTextColor(Color.parseColor("#CE93D8"));
                             textViewImmune.setTypeface(null, Typeface.ITALIC);
                             textViewImmune.setLayoutParams(new LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT));
                             linearLayoutInmune.addView(textViewImmune);
+                            binding.getRoot().findViewById(R.id.CardImmune).setVisibility(View.VISIBLE);
                         }
                     }
                     if (criature.getStrong()!=null){
                         for(int i = 0; i < criature.getStrong().size(); i++) {
                             TextView textViewStrong = new TextView(CriaturesInformation.this);
-                            textViewStrong.setText("-"+criature.getStrong().get(i));
+                            textViewStrong.setText("- "+criature.getStrong().get(i));
                             textViewStrong.setTextColor(ContextCompat.getColor(getApplicationContext(),R.color.md_theme_light_primary));
-                            textViewStrong.setTextSize(20);
                             textViewStrong.setTextColor(Color.parseColor("#CE93D8"));
                             textViewStrong.setTypeface(null, Typeface.ITALIC);
                             textViewStrong.setLayoutParams(new LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT));
                             linearLayoutStrong.addView(textViewStrong);
+                            binding.getRoot().findViewById(R.id.CardStrong).setVisibility(View.VISIBLE);
                         }
                     }
                     if (criature.getWeakness()!=null){
                         for(int i = 0; i < criature.getWeakness().size(); i++) {
                             TextView textViewWeakness = new TextView(CriaturesInformation.this);
-                            textViewWeakness.setText("-"+criature.getWeakness().get(i));
+                            textViewWeakness.setText("- "+criature.getWeakness().get(i));
                             textViewWeakness.setTextColor(ContextCompat.getColor(getApplicationContext(),R.color.md_theme_light_primary));
-                            textViewWeakness.setTextSize(20);
                             textViewWeakness.setTextColor(Color.parseColor("#CE93D8"));
                             textViewWeakness.setTypeface(null, Typeface.ITALIC);
                             textViewWeakness.setLayoutParams(new LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT));
                             linearLayoutWeakness.addView(textViewWeakness);
+                            binding.getRoot().findViewById(R.id.CardWeakness).setVisibility(View.VISIBLE);
                         }
                     }
-
-
-
+                    binding.getRoot().findViewById(R.id.carga_creature_information).setVisibility(View.GONE);
                 } else {
                     Toast.makeText(CriaturesInformation.this, "Error", Toast.LENGTH_SHORT).show();
                 }

@@ -5,7 +5,15 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     app:layout_behavior="@string/appbar_scrolling_view_behavior">
-
+    <com.google.android.material.progressindicator.LinearProgressIndicator
+        android:id="@+id/carga_creature_information"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:indeterminate="true"
+        app:indeterminateAnimationType="disjoint"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -25,6 +33,7 @@
                 android:layout_marginTop="20dp"
                 android:text=""
                 android:textSize="30sp"
+                android:visibility="gone"
                 android:textStyle="bold"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
@@ -35,59 +44,102 @@
                 android:layout_width="100dp"
                 android:layout_height="100dp"
                 android:layout_marginTop="15dp"
+                android:visibility="gone"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/id_criature_name"
                 tools:srcCompat="@tools:sample/avatars" />
 
-            <TextView
-                android:id="@+id/textView8"
-                android:layout_width="wrap_content"
+            <com.google.android.material.card.MaterialCardView
+                android:id="@+id/cardDescriptionCreature"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:visibility="gone"
+                android:layout_marginStart="5dp"
+                android:layout_marginEnd="5dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/imageViewCreature">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:id="@+id/textView8"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="10dp"
+                        android:text="Description"
+                        android:textAlignment="center"
+                        android:textSize="30sp"
+                        android:textStyle="bold"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@+id/imageViewCreature" />
+
+                    <TextView
+                        android:id="@+id/descripcion_criature"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="15dp"
+                        android:padding="5dp"
+                        android:text=""
+                        android:textAlignment="center"
+                        android:textStyle="bold"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@+id/textView8" />
+                </LinearLayout>
+            </com.google.android.material.card.MaterialCardView>
+
+            <com.google.android.material.card.MaterialCardView
+                android:id="@+id/cardBehavior"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="5dp"
+                android:visibility="gone"
                 android:layout_marginTop="10dp"
-                android:text="Description"
-                android:textSize="30sp"
-                android:textStyle="bold"
+                android:layout_marginEnd="5dp"
+                android:padding="5dp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/imageViewCreature" />
+                app:layout_constraintTop_toBottomOf="@+id/cardDescriptionCreature">
 
-            <TextView
-                android:id="@+id/descripcion_criature"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="15dp"
-                android:textAlignment="center"
-                android:text=""
-                android:textStyle="bold"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/textView8" />
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:orientation="vertical">
 
-            <TextView
-                android:id="@+id/textView23"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="15dp"
-                android:text="Behavior"
-                android:textSize="30sp"
-                android:textStyle="bold"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.498"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/descripcion_criature" />
+                    <TextView
+                        android:id="@+id/textView23"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="15dp"
+                        android:gravity="center"
+                        android:text="Behavior"
+                        android:textSize="30sp"
+                        android:textStyle="bold"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintHorizontal_bias="0.498"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@+id/cardDescriptionCreature" />
 
-            <TextView
-                android:id="@+id/behavior_criature"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="15dp"
-                android:gravity="center"
-                android:text=""
-                android:textStyle="bold"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/textView23" />
+                    <TextView
+                        android:id="@+id/behavior_criature"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="15dp"
+                        android:gravity="center"
+                        android:text=""
+                        android:textStyle="bold"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@+id/textView23" />
+                </LinearLayout>
+            </com.google.android.material.card.MaterialCardView>
+
 
             <androidx.constraintlayout.widget.Guideline
                 android:id="@+id/primera_division"
@@ -104,7 +156,7 @@
                 android:textStyle="bold"
                 app:layout_constraintEnd_toStartOf="@+id/primera_division"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/behavior_criature" />
+                app:layout_constraintTop_toBottomOf="@+id/cardBehavior" />
 
             <TextView
                 android:id="@+id/id_experience_criature"
@@ -114,101 +166,182 @@
                 android:textStyle="bold"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="@+id/primera_division"
-                app:layout_constraintTop_toBottomOf="@+id/behavior_criature" />
+                app:layout_constraintTop_toBottomOf="@+id/cardBehavior" />
 
-            <TextView
-                android:id="@+id/textView27"
-                android:layout_width="wrap_content"
+            <com.google.android.material.card.MaterialCardView
+                android:id="@+id/CardLootList"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="15dp"
-                android:text="Loot List"
-                android:textSize="30sp"
-                android:textStyle="bold"
+                android:layout_marginStart="5dp"
+                android:visibility="gone"
+                style="@style/Widget.Material3.CardView.Elevated"
+                android:layout_marginTop="10dp"
+                android:layout_marginEnd="5dp"
+                android:padding="5dp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/id_health" />
-
-            <LinearLayout
-                android:id="@+id/linearLayoutLoot"
+                app:layout_constraintTop_toBottomOf="@+id/id_experience_criature">
+            <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_marginTop="15dp"
-                android:orientation="vertical"
-                android:padding="20dp"
-                app:layout_constraintTop_toBottomOf="@+id/textView27">
+                android:layout_height="match_parent">
 
-            </LinearLayout>
+                <TextView
+                    android:id="@+id/textView27"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="15dp"
+                    android:text="Loot List"
+                    android:textSize="20dp"
+                    android:textStyle="bold"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
 
-            <TextView
-                android:id="@+id/textView31"
-                android:layout_width="wrap_content"
+                <LinearLayout
+                    android:id="@+id/linearLayoutLoot"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_marginTop="5dp"
+                    android:orientation="vertical"
+                    android:padding="20dp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/textView27">
+
+                </LinearLayout>
+            </androidx.constraintlayout.widget.ConstraintLayout>
+            </com.google.android.material.card.MaterialCardView>
+
+            <com.google.android.material.card.MaterialCardView
+                android:id="@+id/CardImmune"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="15dp"
-                android:text="Immune"
-                android:textSize="30sp"
-                android:textStyle="bold"
+                android:layout_marginStart="5dp"
+                android:visibility="gone"
+                style="@style/Widget.Material3.CardView.Elevated"
+                android:layout_marginTop="10dp"
+                android:layout_marginEnd="5dp"
+                android:padding="5dp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/linearLayoutLoot" />
+                app:layout_constraintTop_toBottomOf="@+id/CardLootList">
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent">
 
-            <LinearLayout
-                android:id="@+id/linearLayoutInmune"
+                    <TextView
+                        android:id="@+id/textView31"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="15dp"
+                        android:text="Immune"
+                        android:textSize="20dp"
+                        android:textStyle="bold"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
+
+                    <LinearLayout
+                        android:id="@+id/linearLayoutInmune"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_marginTop="5dp"
+                        android:orientation="vertical"
+                        android:padding="20dp"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@+id/textView31">
+
+                    </LinearLayout>
+
+                </androidx.constraintlayout.widget.ConstraintLayout>
+            </com.google.android.material.card.MaterialCardView>
+
+            <com.google.android.material.card.MaterialCardView
+                android:id="@+id/CardStrong"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_marginTop="15dp"
-                android:orientation="vertical"
-                android:padding="20dp"
-                app:layout_constraintTop_toBottomOf="@+id/textView31">
-
-            </LinearLayout>
-
-            <TextView
-                android:id="@+id/textView32"
-                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="15dp"
-                android:text="Strong"
-                android:textSize="30sp"
-                android:textStyle="bold"
+                android:layout_marginStart="5dp"
+                style="@style/Widget.Material3.CardView.Elevated"
+                android:layout_marginTop="10dp"
+                android:visibility="gone"
+                android:layout_marginEnd="5dp"
+                android:padding="5dp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/linearLayoutInmune" />
+                app:layout_constraintTop_toBottomOf="@+id/CardImmune">
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent">
 
-            <LinearLayout
-                android:id="@+id/linearLayoutStrong"
+                    <TextView
+                        android:id="@+id/textView32"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="15dp"
+                        android:text="Strong"
+                        android:textSize="20dp"
+                        android:textStyle="bold"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
+
+                    <LinearLayout
+                        android:id="@+id/linearLayoutStrong"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_marginTop="5dp"
+                        android:orientation="vertical"
+                        android:padding="20dp"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@+id/textView32"></LinearLayout>
+                </androidx.constraintlayout.widget.ConstraintLayout>
+
+            </com.google.android.material.card.MaterialCardView>
+
+
+            <com.google.android.material.card.MaterialCardView
+                android:id="@+id/CardWeakness"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_marginTop="15dp"
-                android:orientation="vertical"
-                android:padding="20dp"
-                app:layout_constraintTop_toBottomOf="@+id/textView32"
-                tools:layout_editor_absoluteX="0dp">
-            </LinearLayout>
-
-            <TextView
-                android:id="@+id/textView33"
-                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="15dp"
-                android:text="Weakness"
-                android:textSize="30sp"
-                android:textStyle="bold"
+                android:layout_marginStart="5dp"
+                style="@style/Widget.Material3.CardView.Elevated"
+                android:layout_marginTop="10dp"
+                android:layout_marginEnd="5dp"
+                android:visibility="gone"
+                android:padding="5dp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/linearLayoutStrong" />
+                app:layout_constraintTop_toBottomOf="@+id/CardStrong">
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent">
 
-            <LinearLayout
-                android:id="@+id/linearLayoutWeakness"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_marginTop="64dp"
-                android:orientation="vertical"
-                android:padding="20dp"
-                app:layout_constraintTop_toBottomOf="@+id/linearLayoutStrong"
-                tools:layout_editor_absoluteX="0dp"></LinearLayout>
+                    <TextView
+                        android:id="@+id/textView33"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="15dp"
+                        android:text="Weakness"
+                        android:textSize="20dp"
+                        android:textStyle="bold"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
 
-
-
+                    <LinearLayout
+                        android:id="@+id/linearLayoutWeakness"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_marginTop="5dp"
+                        android:orientation="vertical"
+                        android:padding="20dp"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@+id/textView33" />
+                </androidx.constraintlayout.widget.ConstraintLayout>
+            </com.google.android.material.card.MaterialCardView>
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 
