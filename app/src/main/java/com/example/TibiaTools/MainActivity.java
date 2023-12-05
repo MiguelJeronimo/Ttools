@@ -20,6 +20,7 @@ import com.example.TibiaTools.recyclerview.ItemsRecyclerViewNews;
 import com.example.TibiaTools.utilidades.RedValidator;
 
 import com.example.ttools.R;
+import com.example.ttools.TibiaMaps;
 import com.google.android.material.card.MaterialCardView;
 import com.google.android.material.navigation.NavigationView;
 import com.google.android.material.progressindicator.LinearProgressIndicator;
@@ -109,6 +110,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         navigationView.getMenu().findItem(R.id.nd_highscores).setOnMenuItemClickListener(this);
         navigationView.getMenu().findItem(R.id.nd_houses).setOnMenuItemClickListener(this);
         navigationView.getMenu().findItem(R.id.id_about).setOnMenuItemClickListener(this);
+        navigationView.getMenu().findItem(R.id.nd_maps).setOnMenuItemClickListener(this);
 
         imgRashid = findViewById(R.id.imageViewRashid);
         lbRashid = findViewById(R.id.textViewRashid);
@@ -461,6 +463,11 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         } else if(menuItem.getItemId() == R.id.id_about){
             Intent about = new Intent(this, About.class);
             startActivity(about);
+            drawerLayout.close();
+        }
+        else if(menuItem.getItemId() == R.id.nd_maps){
+            Intent tibiamaps = new Intent(this, TibiaMaps.class);
+            startActivity(tibiamaps);
             drawerLayout.close();
         }
         return false;

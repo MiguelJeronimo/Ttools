@@ -51,6 +51,10 @@
             android:id="@+id/nd_spells"
             android:icon="@drawable/icon_spells"
             android:title="@string/nd_spells" />
+        <item
+            android:id="@+id/nd_maps"
+            android:icon="@drawable/icon_map"
+            android:title="@string/nd_maps" />
     </group>
     <group>
         <item
