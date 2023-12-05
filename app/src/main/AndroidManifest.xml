@@ -15,12 +15,14 @@
         <activity
             android:name=".TibiaMaps"
             android:exported="false"
+            android:screenOrientation="portrait"
             android:label="@string/title_activity_tibia_maps"
             android:theme="@style/AppTheme" />
         <activity
             android:name="com.example.TibiaTools.About"
             android:exported="false"
             android:label="@string/title_activity_about"
+            android:screenOrientation="portrait"
             android:theme="@style/AppTheme">
             <meta-data
                 android:name="android.app.lib_name"
@@ -29,6 +31,7 @@
         <activity
             android:name="com.example.TibiaTools.HousesInformation"
             android:exported="false"
+            android:screenOrientation="portrait"
             android:label="@string/title_activity_houses_information"
             android:theme="@style/AppTheme">
             <meta-data

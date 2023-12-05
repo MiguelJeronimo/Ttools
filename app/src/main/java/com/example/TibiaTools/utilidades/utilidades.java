@@ -54,4 +54,20 @@ public class utilidades {
 
         return false;
     }
+    public String TibiaMapps(InputStream documento){
+        String arrayVocations = "";
+        BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(documento));
+        String data = null;
+        try {
+            data = bufferedReader.readLine();
+
+            while ((data = bufferedReader.readLine()) != null){
+                arrayVocations += data;
+            }
+            documento.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return arrayVocations;
+    }
 }
