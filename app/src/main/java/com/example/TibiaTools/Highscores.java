@@ -106,7 +106,7 @@ public class Highscores extends AppCompatActivity implements AdapterView.OnItemC
                     for (RegularWorlds mundos: worlds.getRegular_worlds()) {
                         arrayWorlds.add(mundos.getName());
                     }
-                    adapterWorlds = new ArrayAdapter<String>(getApplicationContext(), R.layout.spinner_text_style,arrayWorlds);
+                    adapterWorlds = new ArrayAdapter<String>(getApplicationContext(), R.layout.auto_complete,arrayWorlds);
                     spinnerWorlds.setAdapter(adapterWorlds);
                     binding.getRoot().findViewById(R.id.carga_highscores).setVisibility(View.GONE);
                 }else{
@@ -216,8 +216,8 @@ public class Highscores extends AppCompatActivity implements AdapterView.OnItemC
         ArrayAdapter<String> adapterVocations, adapterCategorys;
         ArrayList<String> dataVocation = spinners.spinnerVocations(getResources().openRawResource(R.raw.vocations));
         ArrayList<String> dataCategorys= spinners.spinnerCategory(getResources().openRawResource(R.raw.categorias));
-        adapterVocations = new ArrayAdapter<>(getApplicationContext(), R.layout.spinner_text_style, dataVocation);
-        adapterCategorys = new ArrayAdapter<>(getApplicationContext(), R.layout.spinner_text_style, dataCategorys);
+        adapterVocations = new ArrayAdapter<>(getApplicationContext(), R.layout.auto_complete, dataVocation);
+        adapterCategorys = new ArrayAdapter<>(getApplicationContext(), R.layout.auto_complete, dataCategorys);
         // Crea un nuevo Handler para enviar la actualización de la UI al hilo principal
         new Handler(Looper.getMainLooper()).post(() -> {
             spinnerVocations.setAdapter(adapterVocations);
