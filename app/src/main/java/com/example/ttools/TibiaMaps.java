@@ -2,10 +2,8 @@ package com.example.ttools;
 
 import android.os.Bundle;
 
-import com.bumptech.glide.Glide;
 import com.example.TibiaTools.utilidades.RedValidator;
 import com.example.TibiaTools.utilidades.utilidades;
-import com.google.android.material.snackbar.Snackbar;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -14,16 +12,9 @@ import android.view.MenuItem;
 import android.view.View;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
-import android.webkit.WebViewClient;
-import android.widget.ImageView;
 import android.widget.Toast;
 
-import androidx.core.view.WindowCompat;
-import androidx.navigation.NavController;
-import androidx.navigation.Navigation;
 import androidx.navigation.ui.AppBarConfiguration;
-import androidx.navigation.ui.NavigationUI;
-
 import com.example.ttools.databinding.ActivityTibiaMapsBinding;
 
 public class TibiaMaps extends AppCompatActivity {
@@ -39,23 +30,15 @@ public class TibiaMaps extends AppCompatActivity {
         setSupportActionBar(binding.toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true); //Aparicion del boton regresar en el action bar
         WebView maps = binding.getRoot().findViewById(R.id.mapsImage);
-       if (RedValidator.ValidarInternet(getApplication())){
+       if (redValidator.ValidarInternet(getApplication())){
            String mapa = utilidades.TibiaMapps(getResources().openRawResource(R.raw.tibiamaps));
            maps.loadDataWithBaseURL("https://tibiamaps.io/map#32381,32213,7:0", mapa, "text/html", "UTF-8", null);
            WebSettings webSettings = maps.getSettings();
            webSettings.setJavaScriptEnabled(true);
        }else{
-           Toast.makeText(getApplicationContext(), "No tienes conexión a internet", Toast.LENGTH_SHORT).show();
+           Toast.makeText(getApplicationContext(), "No estas conectado a internet...", Toast.LENGTH_SHORT).show();
            maps.setVisibility(View.GONE);
        }
-        binding.fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                        .setAnchorView(R.id.fab)
-                        .setAction("Action", null).show();
-            }
-        });
     }
 
     @Override

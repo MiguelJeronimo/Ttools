@@ -3,8 +3,10 @@ package com.example.TibiaTools;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -14,6 +16,7 @@ import com.example.TibiaTools.APISERVER.TibiaAPIServer;
 import com.example.TibiaTools.APISERVER.models.ApiHousesInformation;
 import com.example.TibiaTools.APISERVER.models.Houses.House;
 import com.example.TibiaTools.Operaciones.InstanciaRetrofit;
+import com.example.TibiaTools.utilidades.RedValidator;
 import com.example.ttools.R;
 import com.example.ttools.databinding.ActivityHousesInformationBinding;
 
@@ -53,7 +56,17 @@ public class HousesInformation extends AppCompatActivity {
         txtSize = findViewById(R.id.txtSize);
         txtPrice = findViewById(R.id.txtPrice);
         txtOwner = findViewById(R.id.txtOwner);
-        Hilos();
+        RedValidator redValidator = new RedValidator();
+        if (redValidator.ValidarInternet(getApplication())){
+            Hilos();
+        } else {
+            binding.getRoot().findViewById(R.id.cardHouseGeneral).setVisibility(View.GONE);
+            binding.getRoot().findViewById(R.id.textView19).setVisibility(View.GONE);
+            txtOwner.setVisibility(View.GONE);
+            binding.getRoot().findViewById(R.id.carga_house_information).setVisibility(View.GONE);
+            Toast.makeText(getApplicationContext(), "No estas conectado a internet...", Toast.LENGTH_SHORT).show();
+        }
+
     }
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
@@ -88,12 +101,27 @@ public class HousesInformation extends AppCompatActivity {
                     txtSize.setText(String.valueOf(house.getSize()));
                     txtPrice.setText(decimalFormat.format(house.getRent()));
                     txtOwner.setText(house.getStatus().getOriginal());
+                    binding.getRoot().findViewById(R.id.cardHouseGeneral).setVisibility(View.VISIBLE);
+                    binding.getRoot().findViewById(R.id.textView19).setVisibility(View.VISIBLE);
+                    txtOwner.setVisibility(View.VISIBLE);
+                    binding.getRoot().findViewById(R.id.carga_house_information).setVisibility(View.GONE);
+                }else{
+                    binding.getRoot().findViewById(R.id.cardHouseGeneral).setVisibility(View.GONE);
+                    binding.getRoot().findViewById(R.id.textView19).setVisibility(View.GONE);
+                    txtOwner.setVisibility(View.GONE);
+                    binding.getRoot().findViewById(R.id.carga_house_information).setVisibility(View.GONE);
+                    Toast.makeText(getApplicationContext(), "Error de conexión, intente mas tarde...", Toast.LENGTH_SHORT).show();
                 }
             }
 
             @Override
             public void onFailure(Call<ApiHousesInformation> call, Throwable t) {
                 System.out.println(t.getMessage());
+                binding.getRoot().findViewById(R.id.cardHouseGeneral).setVisibility(View.GONE);
+                binding.getRoot().findViewById(R.id.textView19).setVisibility(View.GONE);
+                txtOwner.setVisibility(View.GONE);
+                binding.getRoot().findViewById(R.id.carga_house_information).setVisibility(View.GONE);
+                Toast.makeText(getApplicationContext(), "Error de conexión, intente mas tarde...", Toast.LENGTH_SHORT).show();
             }
         });
     }
