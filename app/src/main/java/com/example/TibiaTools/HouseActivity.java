@@ -94,7 +94,7 @@ public class HouseActivity extends AppCompatActivity implements AdapterView.OnIt
 
     public void spinnersCity(){
         Spinners spinners = new Spinners();
-        adapterCitys = new ArrayAdapter<>(getApplicationContext(), R.layout.spinner_text_style, spinners.LeerDataCitys(getResources().openRawResource(R.raw.data)));
+        adapterCitys = new ArrayAdapter<>(getApplicationContext(), R.layout.auto_complete, spinners.LeerDataCitys(getResources().openRawResource(R.raw.data)));
         new Handler(Looper.getMainLooper()).post(()->{
             spinnerCitys.setAdapter(adapterCitys);
         });
@@ -114,7 +114,7 @@ public class HouseActivity extends AppCompatActivity implements AdapterView.OnIt
                     for (RegularWorlds mundos: worlds.getRegular_worlds()) {
                         arrayWorlds.add(mundos.getName());
                     }
-                    adapterWorlds = new ArrayAdapter<String>(getApplicationContext(), R.layout.spinner_text_style,arrayWorlds);
+                    adapterWorlds = new ArrayAdapter<String>(getApplicationContext(), R.layout.auto_complete,arrayWorlds);
                     spinnerWorlds.setAdapter(adapterWorlds);
                     binding.getRoot().findViewById(R.id.carga_houses).setVisibility(View.GONE);
                 }else{

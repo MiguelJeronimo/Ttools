@@ -101,7 +101,7 @@ public class GuildInformation extends AppCompatActivity {
                     for (RegularWorlds mundos: worlds.getRegular_worlds()) {
                         arrayWorlds.add(mundos.getName());
                     }
-                    adapter = new ArrayAdapter<>(getApplicationContext(), R.layout.spinner_text_style, arrayWorlds);
+                    adapter = new ArrayAdapter<>(getApplicationContext(), R.layout.auto_complete, arrayWorlds);
                     spinner.setAdapter(adapter);
                     linearProgressIndicator.setVisibility(View.GONE);
                 }
