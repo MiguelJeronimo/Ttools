@@ -99,8 +99,7 @@ public class SpellInformationActivity extends AppCompatActivity {
             public void onResponse(Call<ApiSpellsInformation> call, Response<ApiSpellsInformation> response) {
                 if (response.isSuccessful()){
                     ApiSpellsInformation information = response.body();
-                    Spells spells = information.getSpells();
-                    Spell spell = spells.getSpell();
+                    Spell spell = information.getSpells();
                     Glide.with(getApplicationContext()).load(spell.getImage_url()).into(imgLogo);
                     textViewSpellName.setText(spell.getName());
                     textViewDescription.setText(spell.getDescription());
