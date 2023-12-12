@@ -86,15 +86,18 @@ public class Criaturas extends AppCompatActivity {
                 APICriatures apiCriatures = response.body();
                 Criatures criatures = apiCriatures.getCreatures();
                 itemsRecyclerViewCriatures = new ArrayList<>();
-                itemsRecyclerViewCriatures.add(new ItemsRecyclerViewCriatures(
-                        "Today's Boss: "+criatures.getBoosted().getName(),
-                        criatures.getBoosted().getRace(),
-                        criatures.getBoosted().getImage_url()));
-                for (int i = 0; i < criatures.getCriatures_list().size(); i++) {
-                    itemsRecyclerViewCriatures.add(
-                            new ItemsRecyclerViewCriatures(criatures.getCriatures_list().get(i).getName(),
-                            criatures.getCriatures_list().get(i).getRace(),
-                            criatures.getCriatures_list().get(i).getImage_url()));
+                if (criatures.getCriatures_list() != null){
+                    itemsRecyclerViewCriatures.add(new ItemsRecyclerViewCriatures(
+                            "Today's Boss: "+criatures.getBoosted().getName(),
+                            criatures.getBoosted().getRace(),
+                            criatures.getBoosted().getImage_url()));
+
+                    for (int i = 0; i < criatures.getCriatures_list().size(); i++) {
+                        itemsRecyclerViewCriatures.add(
+                                new ItemsRecyclerViewCriatures(criatures.getCriatures_list().get(i).getName(),
+                                        criatures.getCriatures_list().get(i).getRace(),
+                                        criatures.getCriatures_list().get(i).getImage_url()));
+                    }
                 }
                 recyclerView.setLayoutManager(layoutManager);
                 myAdapter = new adapterRecyclerViewCriatures(itemsRecyclerViewCriatures);

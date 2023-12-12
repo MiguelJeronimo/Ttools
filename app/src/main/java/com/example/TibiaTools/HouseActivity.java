@@ -49,7 +49,7 @@ import retrofit2.Response;
 public class HouseActivity extends AppCompatActivity implements AdapterView.OnItemClickListener {
 
     private ActivityHouseBinding binding;
-    String url = "https://api.tibiadata.com/v3/";
+    String url = "https://api.tibiadata.com/v4/";
     String mundo;
     DataHighScores dataHighScores = new DataHighScores();
     AutoCompleteTextView spinnerWorlds, spinnerCitys;

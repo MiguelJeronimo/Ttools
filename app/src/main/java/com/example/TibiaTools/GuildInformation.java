@@ -46,7 +46,7 @@ public class GuildInformation extends AppCompatActivity {
     RecyclerView recyclerView;
     AdapterRecyclerViewGuildsList adaptador;
     List<ItemsRecyclerViewGuilds> itemsRecyclerViewGuilds;
-    String url = "https://api.tibiadata.com/v3/";
+    String url = "https://api.tibiadata.com/v4/";
     InstanciaRetrofit servicio = new InstanciaRetrofit();
     LinearProgressIndicator linearProgressIndicator;
 
@@ -119,7 +119,7 @@ public class GuildInformation extends AppCompatActivity {
         if (!world.equals("Seleccione")){
             recyclerView = (RecyclerView) findViewById(R.id.recyclerGuilds);
             LinearLayoutManager layoutManager = new LinearLayoutManager(this);
-            String url_world = "https://api.tibiadata.com/v3/guilds/";
+            String url_world = "https://api.tibiadata.com/v4/guilds/";
             InstanciaRetrofit retrofit = new InstanciaRetrofit();
             TibiaAPIServer tibiaAPIServer = retrofit.getRetrofit(url_world).create(TibiaAPIServer.class);
             Call<ApiGuilds> call = tibiaAPIServer.getGuildsInformation(world);
@@ -185,20 +185,4 @@ public class GuildInformation extends AppCompatActivity {
         });
         hilo.start();
     }
-
-//eventos del spinner
-    /*@Override
-    public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
-        System.out.println("option: "+adapterView.getItemAtPosition(i).toString());
-        if (adapterView.isSelected() !=)
-        /*if (adapterView.getItemAtPosition(i).toString() != "Seleccione un mundo"){
-            System.out.println(adapterView.getItemAtPosition(i).toString());
-           //llenarRecyclerView(adapterView.getItemAtPosition(i).toString());
-        }
-    }*/
-
-   /* @Override
-    public void onNothingSelected(AdapterView<?> adapterView) {
-        adapterView.getItemAtPosition(1);
-    }*/
 }

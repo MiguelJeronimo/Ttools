@@ -44,7 +44,7 @@ public class SpellInformationActivity extends AppCompatActivity {
     TextView textViewSpellName,textViewSpellFormula,textViewDescription,textViewGrupo,textViewTipo,textViewDamageType,
             textViewCooldown,textViewSoulPoint,textViewAmount,textViewMana,textViewNivel,textViewPrice,textViewStatus,
             textViewCooldownGroup;
-    String url="https://api.tibiadata.com/v3/spell/";
+    String url="https://api.tibiadata.com/v4/spell/";
     InstanciaRetrofit services = new InstanciaRetrofit();
     @Override
     protected void onCreate(Bundle savedInstanceState) {

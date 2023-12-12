@@ -220,22 +220,27 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 if (response.isSuccessful()){
                    ApiNews apiNews = response.body();
                    assert apiNews != null;
-                   int sizeNews = apiNews.getNews().size();
-                   int rangeNews = Math.min(sizeNews, 2);
-                   if (sizeNews >0){
-                       for (int i = 0; i < rangeNews; i++) {
-                           textViewFecha.setText(apiNews.getNews().get(i).getDate());
-                           textViewCategoria.setText(apiNews.getNews().get(i).getCategory());
-                           textViewNoticia.setText(apiNews.getNews().get(i).getNews());
-                           textViewTipo.setText(apiNews.getNews().get(i).getType());
-                           //Segundo Card
-                           textViewDate.setText(apiNews.getNews().get(i+1).getDate());
-                           textViewCategory.setText(apiNews.getNews().get(i+1).getCategory());
-                           textViewNew.setText(apiNews.getNews().get(i+1).getNews());
-                           textViewtype.setText(apiNews.getNews().get(i+1).getType());
-                           cardNews.setVisibility(View.VISIBLE);
-                           cardNews2.setVisibility(View.VISIBLE);
+                   if (apiNews.getNews() != null){
+                       int sizeNews = apiNews.getNews().size();
+                       int rangeNews = Math.min(sizeNews, 2);
+                       if (sizeNews >0){
+                           for (int i = 0; i < rangeNews; i++) {
+                               textViewFecha.setText(apiNews.getNews().get(i).getDate());
+                               textViewCategoria.setText(apiNews.getNews().get(i).getCategory());
+                               textViewNoticia.setText(apiNews.getNews().get(i).getNews());
+                               textViewTipo.setText(apiNews.getNews().get(i).getType());
+                               //Segundo Card
+                               textViewDate.setText(apiNews.getNews().get(i+1).getDate());
+                               textViewCategory.setText(apiNews.getNews().get(i+1).getCategory());
+                               textViewNew.setText(apiNews.getNews().get(i+1).getNews());
+                               textViewtype.setText(apiNews.getNews().get(i+1).getType());
+                               cardNews.setVisibility(View.VISIBLE);
+                               cardNews2.setVisibility(View.VISIBLE);
+                           }
                        }
+                   }else{
+                       cardNews.setVisibility(View.GONE);
+                       cardNews2.setVisibility(View.GONE);
                    }
                 } else {
                     linearProgressIndicator.setVisibility(View.GONE);
@@ -276,7 +281,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                             ));
                         }
                     } else{
-                        Toast.makeText(getApplicationContext(), "NO ESTA ENTRANDO A LA VALIDACION"+apiNewsTicker.getNews(), Toast.LENGTH_SHORT).show();
+                        Toast.makeText(getApplicationContext(), "No hay noticias para mostrar", Toast.LENGTH_SHORT).show();
                     }
                     }
                     recyclerViewNoticas.setLayoutManager(layoutManager);
@@ -327,11 +332,11 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     }
     public void Hilos(){
         String url = "https://api.tibialabs.com/v2/";
-        String url_creature_boss = "https://api.tibiadata.com/v3/";
+        String url_creature_boss = "https://api.tibiadata.com/v4/";
         //creatureBoss(url_creature_boss);
-        String url_boosted_boss = "https://api.tibiadata.com/v3/";
-        String url_new = "https://api.tibiadata.com/v3/";
-        String url_onlines = "https://api.tibiadata.com/v3/";
+        String url_boosted_boss = "https://api.tibiadata.com/v4/";
+        String url_new = "https://api.tibiadata.com/v4/";
+        String url_onlines = "https://api.tibiadata.com/v4/";
         //crear el pool de hilos
         Executor executor = Executors.newFixedThreadPool(5);
         // Submit tasks to the thread pool

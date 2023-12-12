@@ -47,7 +47,7 @@ public class GuildInformationName extends AppCompatActivity {
     ImageView imageViewGuildLogo;
     TextView textViewGuildName,textViewDescription,textViewInWar,textViewOnline,
              textViewNombre,textViewMundo,textViewPiad,textViewFounded,textViewActive;
-    String url = "https://api.tibiadata.com/v3/guild/";
+    String url = "https://api.tibiadata.com/v4/guild/";
     RecyclerView recyclerView;
     AdapterRecyclerViewGuildName adapter;
     List<itemsRecyclerViewGuildsName> itemsRecyclerViewGuildsNames;

@@ -30,7 +30,7 @@ public class HousesInformation extends AppCompatActivity {
     Intent intent;
     String id_house, mundo;
     TextView txtName,txtWorld,txtCity,txtType,txtBeds,txtSize,txtPrice,txtOwner;
-    String url = "https://api.tibiadata.com/v3/";
+    String url = "https://api.tibiadata.com/v4/";
     ImageView imgCasa;
     private ActivityHousesInformationBinding binding;
     InstanciaRetrofit services = new InstanciaRetrofit();
