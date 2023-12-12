@@ -23,10 +23,8 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
-import android.widget.Spinner;
 import android.widget.Toast;
 
 
@@ -131,15 +129,16 @@ public class GuildInformation extends AppCompatActivity {
                         ApiGuilds apiGuilds = response.body();
                         assert apiGuilds != null;
                         Guilds guilds = apiGuilds.getGuilds();
-                        System.out.println(guilds.getActive().size());
-                        itemsRecyclerViewGuilds = new ArrayList<>();
-                        for (Active active: guilds.getActive()) {
-                            //System.out.println("Name: "+active.getName()+": "+active.getLogo_url());
-                            itemsRecyclerViewGuilds.add(
-                                    new ItemsRecyclerViewGuilds(
-                                            active.getName(),
-                                            active.getLogo_url(),
-                                            active.getDescription()));
+                        if (guilds.getActive() != null){
+                            guilds.getActive().size();
+                            itemsRecyclerViewGuilds = new ArrayList<>();
+                            for (Active active: guilds.getActive()) {
+                                itemsRecyclerViewGuilds.add(
+                                        new ItemsRecyclerViewGuilds(
+                                                active.getName(),
+                                                active.getLogo_url(),
+                                                active.getDescription()));
+                            }
                         }
                         layoutManager.setOrientation(LinearLayoutManager.VERTICAL);
                         recyclerView.setLayoutManager(layoutManager);

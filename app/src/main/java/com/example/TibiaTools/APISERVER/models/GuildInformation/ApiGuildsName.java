@@ -2,12 +2,12 @@ package com.example.TibiaTools.APISERVER.models.GuildInformation;
 
 import androidx.annotation.Keep;
 
-import com.example.TibiaTools.APISERVER.models.GuildInformation.GuildName.Guildss;
+import com.example.TibiaTools.APISERVER.models.GuildInformation.GuildName.Guild;
 @Keep
 public class ApiGuildsName {
-    Guildss guilds;
+    Guild guild;
 
-    public Guildss getGuilds() {
-        return guilds;
+    public Guild getGuilds() {
+        return guild;
     }
 }

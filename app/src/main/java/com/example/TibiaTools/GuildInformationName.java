@@ -8,7 +8,7 @@ import com.bumptech.glide.Glide;
 import com.example.TibiaTools.APISERVER.TibiaAPIServer;
 import com.example.TibiaTools.APISERVER.models.GuildInformation.ApiGuildsName;
 import com.example.TibiaTools.APISERVER.models.GuildInformation.GuildName.GuildName;
-import com.example.TibiaTools.APISERVER.models.GuildInformation.GuildName.Guildss;
+import com.example.TibiaTools.APISERVER.models.GuildInformation.GuildName.Guild;
 import com.example.TibiaTools.APISERVER.models.GuildInformation.GuildName.members.MembersGuild;
 import com.example.TibiaTools.Operaciones.InstanciaRetrofit;
 import com.example.TibiaTools.recyclerview.Adapters.AdapterRecyclerViewGuildName;
@@ -88,7 +88,7 @@ public class GuildInformationName extends AppCompatActivity {
 
 
     public void Informacion(String url, String guildName){
-        recyclerView = (RecyclerView) findViewById(R.id.recyclerViewGuildName);
+        recyclerView = findViewById(R.id.recyclerViewGuildName);
         LinearLayoutManager layoutManager = new LinearLayoutManager(this);
         TibiaAPIServer tibiaAPIServer = services.getRetrofit(url).create(TibiaAPIServer.class);
         Call<ApiGuildsName> call = tibiaAPIServer.getGuildsInformationName(guildName);
@@ -102,34 +102,33 @@ public class GuildInformationName extends AppCompatActivity {
                     return;
                 }
                 ApiGuildsName apiGuildsName = response.body();
-                Guildss guildss = apiGuildsName.getGuilds();
-                GuildName data = guildss.getGuild();
-                Glide.with(getApplicationContext()).load(data.getLogo_url()).into(imageViewGuildLogo);
-                textViewGuildName.setText(data.getName());
-                textViewDescription.setText(data.getDescription());
-                if (data.getIn_war()){
+                Guild guild = apiGuildsName.getGuilds();
+                Glide.with(getApplicationContext()).load(guild.getLogo_url()).into(imageViewGuildLogo);
+                textViewGuildName.setText(guild.getName());
+                textViewDescription.setText(guild.getDescription());
+                if (guild.getIn_war()){
                     textViewInWar.setText("Si");
                 } else{
                     textViewInWar.setText("No");
                 }
-                textViewOnline.setText(data.getPlayers_online()+"/"+data.getMembers_total());
-                if (data.getGuildhalls() != null){
-                    String name = data.getGuildhalls().get(0).getName();
-                    String Mundo = data.getGuildhalls().get(0).getWorld();
-                    String Paid = data.getGuildhalls().get(0).getPaid_until();
+                textViewOnline.setText(guild.getPlayers_online()+"/"+guild.getMembers_total());
+                if (guild.getGuildhalls() != null){
+                    String name = guild.getGuildhalls().get(0).getName();
+                    String Mundo = guild.getGuildhalls().get(0).getWorld();
+                    String Paid = guild.getGuildhalls().get(0).getPaid_until();
                     textViewNombre.setText(name);
                     textViewMundo.setText(Mundo);
                     textViewPiad.setText(Paid);
                 }
-                textViewFounded.setText("Fundada: "+data.getFounded());
-                if (data.getActive()){
+                textViewFounded.setText("Fundada: "+guild.getFounded());
+                if (guild.getActive()){
                     textViewActive.setText("Active: Si");
                 } else {
                     textViewActive.setText("Active: No");
                 }
-                if (data.getMembers() != null){
+                if (guild.getMembers() != null){
                     itemsRecyclerViewGuildsNames = new ArrayList<>();
-                    for (MembersGuild membersGuild:data.getMembers()) {
+                    for (MembersGuild membersGuild:guild.getMembers()) {
                         itemsRecyclerViewGuildsNames.add(
                                 new itemsRecyclerViewGuildsName(
                                         membersGuild.getName(),
