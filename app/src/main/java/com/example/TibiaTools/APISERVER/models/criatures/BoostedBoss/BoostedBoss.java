@@ -5,9 +5,8 @@ import androidx.annotation.Keep;
 import com.example.TibiaTools.APISERVER.models.criatures.Boosted;
 
 @Keep
-public class BoostedBoss extends Boosted {
+public class BoostedBoss  {
 
-    public BoostedBoss(String name, String image_url) {
-        super(name, image_url);
-    }
+
+
 }

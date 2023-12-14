@@ -28,3 +28,18 @@
     -keepattributes Signature
     # Retain declared checked exceptions for use by a Proxy instance.
     -keepattributes Exceptions
+    -keepattributes *Annotation*
+    -dontwarn retrofit2.**
+    -keep class retrofit2.** { *; }
+#    -keep class com.google.gson.** { *; }
+#    -keep class sun.misc.Unsafe { *; }
+#    -keep class com.google.gson.stream.** { *; }
+### clases de RxJava para retrofit
+#-keep class io.reactivex.** { *; }
+#-keep class io.reactivex.schedulers.** { *; }
+#-keep class io.reactivex.android.** { *; }
+#-keep class io.reactivex.observers.** { *; }
+#-keep class io.reactivex.disposables.** { *; }
+#-keep class io.reactivex.functions.** { *; }
+#-keep class io.reactivex.internal.** { *; }
+#-keep class io.reactivex.plugins.** { *; }

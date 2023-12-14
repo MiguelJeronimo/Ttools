@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.os.Bundle;
 
 import com.bumptech.glide.Glide;
+import com.example.TibiaTools.APISERVER.models.APIBoostableBosses;
 import com.example.TibiaTools.APISERVER.models.ApiNews;
 import com.example.TibiaTools.APISERVER.TibiaAPIServer;
 import com.example.TibiaTools.APISERVER.models.APICriatures;
@@ -11,6 +12,7 @@ import com.example.TibiaTools.APISERVER.models.ApiNewsTicker;
 import com.example.TibiaTools.APISERVER.models.Worlds.DataWords;
 import com.example.TibiaTools.APISERVER.models.Worlds.Worlds;
 import com.example.TibiaTools.APISERVER.models.criatures.BoostableBosses;
+import com.example.TibiaTools.APISERVER.models.criatures.Boosted;
 import com.example.TibiaTools.APISERVER.models.criatures.Criatures;
 import com.example.TibiaTools.Operaciones.InstanciaRetrofit;
 import com.example.TibiaTools.recyclerview.Adapters.AdapterRecyclerViewNews;
@@ -42,6 +44,7 @@ import android.widget.TextView;
 import android.widget.ThemedSpinnerAdapter;
 import android.widget.Toast;
 
+import java.sql.SQLOutput;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Timer;
@@ -57,6 +60,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     /**
      * Navigation Drawer
      * */
+    String url_onlines = "https://api.tibiadata.com/";
     DrawerLayout drawerLayout;
     ActionBarDrawerToggle actionBarDrawerToggle;
     NavigationView navigationView;
@@ -84,6 +88,13 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         setContentView(R.layout.activity_main);
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+        Timer timer = new Timer();
+        timer.scheduleAtFixedRate(new TimerTask() {
+            @Override
+            public void run() {
+                runOnUiThread(() -> PlayersOnline(url_onlines));
+            }
+        }, 0, 3000);
         //Cards
         cardCreatureBooss = findViewById(R.id.cardView3);
         cardBoostedBoos = findViewById(R.id.cardView2);
@@ -139,12 +150,13 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     }
 
-    public void llenarRashid(String url){
-        TibiaAPIServer tibiaAPIServer = servicio.getRetrofit(url).create(TibiaAPIServer.class);
+    public void llenarRashid(){
+        TibiaAPIServer tibiaAPIServer = servicio.getRetrofit("").create(TibiaAPIServer.class);
         Call<String> call = tibiaAPIServer.getRashidLocalitation();
         call.enqueue(new Callback<String>() {
             @Override
             public void onResponse(@NonNull Call<String> call, @NonNull Response<String> response) {
+                System.out.println("RASHID: "+response);
                 if (response.isSuccessful()){
                     lbRashid.setText(response.body());
                     Glide.with(getApplicationContext()).load(url_rashid_image).into(imgRashid);
@@ -162,16 +174,19 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     public void creatureBoss(String url_creature_boss){
         TibiaAPIServer tibiaAPIServer =  servicio.getRetrofit(url_creature_boss).create(TibiaAPIServer.class);
-        Call<APICriatures> call = tibiaAPIServer.getCreatures();
+        Call<APICriatures> call = tibiaAPIServer.getCreature();
         call.enqueue(new Callback<APICriatures>() {
             @Override
             public void onResponse(@NonNull Call<APICriatures> call, @NonNull Response<APICriatures> response) {
                 if (response.isSuccessful() && response.body() != null) {
                     APICriatures apiCriatures = response.body();
                     Criatures criatures = apiCriatures.getCreatures();
-                    Glide.with(getApplicationContext()).load(criatures.getBoosted().getImage_url()).into(imgBossCreature);
-                    textBossCreature.setText(criatures.getBoosted().getName());
-                    cardCreatureBooss.setVisibility(View.VISIBLE);
+                    if (criatures != null){
+                        Boosted boosted = criatures.getBoosted();
+                        Glide.with(getApplicationContext()).load(criatures.getBoosted().getImage_url()).into(imgBossCreature);
+                        textBossCreature.setText(criatures.getBoosted().getName());
+                        cardCreatureBooss.setVisibility(View.VISIBLE);
+                    }
                 } else{
                     linearProgressIndicator.setVisibility(View.GONE);
                     Toast.makeText(getApplicationContext(),String.valueOf(response.code()),Toast.LENGTH_LONG).show();
@@ -186,34 +201,39 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             }
         });
     }
+
     public void bostedBoss(String url_boosted_boss){
         TibiaAPIServer apiServer = servicio.getRetrofit(url_boosted_boss).create(TibiaAPIServer.class);
-        Call<APICriatures> call = apiServer.getBooted();
-        call.enqueue(new Callback<APICriatures>() {
+        Call<APIBoostableBosses> call = apiServer.getBoostableBosses();
+        call.enqueue(new Callback<APIBoostableBosses>() {
             @Override
-            public void onResponse(@NonNull Call<APICriatures> call, @NonNull Response<APICriatures> response) {
+            public void onResponse(@NonNull Call<APIBoostableBosses> call, @NonNull Response<APIBoostableBosses> response) {
                 if (response.isSuccessful()){
-                    APICriatures apiCriatures = response.body();
+                    APIBoostableBosses apiCriatures = response.body();
+                    System.out.println("RESPONSE: "+String.valueOf(response.raw()));
                     assert apiCriatures != null;
                     BoostableBosses boostableBosses = apiCriatures.getBoostable_bosses();
-                    Glide.with(getApplicationContext()).load(boostableBosses.getBoosted().getImage_url()).into(imgBossBosstable);
-                    lbBossBosstable.setText(boostableBosses.getBoosted().getName());
-                    cardBoostedBoos.setVisibility(View.VISIBLE);
+                    if (boostableBosses != null){
+                        Boosted boosted = boostableBosses.getBoosted();
+                        Glide.with(getApplicationContext()).load(boostableBosses.getBoosted().getImage_url()).into(imgBossBosstable);
+                        lbBossBosstable.setText(boostableBosses.getBoosted().getName());
+                        cardBoostedBoos.setVisibility(View.VISIBLE);
+                    }
                 }else{
                     linearProgressIndicator.setVisibility(View.GONE);
+
                 }
             }
-
             @Override
-            public void onFailure(@NonNull Call<APICriatures> call, @NonNull Throwable t) {
+            public void onFailure(Call<APIBoostableBosses> call, Throwable t) {
                 System.out.println(t.getMessage());
             }
         });
     }
-
     public void Noticas(String url_new){
         TibiaAPIServer tibiaAPIServer = servicio.getRetrofit(url_new).create(TibiaAPIServer.class);
         Call<ApiNews> call = tibiaAPIServer.getNewsLatest();
+        System.out.println("CALL: "+call);
         call.enqueue(new Callback<ApiNews>() {
             @Override
             public void onResponse(@NonNull Call<ApiNews> call, @NonNull Response<ApiNews> response) throws NullPointerException{
@@ -331,26 +351,15 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         });
     }
     public void Hilos(){
-        String url = "https://api.tibialabs.com/v2/";
-        String url_creature_boss = "https://api.tibiadata.com/v4/";
+
         //creatureBoss(url_creature_boss);
-        String url_boosted_boss = "https://api.tibiadata.com/v4/";
-        String url_new = "https://api.tibiadata.com/v4/";
-        String url_onlines = "https://api.tibiadata.com/v4/";
         //crear el pool de hilos
         Executor executor = Executors.newFixedThreadPool(5);
         // Submit tasks to the thread pool
         executor.execute(() -> {
             try {
                 Thread.sleep(3000);
-                llenarRashid(url);
-            } catch (InterruptedException e) {
-                throw new RuntimeException(e);
-            }
-        });
-        executor.execute(() -> {
-            try {
-                Thread.sleep(3000);
+                String url_creature_boss = "https://api.tibiadata.com/";
                 creatureBoss(url_creature_boss);
             } catch (InterruptedException e) {
                 throw new RuntimeException(e);
@@ -359,6 +368,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         executor.execute(() -> {
             try {
                 Thread.sleep(3000);
+                String url_boosted_boss = "https://api.tibiadata.com/";
                 bostedBoss(url_boosted_boss);
             } catch (InterruptedException e) {
                 throw new RuntimeException(e);
@@ -368,6 +378,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         executor.execute(() -> {
             try {
                 Thread.sleep(3000);
+                String url_new = "https://api.tibiadata.com/v4/";
                 Noticas(url_new);
             } catch (InterruptedException e) {
                 throw new RuntimeException(e);
@@ -376,21 +387,29 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         executor.execute(() -> {
             try {
                 Thread.sleep(3000);
+                String url_new = "https://api.tibiadata.com/v4/";
                 NewsTickers(url_new);
             } catch (InterruptedException e) {
                 throw new RuntimeException(e);
             }
         });
-        executor.execute(()->{
-            Timer timer = new Timer();
-            timer.scheduleAtFixedRate(new TimerTask() {
-                @Override
-                public void run() {
-                    PlayersOnline(url_onlines);
-                }
-            }, 0, 3000);
+        executor.execute(() -> {
+            try {
+                Thread.sleep(3000);
+                llenarRashid();
+            } catch (InterruptedException e) {
+                throw new RuntimeException(e);
+            }
         });
-
+//        executor.execute(()->{
+//            Timer timer = new Timer();
+//            timer.scheduleAtFixedRate(new TimerTask() {
+//                @Override
+//                public void run() {
+//                    PlayersOnline(url_onlines);
+//                }
+//            }, 0, 3000);
+//        });
     }
 
     @Override

@@ -1,5 +1,6 @@
 package com.example.TibiaTools.APISERVER;
 
+import com.example.TibiaTools.APISERVER.models.APIBoostableBosses;
 import com.example.TibiaTools.APISERVER.models.APICriatures;
 import com.example.TibiaTools.APISERVER.models.APICriaturesInformation;
 import com.example.TibiaTools.APISERVER.models.ApiHighScores;
@@ -13,7 +14,6 @@ import com.example.TibiaTools.APISERVER.models.CharactersInformation.APIServices
 import com.example.TibiaTools.APISERVER.models.GuildInformation.ApiGuilds;
 import com.example.TibiaTools.APISERVER.models.GuildInformation.ApiGuildsName;
 import com.example.TibiaTools.APISERVER.models.Worlds.DataWords;
-
 import retrofit2.Call;
 import retrofit2.http.GET;
 import retrofit2.http.Path;
@@ -22,14 +22,14 @@ public interface TibiaAPIServer {
     @GET("{name}")
     Call<APIServicesTibia> getPersonajes(@Path("name") String name);
 
-    @GET ("worlds")
+    @GET ("/v4/worlds")
     Call<DataWords> getWorlds();
 
-    @GET ("creatures")
-    Call<APICriatures> getCreatures();
+    @GET ("/v4/creatures")
+    Call<APICriatures> getCreature();
 
-    @GET("boostablebosses")
-    Call<APICriatures> getBooted();
+    @GET("/v4/boostablebosses")
+    Call<APIBoostableBosses> getBoostableBosses();
 
     @GET("{race}")
     Call<APICriaturesInformation> getCriatureInformation(@Path("race") String race);
@@ -46,13 +46,13 @@ public interface TibiaAPIServer {
     @GET("{spell}")
     Call<ApiSpellsInformation> getSpellInformation(@Path("spell") String spell);
 
-    @GET("rashid")
+    @GET("https://api.tibialabs.com/v2/rashid")
     Call<String> getRashidLocalitation();
 
-    @GET("news/latest")
+    @GET("/v4/news/latest")
     Call<ApiNews> getNewsLatest();
 
-    @GET("news/newsticker")
+    @GET("/v4/news/newsticker")
     Call<ApiNewsTicker> getNewsTickers();
 
     @GET("highscores/{world}/{category}/{vocation}")

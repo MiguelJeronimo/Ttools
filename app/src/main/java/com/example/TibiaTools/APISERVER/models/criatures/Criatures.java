@@ -7,10 +7,6 @@ import java.util.ArrayList;
 public class Criatures {
     Boosted boosted;
 
-    public Criatures(Boosted boosted){
-        this.boosted=boosted;
-    }
-
     private ArrayList<CriaturesList> creature_list = new ArrayList<CriaturesList>();
 
     public Boosted getBoosted() {

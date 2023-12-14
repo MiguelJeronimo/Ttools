@@ -3,9 +3,14 @@ package com.example.TibiaTools.APISERVER.models.criatures;
 import androidx.annotation.Keep;
 
 @Keep
-public class BoostableBosses extends Criatures {
+public class BoostableBosses {
+    Boosted boosted;
 
-    public BoostableBosses(Boosted boosted) {
-        super(boosted);
+    public void setBoosted(Boosted boosted) {
+        this.boosted = boosted;
+    }
+
+    public Boosted getBoosted() {
+        return boosted;
     }
 }

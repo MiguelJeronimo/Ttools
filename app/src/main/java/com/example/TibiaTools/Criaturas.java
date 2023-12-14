@@ -73,7 +73,7 @@ public class Criaturas extends AppCompatActivity {
         recyclerView = findViewById(R.id.recyclerCriaturas);
         LinearLayoutManager layoutManager = new LinearLayoutManager(this);
         TibiaAPIServer tibiaAPIServer = services.getRetrofit(url).create(TibiaAPIServer.class);
-        Call<APICriatures> call = tibiaAPIServer.getCreatures();
+        Call<APICriatures> call = tibiaAPIServer.getCreature();
         call.enqueue(new retrofit2.Callback<APICriatures>() {
             @Override
             public void onResponse(@NonNull Call<APICriatures> call, @NonNull retrofit2.Response<APICriatures> response) {
