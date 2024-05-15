@@ -1,8 +1,7 @@
-package com.example.TibiaTools;
+package com.example.TibiaTools.View;
 
 import android.annotation.SuppressLint;
 import android.content.Intent;
-import android.graphics.Color;
 import android.graphics.Typeface;
 import android.os.Bundle;
 import android.view.Gravity;
@@ -22,7 +21,6 @@ import com.bumptech.glide.Glide;
 import com.example.TibiaTools.APISERVER.TibiaAPIServer;
 import com.example.TibiaTools.APISERVER.models.ApiSpellsInformation;
 import com.example.TibiaTools.APISERVER.models.SpellsInformation.SpellList.Spell;
-import com.example.TibiaTools.APISERVER.models.SpellsInformation.Spells;
 import com.example.TibiaTools.APISERVER.models.SpellsInformation.spell_information.Spell_Information;
 import com.example.TibiaTools.APISERVER.models.SpellsInformation.spell_information.rune_information.rune_information;
 import com.example.TibiaTools.Operaciones.InstanciaRetrofit;

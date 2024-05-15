@@ -15,14 +15,23 @@ import com.example.TibiaTools.APISERVER.models.criatures.BoostableBosses;
 import com.example.TibiaTools.APISERVER.models.criatures.Boosted;
 import com.example.TibiaTools.APISERVER.models.criatures.Criatures;
 import com.example.TibiaTools.Operaciones.InstanciaRetrofit;
+import com.example.TibiaTools.View.About;
+import com.example.TibiaTools.View.Blessings;
+import com.example.TibiaTools.View.Criaturas;
+import com.example.TibiaTools.View.GuildInformation;
+import com.example.TibiaTools.View.Highscores;
+import com.example.TibiaTools.View.HouseActivity;
+import com.example.TibiaTools.View.Mundos;
+import com.example.TibiaTools.View.Spells_Tibia;
+import com.example.TibiaTools.View.Stamina;
+import com.example.TibiaTools.View.ViewModel.ViewModelHome;
+import com.example.TibiaTools.View.experiencia_compartida;
 import com.example.TibiaTools.recyclerview.Adapters.AdapterRecyclerViewNews;
-import com.example.TibiaTools.recyclerview.Adapters.adapterRecyclerviewMundos;
-import com.example.TibiaTools.recyclerview.ItemsRecyclerViewMundos;
 import com.example.TibiaTools.recyclerview.ItemsRecyclerViewNews;
 import com.example.TibiaTools.utilidades.RedValidator;
 
 import com.example.ttools.R;
-import com.example.ttools.TibiaMaps;
+import com.example.TibiaTools.View.TibiaMaps;
 import com.google.android.material.card.MaterialCardView;
 import com.google.android.material.navigation.NavigationView;
 import com.google.android.material.progressindicator.LinearProgressIndicator;
@@ -33,6 +42,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.app.AppCompatDelegate;
 import androidx.appcompat.widget.Toolbar;
 import androidx.drawerlayout.widget.DrawerLayout;
+import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -41,10 +51,8 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.ThemedSpinnerAdapter;
 import android.widget.Toast;
 
-import java.sql.SQLOutput;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Timer;
@@ -80,6 +88,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     //RedValidator redValidator = new RedValidator();
     //retrofit
     InstanciaRetrofit servicio = new InstanciaRetrofit();
+    ViewModelProvider viewModelProvider;
+    ViewModelHome viewModelHome;
     //Asincronia asincronia = new Asincronia();
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -89,10 +99,35 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         Timer timer = new Timer();
+        viewModelProvider = new ViewModelProvider(this);
+        viewModelHome = viewModelProvider.get(ViewModelHome.class);
+        viewModelHome.getRashidLocation().observe(this, location -> {
+            if (location != null){
+                lbRashid.setText(location);
+                Glide.with(getApplicationContext()).load(url_rashid_image).into(imgRashid);
+                imgRashid.setVisibility(View.VISIBLE);
+                lbRashid.setVisibility(View.VISIBLE);
+            } else {
+                imgRashid.setVisibility(View.GONE);
+                lbRashid.setVisibility(View.GONE);
+            }
+        });
+
+        viewModelHome.playersOnline().observe(this, playersOnline -> {
+           if (playersOnline != null){
+               String onlines = "Players Online: "+playersOnline.getPlayers_online();
+               textViewPlayesOnline.setVisibility(View.VISIBLE);
+               textViewPlayesOnline.setText(onlines);
+           } else{
+               textViewPlayesOnline.setVisibility(View.GONE);
+               textViewPlayesOnline.setText("");
+           }
+        });
+
         timer.scheduleAtFixedRate(new TimerTask() {
             @Override
             public void run() {
-                runOnUiThread(() -> PlayersOnline(url_onlines));
+                runOnUiThread(() -> viewModelHome.setPlayersOnline());
             }
         }, 0, 3000);
         //Cards
@@ -151,17 +186,14 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     }
 
     public void llenarRashid(){
-        TibiaAPIServer tibiaAPIServer = servicio.getRetrofit("").create(TibiaAPIServer.class);
+        TibiaAPIServer tibiaAPIServer = servicio.getRetrofit("https://api.tibialabs.com").create(TibiaAPIServer.class);
         Call<String> call = tibiaAPIServer.getRashidLocalitation();
         call.enqueue(new Callback<String>() {
             @Override
             public void onResponse(@NonNull Call<String> call, @NonNull Response<String> response) {
                 System.out.println("RASHID: "+response);
                 if (response.isSuccessful()){
-                    lbRashid.setText(response.body());
-                    Glide.with(getApplicationContext()).load(url_rashid_image).into(imgRashid);
-                    imgRashid.setVisibility(View.VISIBLE);
-                    lbRashid.setVisibility(View.VISIBLE);
+
                 }
             }
 
@@ -396,7 +428,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         executor.execute(() -> {
             try {
                 Thread.sleep(3000);
-                llenarRashid();
+                viewModelHome.setRashirLocation();
             } catch (InterruptedException e) {
                 throw new RuntimeException(e);
             }
@@ -449,7 +481,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             startActivity(expcompartida);
             drawerLayout.close();
         } else if (menuItem.getItemId() == R.id.nd_character){
-            Intent characters = new Intent(this, characters.class);
+            Intent characters = new Intent(this, com.example.TibiaTools.View.characters.class);
             startActivity(characters);
             drawerLayout.close();
         } else if (menuItem.getItemId() == R.id.nd_stamina){

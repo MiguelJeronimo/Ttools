@@ -1,4 +1,4 @@
-package com.example.ttools;
+package com.example.TibiaTools.View;
 
 import android.os.Bundle;
 
@@ -15,6 +15,8 @@ import android.webkit.WebView;
 import android.widget.Toast;
 
 import androidx.navigation.ui.AppBarConfiguration;
+
+import com.example.ttools.R;
 import com.example.ttools.databinding.ActivityTibiaMapsBinding;
 
 public class TibiaMaps extends AppCompatActivity {

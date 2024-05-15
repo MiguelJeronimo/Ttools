@@ -1,4 +1,4 @@
-package com.example.TibiaTools;
+package com.example.TibiaTools.View;
 import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
@@ -150,7 +150,7 @@ public class GuildInformation extends AppCompatActivity {
                         //agregando el evento onclick con un lambda en java
                         adaptador.setOnClickListener(view -> {
                            String nameGuild = itemsRecyclerViewGuilds.get(recyclerView.getChildAdapterPosition(view)).getLbName();
-                            Intent intent = new Intent(GuildInformation.this,GuildInformationName.class);
+                            Intent intent = new Intent(GuildInformation.this, GuildInformationName.class);
                             intent.putExtra("nameGuild",nameGuild);
                             startActivity(intent);
                         });

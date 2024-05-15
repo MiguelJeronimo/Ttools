@@ -1,4 +1,4 @@
-package com.example.TibiaTools;
+package com.example.TibiaTools.View;
 
 import android.graphics.Color;
 import android.os.Bundle;

@@ -1,4 +1,4 @@
-package com.example.TibiaTools;
+package com.example.TibiaTools.View;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -144,7 +144,7 @@ public class Spells_Tibia extends AppCompatActivity {
                                 id = id.replace("'s ","");
                                 id_minusculas = id.toLowerCase();
                             }
-                            Intent intent = new Intent(Spells_Tibia.this,SpellInformationActivity.class);
+                            Intent intent = new Intent(Spells_Tibia.this, SpellInformationActivity.class);
                             intent.putExtra("ID",id_minusculas);
                             startActivity(intent);
                         }

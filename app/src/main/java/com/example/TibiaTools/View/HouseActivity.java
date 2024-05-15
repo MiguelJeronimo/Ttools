@@ -1,4 +1,4 @@
-package com.example.TibiaTools;
+package com.example.TibiaTools.View;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -29,7 +29,6 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
-import android.widget.Spinner;
 import android.widget.Toast;
 
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -187,7 +186,7 @@ public class HouseActivity extends AppCompatActivity implements AdapterView.OnIt
                 adapterRecyclerViewHouses.setOnClickListener(view -> {
                     //Enviando el id de la casa a al activity HousesInformation
                     String id_house = list_houses.get(recyclerView.getChildAdapterPosition(view)).getHouseId();
-                    Intent intent = new Intent(HouseActivity.this,HousesInformation.class);
+                    Intent intent = new Intent(HouseActivity.this, HousesInformation.class);
                     intent.putExtra("ID",id_house);
                     intent.putExtra("mundo", mundo);
                     startActivity(intent);
