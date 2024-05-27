@@ -1,4 +1,4 @@
-package com.example.TibiaTools;
+package com.example.TibiaTools.View;
 
 import android.graphics.Color;
 import android.os.Bundle;
@@ -36,7 +36,7 @@ public class Mundos extends AppCompatActivity {
     adapterRecyclerviewMundos myAdapter;
     ActivityMundosBinding binding;
     List<ItemsRecyclerViewMundos> itemsRecyclerViewMundos;
-    String url = "https://api.tibiadata.com/v3/";
+    String url = "https://api.tibiadata.com/v4/";
     TextView playersOnline;
     InstanciaRetrofit services = new InstanciaRetrofit();
     @Override
@@ -91,23 +91,24 @@ public class Mundos extends AppCompatActivity {
                     Worlds worlds = dataWords.getWorlds();
                     //playersOnline.setText("Players Online "+ String.valueOf(worlds.getPlayers_online()));
                     //playersOnline.setTextColor(Color.parseColor("#76FF03"));
-                    System.out.println(worlds.getRegular_worlds().size());
                     itemsRecyclerViewMundos = new ArrayList<>();
-                    for (int i = 0; i < worlds.getRegular_worlds().size(); i++) {
-                        itemsRecyclerViewMundos.add(new ItemsRecyclerViewMundos(
-                                worlds.getRegular_worlds().get(i).getName(),
-                                worlds.getRegular_worlds().get(i).getStatus(),
-                                String.valueOf(worlds.getRegular_worlds().get(i).getPlayers_online()),
-                                worlds.getRegular_worlds().get(i).getLocation(),
-                                worlds.getRegular_worlds().get(i).getPvp_type(),
-                                String.valueOf(worlds.getRegular_worlds().get(i).getPremium_only()),
-                                worlds.getRegular_worlds().get(i).getTransfer_type(),
-                                String.valueOf(worlds.getRegular_worlds().get(i).getBattleye_protected()),
-                                worlds.getRegular_worlds().get(i).getBattleye_date(),
-                                worlds.getRegular_worlds().get(i).getGame_world_type(),
-                                worlds.getRegular_worlds().get(i).getTournament_world_type()
-                        ));
-                }
+                    if (worlds.getRegular_worlds() != null){
+                        for (int i = 0; i < worlds.getRegular_worlds().size(); i++) {
+                            itemsRecyclerViewMundos.add(new ItemsRecyclerViewMundos(
+                                    worlds.getRegular_worlds().get(i).getName(),
+                                    worlds.getRegular_worlds().get(i).getStatus(),
+                                    String.valueOf(worlds.getRegular_worlds().get(i).getPlayers_online()),
+                                    worlds.getRegular_worlds().get(i).getLocation(),
+                                    worlds.getRegular_worlds().get(i).getPvp_type(),
+                                    String.valueOf(worlds.getRegular_worlds().get(i).getPremium_only()),
+                                    worlds.getRegular_worlds().get(i).getTransfer_type(),
+                                    String.valueOf(worlds.getRegular_worlds().get(i).getBattleye_protected()),
+                                    worlds.getRegular_worlds().get(i).getBattleye_date(),
+                                    worlds.getRegular_worlds().get(i).getGame_world_type(),
+                                    worlds.getRegular_worlds().get(i).getTournament_world_type()
+                            ));
+                        }
+                    }
                     recyclerView.setHasFixedSize(true);
                     layoutManager.setOrientation(LinearLayoutManager.VERTICAL);
                     recyclerView.setLayoutManager(layoutManager);

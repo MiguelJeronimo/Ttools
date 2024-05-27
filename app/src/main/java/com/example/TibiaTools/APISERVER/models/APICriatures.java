@@ -11,11 +11,6 @@ import java.util.ArrayList;
 @Keep
 public class APICriatures {
     Criatures creatures;
-    BoostableBosses boostable_bosses;
-
-    public BoostableBosses getBoostable_bosses() {
-        return boostable_bosses;
-    }
 
     ArrayList<CriaturesList> creatures_List;
 

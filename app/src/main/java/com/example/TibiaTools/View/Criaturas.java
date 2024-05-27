@@ -1,4 +1,4 @@
-package com.example.TibiaTools;
+package com.example.TibiaTools.View;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -73,7 +73,7 @@ public class Criaturas extends AppCompatActivity {
         recyclerView = findViewById(R.id.recyclerCriaturas);
         LinearLayoutManager layoutManager = new LinearLayoutManager(this);
         TibiaAPIServer tibiaAPIServer = services.getRetrofit(url).create(TibiaAPIServer.class);
-        Call<APICriatures> call = tibiaAPIServer.getCreatures();
+        Call<APICriatures> call = tibiaAPIServer.getCreature();
         call.enqueue(new retrofit2.Callback<APICriatures>() {
             @Override
             public void onResponse(@NonNull Call<APICriatures> call, @NonNull retrofit2.Response<APICriatures> response) {
@@ -86,15 +86,18 @@ public class Criaturas extends AppCompatActivity {
                 APICriatures apiCriatures = response.body();
                 Criatures criatures = apiCriatures.getCreatures();
                 itemsRecyclerViewCriatures = new ArrayList<>();
-                itemsRecyclerViewCriatures.add(new ItemsRecyclerViewCriatures(
-                        "Today's Boss: "+criatures.getBoosted().getName(),
-                        criatures.getBoosted().getRace(),
-                        criatures.getBoosted().getImage_url()));
-                for (int i = 0; i < criatures.getCriatures_list().size(); i++) {
-                    itemsRecyclerViewCriatures.add(
-                            new ItemsRecyclerViewCriatures(criatures.getCriatures_list().get(i).getName(),
-                            criatures.getCriatures_list().get(i).getRace(),
-                            criatures.getCriatures_list().get(i).getImage_url()));
+                if (criatures.getCriatures_list() != null){
+                    itemsRecyclerViewCriatures.add(new ItemsRecyclerViewCriatures(
+                            "Today's Boss: "+criatures.getBoosted().getName(),
+                            criatures.getBoosted().getRace(),
+                            criatures.getBoosted().getImage_url()));
+
+                    for (int i = 0; i < criatures.getCriatures_list().size(); i++) {
+                        itemsRecyclerViewCriatures.add(
+                                new ItemsRecyclerViewCriatures(criatures.getCriatures_list().get(i).getName(),
+                                        criatures.getCriatures_list().get(i).getRace(),
+                                        criatures.getCriatures_list().get(i).getImage_url()));
+                    }
                 }
                 recyclerView.setLayoutManager(layoutManager);
                 myAdapter = new adapterRecyclerViewCriatures(itemsRecyclerViewCriatures);

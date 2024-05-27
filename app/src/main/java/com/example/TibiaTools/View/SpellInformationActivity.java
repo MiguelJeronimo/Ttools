@@ -1,8 +1,7 @@
-package com.example.TibiaTools;
+package com.example.TibiaTools.View;
 
 import android.annotation.SuppressLint;
 import android.content.Intent;
-import android.graphics.Color;
 import android.graphics.Typeface;
 import android.os.Bundle;
 import android.view.Gravity;
@@ -22,7 +21,6 @@ import com.bumptech.glide.Glide;
 import com.example.TibiaTools.APISERVER.TibiaAPIServer;
 import com.example.TibiaTools.APISERVER.models.ApiSpellsInformation;
 import com.example.TibiaTools.APISERVER.models.SpellsInformation.SpellList.Spell;
-import com.example.TibiaTools.APISERVER.models.SpellsInformation.Spells;
 import com.example.TibiaTools.APISERVER.models.SpellsInformation.spell_information.Spell_Information;
 import com.example.TibiaTools.APISERVER.models.SpellsInformation.spell_information.rune_information.rune_information;
 import com.example.TibiaTools.Operaciones.InstanciaRetrofit;
@@ -44,7 +42,7 @@ public class SpellInformationActivity extends AppCompatActivity {
     TextView textViewSpellName,textViewSpellFormula,textViewDescription,textViewGrupo,textViewTipo,textViewDamageType,
             textViewCooldown,textViewSoulPoint,textViewAmount,textViewMana,textViewNivel,textViewPrice,textViewStatus,
             textViewCooldownGroup;
-    String url="https://api.tibiadata.com/v3/spell/";
+    String url="https://api.tibiadata.com/v4/spell/";
     InstanciaRetrofit services = new InstanciaRetrofit();
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -99,8 +97,7 @@ public class SpellInformationActivity extends AppCompatActivity {
             public void onResponse(Call<ApiSpellsInformation> call, Response<ApiSpellsInformation> response) {
                 if (response.isSuccessful()){
                     ApiSpellsInformation information = response.body();
-                    Spells spells = information.getSpells();
-                    Spell spell = spells.getSpell();
+                    Spell spell = information.getSpells();
                     Glide.with(getApplicationContext()).load(spell.getImage_url()).into(imgLogo);
                     textViewSpellName.setText(spell.getName());
                     textViewDescription.setText(spell.getDescription());

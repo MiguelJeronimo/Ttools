@@ -1,4 +1,4 @@
-package com.example.TibiaTools;
+package com.example.TibiaTools.View;
 
 import android.content.Intent;
 import android.graphics.Color;
@@ -36,7 +36,7 @@ import retrofit2.Response;
 public class CriaturesInformation extends AppCompatActivity {
 
     private ActivityCriaturesInformationBinding binding;
-    String url = "https://api.tibiadata.com/v3/creature/";
+    String url = "https://api.tibiadata.com/v4/creature/";
     String raceCriatures;
     TextView creatureName, creatureDescription, creatureBehaviour, creatureHealth, creatureExp;
     ImageView creatureImage;

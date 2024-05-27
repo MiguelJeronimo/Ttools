@@ -1,4 +1,4 @@
-package com.example.TibiaTools;
+package com.example.TibiaTools.View;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -34,7 +34,7 @@ import retrofit2.Response;
 public class Spells_Tibia extends AppCompatActivity {
 
     private ActivitySpellsTibiaBinding binding;
-    String url = "https://api.tibiadata.com/v3/";
+    String url = "https://api.tibiadata.com/v4/";
     //RecyclerView
     RecyclerView recyclerView;
     AdapterRecyclerViewSpells adapter;
@@ -81,40 +81,42 @@ public class Spells_Tibia extends AppCompatActivity {
                     String stateGroup=null;
                     String stateType = null;
                     String statePremium = null;
-                    for (SpellsList spellList:spells.getSpells_list()) {
+                    if (spells.getSpells_list() != null){
+                        for (SpellsList spellList:spells.getSpells_list()) {
 
-                        if (spellList.isGroup_support()){
-                            stateGroup = "Support";
-                        }
-                        if (spellList.isGroup_healing()){
-                            stateGroup = "Healing";
-                        }
-                        if(spellList.isGroup_attack()){
-                            stateGroup = "Attack";
-                        }
-                        if (spellList.isType_instant()){
-                            stateType = "Instant";
-                        }
-                        if (spellList.isType_rune()){
-                            stateType = "Rune";
-                        }
-                        if (spellList.isPremium_only()){
-                            statePremium = "Premium Only";
-                        } else{
-                            statePremium = "Free";
-                        }
+                            if (spellList.isGroup_support()){
+                                stateGroup = "Support";
+                            }
+                            if (spellList.isGroup_healing()){
+                                stateGroup = "Healing";
+                            }
+                            if(spellList.isGroup_attack()){
+                                stateGroup = "Attack";
+                            }
+                            if (spellList.isType_instant()){
+                                stateType = "Instant";
+                            }
+                            if (spellList.isType_rune()){
+                                stateType = "Rune";
+                            }
+                            if (spellList.isPremium_only()){
+                                statePremium = "Premium Only";
+                            } else{
+                                statePremium = "Free";
+                            }
 
-                        itemsRecyclerViewSpellsList.add(new ItemsRecyclerViewSpells(
-                                spellList.getName(),
-                                spellList.getFormula(),
-                                String.valueOf(spellList.getMana()),
-                                String.valueOf(spellList.getPrice()),
-                                stateType,
-                                stateGroup,
-                                spellList.getSpell_id(),
-                                statePremium,
-                                String.valueOf(spellList.getLevel())
-                        ));
+                            itemsRecyclerViewSpellsList.add(new ItemsRecyclerViewSpells(
+                                    spellList.getName(),
+                                    spellList.getFormula(),
+                                    String.valueOf(spellList.getMana()),
+                                    String.valueOf(spellList.getPrice()),
+                                    stateType,
+                                    stateGroup,
+                                    spellList.getSpell_id(),
+                                    statePremium,
+                                    String.valueOf(spellList.getLevel())
+                            ));
+                        }
                     }
                     linearLayoutManager.setOrientation(LinearLayoutManager.VERTICAL);
                     recyclerView.setLayoutManager(linearLayoutManager);
@@ -142,7 +144,7 @@ public class Spells_Tibia extends AppCompatActivity {
                                 id = id.replace("'s ","");
                                 id_minusculas = id.toLowerCase();
                             }
-                            Intent intent = new Intent(Spells_Tibia.this,SpellInformationActivity.class);
+                            Intent intent = new Intent(Spells_Tibia.this, SpellInformationActivity.class);
                             intent.putExtra("ID",id_minusculas);
                             startActivity(intent);
                         }

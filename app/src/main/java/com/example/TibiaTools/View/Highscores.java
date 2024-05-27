@@ -1,4 +1,4 @@
-package com.example.TibiaTools;
+package com.example.TibiaTools.View;
 
 import android.os.Bundle;
 
@@ -46,7 +46,7 @@ import retrofit2.Response;
 public class Highscores extends AppCompatActivity implements AdapterView.OnItemClickListener {
 
     private ActivityHighscoresBinding binding;
-    String url = "https://api.tibiadata.com/v3/";
+    String url = "https://api.tibiadata.com/v4/";
     DataHighScores dataHighScores = new DataHighScores();
     AutoCompleteTextView spinnerWorlds, spinnerVocations, spinnerCategorys;
     ArrayAdapter<String> adapterWorlds;
@@ -129,7 +129,7 @@ public class Highscores extends AppCompatActivity implements AdapterView.OnItemC
         String pattern = "#,###.###";
         DecimalFormat decimalFormat = new DecimalFormat(pattern);
         decimalFormat.setGroupingSize(3);
-        String url_highscores = "https://api.tibiadata.com/v3/";
+        String url_highscores = "https://api.tibiadata.com/v4/";
         TibiaAPIServer apiServer = servicio.getRetrofit(url_highscores).create(TibiaAPIServer.class);
         Call <ApiHighScores> call = apiServer.getHighScoreInformation(world,category,vocation);
         binding.getRoot().findViewById(R.id.carga_highscores).setVisibility(View.VISIBLE);
@@ -235,9 +235,9 @@ public class Highscores extends AppCompatActivity implements AdapterView.OnItemC
     @Override
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
         if (
-                !spinnerWorlds.getText().toString().isEmpty() &&
-                !spinnerCategorys.getText().toString().isEmpty() &&
-                !spinnerVocations.getText().toString().isEmpty()
+                !spinnerWorlds.getText().toString().isEmpty() && !spinnerWorlds.getText().toString().equalsIgnoreCase("Seleccione un mundo")&&
+                !spinnerCategorys.getText().toString().isEmpty() && !spinnerCategorys.getText().toString().equalsIgnoreCase("Seleccione una categoria")&&
+                !spinnerVocations.getText().toString().isEmpty() && !spinnerVocations.getText().toString().equalsIgnoreCase("Seleccione una vocación")
         ){
             mundo = spinnerWorlds.getText().toString();
             dataHighScores.setMundo(mundo);

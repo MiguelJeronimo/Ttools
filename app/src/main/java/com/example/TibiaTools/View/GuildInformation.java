@@ -1,4 +1,4 @@
-package com.example.TibiaTools;
+package com.example.TibiaTools.View;
 import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
@@ -23,10 +23,8 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
-import android.widget.Spinner;
 import android.widget.Toast;
 
 
@@ -46,7 +44,7 @@ public class GuildInformation extends AppCompatActivity {
     RecyclerView recyclerView;
     AdapterRecyclerViewGuildsList adaptador;
     List<ItemsRecyclerViewGuilds> itemsRecyclerViewGuilds;
-    String url = "https://api.tibiadata.com/v3/";
+    String url = "https://api.tibiadata.com/v4/";
     InstanciaRetrofit servicio = new InstanciaRetrofit();
     LinearProgressIndicator linearProgressIndicator;
 
@@ -119,7 +117,7 @@ public class GuildInformation extends AppCompatActivity {
         if (!world.equals("Seleccione")){
             recyclerView = (RecyclerView) findViewById(R.id.recyclerGuilds);
             LinearLayoutManager layoutManager = new LinearLayoutManager(this);
-            String url_world = "https://api.tibiadata.com/v3/guilds/";
+            String url_world = "https://api.tibiadata.com/v4/guilds/";
             InstanciaRetrofit retrofit = new InstanciaRetrofit();
             TibiaAPIServer tibiaAPIServer = retrofit.getRetrofit(url_world).create(TibiaAPIServer.class);
             Call<ApiGuilds> call = tibiaAPIServer.getGuildsInformation(world);
@@ -131,15 +129,16 @@ public class GuildInformation extends AppCompatActivity {
                         ApiGuilds apiGuilds = response.body();
                         assert apiGuilds != null;
                         Guilds guilds = apiGuilds.getGuilds();
-                        System.out.println(guilds.getActive().size());
-                        itemsRecyclerViewGuilds = new ArrayList<>();
-                        for (Active active: guilds.getActive()) {
-                            //System.out.println("Name: "+active.getName()+": "+active.getLogo_url());
-                            itemsRecyclerViewGuilds.add(
-                                    new ItemsRecyclerViewGuilds(
-                                            active.getName(),
-                                            active.getLogo_url(),
-                                            active.getDescription()));
+                        if (guilds.getActive() != null){
+                            guilds.getActive().size();
+                            itemsRecyclerViewGuilds = new ArrayList<>();
+                            for (Active active: guilds.getActive()) {
+                                itemsRecyclerViewGuilds.add(
+                                        new ItemsRecyclerViewGuilds(
+                                                active.getName(),
+                                                active.getLogo_url(),
+                                                active.getDescription()));
+                            }
                         }
                         layoutManager.setOrientation(LinearLayoutManager.VERTICAL);
                         recyclerView.setLayoutManager(layoutManager);
@@ -151,7 +150,7 @@ public class GuildInformation extends AppCompatActivity {
                         //agregando el evento onclick con un lambda en java
                         adaptador.setOnClickListener(view -> {
                            String nameGuild = itemsRecyclerViewGuilds.get(recyclerView.getChildAdapterPosition(view)).getLbName();
-                            Intent intent = new Intent(GuildInformation.this,GuildInformationName.class);
+                            Intent intent = new Intent(GuildInformation.this, GuildInformationName.class);
                             intent.putExtra("nameGuild",nameGuild);
                             startActivity(intent);
                         });
@@ -185,20 +184,4 @@ public class GuildInformation extends AppCompatActivity {
         });
         hilo.start();
     }
-
-//eventos del spinner
-    /*@Override
-    public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
-        System.out.println("option: "+adapterView.getItemAtPosition(i).toString());
-        if (adapterView.isSelected() !=)
-        /*if (adapterView.getItemAtPosition(i).toString() != "Seleccione un mundo"){
-            System.out.println(adapterView.getItemAtPosition(i).toString());
-           //llenarRecyclerView(adapterView.getItemAtPosition(i).toString());
-        }
-    }*/
-
-   /* @Override
-    public void onNothingSelected(AdapterView<?> adapterView) {
-        adapterView.getItemAtPosition(1);
-    }*/
 }
