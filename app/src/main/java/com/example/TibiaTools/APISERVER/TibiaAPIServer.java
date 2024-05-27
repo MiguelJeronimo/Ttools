@@ -46,7 +46,7 @@ public interface TibiaAPIServer {
     @GET("{spell}")
     Call<ApiSpellsInformation> getSpellInformation(@Path("spell") String spell);
 
-    @GET("/v2/rashid")
+    @GET("https://api.tibialabs.com/v2/rashid")
     Call<String> getRashidLocalitation();
 
     @GET("/v4/news/latest")

@@ -1,6 +1,7 @@
 package com.example.TibiaTools;
 
 import android.content.Intent;
+import android.os.Build;
 import android.os.Bundle;
 
 import com.bumptech.glide.Glide;
@@ -37,6 +38,7 @@ import com.google.android.material.navigation.NavigationView;
 import com.google.android.material.progressindicator.LinearProgressIndicator;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.app.AppCompatDelegate;
@@ -78,7 +80,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     //para las new latest
     TextView textViewFecha,textViewCategoria, textViewNoticia,textViewTipo;
     TextView textViewDate, textViewCategory, textViewNew, textViewtype, textViewPlayesOnline;
-    String url_rashid_image = "https://raw.githubusercontent.com/MiguelJeronimo/TtoolsDesktop/main/src/img/rashid.gif";
     //recyclerview
     RecyclerView recyclerViewNoticas;
     AdapterRecyclerViewNews adapterRecyclerViewNews;
@@ -91,6 +92,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     ViewModelProvider viewModelProvider;
     ViewModelHome viewModelHome;
     //Asincronia asincronia = new Asincronia();
+    @RequiresApi(api = Build.VERSION_CODES.N)
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -98,38 +100,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         setContentView(R.layout.activity_main);
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-        Timer timer = new Timer();
-        viewModelProvider = new ViewModelProvider(this);
-        viewModelHome = viewModelProvider.get(ViewModelHome.class);
-        viewModelHome.getRashidLocation().observe(this, location -> {
-            if (location != null){
-                lbRashid.setText(location);
-                Glide.with(getApplicationContext()).load(url_rashid_image).into(imgRashid);
-                imgRashid.setVisibility(View.VISIBLE);
-                lbRashid.setVisibility(View.VISIBLE);
-            } else {
-                imgRashid.setVisibility(View.GONE);
-                lbRashid.setVisibility(View.GONE);
-            }
-        });
-
-        viewModelHome.playersOnline().observe(this, playersOnline -> {
-           if (playersOnline != null){
-               String onlines = "Players Online: "+playersOnline.getPlayers_online();
-               textViewPlayesOnline.setVisibility(View.VISIBLE);
-               textViewPlayesOnline.setText(onlines);
-           } else{
-               textViewPlayesOnline.setVisibility(View.GONE);
-               textViewPlayesOnline.setText("");
-           }
-        });
-
-        timer.scheduleAtFixedRate(new TimerTask() {
-            @Override
-            public void run() {
-                runOnUiThread(() -> viewModelHome.setPlayersOnline());
-            }
-        }, 0, 3000);
         //Cards
         cardCreatureBooss = findViewById(R.id.cardView3);
         cardBoostedBoos = findViewById(R.id.cardView2);
@@ -174,10 +144,123 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         textViewNew = findViewById(R.id.textViewNew);
         textViewtype = findViewById(R.id.textViewtype);
         textViewPlayesOnline = findViewById(R.id.players_online_main);
+        Timer timer = new Timer();
+        //recyclerview
+        recyclerViewNoticas = findViewById(R.id.recyclerNews);
+        itemsRecyclerViewNewsList = new ArrayList<>();
+        LinearLayoutManager layoutManager = new LinearLayoutManager(this);
+        recyclerViewNoticas.setLayoutManager(layoutManager);
+        adapterRecyclerViewNews = new AdapterRecyclerViewNews(itemsRecyclerViewNewsList);
+        layoutManager.setOrientation(LinearLayoutManager.HORIZONTAL);
+        recyclerViewNoticas.setHasFixedSize(true);
+        recyclerViewNoticas.setAdapter(adapterRecyclerViewNews);
+
+        viewModelProvider = new ViewModelProvider(this);
+        viewModelHome = viewModelProvider.get(ViewModelHome.class);
+        viewModelHome.getRashidLocation().observe(this, location -> {
+            if (location != null){
+                String url_rashid_image = "https://raw.githubusercontent.com/MiguelJeronimo/TtoolsDesktop/main/src/img/rashid.gif";
+                lbRashid.setText(location);
+                Glide.with(getApplicationContext()).load(url_rashid_image).into(imgRashid);
+                imgRashid.setVisibility(View.VISIBLE);
+                lbRashid.setVisibility(View.VISIBLE);
+                System.out.println("Se pinto la imagen de rashid");
+            } else {
+                imgRashid.setVisibility(View.GONE);
+                lbRashid.setVisibility(View.GONE);
+                System.out.println("NO SE MOSTRO NADA REFERENTE A RASHID");
+            }
+        });
+
+        viewModelHome.playersOnline().observe(this, playersOnline -> {
+           if (playersOnline != null){
+               String onlines = "Players Online: "+playersOnline.getPlayers_online();
+               textViewPlayesOnline.setVisibility(View.VISIBLE);
+               textViewPlayesOnline.setText(onlines);
+           } else{
+               textViewPlayesOnline.setVisibility(View.GONE);
+               textViewPlayesOnline.setText("");
+           }
+        });
+
+        viewModelHome.creatureBoss().observe(this, creatureBoss -> {
+            if (creatureBoss != null){
+                Glide.with(getApplicationContext()).load(creatureBoss.getBoosted().getImage_url()).into(imgBossCreature);
+                textBossCreature.setText(creatureBoss.getBoosted().getName());
+                cardCreatureBooss.setVisibility(View.VISIBLE);
+            }
+            else{
+                linearProgressIndicator.setVisibility(View.GONE);
+                cardCreatureBooss.setVisibility(View.GONE);
+            }
+        });
+
+        viewModelHome.bostedBoss().observe(this, bostedBoss->{
+            if (bostedBoss != null){
+                Boosted boosted = bostedBoss.getBoosted();
+                Glide.with(getApplicationContext()).load(boosted.getImage_url()).into(imgBossBosstable);
+                lbBossBosstable.setText(boosted.getName());
+                cardBoostedBoos.setVisibility(View.VISIBLE);
+            } else {
+                cardBoostedBoos.setVisibility(View.GONE);
+            }
+        });
+
+        viewModelHome.news().observe(this, news ->{
+            if (news != null){
+                int sizeNews = news.getNews().size();
+                int rangeNews = Math.min(sizeNews, 2);
+                if (sizeNews >0){
+                    for (int i = 0; i < rangeNews; i++) {
+                        textViewFecha.setText(news.getNews().get(i).getDate());
+                        textViewCategoria.setText(news.getNews().get(i).getCategory());
+                        textViewNoticia.setText(news.getNews().get(i).getNews());
+                        textViewTipo.setText(news.getNews().get(i).getType());
+                        //Segundo Card
+                        textViewDate.setText(news.getNews().get(i+1).getDate());
+                        textViewCategory.setText(news.getNews().get(i+1).getCategory());
+                        textViewNew.setText(news.getNews().get(i+1).getNews());
+                        textViewtype.setText(news.getNews().get(i+1).getType());
+                        cardNews.setVisibility(View.VISIBLE);
+                        cardNews2.setVisibility(View.VISIBLE);
+                    }
+                }
+            } else{
+                cardNews.setVisibility(View.GONE);
+                cardNews2.setVisibility(View.GONE);
+            }
+        });
+
+        viewModelHome.newTicker().observe(this, newTicker->{
+            if (newTicker!=null){
+                newTicker.getNews().forEach(news->{
+                    itemsRecyclerViewNewsList.add(new ItemsRecyclerViewNews(
+                            news.getId(),
+                            news.getDate(),
+                            news.getNews(),
+                            news.getCategory(),
+                            news.getType(),
+                            news.getUrl()
+                    ));
+                });
+                adapterRecyclerViewNews.notifyDataSetChanged();
+                linearProgressIndicator.setVisibility(View.GONE);
+            }else{
+                linearProgressIndicator.setVisibility(View.GONE);
+            }
+        });
+
+        timer.schedule(new TimerTask() {
+            @Override
+            public void run() {
+                runOnUiThread(() -> viewModelHome.setPlayersOnline());
+            }
+        }, 0, 3000);
+
         //Validamos si tenenemos conexion a internet
-        if (RedValidator.ValidarInternet(getApplication())){
+        if (RedValidator.ValidarInternet(getApplication())) {
             //ejecutando los multiple hilos para el consumo de api
-            Hilos();
+            threads();
         } else{
            Toast.makeText(this,"Revisa tu conexion a internet :)",Toast.LENGTH_SHORT).show();
            linearProgressIndicator.setVisibility(View.GONE);
@@ -185,205 +268,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     }
 
-    public void llenarRashid(){
-        TibiaAPIServer tibiaAPIServer = servicio.getRetrofit("https://api.tibialabs.com").create(TibiaAPIServer.class);
-        Call<String> call = tibiaAPIServer.getRashidLocalitation();
-        call.enqueue(new Callback<String>() {
-            @Override
-            public void onResponse(@NonNull Call<String> call, @NonNull Response<String> response) {
-                System.out.println("RASHID: "+response);
-                if (response.isSuccessful()){
-
-                }
-            }
-
-            @Override
-            public void onFailure(@NonNull Call<String> call, @NonNull Throwable t) {
-                System.out.println("MENSAJE"+t.getMessage());
-            }
-        });
-    }
-
-    public void creatureBoss(String url_creature_boss){
-        TibiaAPIServer tibiaAPIServer =  servicio.getRetrofit(url_creature_boss).create(TibiaAPIServer.class);
-        Call<APICriatures> call = tibiaAPIServer.getCreature();
-        call.enqueue(new Callback<APICriatures>() {
-            @Override
-            public void onResponse(@NonNull Call<APICriatures> call, @NonNull Response<APICriatures> response) {
-                if (response.isSuccessful() && response.body() != null) {
-                    APICriatures apiCriatures = response.body();
-                    Criatures criatures = apiCriatures.getCreatures();
-                    if (criatures != null){
-                        Boosted boosted = criatures.getBoosted();
-                        Glide.with(getApplicationContext()).load(criatures.getBoosted().getImage_url()).into(imgBossCreature);
-                        textBossCreature.setText(criatures.getBoosted().getName());
-                        cardCreatureBooss.setVisibility(View.VISIBLE);
-                    }
-                } else{
-                    linearProgressIndicator.setVisibility(View.GONE);
-                    Toast.makeText(getApplicationContext(),String.valueOf(response.code()),Toast.LENGTH_LONG).show();
-                }
-
-            }
-
-            @Override
-            public void onFailure(@NonNull Call<APICriatures> call, @NonNull Throwable t) {
-                System.out.println("ERROR: "+t.getMessage());
-                linearProgressIndicator.setVisibility(View.GONE);
-            }
-        });
-    }
-
-    public void bostedBoss(String url_boosted_boss){
-        TibiaAPIServer apiServer = servicio.getRetrofit(url_boosted_boss).create(TibiaAPIServer.class);
-        Call<APIBoostableBosses> call = apiServer.getBoostableBosses();
-        call.enqueue(new Callback<APIBoostableBosses>() {
-            @Override
-            public void onResponse(@NonNull Call<APIBoostableBosses> call, @NonNull Response<APIBoostableBosses> response) {
-                if (response.isSuccessful()){
-                    APIBoostableBosses apiCriatures = response.body();
-                    System.out.println("RESPONSE: "+String.valueOf(response.raw()));
-                    assert apiCriatures != null;
-                    BoostableBosses boostableBosses = apiCriatures.getBoostable_bosses();
-                    if (boostableBosses != null){
-                        Boosted boosted = boostableBosses.getBoosted();
-                        Glide.with(getApplicationContext()).load(boostableBosses.getBoosted().getImage_url()).into(imgBossBosstable);
-                        lbBossBosstable.setText(boostableBosses.getBoosted().getName());
-                        cardBoostedBoos.setVisibility(View.VISIBLE);
-                    }
-                }else{
-                    linearProgressIndicator.setVisibility(View.GONE);
-
-                }
-            }
-            @Override
-            public void onFailure(Call<APIBoostableBosses> call, Throwable t) {
-                System.out.println(t.getMessage());
-            }
-        });
-    }
-    public void Noticas(String url_new){
-        TibiaAPIServer tibiaAPIServer = servicio.getRetrofit(url_new).create(TibiaAPIServer.class);
-        Call<ApiNews> call = tibiaAPIServer.getNewsLatest();
-        System.out.println("CALL: "+call);
-        call.enqueue(new Callback<ApiNews>() {
-            @Override
-            public void onResponse(@NonNull Call<ApiNews> call, @NonNull Response<ApiNews> response) throws NullPointerException{
-                if (response.isSuccessful()){
-                   ApiNews apiNews = response.body();
-                   assert apiNews != null;
-                   if (apiNews.getNews() != null){
-                       int sizeNews = apiNews.getNews().size();
-                       int rangeNews = Math.min(sizeNews, 2);
-                       if (sizeNews >0){
-                           for (int i = 0; i < rangeNews; i++) {
-                               textViewFecha.setText(apiNews.getNews().get(i).getDate());
-                               textViewCategoria.setText(apiNews.getNews().get(i).getCategory());
-                               textViewNoticia.setText(apiNews.getNews().get(i).getNews());
-                               textViewTipo.setText(apiNews.getNews().get(i).getType());
-                               //Segundo Card
-                               textViewDate.setText(apiNews.getNews().get(i+1).getDate());
-                               textViewCategory.setText(apiNews.getNews().get(i+1).getCategory());
-                               textViewNew.setText(apiNews.getNews().get(i+1).getNews());
-                               textViewtype.setText(apiNews.getNews().get(i+1).getType());
-                               cardNews.setVisibility(View.VISIBLE);
-                               cardNews2.setVisibility(View.VISIBLE);
-                           }
-                       }
-                   }else{
-                       cardNews.setVisibility(View.GONE);
-                       cardNews2.setVisibility(View.GONE);
-                   }
-                } else {
-                    linearProgressIndicator.setVisibility(View.GONE);
-                }
-            }
-
-            @Override
-            public void onFailure(@NonNull Call<ApiNews> call, @NonNull Throwable t) {
-                System.out.println(t.getMessage());
-                linearProgressIndicator.setVisibility(View.GONE);
-            }
-        });
-    }
-
-    public void NewsTickers(String url_new){
-        recyclerViewNoticas = findViewById(R.id.recyclerNews);
-        LinearLayoutManager layoutManager = new LinearLayoutManager(this);
-        TibiaAPIServer tibiaAPIServer = servicio.getRetrofit(url_new).create(TibiaAPIServer.class);
-        Call<ApiNewsTicker> call = tibiaAPIServer.getNewsTickers();
-        call.enqueue(new Callback<ApiNewsTicker>() {
-            @Override
-            public void onResponse(@NonNull Call<ApiNewsTicker> call, @NonNull Response<ApiNewsTicker> response) {
-                if (response.isSuccessful()){
-                    ApiNewsTicker apiNewsTicker = response.body();
-                    if(apiNewsTicker != null && apiNewsTicker.getNews() != null){
-                    int size = apiNewsTicker.getNews().size();
-                    int range = Math.min(size, 5);
-                    itemsRecyclerViewNewsList = new ArrayList<>();
-                    if (size>0){
-                        for (int i=0; i<range; i++){
-                            itemsRecyclerViewNewsList.add(new ItemsRecyclerViewNews(
-                                    apiNewsTicker.getNews().get(i).getId(),
-                                    apiNewsTicker.getNews().get(i).getDate(),
-                                    apiNewsTicker.getNews().get(i).getNews(),
-                                    apiNewsTicker.getNews().get(i).getCategory(),
-                                    apiNewsTicker.getNews().get(i).getType(),
-                                    apiNewsTicker.getNews().get(i).getUrl()
-                            ));
-                        }
-                    } else{
-                        Toast.makeText(getApplicationContext(), "No hay noticias para mostrar", Toast.LENGTH_SHORT).show();
-                    }
-                    }
-                    recyclerViewNoticas.setLayoutManager(layoutManager);
-                    adapterRecyclerViewNews = new AdapterRecyclerViewNews(itemsRecyclerViewNewsList);
-                    layoutManager.setOrientation(LinearLayoutManager.HORIZONTAL);
-                    recyclerViewNoticas.setHasFixedSize(true);
-                    recyclerViewNoticas.setAdapter(adapterRecyclerViewNews);
-                    linearProgressIndicator.setVisibility(View.GONE);
-                }else{
-                    linearProgressIndicator.setVisibility(View.GONE);
-                }
-            }
-
-            @Override
-            public void onFailure(@NonNull Call<ApiNewsTicker> call, @NonNull Throwable t) {
-                System.out.println(t.getMessage());
-                linearProgressIndicator.setVisibility(View.GONE);
-            }
-        });
-    }
-
-    public void PlayersOnline(String url){
-        //aqui se hace la llamada a la api
-        TibiaAPIServer tibiaAPIServer = servicio.getRetrofit(url).create(TibiaAPIServer.class);
-        Call <DataWords> call = tibiaAPIServer.getWorlds();
-        call.enqueue(new retrofit2.Callback<DataWords>() {
-            @Override
-            public void onResponse(Call<DataWords> call, Response<DataWords> response) {
-                if (response.isSuccessful()){
-                    DataWords dataWords = response.body();
-                    Worlds worlds = dataWords.getWorlds();
-                        String onlines = "Players Online: "+worlds.getPlayers_online();
-                        textViewPlayesOnline.setVisibility(View.VISIBLE);
-                        textViewPlayesOnline.setText(onlines);
-                } else{
-                    textViewPlayesOnline.setText("");
-                }
-
-            }
-
-            @Override
-            public void onFailure(Call<DataWords> call, Throwable t) {
-                //playersOnline.setText(t.getMessage());
-                //playersOnline.setTextColor(Color.RED);
-                textViewPlayesOnline.setText("");
-            }
-        });
-    }
-    public void Hilos(){
-
+    public void threads(){
         //creatureBoss(url_creature_boss);
         //crear el pool de hilos
         Executor executor = Executors.newFixedThreadPool(5);
@@ -391,8 +276,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         executor.execute(() -> {
             try {
                 Thread.sleep(3000);
-                String url_creature_boss = "https://api.tibiadata.com/";
-                creatureBoss(url_creature_boss);
+                viewModelHome.setCreatureBoss();
             } catch (InterruptedException e) {
                 throw new RuntimeException(e);
             }
@@ -400,18 +284,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         executor.execute(() -> {
             try {
                 Thread.sleep(3000);
-                String url_boosted_boss = "https://api.tibiadata.com/";
-                bostedBoss(url_boosted_boss);
-            } catch (InterruptedException e) {
-                throw new RuntimeException(e);
-            }
-
-        });
-        executor.execute(() -> {
-            try {
-                Thread.sleep(3000);
-                String url_new = "https://api.tibiadata.com/v4/";
-                Noticas(url_new);
+                viewModelHome.setBostedBoss();
             } catch (InterruptedException e) {
                 throw new RuntimeException(e);
             }
@@ -419,8 +292,15 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         executor.execute(() -> {
             try {
                 Thread.sleep(3000);
-                String url_new = "https://api.tibiadata.com/v4/";
-                NewsTickers(url_new);
+                viewModelHome.setNews();
+            } catch (InterruptedException e) {
+                throw new RuntimeException(e);
+            }
+        });
+        executor.execute(() -> {
+            try {
+                Thread.sleep(3000);
+                viewModelHome.setNewTicker();
             } catch (InterruptedException e) {
                 throw new RuntimeException(e);
             }
@@ -433,15 +313,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 throw new RuntimeException(e);
             }
         });
-//        executor.execute(()->{
-//            Timer timer = new Timer();
-//            timer.scheduleAtFixedRate(new TimerTask() {
-//                @Override
-//                public void run() {
-//                    PlayersOnline(url_onlines);
-//                }
-//            }, 0, 3000);
-//        });
     }
 
     @Override
