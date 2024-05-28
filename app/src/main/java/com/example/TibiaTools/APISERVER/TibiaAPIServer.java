@@ -19,7 +19,7 @@ import retrofit2.http.GET;
 import retrofit2.http.Path;
 
 public interface TibiaAPIServer {
-    @GET("{name}")
+    @GET("/v4/character/{name}")
     Call<APIServicesTibia> getPersonajes(@Path("name") String name);
 
     @GET ("/v4/worlds")
