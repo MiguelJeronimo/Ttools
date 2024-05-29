@@ -115,7 +115,8 @@ public class GuildInformation extends AppCompatActivity {
         });
 
         adaptador.setOnClickListener(view -> {
-            String nameGuild = itemsRecyclerViewGuilds.get(recyclerView.getChildAdapterPosition(view)).getLbName();
+            String nameGuild = itemsRecyclerViewGuilds
+                    .get(recyclerView.getChildAdapterPosition(view)).getLbName();
             Intent intent = new Intent(GuildInformation.this, GuildInformationName.class);
             intent.putExtra("nameGuild",nameGuild);
             startActivity(intent);
@@ -127,7 +128,10 @@ public class GuildInformation extends AppCompatActivity {
                 String guildName = parent.getItemAtPosition(position).toString();
                 viewModelGuilds.setGuild(guildName);
             } else {
+                itemsRecyclerViewGuilds.clear();
+                adaptador.notifyDataSetChanged();
                 linearProgressIndicator.setVisibility(View.GONE);
+
             }
         });
     }
