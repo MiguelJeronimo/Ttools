@@ -15,9 +15,7 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public class RepositoryCharacters {
-    InstanciaRetrofit services = new InstanciaRetrofit();
-    String url = "https://api.tibiadata.com/";
+public class RepositoryCharacters extends Repository{
     public void characters(String characterName, MutableLiveData<APIServicesTibia> _characters){
         TibiaAPIServer tibiaAPIServer = services.getRetrofit(url).create(TibiaAPIServer.class);
         Call<APIServicesTibia> call = tibiaAPIServer.getPersonajes(characterName);
