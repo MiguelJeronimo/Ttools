@@ -90,7 +90,7 @@ public class GuildInformation extends AppCompatActivity {
         });
 
         viewModelGuilds.Guild().observe(this,guilds -> {
-            System.out.println(guilds);
+            itemsRecyclerViewGuilds.clear();
             if (guilds != null){
                 if (guilds.getActive() != null){
                     guilds.getActive().forEach(guild->{

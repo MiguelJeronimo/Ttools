@@ -37,7 +37,7 @@ public interface TibiaAPIServer {
     @GET("/v4/guilds/{world}")
     Call<ApiGuilds> getGuildsInformation(@Path("world") String world);
 
-    @GET("{name}")
+    @GET("/v4/guild/{name}")
     Call<ApiGuildsName> getGuildsInformationName(@Path("name") String name);
 
     @GET("spells")
