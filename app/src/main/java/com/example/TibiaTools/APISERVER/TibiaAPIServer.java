@@ -55,7 +55,7 @@ public interface TibiaAPIServer {
     @GET("/v4/news/newsticker")
     Call<ApiNewsTicker> getNewsTickers();
 
-    @GET("highscores/{world}/{category}/{vocation}")
+    @GET("/v4/highscores/{world}/{category}/{vocation}")
     Call<ApiHighScores> getHighScoreInformation(@Path("world") String world, @Path("category") String category, @Path("vocation") String vocation);
 
     @GET("houses/{world}/{town}")

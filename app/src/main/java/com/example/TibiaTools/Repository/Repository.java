@@ -18,7 +18,7 @@ import retrofit2.Response;
 public class Repository {
     InstanciaRetrofit services = new InstanciaRetrofit();
     String url = "https://api.tibiadata.com/";
-    public void worlds(MutableLiveData<ArrayList<String>> _guilds){
+    public void worlds(MutableLiveData<ArrayList<String>> _worlds){
         ArrayList<String> arrayWorlds = new ArrayList<>();
         TibiaAPIServer tibiaAPIServer = services.getRetrofit(url).create(TibiaAPIServer.class);
         Call<DataWords> call = tibiaAPIServer.getWorlds();
@@ -34,15 +34,15 @@ public class Repository {
                     for (RegularWorlds mundos: worlds.getRegular_worlds()) {
                         arrayWorlds.add(mundos.getName());
                     }
-                    _guilds.setValue(arrayWorlds);
+                    _worlds.setValue(arrayWorlds);
                 } else {
-                    _guilds.setValue(null);
+                    _worlds.setValue(null);
                 }
             }
 
             @Override
             public void onFailure(@NonNull Call<DataWords> call, @NonNull Throwable t) {
-                _guilds.setValue(null);
+                _worlds.setValue(null);
             }
         });
     }
