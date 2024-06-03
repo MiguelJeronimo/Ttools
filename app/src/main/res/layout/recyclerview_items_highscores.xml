@@ -3,7 +3,6 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-
     android:padding="5dp"
     android:clickable="true"
     android:focusable="true"
@@ -27,7 +26,7 @@
         android:id="@+id/textViewRank"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="20dp"
+        android:layout_marginTop="10dp"
         android:text="Rank: 1"
         android:textSize="20dp"
         android:textStyle="bold"
@@ -37,9 +36,9 @@
 
     <TextView
         android:id="@+id/textViewName"
-        android:layout_width="300dp"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginTop="20dp"
+        android:layout_marginTop="10dp"
         android:text="Selur Zaole"
         android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"
@@ -48,7 +47,7 @@
 
     <TextView
         android:id="@+id/textViewVocation"
-        android:layout_width="300dp"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="5dp"
         android:text="Royal Paladin"
@@ -61,17 +60,17 @@
         android:id="@+id/textViewLevel"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="10dp"
-        android:textStyle="bold"
         android:text="Level: 2000"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toStartOf="@+id/guideline2"
         app:layout_constraintHorizontal_bias="0.12"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textViewVocation" />
+        app:layout_constraintTop_toBottomOf="@+id/textViewRank" />
 
     <TextView
         android:id="@+id/textViewValue"
-        android:layout_width="200dp"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="10dp"
         android:textStyle="italic"

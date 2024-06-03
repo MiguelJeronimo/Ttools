@@ -1,6 +1,7 @@
 package com.example.TibiaTools.View;
 import android.annotation.SuppressLint;
 import android.content.Intent;
+import android.os.Build;
 import android.os.Bundle;
 import com.example.TibiaTools.APISERVER.TibiaAPIServer;
 import com.example.TibiaTools.APISERVER.models.GuildInformation.ApiGuilds;
@@ -10,14 +11,18 @@ import com.example.TibiaTools.APISERVER.models.Worlds.DataWords;
 import com.example.TibiaTools.APISERVER.models.Worlds.RegularWorlds;
 import com.example.TibiaTools.APISERVER.models.Worlds.Worlds;
 import com.example.TibiaTools.Operaciones.InstanciaRetrofit;
+import com.example.TibiaTools.View.ViewModel.ViewModelGuilds;
 import com.example.TibiaTools.recyclerview.Adapters.AdapterRecyclerViewGuildsList;
 import com.example.TibiaTools.recyclerview.ItemsRecyclerViewGuilds;
 import com.example.ttools.R;
 import com.example.ttools.databinding.ActivityGuildsBinding;
 import com.google.android.material.progressindicator.LinearProgressIndicator;
+import com.google.android.material.snackbar.Snackbar;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -43,11 +48,15 @@ public class GuildInformation extends AppCompatActivity {
     //recyclerview
     RecyclerView recyclerView;
     AdapterRecyclerViewGuildsList adaptador;
-    List<ItemsRecyclerViewGuilds> itemsRecyclerViewGuilds;
+    List<ItemsRecyclerViewGuilds> itemsRecyclerViewGuilds = new ArrayList<>();
     String url = "https://api.tibiadata.com/v4/";
     InstanciaRetrofit servicio = new InstanciaRetrofit();
     LinearProgressIndicator linearProgressIndicator;
-
+    ViewModelProvider viewModelProvider;
+    ViewModelGuilds viewModelGuilds;
+    View view;
+    @SuppressLint("NotifyDataSetChanged")
+    @RequiresApi(api = Build.VERSION_CODES.N)
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -57,11 +66,72 @@ public class GuildInformation extends AppCompatActivity {
         linearProgressIndicator = findViewById(R.id.carga_guilds);
         Objects.requireNonNull(getSupportActionBar()).setDisplayHomeAsUpEnabled(true); //Aparicion del boton regresar en el action bar
         spinner = findViewById(R.id.spinner_guild);
-        Hilo();
+        view = findViewById(android.R.id.content);
+        //RecyclerView configuration
+        recyclerView = findViewById(R.id.recyclerGuilds);
+        LinearLayoutManager layoutManager = new LinearLayoutManager(this);
+        layoutManager.setOrientation(LinearLayoutManager.VERTICAL);
+        recyclerView.setLayoutManager(layoutManager);
+        adaptador = new AdapterRecyclerViewGuildsList(itemsRecyclerViewGuilds);
+        recyclerView.setHasFixedSize(true);
+        recyclerView.setAdapter(adaptador);
+
+        viewModelProvider = new ViewModelProvider(this);
+        viewModelGuilds = viewModelProvider.get(ViewModelGuilds.class);
+        viewModelGuilds.Worlds().observe(this, worlds -> {
+            if (worlds != null){
+                adapter = new ArrayAdapter<>(getApplicationContext(), R.layout.auto_complete, worlds);
+                spinner.setAdapter(adapter);
+                linearProgressIndicator.setVisibility(View.GONE);
+            } else {
+                Snackbar.make(view, "No charged worlds", Snackbar.LENGTH_LONG).show();
+                linearProgressIndicator.setVisibility(View.GONE);
+            }
+        });
+
+        viewModelGuilds.Guild().observe(this,guilds -> {
+            itemsRecyclerViewGuilds.clear();
+            if (guilds != null){
+                if (guilds.getActive() != null){
+                    guilds.getActive().forEach(guild->{
+                        itemsRecyclerViewGuilds.add(
+                                new ItemsRecyclerViewGuilds(
+                                        guild.getName(),
+                                        guild.getLogo_url(),
+                                        guild.getDescription()
+                                )
+                        );
+                    });
+                    adaptador.notifyDataSetChanged();
+                    linearProgressIndicator.setVisibility(View.GONE);
+                } else {
+                    Snackbar.make(view, "No guilds active", Snackbar.LENGTH_LONG).show();
+                    linearProgressIndicator.setVisibility(View.GONE);
+                }
+            } else {
+                Snackbar.make(view, "Error loading data", Snackbar.LENGTH_LONG).show();
+                linearProgressIndicator.setVisibility(View.GONE);
+            }
+        });
+
+        adaptador.setOnClickListener(view -> {
+            String nameGuild = itemsRecyclerViewGuilds
+                    .get(recyclerView.getChildAdapterPosition(view)).getLbName();
+            Intent intent = new Intent(GuildInformation.this, GuildInformationName.class);
+            intent.putExtra("nameGuild",nameGuild);
+            startActivity(intent);
+        });
+
         spinner.setOnItemClickListener((parent, view, position, id) -> {
-            if (parent.getItemAtPosition(position).toString() != "Seleccione un mundo"){
+            if (parent.getItemAtPosition(position).toString() != "Seleccione"){
                 linearProgressIndicator.setVisibility(View.VISIBLE);
-                llenarRecyclerView(parent.getItemAtPosition(position).toString());
+                String guildName = parent.getItemAtPosition(position).toString();
+                viewModelGuilds.setGuild(guildName);
+            } else {
+                itemsRecyclerViewGuilds.clear();
+                adaptador.notifyDataSetChanged();
+                linearProgressIndicator.setVisibility(View.GONE);
+
             }
         });
     }
@@ -81,107 +151,5 @@ public class GuildInformation extends AppCompatActivity {
         }
 
         return super.onOptionsItemSelected(item);
-    }
-
-    public void llenarSpinner(String url){
-        ArrayList<String> arrayWorlds = new ArrayList<>();
-        TibiaAPIServer tibiaAPIServer = servicio.getRetrofit(url).create(TibiaAPIServer.class);
-        Call <DataWords> call = tibiaAPIServer.getWorlds();
-        call.enqueue(new Callback<DataWords>() {
-            @Override
-            public void onResponse(@NonNull Call<DataWords> call, @NonNull Response<DataWords> response) {
-                if (response.isSuccessful()){
-                    DataWords dataWords = response.body();
-                    assert dataWords != null;
-                    Worlds worlds = dataWords.getWorlds();
-                    //foreach en java
-                    arrayWorlds.add("Seleccione");
-                    for (RegularWorlds mundos: worlds.getRegular_worlds()) {
-                        arrayWorlds.add(mundos.getName());
-                    }
-                    adapter = new ArrayAdapter<>(getApplicationContext(), R.layout.auto_complete, arrayWorlds);
-                    spinner.setAdapter(adapter);
-                    linearProgressIndicator.setVisibility(View.GONE);
-                }
-            }
-            @Override
-            public void onFailure(@NonNull Call<DataWords> call, @NonNull Throwable t) {
-                Toast.makeText(GuildInformation.this,t.getMessage(),Toast.LENGTH_SHORT).show();
-                linearProgressIndicator.setVisibility(View.GONE);
-            }
-        });
-    }
-
-    @SuppressLint("NotifyDataSetChanged")
-    public void llenarRecyclerView(String world){
-        if (!world.equals("Seleccione")){
-            recyclerView = (RecyclerView) findViewById(R.id.recyclerGuilds);
-            LinearLayoutManager layoutManager = new LinearLayoutManager(this);
-            String url_world = "https://api.tibiadata.com/v4/guilds/";
-            InstanciaRetrofit retrofit = new InstanciaRetrofit();
-            TibiaAPIServer tibiaAPIServer = retrofit.getRetrofit(url_world).create(TibiaAPIServer.class);
-            Call<ApiGuilds> call = tibiaAPIServer.getGuildsInformation(world);
-            call.enqueue(new Callback<ApiGuilds>() {
-                @SuppressLint("NotifyDataSetChanged")
-                @Override
-                public void onResponse(@NonNull Call<ApiGuilds> call, @NonNull Response<ApiGuilds> response) {
-                    if (response.isSuccessful()){
-                        ApiGuilds apiGuilds = response.body();
-                        assert apiGuilds != null;
-                        Guilds guilds = apiGuilds.getGuilds();
-                        if (guilds.getActive() != null){
-                            guilds.getActive().size();
-                            itemsRecyclerViewGuilds = new ArrayList<>();
-                            for (Active active: guilds.getActive()) {
-                                itemsRecyclerViewGuilds.add(
-                                        new ItemsRecyclerViewGuilds(
-                                                active.getName(),
-                                                active.getLogo_url(),
-                                                active.getDescription()));
-                            }
-                        }
-                        layoutManager.setOrientation(LinearLayoutManager.VERTICAL);
-                        recyclerView.setLayoutManager(layoutManager);
-                        adaptador = new AdapterRecyclerViewGuildsList(itemsRecyclerViewGuilds);
-                        adaptador.notifyDataSetChanged();
-                        recyclerView.setHasFixedSize(true);
-                        recyclerView.setAdapter(adaptador);
-                        linearProgressIndicator.setVisibility(View.GONE);
-                        //agregando el evento onclick con un lambda en java
-                        adaptador.setOnClickListener(view -> {
-                           String nameGuild = itemsRecyclerViewGuilds.get(recyclerView.getChildAdapterPosition(view)).getLbName();
-                            Intent intent = new Intent(GuildInformation.this, GuildInformationName.class);
-                            intent.putExtra("nameGuild",nameGuild);
-                            startActivity(intent);
-                        });
-
-                    } else {
-                        System.out.println("No hay respuesta "+response.code());
-                    }
-                }
-                @Override
-                public void onFailure(@NonNull Call<ApiGuilds> call, @NonNull Throwable t) {
-                    Toast.makeText(GuildInformation.this, "ERROR: "+t.getMessage(), Toast.LENGTH_SHORT).show();
-                }
-            });
-        } else{
-            Toast.makeText(this,"Seleccione una opción", Toast.LENGTH_SHORT).show();
-            if (itemsRecyclerViewGuilds!=null){
-                itemsRecyclerViewGuilds.clear();
-                adaptador.notifyDataSetChanged();
-            }
-        }
-    }
-
-    public void Hilo(){
-        Thread hilo = new Thread(() -> {
-            try {
-                Thread.sleep(3000);
-                llenarSpinner(url);
-            } catch (InterruptedException e) {
-                throw new RuntimeException(e);
-            }
-        });
-        hilo.start();
     }
 }

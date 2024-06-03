@@ -19,7 +19,7 @@ import retrofit2.http.GET;
 import retrofit2.http.Path;
 
 public interface TibiaAPIServer {
-    @GET("{name}")
+    @GET("/v4/character/{name}")
     Call<APIServicesTibia> getPersonajes(@Path("name") String name);
 
     @GET ("/v4/worlds")
@@ -34,10 +34,10 @@ public interface TibiaAPIServer {
     @GET("{race}")
     Call<APICriaturesInformation> getCriatureInformation(@Path("race") String race);
 
-    @GET("{world}")
+    @GET("/v4/guilds/{world}")
     Call<ApiGuilds> getGuildsInformation(@Path("world") String world);
 
-    @GET("{name}")
+    @GET("/v4/guild/{name}")
     Call<ApiGuildsName> getGuildsInformationName(@Path("name") String name);
 
     @GET("spells")
@@ -55,10 +55,10 @@ public interface TibiaAPIServer {
     @GET("/v4/news/newsticker")
     Call<ApiNewsTicker> getNewsTickers();
 
-    @GET("highscores/{world}/{category}/{vocation}")
+    @GET("/v4/highscores/{world}/{category}/{vocation}")
     Call<ApiHighScores> getHighScoreInformation(@Path("world") String world, @Path("category") String category, @Path("vocation") String vocation);
 
-    @GET("houses/{world}/{town}")
+    @GET("/v4/houses/{world}/{town}")
     Call<ApiHouses> getHousesInformation(@Path("world") String world, @Path("town") String town);
     @GET("house/{world}/{house_id}")
     Call<ApiHousesInformation> getHouseInformation(@Path("world") String world, @Path("house_id") String house_id);

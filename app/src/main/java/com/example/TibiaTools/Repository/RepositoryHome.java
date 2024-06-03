@@ -18,10 +18,7 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public class RepositoryHome {
-    InstanciaRetrofit services = new InstanciaRetrofit();
-    String url = "https://api.tibiadata.com/";
-
+public class RepositoryHome extends Repository{
     public void getRashidLocation(MutableLiveData<String> _rashidLocation){
         TibiaAPIServer tibiaAPIServer = services.getRetrofit("").create(TibiaAPIServer.class);
         Call<String> call = tibiaAPIServer.getRashidLocalitation();
