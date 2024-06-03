@@ -3,15 +3,6 @@ package com.example.TibiaTools.View;
 import android.os.Build;
 import android.os.Bundle;
 
-import com.example.TibiaTools.APISERVER.TibiaAPIServer;
-import com.example.TibiaTools.APISERVER.models.ApiHighScores;
-import com.example.TibiaTools.APISERVER.models.HighScores.HighScore;
-import com.example.TibiaTools.APISERVER.models.HighScores.HighscoreList.HighscoreList;
-import com.example.TibiaTools.APISERVER.models.Worlds.DataWords;
-import com.example.TibiaTools.APISERVER.models.Worlds.RegularWorlds;
-import com.example.TibiaTools.APISERVER.models.Worlds.Worlds;
-import com.example.TibiaTools.Operaciones.InstanciaRetrofit;
-
 import androidx.annotation.NonNull;
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
@@ -26,7 +17,6 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
-import android.widget.Spinner;
 import android.widget.Toast;
 
 import com.example.TibiaTools.View.ViewModel.ViewModelHighScore;
@@ -43,19 +33,12 @@ import java.util.List;
 import java.util.concurrent.Executor;
 import java.util.concurrent.Executors;
 
-import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
-
 public class Highscores extends AppCompatActivity implements AdapterView.OnItemClickListener {
 
     private ActivityHighscoresBinding binding;
-    String url = "https://api.tibiadata.com/v4/";
     DataHighScores dataHighScores = new DataHighScores();
     AutoCompleteTextView spinnerWorlds, spinnerVocations, spinnerCategorys;
     ArrayAdapter<String> adapterWorlds;
-    //retrofit
-    InstanciaRetrofit servicio = new InstanciaRetrofit();
     //recycler
     RecyclerView recyclerView;
     AdapterRecyclerViewHighScores adaptador;
@@ -211,7 +194,7 @@ public class Highscores extends AppCompatActivity implements AdapterView.OnItemC
     //implementacion de tareas asincronas
     public void Hilos(){
         Executor executor = Executors.newFixedThreadPool(2);
-        executor.execute(()->spinners());
+        executor.execute(this::spinners);
     }
 
     @Override
