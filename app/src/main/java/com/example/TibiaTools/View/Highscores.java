@@ -1,5 +1,6 @@
 package com.example.TibiaTools.View;
 
+import android.os.Build;
 import android.os.Bundle;
 
 import com.example.TibiaTools.APISERVER.TibiaAPIServer;
@@ -12,6 +13,7 @@ import com.example.TibiaTools.APISERVER.models.Worlds.Worlds;
 import com.example.TibiaTools.Operaciones.InstanciaRetrofit;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -62,6 +64,7 @@ public class Highscores extends AppCompatActivity implements AdapterView.OnItemC
     ViewModelHighScore viewModelHighScore;
     ViewModelProvider viewModelProvider;
 
+    @RequiresApi(api = Build.VERSION_CODES.N)
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

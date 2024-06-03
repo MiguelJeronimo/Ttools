@@ -4,12 +4,6 @@ import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
 
-import com.example.TibiaTools.APISERVER.TibiaAPIServer;
-import com.example.TibiaTools.APISERVER.models.ApiHouses;
-import com.example.TibiaTools.APISERVER.models.Houses.Houses;
-import com.example.TibiaTools.APISERVER.models.Houses.house_list.GuildhallList;
-import com.example.TibiaTools.APISERVER.models.Houses.house_list.HouseList;
-import com.example.TibiaTools.Operaciones.InstanciaRetrofit;
 import com.example.TibiaTools.View.ViewModel.ViewModelHouses;
 import com.example.TibiaTools.recyclerview.Adapters.AdapterRecyclerViewHouses;
 import com.example.TibiaTools.recyclerview.ItemsRecyclerViewHouses;
@@ -42,14 +36,9 @@ import java.util.Objects;
 import java.util.concurrent.Executor;
 import java.util.concurrent.Executors;
 
-import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
-
 public class HouseActivity extends AppCompatActivity implements AdapterView.OnItemClickListener {
 
     private ActivityHouseBinding binding;
-    String url = "https://api.tibiadata.com/v4/";
     String mundo;
     DataHighScores dataHighScores = new DataHighScores();
     AutoCompleteTextView spinnerWorlds, spinnerCitys;
@@ -58,8 +47,6 @@ public class HouseActivity extends AppCompatActivity implements AdapterView.OnIt
     RecyclerView recyclerView;
     AdapterRecyclerViewHouses adapterRecyclerViewHouses;
     ArrayList<ItemsRecyclerViewHouses> list_houses = new ArrayList<>();
-    //retrofit
-    InstanciaRetrofit servicio = new InstanciaRetrofit();
     ViewModelProvider viewModelProvider;
     ViewModelHouses viewModelHouses;
 
@@ -116,7 +103,6 @@ public class HouseActivity extends AppCompatActivity implements AdapterView.OnIt
                     ));
                 });
                 //validar que el array de guildhall es diferente de null
-                System.out.println("GUILD HALLL: "+houses.getGuildhall_list());
                 if (houses.getGuildhall_list()!= null) {
                     houses.getGuildhall_list().forEach(guildhallList -> {
                         String rented;
@@ -178,7 +164,7 @@ public class HouseActivity extends AppCompatActivity implements AdapterView.OnIt
 
     //llamadas asincornas con hilos
     public void Threads(){
-        Executor executor = Executors.newFixedThreadPool(2);
+        Executor executor = Executors.newFixedThreadPool(1);
         executor.execute(this::spinnersCity);
     }
 
