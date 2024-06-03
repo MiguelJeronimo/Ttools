@@ -85,7 +85,7 @@ public class HouseActivity extends AppCompatActivity implements AdapterView.OnIt
         spinnerCitys = findViewById(R.id.spinner_citys);
         spinnerWorlds.setOnItemClickListener(this);
         spinnerCitys.setOnItemClickListener(this);
-        Hilos();
+        Threads();
         viewModelHouses.Worlds().observe(this, worlds -> {
             if (worlds != null){
                 adapterWorlds = new ArrayAdapter<>(getApplicationContext(), R.layout.auto_complete, worlds);
@@ -176,86 +176,10 @@ public class HouseActivity extends AppCompatActivity implements AdapterView.OnIt
         });
     }
 
-    public void Casas(String url, String World, String Town){
-        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this);
-        recyclerView = findViewById(R.id.recycler_houses);
-        TibiaAPIServer tibiaAPIServer = servicio.getRetrofit(url).create(TibiaAPIServer.class);
-        Call<ApiHouses> call = tibiaAPIServer.getHousesInformation(World, Town);
-        binding.getRoot().findViewById(R.id.carga_houses).setVisibility(View.VISIBLE);
-        call.enqueue(new Callback<ApiHouses>() {
-            @Override
-            public void onResponse(Call<ApiHouses> call, Response<ApiHouses> response) {
-                if (response.isSuccessful()){
-                    ApiHouses apiHouses = response.body();
-                    Houses houses = apiHouses.getHouses();
-                    mundo = houses.getWorld();
-                    list_houses = new ArrayList<>();
-                    String rented;
-                    for (HouseList houseList: houses.getHouse_list()) {
-                        if (houseList.isRented()){
-                            rented = "Ocupada";
-                        } else{
-                            rented = "Desocupada";
-                        }
-                        list_houses.add(new ItemsRecyclerViewHouses(
-                                houseList.getName(),
-                                String.valueOf(houseList.getSize()),
-                                String.valueOf(houseList.getRent()),
-                                rented,
-                                String.valueOf(houseList.getHouse_id())
-                        ));
-                    }
-                    //validar que el array de guildhall es diferente de null
-                    if (houses.getGuildhall_list()!=null){
-                        for (GuildhallList guildhallList: houses.getGuildhall_list()) {
-                            if (guildhallList.isRented()){
-                                rented = "Ocupada";
-                            } else{
-                                rented = "Desocupada";
-                            }
-                            list_houses.add(new ItemsRecyclerViewHouses(
-                                    guildhallList.getName(),
-                                    String.valueOf(guildhallList.getSize()),
-                                    String.valueOf(guildhallList.getRent()),
-                                    rented,
-                                    String.valueOf(guildhallList.getHouse_id())
-                            ));
-                        }
-                    }
-                binding.getRoot().findViewById(R.id.carga_houses).setVisibility(View.GONE);
-                recyclerView.setHasFixedSize(true);
-                linearLayoutManager.setOrientation(LinearLayoutManager.VERTICAL);
-                recyclerView.setLayoutManager(linearLayoutManager);
-                adapterRecyclerViewHouses = new AdapterRecyclerViewHouses(list_houses);
-                recyclerView.setAdapter(adapterRecyclerViewHouses);
-                adapterRecyclerViewHouses.setOnClickListener(view -> {
-                    //Enviando el id de la casa a al activity HousesInformation
-                    String id_house = list_houses.get(recyclerView.getChildAdapterPosition(view)).getHouseId();
-                    Intent intent = new Intent(HouseActivity.this, HousesInformation.class);
-                    intent.putExtra("ID",id_house);
-                    intent.putExtra("mundo", mundo);
-                    startActivity(intent);
-                });
-                }else{
-                    Toast.makeText(getApplicationContext(),"Fallo en la opcion mundos.. Intente mas tarde", Toast.LENGTH_SHORT).show();
-                    binding.getRoot().findViewById(R.id.carga_houses).setVisibility(View.GONE);
-                }
-            }
-
-            @Override
-            public void onFailure(Call<ApiHouses> call, Throwable t) {
-                System.out.println(t.getMessage());
-                Toast.makeText(getApplicationContext(),"Error de conexión intente mas tarde :)", Toast.LENGTH_SHORT).show();
-                binding.getRoot().findViewById(R.id.carga_houses).setVisibility(View.GONE);
-            }
-        });
-
-    }
-
     //llamadas asincornas con hilos
-    public void Hilos(){
+    public void Threads(){
         Executor executor = Executors.newFixedThreadPool(2);
-        executor.execute(() -> spinnersCity());
+        executor.execute(this::spinnersCity);
     }
 
     @Override
