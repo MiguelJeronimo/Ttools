@@ -63,4 +63,6 @@ dependencies {
     implementation "androidx.lifecycle:lifecycle-viewmodel-ktx:2.6.2"
     // LiveData
     implementation "androidx.lifecycle:lifecycle-livedata-ktx:2.6.2"
+    //charts
+    implementation 'com.github.AAChartModel:AAChartCore:3ea5be4c9e'
 }

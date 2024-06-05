@@ -5,16 +5,8 @@ import android.os.Build;
 import android.os.Bundle;
 
 import com.bumptech.glide.Glide;
-import com.example.TibiaTools.APISERVER.models.APIBoostableBosses;
-import com.example.TibiaTools.APISERVER.models.ApiNews;
-import com.example.TibiaTools.APISERVER.TibiaAPIServer;
-import com.example.TibiaTools.APISERVER.models.APICriatures;
-import com.example.TibiaTools.APISERVER.models.ApiNewsTicker;
-import com.example.TibiaTools.APISERVER.models.Worlds.DataWords;
-import com.example.TibiaTools.APISERVER.models.Worlds.Worlds;
-import com.example.TibiaTools.APISERVER.models.criatures.BoostableBosses;
+import com.example.TibiaTools.APISERVER.models.Worlds.RegularWorlds;
 import com.example.TibiaTools.APISERVER.models.criatures.Boosted;
-import com.example.TibiaTools.APISERVER.models.criatures.Criatures;
 import com.example.TibiaTools.Operaciones.InstanciaRetrofit;
 import com.example.TibiaTools.View.About;
 import com.example.TibiaTools.View.Blessings;
@@ -26,6 +18,7 @@ import com.example.TibiaTools.View.Mundos;
 import com.example.TibiaTools.View.Spells_Tibia;
 import com.example.TibiaTools.View.Stamina;
 import com.example.TibiaTools.View.ViewModel.ViewModelHome;
+import com.example.TibiaTools.View.characters;
 import com.example.TibiaTools.View.experiencia_compartida;
 import com.example.TibiaTools.recyclerview.Adapters.AdapterRecyclerViewNews;
 import com.example.TibiaTools.recyclerview.ItemsRecyclerViewNews;
@@ -33,6 +26,13 @@ import com.example.TibiaTools.utilidades.RedValidator;
 
 import com.example.ttools.R;
 import com.example.TibiaTools.View.TibiaMaps;
+import com.github.AAChartModel.AAChartCore.AAChartCreator.AAChartModel;
+import com.github.AAChartModel.AAChartCore.AAChartCreator.AAChartView;
+import com.github.AAChartModel.AAChartCore.AAChartCreator.AASeriesElement;
+import com.github.AAChartModel.AAChartCore.AAChartEnum.AAChartType;
+import com.github.AAChartModel.AAChartCore.AAOptionsModel.AAChart;
+import com.github.AAChartModel.AAChartCore.AAOptionsModel.AAScrollablePlotArea;
+import com.github.AAChartModel.AAChartCore.AAOptionsModel.AAStyle;
 import com.google.android.material.card.MaterialCardView;
 import com.google.android.material.navigation.NavigationView;
 import com.google.android.material.progressindicator.LinearProgressIndicator;
@@ -55,22 +55,24 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.Date;
 import java.util.List;
+import java.util.Locale;
 import java.util.Timer;
 import java.util.TimerTask;
 import java.util.concurrent.Executor;
 import java.util.concurrent.Executors;
-
-import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
+import java.util.concurrent.atomic.AtomicBoolean;
+import java.util.concurrent.atomic.AtomicReferenceArray;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener, MenuItem.OnMenuItemClickListener {
     /**
      * Navigation Drawer
      * */
-    String url_onlines = "https://api.tibiadata.com/";
     DrawerLayout drawerLayout;
     ActionBarDrawerToggle actionBarDrawerToggle;
     NavigationView navigationView;
@@ -87,10 +89,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     List<ItemsRecyclerViewNews> itemsRecyclerViewNewsList;
     MaterialCardView cardCreatureBooss,cardBoostedBoos,cardNews, cardNews2;
     //RedValidator redValidator = new RedValidator();
-    //retrofit
-    InstanciaRetrofit servicio = new InstanciaRetrofit();
     ViewModelProvider viewModelProvider;
     ViewModelHome viewModelHome;
+    AAChartView aaChartView, aaChartView2;
+    ArrayList<Double> data = new ArrayList<>();
     //Asincronia asincronia = new Asincronia();
     @RequiresApi(api = Build.VERSION_CODES.N)
     @Override
@@ -154,9 +156,12 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         layoutManager.setOrientation(LinearLayoutManager.HORIZONTAL);
         recyclerViewNoticas.setHasFixedSize(true);
         recyclerViewNoticas.setAdapter(adapterRecyclerViewNews);
-
         viewModelProvider = new ViewModelProvider(this);
         viewModelHome = viewModelProvider.get(ViewModelHome.class);
+        aaChartView = findViewById(R.id.AAChartView);
+        aaChartView2 = findViewById(R.id.AAChartView2);
+        AAChartModel aaChartModel = new AAChartModel();
+        AAChartModel aaChartModel2 = new AAChartModel();
         viewModelHome.getRashidLocation().observe(this, location -> {
             if (location != null){
                 String url_rashid_image = "https://raw.githubusercontent.com/MiguelJeronimo/TtoolsDesktop/main/src/img/rashid.gif";
@@ -171,12 +176,97 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 System.out.println("NO SE MOSTRO NADA REFERENTE A RASHID");
             }
         });
+        ArrayList<AASeriesElement> dataElement = new ArrayList<>();
+        ArrayList<String> categories = new ArrayList<>();
+        ArrayList<String> categories2 = new ArrayList<>();
+        ArrayList<Double> data2 = new ArrayList<>();
+        AtomicBoolean isDrawChart2 = new AtomicBoolean(false);
+        viewModelHome.worlds().observe(this, worlds -> {
+            if (worlds != null){
+                categories.clear();
+                dataElement.clear();
+                data2.clear();
+                ArrayList<RegularWorlds> worldsList = new ArrayList<>(worlds.getRegular_worlds());
+                Collections.sort(worldsList,Collections.reverseOrder());
+                for (RegularWorlds world: worldsList){
+                    categories.add(world.getName());
+                    data2.add((double) world.getPlayers_online());
+                }
+                dataElement.add(
+                        new AASeriesElement()
+                                .name("Onlines")
+                                .data(data2.toArray())
+                );
+                AASeriesElement [] serieelement = new AASeriesElement[dataElement.size()];
+                serieelement = dataElement.toArray(serieelement);
+                String [] categoriesArray = new String[categories.size()];
+                categoriesArray = categories.toArray(categoriesArray);
+                if (isDrawChart2.get()){
+                    aaChartView2.aa_onlyRefreshTheChartDataWithChartOptionsSeriesArray(serieelement);
+                } else {
+                    aaChartModel2.chartType(AAChartType.Bar)
+                            .animationType("Bounce")
+                            .title("Worlds").titleStyle(new AAStyle().color("#DCE4E9"))
+                            .subtitle("Players online to worlds in Tibia").subtitleStyle(new AAStyle().color("#70787D"))
+                            .backgroundColor("#191C1E")
+                            .dataLabelsEnabled(false)
+                            .categories(categoriesArray)
+                            .yAxisGridLineWidth(0f).colorsTheme(new String[]{"#67D3FF"})
+                            .series(dataElement.toArray());
+//                            .scrollablePlotArea(new AAScrollablePlotArea()
+//                                    .minWidth(1000)
+//                                    .scrollPositionX(1.0f)
+//                            );
+                    aaChartView2.aa_drawChartWithChartModel(aaChartModel2);
+                    isDrawChart2.set(true);
+                }
+            }
+        });
 
+        AtomicBoolean isDrawChart = new AtomicBoolean(false);
         viewModelHome.playersOnline().observe(this, playersOnline -> {
            if (playersOnline != null){
+               long timestamp = System.currentTimeMillis();
+               Date date = new Date(timestamp);
+               SimpleDateFormat dateFormat = new SimpleDateFormat("dd 'de' MMMM 'de' yyyy", Locale.getDefault());
+               String formattedDate = dateFormat.format(date);
                String onlines = "Players Online: "+playersOnline.getPlayers_online();
                textViewPlayesOnline.setVisibility(View.VISIBLE);
                textViewPlayesOnline.setText(onlines);
+               Double players = Double.parseDouble(String.valueOf(playersOnline.getPlayers_online()));
+                if (!data.isEmpty()){
+                    int position = data.size() - 1;
+                    if (!data.get(position).equals(players)){
+                        data.add(players);
+                    }
+                } else {
+                    data.add(players);
+                }
+              //categories.add(formattedDate);
+               aaChartModel.chartType(AAChartType.Spline)
+                       .animationType("Bounce")
+                       .title("PLAYERS ONLINE").titleStyle(new AAStyle().color("#DCE4E9"))
+                       .subtitle("Players online in Tibia").subtitleStyle(new AAStyle().color("#70787D"))
+                       .backgroundColor("#191C1E")
+                       .dataLabelsEnabled(false)
+                       .yAxisGridLineWidth(0f);
+
+                if (isDrawChart.get()){
+                    AASeriesElement[] DataElementChart = new AASeriesElement[]{
+                            new AASeriesElement()
+                                    .name("Onlines")
+                                    .data(data.toArray()),
+                    };
+                    aaChartView.aa_onlyRefreshTheChartDataWithChartOptionsSeriesArray(DataElementChart);
+                }else {
+                    aaChartModel.series(new AASeriesElement[]{
+                                    new AASeriesElement()
+                                            .name("Onlines")
+                                            .data(data.toArray()),
+                            });
+                    aaChartView.aa_drawChartWithChartModel(aaChartModel);
+                    isDrawChart.set(true);
+                }
            } else{
                textViewPlayesOnline.setVisibility(View.GONE);
                textViewPlayesOnline.setText("");
@@ -254,6 +344,13 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             @Override
             public void run() {
                 runOnUiThread(() -> viewModelHome.setPlayersOnline());
+            }
+        }, 0, 3000);
+
+        timer.schedule(new TimerTask() {
+            @Override
+            public void run() {
+                runOnUiThread(()-> viewModelHome.setWorlds());
             }
         }, 0, 3000);
 

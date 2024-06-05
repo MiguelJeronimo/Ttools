@@ -18,7 +18,7 @@ public class ViewModelHighScore extends ViewModel {
     public MutableLiveData<HighScore> highScoreList() {return _highScoreList;}
 
     public ViewModelHighScore() {
-        repositoryHighScore.worlds(_worlds);
+        repositoryHighScore.worlds( _worlds, null);
     }
 
     public void setHighScores(String world,String category,String vocation) {

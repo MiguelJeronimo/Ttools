@@ -19,7 +19,7 @@ public class ViewModelHouses extends ViewModel {
     public MutableLiveData<ArrayList<String>> Worlds() {return _worlds;}
 
     public ViewModelHouses(){
-        repositoryHouses.worlds(_worlds);
+        repositoryHouses.worlds(_worlds, null);
     }
     public void setHouses(String world, String town) {
         repositoryHouses.houses(world, town,_houses);

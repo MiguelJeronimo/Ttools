@@ -15,10 +15,35 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public class Repository {
+public class Repository implements Methods{
     InstanciaRetrofit services = new InstanciaRetrofit();
     String url = "https://api.tibiadata.com/";
-    public void worlds(MutableLiveData<ArrayList<String>> _worlds){
+
+    public void worlds(MutableLiveData<Worlds> _worlds){
+        ArrayList<String> arrayWorlds = new ArrayList<>();
+        TibiaAPIServer tibiaAPIServer = services.getRetrofit(url).create(TibiaAPIServer.class);
+        Call<DataWords> call = tibiaAPIServer.getWorlds();
+        call.enqueue(new Callback<DataWords>() {
+            @Override
+            public void onResponse(@NonNull Call<DataWords> call, @NonNull Response<DataWords> response) {
+                if (response.isSuccessful()){
+                    DataWords dataWords = response.body();
+                    assert dataWords != null;
+                    Worlds worlds = dataWords.getWorlds();
+                    _worlds.setValue(worlds);
+                } else {
+                    _worlds.setValue(null);
+                }
+            }
+
+            @Override
+            public void onFailure(@NonNull Call<DataWords> call, @NonNull Throwable t) {
+                _worlds.setValue(null);
+            }
+        });
+    }
+
+    public void worlds(MutableLiveData<ArrayList<String>> _worlds, ArrayList<String> worlds){
         ArrayList<String> arrayWorlds = new ArrayList<>();
         TibiaAPIServer tibiaAPIServer = services.getRetrofit(url).create(TibiaAPIServer.class);
         Call<DataWords> call = tibiaAPIServer.getWorlds();
