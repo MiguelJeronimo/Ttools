@@ -1,18 +1,21 @@
 package com.example.TibiaTools.View;
 
 import android.content.Intent;
+import android.os.Build;
 import android.os.Bundle;
 
 import com.example.TibiaTools.APISERVER.TibiaAPIServer;
 import com.example.TibiaTools.APISERVER.models.APICriatures;
 import com.example.TibiaTools.APISERVER.models.criatures.Criatures;
 import com.example.TibiaTools.Operaciones.InstanciaRetrofit;
+import com.example.TibiaTools.View.ViewModel.ViewModelCreatures;
 import com.example.TibiaTools.recyclerview.Adapters.adapterRecyclerViewCriatures;
 import com.example.TibiaTools.recyclerview.ItemsRecyclerViewCriatures;
 import com.example.ttools.R;
 import com.example.ttools.databinding.ActivityCriaturasBinding;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.view.MenuItem;
@@ -20,6 +23,7 @@ import android.view.View;
 import android.widget.Toast;
 
 
+import androidx.lifecycle.ViewModelProvider;
 import androidx.navigation.ui.AppBarConfiguration;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -35,12 +39,11 @@ import retrofit2.Call;
 public class Criaturas extends AppCompatActivity {
     RecyclerView recyclerView;
     adapterRecyclerViewCriatures myAdapter;
-    List<ItemsRecyclerViewCriatures> itemsRecyclerViewCriatures;
-    String url = "https://api.tibiadata.com/v3/";
-    private AppBarConfiguration appBarConfiguration;
+    List<ItemsRecyclerViewCriatures> itemsRecyclerViewCriatures = new ArrayList<>();
     private ActivityCriaturasBinding binding;
-    InstanciaRetrofit services = new InstanciaRetrofit();
-
+    ViewModelProvider viewModelProvider;
+    ViewModelCreatures viewModelCreatures;
+    @RequiresApi(api = Build.VERSION_CODES.N)
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -48,7 +51,44 @@ public class Criaturas extends AppCompatActivity {
         setContentView(binding.getRoot());
         setSupportActionBar(binding.toolbar);
         Objects.requireNonNull(getSupportActionBar()).setDisplayHomeAsUpEnabled(true); //Aparicion del boton regresar en el action bar
-        llenarRecyclerViewCriaturas(url);
+        recyclerView = findViewById(R.id.recyclerCriaturas);
+        LinearLayoutManager layoutManager = new LinearLayoutManager(this);
+        recyclerView.setLayoutManager(layoutManager);
+        myAdapter = new adapterRecyclerViewCriatures(itemsRecyclerViewCriatures);
+        layoutManager.setOrientation(LinearLayoutManager.VERTICAL);
+        recyclerView.setHasFixedSize(true);
+        recyclerView.setAdapter(myAdapter);
+
+        viewModelProvider = new ViewModelProvider(this);
+        viewModelCreatures = viewModelProvider.get(ViewModelCreatures.class);
+
+        viewModelCreatures.creature().observe(this, creatures->{
+            if (creatures != null){
+                //binding.getRoot().findViewById(R.id.carga_criatures).setVisibility(View.GONE);
+                itemsRecyclerViewCriatures.add(new ItemsRecyclerViewCriatures(
+                        "Today's Boss: "+creatures.getBoosted().getName(),
+                        creatures.getBoosted().getRace(),
+                        creatures.getBoosted().getImage_url()));
+                creatures.getCriatures_list().forEach(creature->{
+                    itemsRecyclerViewCriatures.add(new ItemsRecyclerViewCriatures(
+                            creature.getName(),
+                            creature.getRace(),
+                            creature.getImage_url()));
+                });
+                myAdapter.notifyDataSetChanged();
+                recyclerView.setVisibility(View.VISIBLE);
+            } else {
+                Toast.makeText(getApplicationContext(),"Error al obtener las criaturas, intente mas tarde", Toast.LENGTH_SHORT).show();
+            }
+            binding.getRoot().findViewById(R.id.carga_criatures).setVisibility(View.GONE);
+        });
+
+        myAdapter.setOnClickListener(view -> {
+            String raceCriatures = itemsRecyclerViewCriatures.get(recyclerView.getChildAdapterPosition(view)).getLbrace();
+            Intent intent = new Intent(Criaturas.this, CriaturesInformation.class);
+            intent.putExtra("raceCriatures", raceCriatures);
+            startActivity(intent);
+        });
     }
 /*
 * Este metodo se encarga de la navegacion entre las diferentes pantallas
@@ -67,59 +107,6 @@ public class Criaturas extends AppCompatActivity {
         }
 
         return super.onOptionsItemSelected(item);
-    }
-
-    public void llenarRecyclerViewCriaturas(String url) {
-        recyclerView = findViewById(R.id.recyclerCriaturas);
-        LinearLayoutManager layoutManager = new LinearLayoutManager(this);
-        TibiaAPIServer tibiaAPIServer = services.getRetrofit(url).create(TibiaAPIServer.class);
-        Call<APICriatures> call = tibiaAPIServer.getCreature();
-        call.enqueue(new retrofit2.Callback<APICriatures>() {
-            @Override
-            public void onResponse(@NonNull Call<APICriatures> call, @NonNull retrofit2.Response<APICriatures> response) {
-                if (!response.isSuccessful()) {
-                    System.out.println("Codigo: " + response.code());
-                    binding.getRoot().findViewById(R.id.carga_criatures).setVisibility(View.GONE);
-                    Toast.makeText(getApplicationContext(),"Error al obtener las criaturas, intente mas tarde", Toast.LENGTH_SHORT).show();
-                    return;
-                }
-                APICriatures apiCriatures = response.body();
-                Criatures criatures = apiCriatures.getCreatures();
-                itemsRecyclerViewCriatures = new ArrayList<>();
-                if (criatures.getCriatures_list() != null){
-                    itemsRecyclerViewCriatures.add(new ItemsRecyclerViewCriatures(
-                            "Today's Boss: "+criatures.getBoosted().getName(),
-                            criatures.getBoosted().getRace(),
-                            criatures.getBoosted().getImage_url()));
-
-                    for (int i = 0; i < criatures.getCriatures_list().size(); i++) {
-                        itemsRecyclerViewCriatures.add(
-                                new ItemsRecyclerViewCriatures(criatures.getCriatures_list().get(i).getName(),
-                                        criatures.getCriatures_list().get(i).getRace(),
-                                        criatures.getCriatures_list().get(i).getImage_url()));
-                    }
-                }
-                recyclerView.setLayoutManager(layoutManager);
-                myAdapter = new adapterRecyclerViewCriatures(itemsRecyclerViewCriatures);
-                layoutManager.setOrientation(LinearLayoutManager.VERTICAL);
-                recyclerView.setHasFixedSize(true);
-                recyclerView.setAdapter(myAdapter);
-                binding.getRoot().findViewById(R.id.carga_criatures).setVisibility(View.GONE);
-                recyclerView.setVisibility(View.VISIBLE);
-                myAdapter.setOnClickListener(view -> {
-                    String raceCriatures = itemsRecyclerViewCriatures.get(recyclerView.getChildAdapterPosition(view)).getLbrace();
-                    Intent intent = new Intent(Criaturas.this, CriaturesInformation.class);
-                    intent.putExtra("raceCriatures", raceCriatures);
-                    startActivity(intent);
-                });
-            }
-            @Override
-            public void onFailure(@NonNull Call<APICriatures> call, @NonNull Throwable t) {
-                System.out.println(t.getMessage());
-                binding.getRoot().findViewById(R.id.carga_criatures).setVisibility(View.GONE);
-                Toast.makeText(Criaturas.this, "Error de conexión, intente mas tarde...", Toast.LENGTH_SHORT).show();
-            }
-        });
     }
 }
 
