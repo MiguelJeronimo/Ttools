@@ -20,7 +20,6 @@ public class Repository implements Methods{
     String url = "https://api.tibiadata.com/";
 
     public void worlds(MutableLiveData<Worlds> _worlds){
-        ArrayList<String> arrayWorlds = new ArrayList<>();
         TibiaAPIServer tibiaAPIServer = services.getRetrofit(url).create(TibiaAPIServer.class);
         Call<DataWords> call = tibiaAPIServer.getWorlds();
         call.enqueue(new Callback<DataWords>() {

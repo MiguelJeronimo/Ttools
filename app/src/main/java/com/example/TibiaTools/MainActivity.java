@@ -218,6 +218,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 //                                    .scrollPositionX(1.0f)
 //                            );
                     aaChartView2.aa_drawChartWithChartModel(aaChartModel2);
+                    aaChartView2.setVisibility(View.VISIBLE);
                     isDrawChart2.set(true);
                 }
             }
@@ -265,6 +266,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                                             .data(data.toArray()),
                             });
                     aaChartView.aa_drawChartWithChartModel(aaChartModel);
+                    aaChartView.setVisibility(View.VISIBLE);
                     isDrawChart.set(true);
                 }
            } else{

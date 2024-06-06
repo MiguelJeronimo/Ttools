@@ -16,6 +16,9 @@ public class ViewModelWorlds extends ViewModel {
         return _worlds;
     }
 
+    public ViewModelWorlds() {
+        repository.worlds(_worlds);
+    }
     public void setWorlds() {
         repository.worlds(_worlds);
     }
