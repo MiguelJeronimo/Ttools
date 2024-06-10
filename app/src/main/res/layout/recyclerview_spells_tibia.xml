@@ -1,136 +1,148 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:clickable="true"
-    android:focusable="true"
-    android:foreground="?android:attr/selectableItemBackground"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
 
-    <androidx.constraintlayout.widget.Guideline
-        android:id="@+id/primera_division"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:orientation="vertical"
-        app:layout_constraintGuide_percent="0.25"/>
-    <androidx.constraintlayout.widget.Guideline
-        android:id="@+id/primera_division2"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:orientation="vertical"
-        app:layout_constraintGuide_percent="0.50"/>
-    <androidx.constraintlayout.widget.Guideline
-        android:id="@+id/primera_division3"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:orientation="vertical"
-        app:layout_constraintGuide_percent="0.75"/>
-
-    <TextView
-        android:id="@+id/textViewName"
-        android:layout_width="300dp"
-        android:layout_height="21dp"
-        android:layout_marginTop="16dp"
-        android:paddingLeft="15dp"
-        android:text="Avatar of Nature (uteta res dru)"
-        android:textStyle="bold"
-        app:layout_constraintEnd_toStartOf="@+id/primera_division3"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
-    <TextView
-        android:id="@+id/textViewFormula"
-        android:layout_width="300dp"
-        android:layout_height="21dp"
-        android:paddingLeft="15dp"
-        android:layout_marginTop="5dp"
-        android:text="uteta res dru"
-        android:textStyle="italic"
-        app:layout_constraintEnd_toStartOf="@+id/primera_division3"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textViewName" />
-
-    <TextView
-        android:id="@+id/textViewNivvel"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="10dp"
-        android:text="Level: 1000"
-        app:layout_constraintEnd_toStartOf="@+id/primera_division"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textViewFormula" />
-
-    <TextView
-        android:id="@+id/textViewMana"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="10dp"
-        android:text="Mana: 200000"
-
-        app:layout_constraintEnd_toStartOf="@+id/primera_division2"
-        app:layout_constraintStart_toStartOf="@+id/primera_division"
-        app:layout_constraintTop_toBottomOf="@+id/textViewFormula" />
-
-    <TextView
-        android:id="@+id/textViewPrecio"
-        android:layout_width="70dp"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
-        android:textStyle="italic"
-        android:text="100000 gold coins"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="@+id/primera_division3"
-        app:layout_constraintTop_toTopOf="parent" />
-
-    <TextView
-        android:id="@+id/textViewType"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="10dp"
-        android:text="Instance"
-        app:layout_constraintEnd_toStartOf="@+id/primera_division3"
-        app:layout_constraintStart_toStartOf="@+id/primera_division2"
-        app:layout_constraintTop_toBottomOf="@+id/textViewFormula" />
-
-    <TextView
-        android:id="@+id/textViewGroup"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="10dp"
-        android:text="Attack"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="@+id/primera_division3"
-        app:layout_constraintTop_toBottomOf="@+id/textViewFormula" />
-
-    <TextView
-        android:id="@+id/textViewSpell_Id"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Animate Dead Rune"
-        android:visibility="invisible"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textViewPremium" />
-
-    <TextView
-        android:id="@+id/textViewPremium"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="10dp"
-        android:text="Premium Only"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textViewMana" />
-
-    <com.google.android.material.divider.MaterialDivider
-        android:id="@+id/separador"
+    <com.google.android.material.card.MaterialCardView
+        style="@style/Widget.Material3.CardView.Filled"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginStart="10dp"
-        android:layout_marginEnd="10dp"
+        android:layout_marginStart="5dp"
+        android:layout_marginTop="5dp"
+        android:layout_marginEnd="5dp"
+        android:layout_marginBottom="5dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textViewSpell_Id" />
+        app:layout_constraintTop_toTopOf="parent">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:focusable="true"
+            android:foreground="?android:attr/selectableItemBackground"
+            android:layout_height="wrap_content">
+
+            <androidx.constraintlayout.widget.Guideline
+                android:id="@+id/primera_division"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                app:layout_constraintGuide_percent="0.25" />
+
+            <androidx.constraintlayout.widget.Guideline
+                android:id="@+id/primera_division2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                app:layout_constraintGuide_percent="0.50" />
+
+            <androidx.constraintlayout.widget.Guideline
+                android:id="@+id/primera_division3"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                app:layout_constraintGuide_percent="0.75" />
+
+            <TextView
+                android:id="@+id/textViewName"
+                android:layout_width="300dp"
+                android:layout_height="21dp"
+                android:layout_marginTop="16dp"
+                android:paddingLeft="15dp"
+                android:text="Avatar of Nature (uteta res dru)"
+                android:textStyle="bold"
+                app:layout_constraintEnd_toStartOf="@+id/primera_division3"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <TextView
+                android:id="@+id/textViewFormula"
+                android:layout_width="300dp"
+                android:layout_height="21dp"
+                android:layout_marginTop="5dp"
+                android:paddingLeft="15dp"
+                android:text="uteta res dru"
+                android:textStyle="italic"
+                app:layout_constraintEnd_toStartOf="@+id/primera_division3"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/textViewName" />
+
+            <TextView
+                android:id="@+id/textViewNivvel"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:text="Level: 1000"
+                app:layout_constraintEnd_toStartOf="@+id/primera_division"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/textViewFormula" />
+
+            <TextView
+                android:id="@+id/textViewMana"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:text="Mana: 200000"
+
+                app:layout_constraintEnd_toStartOf="@+id/primera_division2"
+                app:layout_constraintStart_toStartOf="@+id/primera_division"
+                app:layout_constraintTop_toBottomOf="@+id/textViewFormula" />
+
+            <TextView
+                android:id="@+id/textViewPrecio"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:padding="5dp"
+                android:text="100000 gold coins"
+                android:textStyle="italic"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="@+id/primera_division3"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <TextView
+                android:id="@+id/textViewType"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:text="Instance"
+                app:layout_constraintEnd_toStartOf="@+id/primera_division3"
+                app:layout_constraintStart_toStartOf="@+id/primera_division2"
+                app:layout_constraintTop_toBottomOf="@+id/textViewFormula" />
+
+            <TextView
+                android:id="@+id/textViewGroup"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:text="Attack"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="@+id/primera_division3"
+                app:layout_constraintTop_toBottomOf="@+id/textViewFormula" />
+
+            <TextView
+                android:id="@+id/textViewSpell_Id"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Animate Dead Rune"
+                android:visibility="gone"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/textViewPremium" />
+
+            <TextView
+                android:id="@+id/textViewPremium"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:text="Premium Only"
+                app:layout_constraintBottom_toTopOf="@+id/separador"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/textViewMana" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </com.google.android.material.card.MaterialCardView>
 </androidx.constraintlayout.widget.ConstraintLayout>
