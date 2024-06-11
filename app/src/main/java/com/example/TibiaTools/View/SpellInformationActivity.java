@@ -1,6 +1,5 @@
 package com.example.TibiaTools.View;
 
-import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.graphics.Typeface;
 import android.os.Bundle;
@@ -16,22 +15,16 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.ContextCompat;
+import androidx.lifecycle.ViewModelProvider;
 
 import com.bumptech.glide.Glide;
-import com.example.TibiaTools.APISERVER.TibiaAPIServer;
-import com.example.TibiaTools.APISERVER.models.ApiSpellsInformation;
-import com.example.TibiaTools.APISERVER.models.SpellsInformation.SpellList.Spell;
 import com.example.TibiaTools.APISERVER.models.SpellsInformation.spell_information.Spell_Information;
 import com.example.TibiaTools.APISERVER.models.SpellsInformation.spell_information.rune_information.rune_information;
-import com.example.TibiaTools.Operaciones.InstanciaRetrofit;
+import com.example.TibiaTools.Repository.ViewModelSpell;
 import com.example.ttools.R;
 import com.example.ttools.databinding.ActivitySpellInformationBinding;
 
 import java.util.Objects;
-
-import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
 
 public class SpellInformationActivity extends AppCompatActivity {
     Intent intent;
@@ -42,8 +35,8 @@ public class SpellInformationActivity extends AppCompatActivity {
     TextView textViewSpellName,textViewSpellFormula,textViewDescription,textViewGrupo,textViewTipo,textViewDamageType,
             textViewCooldown,textViewSoulPoint,textViewAmount,textViewMana,textViewNivel,textViewPrice,textViewStatus,
             textViewCooldownGroup;
-    String url="https://api.tibiadata.com/v4/spell/";
-    InstanciaRetrofit services = new InstanciaRetrofit();
+    ViewModelProvider viewModelProvider;
+    ViewModelSpell viewModelSpell;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -72,7 +65,128 @@ public class SpellInformationActivity extends AppCompatActivity {
         textViewPrice = findViewById(R.id.textViewPrice);
         textViewStatus = findViewById(R.id.textViewStatus);
         textViewCooldownGroup = findViewById(R.id.textViewCooldownGroup);
-        infoSpells(url,id_spell);
+        viewModelProvider = new ViewModelProvider(this);
+        viewModelSpell = viewModelProvider.get(ViewModelSpell.class);
+        viewModelSpell.setSpell(id_spell);
+        viewModelSpell.spell().observe(this, spell -> {
+            if (spell!=null){
+                linearLayoutCitys = findViewById(R.id.linearLayoutCitys);
+                linearLayoutProfeciones = findViewById(R.id.linearLayoutProfeciones);
+                linearLayoutVocation = findViewById(R.id.linearLayoutVocation);
+                linearLayoutVocacionesPermitidas = findViewById(R.id.linearLayoutVocacionesPermitidas);
+                Glide.with(getApplicationContext()).load(spell.getImage_url()).into(imgLogo);
+                textViewSpellName.setText(spell.getName());
+                textViewDescription.setText(spell.getDescription());
+                //dentro de spell_information en el api
+                Spell_Information spell_information = spell.getSpell_information();
+                textViewSpellFormula.setText(spell_information.getFormula());
+                binding.getRoot().findViewById(R.id.CardSpellFormula).setVisibility(View.VISIBLE);
+                //Validar el tipo de grupo al que pertenece
+                String groupStatus=null;
+                if (spell_information.isGroup_attack()){
+                    groupStatus = "Attack";
+                }
+                if (spell_information.isGroup_healing()){
+                    groupStatus = "Healing";
+                }
+                if (spell_information.isGroup_support()){
+                    groupStatus = "Support";
+                }
+                textViewGrupo.setText(groupStatus);
+                //Validar a que tipo pertenece
+                String statusType = null;
+                if (spell_information.isType_instant()){
+                    statusType = "Instant";
+                }
+                if (spell_information.isType_rune()){
+                    statusType = "Rune";
+                }
+                textViewTipo.setText(statusType);
+                //validar premium
+                String statusPremium;
+                if (spell_information.isPremium_only()){
+                    statusPremium = "Premium Only";
+                } else{
+                    statusPremium = "Free";
+                }
+                textViewStatus.setText(statusPremium);
+                textViewDamageType.setText(spell_information.getDamage_type());
+                textViewCooldown.setText(String.valueOf(spell_information.getCooldown_alone()));
+                textViewCooldownGroup.setText(String.valueOf(spell_information.getCooldown_group()));
+                textViewSoulPoint.setText(String.valueOf(spell_information.getSoul_points()));
+                textViewAmount.setText(String.valueOf(spell_information.getAmount()));
+                textViewNivel.setText(String.valueOf(spell_information.getLevel()));
+                textViewMana.setText(String.valueOf(spell_information.getMana()));
+                if (spell_information.getVocation() != null){
+                    TextView txtVocation = new TextView(SpellInformationActivity.this);
+                    txtVocation.setText("Vocation");
+                    txtVocation.setTextColor(ContextCompat.getColor(getApplicationContext(),R.color.md_theme_light_primary));
+                    txtVocation.setTextSize(15);
+                    txtVocation.setTypeface(null, Typeface.BOLD);
+                    txtVocation.setLayoutParams(new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT));
+                    txtVocation.setGravity(Gravity.CENTER);
+                    linearLayoutVocation.addView(txtVocation);
+                    for (String vocations:spell_information.getVocation()) {
+                        txtVocation = new TextView(SpellInformationActivity.this);
+                        txtVocation.setText(vocations);
+                        txtVocation.setGravity(Gravity.CENTER);
+                        txtVocation.setTextColor(ContextCompat.getColor(getApplicationContext(),R.color.md_theme_dark_error
+                        ));
+                        //txtVocation.setTextColor(Color.parseColor("#CE93D8"));
+                        txtVocation.setTypeface(null, Typeface.ITALIC);
+                        txtVocation.setLayoutParams(new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT));
+                        linearLayoutVocation.addView(txtVocation);
+                    }
+                    binding.getRoot().findViewById(R.id.CardSpellGeneral).setVisibility(View.VISIBLE);
+                }
+                if (spell_information.getCity()!=null){
+                    TextView txtCitys = new TextView(SpellInformationActivity.this);
+                    txtCitys.setText("Citys");
+                    txtCitys.setTextColor(ContextCompat.getColor(getApplicationContext(),R.color.md_theme_light_primary));
+                    txtCitys.setTextSize(15);
+                    txtCitys.setTypeface(null, Typeface.BOLD);
+                    txtCitys.setGravity(Gravity.CENTER);
+                    txtCitys.setLayoutParams(new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT));
+                    linearLayoutCitys.addView(txtCitys);
+                    for (String citys:spell_information.getCity()) {
+                        txtCitys = new TextView(SpellInformationActivity.this);
+                        txtCitys.setText(citys);
+                        txtCitys.setTextColor(ContextCompat.getColor(getApplicationContext(),R.color.md_theme_dark_error));
+                        //txtCitys.setTextColor(Color.parseColor("#CE93D8"));
+                        txtCitys.setTypeface(null, Typeface.ITALIC);
+                        txtCitys.setGravity(Gravity.CENTER);
+                        txtCitys.setLayoutParams(new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT));
+                        linearLayoutCitys.addView(txtCitys);
+                    }
+                }
+
+                rune_information rune_information = spell.getRune_information();
+                if (rune_information.getVocation()!=null){
+                    TextView txtVocacionesPermitidas = new TextView(SpellInformationActivity.this);
+                    txtVocacionesPermitidas.setText("Vocations permited");
+                    txtVocacionesPermitidas.setTextColor(ContextCompat.getColor(getApplicationContext(),R.color.md_theme_light_primary));
+                    txtVocacionesPermitidas.setTextSize(15);
+                    txtVocacionesPermitidas.setTypeface(null, Typeface.BOLD);
+                    txtVocacionesPermitidas.setGravity(Gravity.CENTER);
+                    txtVocacionesPermitidas.setLayoutParams(new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT));
+                    linearLayoutVocacionesPermitidas.addView(txtVocacionesPermitidas);
+                    for (String vocaciones_permitidas:rune_information.getVocation()) {
+                        txtVocacionesPermitidas = new TextView(SpellInformationActivity.this);
+                        txtVocacionesPermitidas.setText(vocaciones_permitidas);
+                        txtVocacionesPermitidas.setTextColor(ContextCompat.getColor(getApplicationContext(),R.color.md_theme_dark_error));
+                        //txtVocacionesPermitidas.setTextColor(Color.parseColor("#CE93D8"));
+                        txtVocacionesPermitidas.setTypeface(null, Typeface.ITALIC);
+                        txtVocacionesPermitidas.setGravity(Gravity.CENTER);
+                        txtVocacionesPermitidas.setLayoutParams(new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT));
+                        linearLayoutVocacionesPermitidas.addView(txtVocacionesPermitidas);
+                    }
+                }
+                binding.getRoot().findViewById(R.id.Card_Listas).setVisibility(View.VISIBLE);
+            }else{
+                Toast.makeText(getApplicationContext(), "Error de conexión, intente mas tarde...", Toast.LENGTH_SHORT).show();
+            }
+            binding.getRoot().findViewById(R.id.carga_spell_information).setVisibility(View.GONE);
+        });
     }
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
@@ -83,141 +197,4 @@ public class SpellInformationActivity extends AppCompatActivity {
         }
         return super.onOptionsItemSelected(item);
     }
-
-    public void infoSpells(String url, String id_spell){
-        linearLayoutCitys = findViewById(R.id.linearLayoutCitys);
-        linearLayoutProfeciones = findViewById(R.id.linearLayoutProfeciones);
-        linearLayoutVocation = findViewById(R.id.linearLayoutVocation);
-        linearLayoutVocacionesPermitidas = findViewById(R.id.linearLayoutVocacionesPermitidas);
-        TibiaAPIServer tibiaAPIServer = services.getRetrofit(url).create(TibiaAPIServer.class);
-        Call<ApiSpellsInformation> call = tibiaAPIServer.getSpellInformation(id_spell);
-        call.enqueue(new Callback<ApiSpellsInformation>() {
-            @SuppressLint("SetTextI18n")
-            @Override
-            public void onResponse(Call<ApiSpellsInformation> call, Response<ApiSpellsInformation> response) {
-                if (response.isSuccessful()){
-                    ApiSpellsInformation information = response.body();
-                    Spell spell = information.getSpells();
-                    Glide.with(getApplicationContext()).load(spell.getImage_url()).into(imgLogo);
-                    textViewSpellName.setText(spell.getName());
-                    textViewDescription.setText(spell.getDescription());
-                    //dentro de spell_information en el api
-                    Spell_Information spell_information = spell.getSpell_information();
-                    textViewSpellFormula.setText(spell_information.getFormula());
-                    binding.getRoot().findViewById(R.id.CardSpellFormula).setVisibility(View.VISIBLE);
-                    //Validar el tipo de grupo al que pertenece
-                    String groupStatus=null;
-                    if (spell_information.isGroup_attack()){
-                        groupStatus = "Attack";
-                    }
-                    if (spell_information.isGroup_healing()){
-                        groupStatus = "Healing";
-                    }
-                    if (spell_information.isGroup_support()){
-                        groupStatus = "Support";
-                    }
-                    textViewGrupo.setText(groupStatus);
-                    //Validar a que tipo pertenece
-                    String statusType = null;
-                    if (spell_information.isType_instant()){
-                        statusType = "Instant";
-                    }
-                    if (spell_information.isType_rune()){
-                        statusType = "Rune";
-                    }
-                    textViewTipo.setText(statusType);
-                    //validar premium
-                    String statusPremium;
-                    if (spell_information.isPremium_only()){
-                        statusPremium = "Premium Only";
-                    } else{
-                        statusPremium = "Free";
-                    }
-                    textViewStatus.setText(statusPremium);
-                    textViewDamageType.setText(spell_information.getDamage_type());
-                    textViewCooldown.setText(String.valueOf(spell_information.getCooldown_alone()));
-                    textViewCooldownGroup.setText(String.valueOf(spell_information.getCooldown_group()));
-                    textViewSoulPoint.setText(String.valueOf(spell_information.getSoul_points()));
-                    textViewAmount.setText(String.valueOf(spell_information.getAmount()));
-                    textViewNivel.setText(String.valueOf(spell_information.getLevel()));
-                    textViewMana.setText(String.valueOf(spell_information.getMana()));
-                    if (spell_information.getVocation() != null){
-                        TextView txtVocation = new TextView(SpellInformationActivity.this);
-                        txtVocation.setText("Vocation");
-                        txtVocation.setTextColor(ContextCompat.getColor(getApplicationContext(),R.color.md_theme_light_primary));
-                        txtVocation.setTextSize(15);
-                        txtVocation.setTypeface(null, Typeface.BOLD);
-                        txtVocation.setLayoutParams(new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT));
-                        txtVocation.setGravity(Gravity.CENTER);
-                        linearLayoutVocation.addView(txtVocation);
-                        for (String vocations:spell_information.getVocation()) {
-                            txtVocation = new TextView(SpellInformationActivity.this);
-                            txtVocation.setText(vocations);
-                            txtVocation.setGravity(Gravity.CENTER);
-                            txtVocation.setTextColor(ContextCompat.getColor(getApplicationContext(),R.color.md_theme_dark_error
-                            ));
-                            //txtVocation.setTextColor(Color.parseColor("#CE93D8"));
-                            txtVocation.setTypeface(null, Typeface.ITALIC);
-                            txtVocation.setLayoutParams(new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT));
-                            linearLayoutVocation.addView(txtVocation);
-                        }
-                        binding.getRoot().findViewById(R.id.CardSpellGeneral).setVisibility(View.VISIBLE);
-                    }
-                    if (spell_information.getCity()!=null){
-                        TextView txtCitys = new TextView(SpellInformationActivity.this);
-                        txtCitys.setText("Citys");
-                        txtCitys.setTextColor(ContextCompat.getColor(getApplicationContext(),R.color.md_theme_light_primary));
-                        txtCitys.setTextSize(15);
-                        txtCitys.setTypeface(null, Typeface.BOLD);
-                        txtCitys.setGravity(Gravity.CENTER);
-                        txtCitys.setLayoutParams(new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT));
-                        linearLayoutCitys.addView(txtCitys);
-                        for (String citys:spell_information.getCity()) {
-                            txtCitys = new TextView(SpellInformationActivity.this);
-                            txtCitys.setText(citys);
-                            txtCitys.setTextColor(ContextCompat.getColor(getApplicationContext(),R.color.md_theme_dark_error));
-                            //txtCitys.setTextColor(Color.parseColor("#CE93D8"));
-                            txtCitys.setTypeface(null, Typeface.ITALIC);
-                            txtCitys.setGravity(Gravity.CENTER);
-                            txtCitys.setLayoutParams(new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT));
-                            linearLayoutCitys.addView(txtCitys);
-                        }
-                    }
-
-                    rune_information rune_information = spell.getRune_information();
-                    if (rune_information.getVocation()!=null){
-                        TextView txtVocacionesPermitidas = new TextView(SpellInformationActivity.this);
-                        txtVocacionesPermitidas.setText("Vocations permited");
-                        txtVocacionesPermitidas.setTextColor(ContextCompat.getColor(getApplicationContext(),R.color.md_theme_light_primary));
-                        txtVocacionesPermitidas.setTextSize(15);
-                        txtVocacionesPermitidas.setTypeface(null, Typeface.BOLD);
-                        txtVocacionesPermitidas.setGravity(Gravity.CENTER);
-                        txtVocacionesPermitidas.setLayoutParams(new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT));
-                        linearLayoutVocacionesPermitidas.addView(txtVocacionesPermitidas);
-                        for (String vocaciones_permitidas:rune_information.getVocation()) {
-                            txtVocacionesPermitidas = new TextView(SpellInformationActivity.this);
-                            txtVocacionesPermitidas.setText(vocaciones_permitidas);
-                            txtVocacionesPermitidas.setTextColor(ContextCompat.getColor(getApplicationContext(),R.color.md_theme_dark_error));
-                            //txtVocacionesPermitidas.setTextColor(Color.parseColor("#CE93D8"));
-                            txtVocacionesPermitidas.setTypeface(null, Typeface.ITALIC);
-                            txtVocacionesPermitidas.setGravity(Gravity.CENTER);
-                            txtVocacionesPermitidas.setLayoutParams(new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT));
-                            linearLayoutVocacionesPermitidas.addView(txtVocacionesPermitidas);
-                        }
-                    }
-                    binding.getRoot().findViewById(R.id.Card_Listas).setVisibility(View.VISIBLE);
-                    binding.getRoot().findViewById(R.id.carga_spell_information).setVisibility(View.GONE);
-                } else{
-                    Toast.makeText(getApplicationContext(),"No hay respuesta del servidor", Toast.LENGTH_SHORT).show();
-                }
-            }
-
-            @Override
-            public void onFailure(@NonNull Call<ApiSpellsInformation> call, @NonNull Throwable t) {
-                Toast.makeText(getApplicationContext(), "Error de conexión, intente mas tarde...", Toast.LENGTH_SHORT).show();
-                System.out.println(t.getMessage());
-            }
-        });
-    }
-
 }

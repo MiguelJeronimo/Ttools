@@ -43,7 +43,7 @@ public interface TibiaAPIServer {
     @GET("/v4/spells")
     Call<ApiSpells> getSpells();
 
-    @GET("{spell}")
+    @GET("/v4/spell/{spell}")
     Call<ApiSpellsInformation> getSpellInformation(@Path("spell") String spell);
 
     @GET("https://api.tibialabs.com/v2/rashid")
