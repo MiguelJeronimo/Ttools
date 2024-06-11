@@ -31,7 +31,7 @@ public interface TibiaAPIServer {
     @GET("/v4/boostablebosses")
     Call<APIBoostableBosses> getBoostableBosses();
 
-    @GET("{race}")
+    @GET("/v4/creature/{race}")
     Call<APICriaturesInformation> getCriatureInformation(@Path("race") String race);
 
     @GET("/v4/guilds/{world}")

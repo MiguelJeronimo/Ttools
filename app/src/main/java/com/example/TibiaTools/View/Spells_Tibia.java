@@ -36,12 +36,10 @@ import retrofit2.Response;
 public class Spells_Tibia extends AppCompatActivity {
 
     private ActivitySpellsTibiaBinding binding;
-    String url = "https://api.tibiadata.com/v4/";
     //RecyclerView
     RecyclerView recyclerView;
     AdapterRecyclerViewSpells adapter;
     List<ItemsRecyclerViewSpells> itemsRecyclerViewSpellsList = new ArrayList<>();;
-    InstanciaRetrofit services = new InstanciaRetrofit();
     ViewModelProvider viewModelProvider;
     ViewModelSpells viewModelSpells;
     @Override
