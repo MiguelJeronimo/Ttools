@@ -46,6 +46,8 @@ public class SpellInformationActivity extends AppCompatActivity {
         Objects.requireNonNull(getSupportActionBar()).setDisplayHomeAsUpEnabled(true); //Aparicion del boton regresar en el action bar
         intent = getIntent();
         id_spell = intent.getStringExtra("ID");
+        String name = intent.getStringExtra("name");
+        getSupportActionBar().setTitle(name);
         imgLogo = findViewById(R.id.imageViewSpellLogo);
         linearLayoutVocation = findViewById(R.id.linearLayoutVocation);
         linearLayoutProfeciones = findViewById(R.id.linearLayoutProfeciones);

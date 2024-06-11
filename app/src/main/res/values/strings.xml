@@ -12,7 +12,7 @@
     <string name="title_activity_criaturas">Criaturas</string>
     <string name="title_activity_criatures_information">Información de la Criatura</string>
     <string name="title_activity_guilds">Guilds</string>
-    <string name="title_activity_guild_information_name">Información de la Guild</string>
+    <string name="title_activity_guild_information_name"></string>
     <string name="title_activity_spells_tibia">Spells</string>
     <string name="title_activity_spell_information">Información de la Spell</string>
     <string name="title_activity_house">Houses</string>
@@ -29,11 +29,11 @@
     <string name="nd_mundos">Mundos</string>
     <string name="nd_criaturas">Criaturas</string>
     <string name="nd_guild">Guilds</string>
-    <string name="nd_spells">Spells</string>
+    <string name="nd_spells">Magias</string>
     <string name="nd_maps">Tibia Maps</string>
     <string name="nd_bless">Blessings</string>
     <string name="nd_highscores">Highscores</string>
-    <string name="nd_houses">Houses</string>
+    <string name="nd_houses">Casas</string>
     <string name="nd_salir">Salir</string>
     <string name="nd_about">Acerca de</string>
     <string name="title_activity_tibia_maps">Tibia Maps</string>

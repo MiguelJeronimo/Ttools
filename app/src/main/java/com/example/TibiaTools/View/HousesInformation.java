@@ -22,7 +22,7 @@ import java.text.DecimalFormat;
 
 public class HousesInformation extends AppCompatActivity {
     Intent intent;
-    String id_house, mundo;
+    String id_house, mundo, name;
     TextView txtName,txtWorld,txtCity,txtType,txtBeds,txtSize,txtPrice,txtOwner;
     ImageView imgCasa;
     private ActivityHousesInformationBinding binding;
@@ -43,7 +43,8 @@ public class HousesInformation extends AppCompatActivity {
         intent = getIntent();
         id_house = intent.getStringExtra("ID");
         mundo = intent.getStringExtra("mundo");
-
+        name = intent.getStringExtra("name");
+        getSupportActionBar().setTitle(name);
         imgCasa = findViewById(R.id.imgCasa);
         txtName = findViewById(R.id.txtName);
         txtWorld = findViewById(R.id.txtWorld);

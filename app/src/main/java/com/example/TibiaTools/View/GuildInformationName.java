@@ -68,6 +68,7 @@ public class GuildInformationName extends AppCompatActivity {
         //respuesta de la pantalla anterior
         intent = getIntent();
         guildName = intent.getStringExtra("nameGuild");
+        getSupportActionBar().setTitle(guildName);
         viewModelGuildInformation.setGuild(guildName);
         imageViewGuildLogo = binding.getRoot().findViewById(R.id.imageViewGuildLogo);
         textViewGuildName = binding.getRoot().findViewById(R.id.textViewGuildName);

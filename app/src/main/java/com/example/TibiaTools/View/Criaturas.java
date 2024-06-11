@@ -84,9 +84,11 @@ public class Criaturas extends AppCompatActivity {
         });
 
         myAdapter.setOnClickListener(view -> {
-            String raceCriatures = itemsRecyclerViewCriatures.get(recyclerView.getChildAdapterPosition(view)).getLbrace();
+            String raceCreatures = itemsRecyclerViewCriatures.get(recyclerView.getChildAdapterPosition(view)).getLbrace();
+            String nameCreatures = itemsRecyclerViewCriatures.get(recyclerView.getChildAdapterPosition(view)).getLbName();
             Intent intent = new Intent(Criaturas.this, CriaturesInformation.class);
-            intent.putExtra("raceCriatures", raceCriatures);
+            intent.putExtra("raceCreatures", raceCreatures);
+            intent.putExtra("nameCreatures", nameCreatures);
             startActivity(intent);
         });
     }

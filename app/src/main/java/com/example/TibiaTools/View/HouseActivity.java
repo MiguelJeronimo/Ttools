@@ -130,9 +130,11 @@ public class HouseActivity extends AppCompatActivity implements AdapterView.OnIt
             String id_house = list_houses.get(
                     recyclerView.getChildAdapterPosition(view)
             ).getHouseId();
+            String name = list_houses.get(recyclerView.getChildAdapterPosition(view)).getHouseName();
             Intent intent = new Intent(HouseActivity.this, HousesInformation.class);
             intent.putExtra("ID",id_house);
             intent.putExtra("mundo", mundo);
+            intent.putExtra("name", name);
             startActivity(intent);
         });
 

@@ -32,7 +32,7 @@ import java.util.Objects;
 public class CriaturesInformation extends AppCompatActivity {
 
     private ActivityCriaturesInformationBinding binding;
-    String raceCreature;
+    String raceCreature, nameCreature;
     TextView creatureName, creatureDescription, creatureBehaviour, creatureHealth, creatureExp;
     ImageView creatureImage;
     LinearLayout linearLayout, linearLayoutInmune, linearLayoutStrong, linearLayoutWeakness;
@@ -47,7 +47,9 @@ public class CriaturesInformation extends AppCompatActivity {
         setSupportActionBar(binding.toolbar);
         Objects.requireNonNull(getSupportActionBar()).setDisplayHomeAsUpEnabled(true); //Aparicion del boton regresar en el action bar
         Intent intent = getIntent();
-        raceCreature = intent.getStringExtra("raceCriatures");
+        raceCreature = intent.getStringExtra("raceCreatures");
+        nameCreature = intent.getStringExtra("nameCreatures");
+        getSupportActionBar().setTitle(nameCreature);
         creatureName = binding.getRoot().findViewById(R.id.id_criature_name);
         creatureDescription = binding.getRoot().findViewById(R.id.descripcion_criature);
         creatureBehaviour = binding.getRoot().findViewById(R.id.behavior_criature);

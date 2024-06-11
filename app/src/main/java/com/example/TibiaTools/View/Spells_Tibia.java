@@ -107,6 +107,7 @@ public class Spells_Tibia extends AppCompatActivity {
         });
         adapter.setOnClickListener(view -> {
             String id = itemsRecyclerViewSpellsList.get(recyclerView.getChildAdapterPosition(view)).getSpellId();
+            String name = itemsRecyclerViewSpellsList.get(recyclerView.getChildAdapterPosition(view)).getNombre();
             //para el caso de apprenticestrike, para quietar la 's y el espacio
             //id = id.replace("'s ","");
             String id1 = id.replace("'s","s");
@@ -123,6 +124,7 @@ public class Spells_Tibia extends AppCompatActivity {
             }
             Intent intent = new Intent(Spells_Tibia.this, SpellInformationActivity.class);
             intent.putExtra("ID",id_minusculas);
+            intent.putExtra("name", name);
             startActivity(intent);
         });
     }
