@@ -34,7 +34,8 @@ public class TibiaMaps extends AppCompatActivity {
         WebView maps = binding.getRoot().findViewById(R.id.mapsImage);
        if (redValidator.ValidarInternet(getApplication())){
            String mapa = utilidades.TibiaMapps(getResources().openRawResource(R.raw.tibiamaps));
-           maps.loadDataWithBaseURL("https://tibiamaps.io/map#32381,32213,7:0", mapa, "text/html", "UTF-8", null);
+           //maps.loadDataWithBaseURL("https://tibiamaps.github.io/tibia-map/#32371,32219,7:1", mapa, "text/html", "UTF-8", null);
+           maps.loadUrl("https://tibiamaps.github.io/tibia-map/#32371,32219,7:1");
            WebSettings webSettings = maps.getSettings();
            webSettings.setJavaScriptEnabled(true);
        }else{

@@ -48,6 +48,7 @@ import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.util.Log;
 import android.view.View;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -104,7 +105,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         setSupportActionBar(toolbar);
         //Cards
         cardCreatureBooss = findViewById(R.id.cardView3);
-        cardBoostedBoos = findViewById(R.id.cardView2);
         cardNews = findViewById(R.id.cardView4);
         cardNews2 = findViewById(R.id.cardView5);
         drawerLayout = findViewById(R.id.navegacion);

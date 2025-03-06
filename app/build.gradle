@@ -64,5 +64,5 @@ dependencies {
     // LiveData
     implementation "androidx.lifecycle:lifecycle-livedata-ktx:2.6.2"
     //charts
-    implementation 'com.github.AAChartModel:AAChartCore:3ea5be4c9e'
+    implementation 'com.github.AAChartModel:AAChartCore:-SNAPSHOT'
 }
