@@ -104,10 +104,11 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         //Cards
-        cardCreatureBooss = findViewById(R.id.cardView3);
         cardNews = findViewById(R.id.cardView4);
         cardNews2 = findViewById(R.id.cardView5);
         drawerLayout = findViewById(R.id.navegacion);
+        cardCreatureBooss = findViewById(R.id.cardCreatureBoos);
+        cardBoostedBoos = findViewById(R.id.cardBoostedBoos);
         //Agrega utilidades a la toolbar, asi como el incono de hamburguesa, y los iconos de cuando se despliegue el menu y cuando este cerrado
         actionBarDrawerToggle = new ActionBarDrawerToggle(this, drawerLayout, toolbar, R.string.nav_open,R.string.nav_close);
         //agrega el evento al drawelayout, recibe por parametro el actionBarDrawerToggle en la cual se encuentra las animaciones

@@ -20,7 +20,6 @@ import com.example.ttools.R;
 import com.example.ttools.databinding.ActivityTibiaMapsBinding;
 
 public class TibiaMaps extends AppCompatActivity {
-    RedValidator redValidator = new RedValidator();
     private AppBarConfiguration appBarConfiguration;
     private ActivityTibiaMapsBinding binding;
     utilidades utilidades = new utilidades();
@@ -32,7 +31,7 @@ public class TibiaMaps extends AppCompatActivity {
         setSupportActionBar(binding.toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true); //Aparicion del boton regresar en el action bar
         WebView maps = binding.getRoot().findViewById(R.id.mapsImage);
-       if (redValidator.ValidarInternet(getApplication())){
+       if (RedValidator.ValidarInternet(getApplication())){
            String mapa = utilidades.TibiaMapps(getResources().openRawResource(R.raw.tibiamaps));
            //maps.loadDataWithBaseURL("https://tibiamaps.github.io/tibia-map/#32371,32219,7:1", mapa, "text/html", "UTF-8", null);
            maps.loadUrl("https://tibiamaps.github.io/tibia-map/#32371,32219,7:1");
