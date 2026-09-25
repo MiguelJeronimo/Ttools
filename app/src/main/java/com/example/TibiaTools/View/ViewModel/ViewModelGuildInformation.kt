@@ -1,17 +1,24 @@
-package com.example.TibiaTools.View.ViewModel;
+package com.example.TibiaTools.View.ViewModel
 
-import androidx.lifecycle.MutableLiveData;
-import androidx.lifecycle.ViewModel;
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
+import com.example.TibiaTools.data.model.Guild
+import com.example.TibiaTools.domain.usecase.GetGuildsInformationNameUseCase
+import kotlinx.coroutines.launch
 
-import com.example.TibiaTools.data.model.*;
-import com.example.TibiaTools.Repository.RepositoryGuildsInformation;
+class ViewModelGuildInformation(
+    private val getGuildsInformationNameUseCase: GetGuildsInformationNameUseCase
+) : ViewModel() {
+    private val _guild = MutableLiveData<Guild?>()
+    fun guild(): LiveData<Guild?> = _guild
 
-public class ViewModelGuildInformation extends ViewModel {
-    RepositoryGuildsInformation repositoryGuildsInformation = new RepositoryGuildsInformation();
-    private final MutableLiveData<Guild> _guild = new MutableLiveData<>();
-    public MutableLiveData<Guild> guild(){ return _guild; }
-
-    public void setGuild(String guildName){
-        repositoryGuildsInformation.guildInformation(guildName, _guild);
+    fun setGuild(guildName: String) {
+        viewModelScope.launch {
+            runCatching { getGuildsInformationNameUseCase(guildName) }
+                .onSuccess { _guild.value = it.guild }
+                .onFailure { _guild.value = null }
+        }
     }
 }

@@ -1,28 +1,47 @@
-package com.example.TibiaTools.View.ViewModel;
+package com.example.TibiaTools.View.ViewModel
 
-import androidx.lifecycle.MutableLiveData;
-import androidx.lifecycle.ViewModel;
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
+import com.example.TibiaTools.data.model.HighScore
+import com.example.TibiaTools.domain.usecase.GetHighScoreInformationUseCase
+import com.example.TibiaTools.domain.usecase.GetWorldsUseCase
+import kotlinx.coroutines.launch
 
-import com.example.TibiaTools.data.model.*;
-import com.example.TibiaTools.Repository.RepositoryHighScore;
+class ViewModelHighScore(
+    private val getHighScoreInformationUseCase: GetHighScoreInformationUseCase,
+    private val getWorldsUseCase: GetWorldsUseCase
+) : ViewModel() {
+    private val _worlds = MutableLiveData<ArrayList<String>?>()
+    fun Worlds(): LiveData<ArrayList<String>?> = _worlds
 
-import java.util.ArrayList;
-import java.util.List;
+    private val _highScoreList = MutableLiveData<HighScore?>()
+    fun highScoreList(): LiveData<HighScore?> = _highScoreList
 
-public class ViewModelHighScore extends ViewModel {
-    RepositoryHighScore repositoryHighScore = new RepositoryHighScore();
-    private final MutableLiveData<ArrayList<String>> _worlds = new MutableLiveData<>();
-    public MutableLiveData<ArrayList<String>> Worlds() {return _worlds;}
-
-    private final MutableLiveData<HighScore> _highScoreList = new MutableLiveData<>();
-    public MutableLiveData<HighScore> highScoreList() {return _highScoreList;}
-
-    public ViewModelHighScore() {
-        repositoryHighScore.worlds( _worlds, null);
+    init {
+        loadWorlds()
     }
 
-    public void setHighScores(String world,String category,String vocation) {
-        repositoryHighScore.highScore(world,category,vocation,_highScoreList);
+    private fun loadWorlds() {
+        viewModelScope.launch {
+            runCatching { getWorldsUseCase() }
+                .onSuccess { dataWords ->
+                    val arrayWorlds = arrayListOf("Seleccione")
+                    dataWords.worlds?.regular_worlds?.forEach { world ->
+                        world.name?.let { arrayWorlds.add(it) }
+                    }
+                    _worlds.value = arrayWorlds
+                }
+                .onFailure { _worlds.value = null }
+        }
     }
 
+    fun setHighScores(world: String, category: String, vocation: String) {
+        viewModelScope.launch {
+            runCatching { getHighScoreInformationUseCase(world, category, vocation) }
+                .onSuccess { _highScoreList.value = it.highscores }
+                .onFailure { _highScoreList.value = null }
+        }
+    }
 }

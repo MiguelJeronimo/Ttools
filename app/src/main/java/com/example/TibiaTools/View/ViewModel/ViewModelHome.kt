@@ -1,62 +1,105 @@
-package com.example.TibiaTools.View.ViewModel;
+package com.example.TibiaTools.View.ViewModel
 
-import androidx.lifecycle.LiveData;
-import androidx.lifecycle.MutableLiveData;
-import androidx.lifecycle.ViewModel;
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
+import com.example.TibiaTools.data.model.ApiNews
+import com.example.TibiaTools.data.model.ApiNewsTicker
+import com.example.TibiaTools.data.model.BoostableBosses
+import com.example.TibiaTools.data.model.Criatures
+import com.example.TibiaTools.data.model.Worlds
+import com.example.TibiaTools.domain.usecase.GetBoostableBossesUseCase
+import com.example.TibiaTools.domain.usecase.GetCreaturesUseCase
+import com.example.TibiaTools.domain.usecase.GetNewsLatestUseCase
+import com.example.TibiaTools.domain.usecase.GetNewsTickersUseCase
+import com.example.TibiaTools.domain.usecase.GetRashidLocationUseCase
+import com.example.TibiaTools.domain.usecase.GetWorldsUseCase
+import kotlinx.coroutines.launch
 
-import com.example.TibiaTools.data.model.*;
-import com.example.TibiaTools.Repository.RepositoryHome;
+class ViewModelHome(
+    private val getWorldsUseCase: GetWorldsUseCase,
+    private val getRashidLocationUseCase: GetRashidLocationUseCase,
+    private val getCreaturesUseCase: GetCreaturesUseCase,
+    private val getBoostableBossesUseCase: GetBoostableBossesUseCase,
+    private val getNewsLatestUseCase: GetNewsLatestUseCase,
+    private val getNewsTickersUseCase: GetNewsTickersUseCase
+) : ViewModel() {
 
-public class ViewModelHome extends ViewModel{
-    RepositoryHome repositoryHome = new RepositoryHome();
+    private val _worlds = MutableLiveData<Worlds?>()
+    fun worlds(): LiveData<Worlds?> = _worlds
 
-    private final MutableLiveData<Worlds> _worlds = new MutableLiveData<>();
+    private val _rashidLocation = MutableLiveData<String?>()
+    val rashidLocation: LiveData<String?> get() = _rashidLocation
 
-    public MutableLiveData<Worlds> worlds() {return _worlds;}
+    private val _playersOnline = MutableLiveData<Worlds?>()
+    fun playersOnline(): LiveData<Worlds?> = _playersOnline
 
-    public void setWorlds() {
-        repositoryHome.worlds(_worlds);
-    }
-    private final MutableLiveData<String> _rashidLocation = new MutableLiveData<>();
-    public LiveData<String> getRashidLocation() {
-        return _rashidLocation;
-    }
+    private val _creatureBoss = MutableLiveData<Criatures?>()
+    fun creatureBoss(): LiveData<Criatures?> = _creatureBoss
 
-    private final MutableLiveData<Worlds> _playersOnline = new MutableLiveData<>();
-    public LiveData<Worlds> playersOnline(){return _playersOnline;}
+    private val _bostedBoss = MutableLiveData<BoostableBosses?>()
+    fun bostedBoss(): LiveData<BoostableBosses?> = _bostedBoss
 
-    private final MutableLiveData<Criatures> _creatureBoss = new MutableLiveData<>();
-    public LiveData<Criatures> creatureBoss(){return _creatureBoss;}
-    private final MutableLiveData<BoostableBosses> _bostedBoss = new MutableLiveData<>();
-    public LiveData<BoostableBosses> bostedBoss(){return _bostedBoss;}
+    val _news = MutableLiveData<ApiNews?>()
+    fun news(): LiveData<ApiNews?> = _news
 
-    public final MutableLiveData<ApiNews> _news = new MutableLiveData<>();
-    public LiveData<ApiNews> news() { return _news; }
+    val _newTicker = MutableLiveData<ApiNewsTicker?>()
+    fun newTicker(): LiveData<ApiNewsTicker?> = _newTicker
 
-    public final MutableLiveData<ApiNewsTicker> _newTicker = new MutableLiveData<>();
-    public LiveData<ApiNewsTicker> newTicker() { return _newTicker; }
-
-    public void setRashirLocation() {
-        repositoryHome.getRashidLocation(_rashidLocation);
-    }
-
-    public void setPlayersOnline() {
-        repositoryHome.playersOnline(_playersOnline);
-    }
-
-    public void setCreatureBoss() {
-        repositoryHome.creatureBoss(_creatureBoss);
-    }
-    public void setBostedBoss(){
-        repositoryHome.bostedBoss(_bostedBoss);
-    }
-
-    public void setNews(){
-        repositoryHome.news(_news);
-    }
-
-    public void setNewTicker(){
-        repositoryHome.newsTickers(_newTicker);
+    fun setWorlds() {
+        viewModelScope.launch {
+            runCatching { getWorldsUseCase() }
+                .onSuccess { _worlds.value = it.worlds }
+                .onFailure { _worlds.value = null }
+        }
     }
 
+    fun setRashirLocation() {
+        viewModelScope.launch {
+            runCatching { getRashidLocationUseCase() }
+                .onSuccess { _rashidLocation.value = it }
+                .onFailure { _rashidLocation.value = null }
+        }
+    }
+
+    fun setPlayersOnline() {
+        viewModelScope.launch {
+            runCatching { getWorldsUseCase() }
+                .onSuccess { _playersOnline.value = it.worlds }
+                .onFailure { _playersOnline.value = null }
+        }
+    }
+
+    fun setCreatureBoss() {
+        viewModelScope.launch {
+            runCatching { getCreaturesUseCase() }
+                .onSuccess { _creatureBoss.value = it.creatures }
+                .onFailure { _creatureBoss.value = null }
+        }
+    }
+
+    fun setBostedBoss() {
+        viewModelScope.launch {
+            runCatching { getBoostableBossesUseCase() }
+                .onSuccess { _bostedBoss.value = it.boostable_bosses }
+                .onFailure { _bostedBoss.value = null }
+        }
+    }
+
+    fun setNews() {
+        viewModelScope.launch {
+            runCatching { getNewsLatestUseCase() }
+                .onSuccess { _news.value = it }
+                .onFailure { _news.value = null }
+        }
+    }
+
+    fun setNewTicker() {
+        viewModelScope.launch {
+            runCatching { getNewsTickersUseCase() }
+                .onSuccess { _newTicker.value = it }
+                .onFailure { _newTicker.value = null }
+        }
+    }
 }

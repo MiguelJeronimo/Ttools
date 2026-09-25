@@ -1,20 +1,28 @@
-package com.example.TibiaTools.View.ViewModel;
+package com.example.TibiaTools.View.ViewModel
 
-import androidx.lifecycle.MutableLiveData;
-import androidx.lifecycle.ViewModel;
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
+import com.example.TibiaTools.data.model.Spells
+import com.example.TibiaTools.domain.usecase.GetSpellsUseCase
+import kotlinx.coroutines.launch
 
-import com.example.TibiaTools.data.model.*;
-import com.example.TibiaTools.Repository.RepositorySpells;
+class ViewModelSpells(
+    private val getSpellsUseCase: GetSpellsUseCase
+) : ViewModel() {
+    private val _spells = MutableLiveData<Spells?>()
+    fun spells(): LiveData<Spells?> = _spells
 
-public class ViewModelSpells extends ViewModel {
-    RepositorySpells repository = new RepositorySpells();
-    private MutableLiveData<Spells> _spells = new MutableLiveData<>();
-
-    public MutableLiveData<Spells> spells() {
-        return _spells;
+    init {
+        loadSpells()
     }
 
-    public ViewModelSpells(){
-        repository.spells(_spells);
+    fun loadSpells() {
+        viewModelScope.launch {
+            runCatching { getSpellsUseCase() }
+                .onSuccess { _spells.value = it.spells }
+                .onFailure { _spells.value = null }
+        }
     }
 }

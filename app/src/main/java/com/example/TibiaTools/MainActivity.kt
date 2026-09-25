@@ -151,7 +151,6 @@ class MainActivity : AppCompatActivity(), View.OnClickListener, MenuItem.OnMenuI
         recyclerViewNoticas.setHasFixedSize(true)
         recyclerViewNoticas.adapter = adapterRecyclerViewNews
 
-        viewModelHome = ViewModelProvider(this)[ViewModelHome::class.java]
         aaChartView = findViewById(R.id.AAChartView)
         aaChartView2 = findViewById(R.id.AAChartView2)
         val aaChartModel = AAChartModel()

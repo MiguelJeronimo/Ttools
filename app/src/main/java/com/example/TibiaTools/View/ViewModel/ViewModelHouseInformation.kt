@@ -1,18 +1,24 @@
-package com.example.TibiaTools.View.ViewModel;
+package com.example.TibiaTools.View.ViewModel
 
-import androidx.lifecycle.MutableLiveData;
-import androidx.lifecycle.ViewModel;
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
+import com.example.TibiaTools.data.model.House
+import com.example.TibiaTools.domain.usecase.GetHouseInformationUseCase
+import kotlinx.coroutines.launch
 
-import com.example.TibiaTools.data.model.*;
-import com.example.TibiaTools.Repository.RepositoryHouseInformation;
+class ViewModelHouseInformation(
+    private val getHouseInformationUseCase: GetHouseInformationUseCase
+) : ViewModel() {
+    private val _house = MutableLiveData<House?>()
+    fun getHouse(): LiveData<House?> = _house
 
-public class ViewModelHouseInformation extends ViewModel {
-    private final MutableLiveData<House> _house = new MutableLiveData<>();
-    private final RepositoryHouseInformation repository = new RepositoryHouseInformation();
-    public MutableLiveData<House> getHouse() {
-        return _house;
-    }
-    public void setHouse(String world, String idHouse) {
-        repository.houseInformation(world, idHouse, _house);
+    fun setHouse(world: String, idHouse: String) {
+        viewModelScope.launch {
+            runCatching { getHouseInformationUseCase(world, idHouse) }
+                .onSuccess { _house.value = it.house }
+                .onFailure { _house.value = null }
+        }
     }
 }

@@ -1,27 +1,47 @@
-package com.example.TibiaTools.View.ViewModel;
+package com.example.TibiaTools.View.ViewModel
 
-import androidx.lifecycle.MutableLiveData;
-import androidx.lifecycle.ViewModel;
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
+import com.example.TibiaTools.data.model.Guilds
+import com.example.TibiaTools.domain.usecase.GetGuildsInformationUseCase
+import com.example.TibiaTools.domain.usecase.GetWorldsUseCase
+import kotlinx.coroutines.launch
 
-import com.example.TibiaTools.data.model.*;
-import com.example.TibiaTools.Repository.RepositoryGuilds;
+class ViewModelGuilds(
+    private val getGuildsInformationUseCase: GetGuildsInformationUseCase,
+    private val getWorldsUseCase: GetWorldsUseCase
+) : ViewModel() {
+    private val _worlds = MutableLiveData<ArrayList<String>?>()
+    fun Worlds(): LiveData<ArrayList<String>?> = _worlds
 
-import java.util.ArrayList;
+    private val _guild = MutableLiveData<Guilds?>()
+    fun Guild(): LiveData<Guilds?> = _guild
 
-public class ViewModelGuilds extends ViewModel {
-    RepositoryGuilds repository = new RepositoryGuilds();
-    private final MutableLiveData<ArrayList<String>> _worlds = new MutableLiveData<>();
-    public MutableLiveData<ArrayList<String>> Worlds() {return _worlds;}
-    private final MutableLiveData<Guilds> _guild = new MutableLiveData<>();
-    public MutableLiveData<Guilds> Guild() {return _guild;}
-
-    //init
-    public ViewModelGuilds(){
-        repository.worlds(_worlds, null);
+    init {
+        loadWorlds()
     }
 
-    public void setGuild(String guildName){
-        repository.guilds(guildName, _guild);
+    private fun loadWorlds() {
+        viewModelScope.launch {
+            runCatching { getWorldsUseCase() }
+                .onSuccess { dataWords ->
+                    val arrayWorlds = arrayListOf("Seleccione")
+                    dataWords.worlds?.regular_worlds?.forEach { world ->
+                        world.name?.let { arrayWorlds.add(it) }
+                    }
+                    _worlds.value = arrayWorlds
+                }
+                .onFailure { _worlds.value = null }
+        }
     }
 
+    fun setGuild(guildName: String) {
+        viewModelScope.launch {
+            runCatching { getGuildsInformationUseCase(guildName) }
+                .onSuccess { _guild.value = it.guilds }
+                .onFailure { _guild.value = null }
+        }
+    }
 }

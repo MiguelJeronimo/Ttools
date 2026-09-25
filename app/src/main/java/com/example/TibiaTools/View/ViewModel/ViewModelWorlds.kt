@@ -1,26 +1,28 @@
-package com.example.TibiaTools.View.ViewModel;
+package com.example.TibiaTools.View.ViewModel
 
-import androidx.lifecycle.MutableLiveData;
-import androidx.lifecycle.ViewModel;
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
+import com.example.TibiaTools.data.model.Worlds
+import com.example.TibiaTools.domain.usecase.GetWorldsUseCase
+import kotlinx.coroutines.launch
 
-import com.example.TibiaTools.data.model.*;
-import com.example.TibiaTools.Repository.Repository;
+class ViewModelWorlds(
+    private val getWorldsUseCase: GetWorldsUseCase
+) : ViewModel() {
+    private val _worlds = MutableLiveData<Worlds?>()
+    fun worlds(): LiveData<Worlds?> = _worlds
 
-import java.util.ArrayList;
-
-public class ViewModelWorlds extends ViewModel {
-    Repository repository = new Repository();
-    private final MutableLiveData<Worlds> _worlds = new MutableLiveData<>();
-
-    public MutableLiveData<Worlds> worlds() {
-        return _worlds;
+    init {
+        setWorlds()
     }
 
-    public ViewModelWorlds() {
-        repository.worlds(_worlds);
+    fun setWorlds() {
+        viewModelScope.launch {
+            runCatching { getWorldsUseCase() }
+                .onSuccess { _worlds.value = it.worlds }
+                .onFailure { _worlds.value = null }
+        }
     }
-    public void setWorlds() {
-        repository.worlds(_worlds);
-    }
-
 }

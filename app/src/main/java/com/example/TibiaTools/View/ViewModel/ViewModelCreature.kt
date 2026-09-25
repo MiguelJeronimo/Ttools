@@ -1,20 +1,24 @@
-package com.example.TibiaTools.View.ViewModel;
+package com.example.TibiaTools.View.ViewModel
 
-import androidx.lifecycle.MutableLiveData;
-import androidx.lifecycle.ViewModel;
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
+import com.example.TibiaTools.data.model.Creature
+import com.example.TibiaTools.domain.usecase.GetCreatureInformationUseCase
+import kotlinx.coroutines.launch
 
-import com.example.TibiaTools.data.model.*;
-import com.example.TibiaTools.Repository.RepositoryCreatures;
+class ViewModelCreature(
+    private val getCreatureInformationUseCase: GetCreatureInformationUseCase
+) : ViewModel() {
+    val _creature = MutableLiveData<Creature?>()
+    fun creature(): LiveData<Creature?> = _creature
 
-public class ViewModelCreature extends ViewModel {
-    RepositoryCreatures repository = new RepositoryCreatures();
-    public MutableLiveData<Creature> _creature = new MutableLiveData<>();
-
-    public MutableLiveData<Creature> creature() {
-        return _creature;
-    }
-
-    public void setCreature(String creatureRace){
-        repository.creature(creatureRace, _creature);
+    fun setCreature(creatureRace: String) {
+        viewModelScope.launch {
+            runCatching { getCreatureInformationUseCase(creatureRace) }
+                .onSuccess { _creature.value = it.creature }
+                .onFailure { _creature.value = null }
+        }
     }
 }
