@@ -4,9 +4,7 @@ import androidx.annotation.NonNull;
 import androidx.lifecycle.MutableLiveData;
 
 import com.example.TibiaTools.APISERVER.TibiaAPIServer;
-import com.example.TibiaTools.APISERVER.models.Worlds.DataWords;
-import com.example.TibiaTools.APISERVER.models.Worlds.RegularWorlds;
-import com.example.TibiaTools.APISERVER.models.Worlds.Worlds;
+import com.example.TibiaTools.data.model.*;
 import com.example.TibiaTools.Operaciones.InstanciaRetrofit;
 
 import java.util.ArrayList;

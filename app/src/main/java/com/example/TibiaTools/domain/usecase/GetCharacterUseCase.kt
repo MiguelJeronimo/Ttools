@@ -1,6 +1,6 @@
 package com.example.TibiaTools.domain.usecase
 
-import com.example.TibiaTools.APISERVER.models.CharactersInformation.APIServicesTibia
+import com.example.TibiaTools.data.model.APIServicesTibia
 import com.example.TibiaTools.domain.repository.TibiaRepository
 
 class GetCharacterUseCase(private val repository: TibiaRepository) {

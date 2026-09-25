@@ -4,8 +4,7 @@ import androidx.annotation.NonNull;
 import androidx.lifecycle.MutableLiveData;
 
 import com.example.TibiaTools.APISERVER.TibiaAPIServer;
-import com.example.TibiaTools.APISERVER.models.ApiHousesInformation;
-import com.example.TibiaTools.APISERVER.models.Houses.House;
+import com.example.TibiaTools.data.model.*;
 
 import retrofit2.Call;
 import retrofit2.Callback;

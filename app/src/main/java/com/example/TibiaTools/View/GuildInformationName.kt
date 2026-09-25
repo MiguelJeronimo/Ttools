@@ -1,156 +1,134 @@
-package com.example.TibiaTools.View;
+package com.example.TibiaTools.View
 
-import android.annotation.SuppressLint;
-import android.content.Intent;
-import android.os.Bundle;
+import android.content.Intent
+import android.os.Bundle
+import android.view.MenuItem
+import android.view.View
+import android.widget.ImageView
+import android.widget.TextView
+import androidx.annotation.NonNull
+import androidx.appcompat.app.AppCompatActivity
+import androidx.lifecycle.ViewModelProvider
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
+import com.bumptech.glide.Glide
+import com.example.TibiaTools.data.model.*
+import com.example.TibiaTools.View.ViewModel.ViewModelGuildInformation
+import com.example.TibiaTools.recyclerview.Adapters.AdapterRecyclerViewGuildName
+import com.example.TibiaTools.recyclerview.itemsRecyclerViewGuildsName
+import com.example.ttools.R
+import com.example.ttools.databinding.ActivityGuildInformationNameBinding
+import java.util.ArrayList
 
-import com.bumptech.glide.Glide;
-import com.example.TibiaTools.APISERVER.TibiaAPIServer;
-import com.example.TibiaTools.APISERVER.models.GuildInformation.ApiGuildsName;
-import com.example.TibiaTools.APISERVER.models.GuildInformation.GuildName.GuildName;
-import com.example.TibiaTools.APISERVER.models.GuildInformation.GuildName.Guild;
-import com.example.TibiaTools.APISERVER.models.GuildInformation.GuildName.members.MembersGuild;
-import com.example.TibiaTools.Operaciones.InstanciaRetrofit;
-import com.example.TibiaTools.View.ViewModel.ViewModelGuildInformation;
-import com.example.TibiaTools.recyclerview.Adapters.AdapterRecyclerViewGuildName;
-import com.example.TibiaTools.recyclerview.itemsRecyclerViewGuildsName;
-import com.example.ttools.R;
-import com.example.ttools.databinding.ActivityGuildInformationNameBinding;
+class GuildInformationName : AppCompatActivity() {
+    private lateinit var binding: ActivityGuildInformationNameBinding
+    private var guildName: String? = null
+    private lateinit var imageViewGuildLogo: ImageView
+    private lateinit var textViewGuildName: TextView
+    private lateinit var textViewDescription: TextView
+    private lateinit var textViewInWar: TextView
+    private lateinit var textViewOnline: TextView
+    private lateinit var textViewNombre: TextView
+    private lateinit var textViewMundo: TextView
+    private lateinit var textViewPiad: TextView
+    private lateinit var textViewFounded: TextView
+    private lateinit var textViewActive: TextView
+    private lateinit var recyclerView: RecyclerView
+    private lateinit var adapter: AdapterRecyclerViewGuildName
+    private val itemsRecyclerViewGuildsNames = ArrayList<itemsRecyclerViewGuildsName>()
+    private lateinit var viewModelGuildInformation: ViewModelGuildInformation
+    private lateinit var viewModelProvider: ViewModelProvider
 
-import androidx.annotation.NonNull;
-import androidx.appcompat.app.AppCompatActivity;
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        binding = ActivityGuildInformationNameBinding.inflate(layoutInflater)
+        setContentView(binding.root)
+        setSupportActionBar(binding.toolbar)
+        supportActionBar?.setDisplayHomeAsUpEnabled(true)
 
-import android.view.MenuItem;
-import android.view.View;
-import android.widget.ImageView;
-import android.widget.TextView;
-import android.widget.Toast;
+        viewModelProvider = ViewModelProvider(this)
+        viewModelGuildInformation = viewModelProvider[ViewModelGuildInformation::class.java]
 
-import androidx.lifecycle.ViewModelProvider;
-import androidx.navigation.ui.AppBarConfiguration;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
+        val intent = intent
+        guildName = intent.getStringExtra("nameGuild")
+        supportActionBar?.title = guildName
+        guildName?.let { viewModelGuildInformation.setGuild(it) }
 
+        imageViewGuildLogo = binding.root.findViewById(R.id.imageViewGuildLogo)
+        textViewGuildName = binding.root.findViewById(R.id.textViewGuildName)
+        textViewDescription = binding.root.findViewById(R.id.textViewDescription)
+        textViewInWar = binding.root.findViewById(R.id.textViewInWar)
+        textViewOnline = binding.root.findViewById(R.id.textViewOnline)
+        textViewNombre = binding.root.findViewById(R.id.textViewNombre)
+        textViewMundo = binding.root.findViewById(R.id.textViewMundo)
+        textViewPiad = binding.root.findViewById(R.id.textViewPiad)
+        textViewFounded = binding.root.findViewById(R.id.textViewFounded)
+        textViewActive = binding.root.findViewById(R.id.textViewActive)
 
+        recyclerView = findViewById(R.id.recyclerViewGuildName)
+        val layoutManager = LinearLayoutManager(this)
+        layoutManager.orientation = LinearLayoutManager.VERTICAL
+        recyclerView.layoutManager = layoutManager
+        adapter = AdapterRecyclerViewGuildName(itemsRecyclerViewGuildsNames)
+        recyclerView.setHasFixedSize(true)
+        recyclerView.adapter = adapter
 
-import java.util.ArrayList;
-import java.util.List;
+        viewModelGuildInformation.guild().observe(this) { guild ->
+            if (guild != null) {
+                Glide.with(applicationContext).load(guild.logo_url).into(imageViewGuildLogo)
+                textViewGuildName.text = guild.name
+                textViewDescription.text = guild.description
+                textViewInWar.text = if (guild.in_war == true) "Si" else "No"
+                textViewOnline.text = "${guild.players_online}/${guild.members_total}"
 
-import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
-
-public class GuildInformationName extends AppCompatActivity {
-
-    private AppBarConfiguration appBarConfiguration;
-    private ActivityGuildInformationNameBinding binding;
-    Intent intent;
-    String guildName;
-    ImageView imageViewGuildLogo;
-    TextView textViewGuildName,textViewDescription,textViewInWar,textViewOnline,
-             textViewNombre,textViewMundo,textViewPiad,textViewFounded,textViewActive;
-    String url = "https://api.tibiadata.com/v4/guild/";
-    RecyclerView recyclerView;
-    AdapterRecyclerViewGuildName adapter;
-    List<itemsRecyclerViewGuildsName> itemsRecyclerViewGuildsNames = new ArrayList<>();
-    InstanciaRetrofit services = new InstanciaRetrofit();
-    ViewModelGuildInformation viewModelGuildInformation;
-    ViewModelProvider viewModelProvider;
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        binding = ActivityGuildInformationNameBinding.inflate(getLayoutInflater());
-        setContentView(binding.getRoot());
-        setSupportActionBar(binding.toolbar);
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true); //Aparicion del boton regresar en el action bar
-        viewModelProvider = new ViewModelProvider(this);
-        viewModelGuildInformation = viewModelProvider.get(ViewModelGuildInformation.class);
-        //respuesta de la pantalla anterior
-        intent = getIntent();
-        guildName = intent.getStringExtra("nameGuild");
-        getSupportActionBar().setTitle(guildName);
-        viewModelGuildInformation.setGuild(guildName);
-        imageViewGuildLogo = binding.getRoot().findViewById(R.id.imageViewGuildLogo);
-        textViewGuildName = binding.getRoot().findViewById(R.id.textViewGuildName);
-        textViewDescription = binding.getRoot().findViewById(R.id.textViewDescription);
-        textViewInWar = binding.getRoot().findViewById(R.id.textViewInWar);
-        textViewOnline = binding.getRoot().findViewById(R.id.textViewOnline);
-        textViewNombre = binding.getRoot().findViewById(R.id.textViewNombre);
-        textViewMundo = binding.getRoot().findViewById(R.id.textViewMundo);
-        textViewPiad = binding.getRoot().findViewById(R.id.textViewPiad);
-        textViewFounded = binding.getRoot().findViewById(R.id.textViewFounded);
-        textViewActive = binding.getRoot().findViewById(R.id.textViewActive);
-        recyclerView = findViewById(R.id.recyclerViewGuildName);
-        LinearLayoutManager layoutManager = new LinearLayoutManager(this);
-        layoutManager.setOrientation(LinearLayoutManager.VERTICAL);
-        recyclerView.setLayoutManager(layoutManager);
-        adapter = new AdapterRecyclerViewGuildName(itemsRecyclerViewGuildsNames);
-        recyclerView.setHasFixedSize(true);
-        recyclerView.setAdapter(adapter);
-        viewModelGuildInformation.guild().observe(this, guild -> {
-            if (guild != null){
-                Glide.with(getApplicationContext()).load(guild.getLogo_url()).into(imageViewGuildLogo);
-                textViewGuildName.setText(guild.getName());
-                textViewDescription.setText(guild.getDescription());
-                if (guild.getIn_war()){
-                    textViewInWar.setText("Si");
-                } else{
-                    textViewInWar.setText("No");
+                val halls = guild.guildhalls
+                if (!halls.isNullOrEmpty()) {
+                    textViewNombre.text = halls[0].name
+                    textViewMundo.text = halls[0].world
+                    textViewPiad.text = halls[0].paid_until
                 }
-                textViewOnline.setText(guild.getPlayers_online()+"/"+guild.getMembers_total());
-                if (guild.getGuildhalls() != null){
-                    String name = guild.getGuildhalls().get(0).getName();
-                    String Mundo = guild.getGuildhalls().get(0).getWorld();
-                    String Paid = guild.getGuildhalls().get(0).getPaid_until();
-                    textViewNombre.setText(name);
-                    textViewMundo.setText(Mundo);
-                    textViewPiad.setText(Paid);
-                }
-                textViewFounded.setText("Fundada: "+guild.getFounded());
-                if (guild.getActive()){
-                    textViewActive.setText("Active: Si");
-                } else {
-                    textViewActive.setText("Active: No");
-                }
-                if (guild.getMembers() != null){
-                    for (MembersGuild membersGuild:guild.getMembers()) {
+                textViewFounded.text = "Fundada: ${guild.founded}"
+                textViewActive.text = if (guild.active == true) "Active: Si" else "Active: No"
+
+                val membersList = guild.members
+                if (membersList != null) {
+                    itemsRecyclerViewGuildsNames.clear()
+                    membersList.forEach { membersGuild ->
                         itemsRecyclerViewGuildsNames.add(
-                                new itemsRecyclerViewGuildsName(
-                                        membersGuild.getName(),
-                                        membersGuild.getTitle(),
-                                        membersGuild.getRank(),
-                                        membersGuild.getVocation(),
-                                        membersGuild.getLevel(),
-                                        membersGuild.getJoined(),
-                                        membersGuild.getStatus()
-                                )
-                        );
+                            itemsRecyclerViewGuildsName(
+                                membersGuild.name,
+                                membersGuild.title,
+                                membersGuild.rank,
+                                membersGuild.vocation,
+                                membersGuild.level,
+                                membersGuild.joined,
+                                membersGuild.status
+                            )
+                        )
                     }
-                    recyclerView.setVisibility(View.VISIBLE);
-                    binding.getRoot().findViewById(R.id.cardHeader).setVisibility(View.VISIBLE);
-                    binding.getRoot().findViewById(R.id.separador_header_guild).setVisibility(View.VISIBLE);
-                    binding.getRoot().findViewById(R.id.miembros).setVisibility(View.VISIBLE);
-                    binding.getRoot().findViewById(R.id.carga_guild_information).setVisibility(View.GONE);
-                    adapter.notifyDataSetChanged();
+                    recyclerView.visibility = View.VISIBLE
+                    binding.root.findViewById<View>(R.id.cardHeader)?.visibility = View.VISIBLE
+                    binding.root.findViewById<View>(R.id.separador_header_guild)?.visibility = View.VISIBLE
+                    binding.root.findViewById<View>(R.id.miembros)?.visibility = View.VISIBLE
+                    binding.root.findViewById<View>(R.id.carga_guild_information)?.visibility = View.GONE
+                    adapter.notifyDataSetChanged()
                 }
             } else {
-                binding.getRoot().findViewById(R.id.carga_guild_information).setVisibility(View.GONE);
-                recyclerView.setVisibility(View.GONE);
-                binding.getRoot().findViewById(R.id.cardHeader).setVisibility(View.GONE);
-                binding.getRoot().findViewById(R.id.separador_header_guild).setVisibility(View.GONE);
-                binding.getRoot().findViewById(R.id.miembros).setVisibility(View.GONE);
-                binding.getRoot().findViewById(R.id.carga_guild_information).setVisibility(View.GONE);
+                binding.root.findViewById<View>(R.id.carga_guild_information)?.visibility = View.GONE
+                recyclerView.visibility = View.GONE
+                binding.root.findViewById<View>(R.id.cardHeader)?.visibility = View.GONE
+                binding.root.findViewById<View>(R.id.separador_header_guild)?.visibility = View.GONE
+                binding.root.findViewById<View>(R.id.miembros)?.visibility = View.GONE
             }
-        });
+        }
     }
 
-    @Override
-    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
-        int id = item.getItemId();
-        if (id == android.R.id.home) { //aqui daremos el evento al boton regresar de nuestro action bar, haciendo uso de los ids del sistema android
-            finish();// finalizamos la actividad
-            return true;
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        val id = item.itemId
+        if (id == android.R.id.home) {
+            finish()
+            return true
         }
-        return super.onOptionsItemSelected(item);
+        return super.onOptionsItemSelected(item)
     }
 }

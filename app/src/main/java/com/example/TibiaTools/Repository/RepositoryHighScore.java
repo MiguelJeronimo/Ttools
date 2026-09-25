@@ -4,8 +4,7 @@ import androidx.annotation.NonNull;
 import androidx.lifecycle.MutableLiveData;
 
 import com.example.TibiaTools.APISERVER.TibiaAPIServer;
-import com.example.TibiaTools.APISERVER.models.ApiHighScores;
-import com.example.TibiaTools.APISERVER.models.HighScores.HighScore;
+import com.example.TibiaTools.data.model.*;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -22,7 +21,7 @@ public class RepositoryHighScore extends Repository{
                 if (response.isSuccessful()){
                     ApiHighScores apiHighScores = response.body();
                     assert apiHighScores != null;
-                    HighScore highScore = apiHighScores.getHighScores();
+                    HighScore highScore = apiHighScores.getHighscores();
                     _highScoreList.setValue(highScore);
                 }else{
                     _highScoreList.setValue(null);

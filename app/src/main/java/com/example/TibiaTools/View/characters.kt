@@ -1,322 +1,310 @@
-package com.example.TibiaTools.View;
+package com.example.TibiaTools.View
 
-import android.annotation.SuppressLint;
-import android.content.Context;
-import android.graphics.Color;
-import android.graphics.Typeface;
-import android.os.Build;
-import android.os.Bundle;
+import android.annotation.SuppressLint
+import android.graphics.Color
+import android.graphics.Typeface
+import android.os.Build
+import android.os.Bundle
+import android.view.MenuItem
+import android.view.View
+import android.view.ViewGroup
+import android.widget.Button
+import android.widget.EditText
+import android.widget.LinearLayout
+import android.widget.TextView
+import androidx.annotation.RequiresApi
+import androidx.appcompat.app.AppCompatActivity
+import androidx.appcompat.widget.Toolbar
+import androidx.core.content.ContextCompat
+import androidx.lifecycle.ViewModelProvider
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
+import com.example.TibiaTools.data.model.*
+import com.example.TibiaTools.View.ViewModel.ViewModelCharacters
+import com.example.TibiaTools.recyclerview.Adapters.AdapterArchievementsCharacter
+import com.example.TibiaTools.recyclerview.Adapters.AdapterHouseCharacters
+import com.example.TibiaTools.recyclerview.Adapters.AdapterOtherCharacters
+import com.example.TibiaTools.recyclerview.ItemsArchievementsCharacter
+import com.example.TibiaTools.recyclerview.ItemsCharacters
+import com.example.TibiaTools.recyclerview.ItemsHousesCharacters
+import com.example.TibiaTools.utilidades.ConvertidorFecha
+import com.example.TibiaTools.utilidades.IsVisibillityCharacters
+import com.example.ttools.R
+import com.example.ttools.databinding.ActivityCharactersBinding
+import com.google.android.material.snackbar.Snackbar
+import java.util.ArrayList
+import java.util.Objects
 
-import com.example.TibiaTools.APISERVER.TibiaAPIServer;
-import com.example.TibiaTools.APISERVER.models.CharactersInformation.APIServicesTibia;
-import com.example.TibiaTools.APISERVER.models.CharactersInformation.Characters.CharacterData.Achievements;
-import com.example.TibiaTools.APISERVER.models.CharactersInformation.Characters.CharacterData.Houses.House;
-import com.example.TibiaTools.APISERVER.models.CharactersInformation.Characters.CharacterData.OtherCharacters;
-import com.example.TibiaTools.APISERVER.models.CharactersInformation.Characters.Characters;
-import com.example.TibiaTools.Operaciones.InstanciaRetrofit;
-import com.example.TibiaTools.View.ViewModel.ViewModelCharacters;
-import com.example.TibiaTools.recyclerview.Adapters.AdapterArchievementsCharacter;
-import com.example.TibiaTools.recyclerview.Adapters.AdapterHouseCharacters;
-import com.example.TibiaTools.recyclerview.Adapters.AdapterOtherCharacters;
-import com.example.TibiaTools.recyclerview.ItemsArchievementsCharacter;
-import com.example.TibiaTools.recyclerview.ItemsCharacters;
-import com.example.TibiaTools.recyclerview.ItemsHousesCharacters;
-import com.example.TibiaTools.utilidades.ConvertidorFecha;
-import com.example.TibiaTools.utilidades.IsVisibillityCharacters;
-import com.example.ttools.R;
-import com.example.ttools.databinding.ActivityCharactersBinding;
-import com.google.android.material.snackbar.Snackbar;
+class characters : AppCompatActivity(), View.OnClickListener {
+    private lateinit var binding: ActivityCharactersBinding
+    private lateinit var nombrePersona: EditText
+    private lateinit var nombre: TextView
+    private lateinit var titulo: TextView
+    private lateinit var sexo: TextView
+    private lateinit var vocacion: TextView
+    private lateinit var nivel: TextView
+    private lateinit var archiviement: TextView
+    private lateinit var mundo: TextView
+    private lateinit var residencia: TextView
+    private lateinit var guild: TextView
+    private lateinit var lastlogin: TextView
+    private lateinit var comentario: TextView
+    private lateinit var textViewPremium: TextView
+    private lateinit var textViewMirried: TextView
+    private lateinit var textViewLoyalty: TextView
+    private lateinit var textViewCreated: TextView
+    private lateinit var btnenviar: Button
+    private val convertidorFecha = ConvertidorFecha()
+    private lateinit var linearLayoutDeaths: LinearLayout
+    private lateinit var linearLayoutHouses: RecyclerView
+    private lateinit var linearLayoutOtherCharacters: RecyclerView
+    private lateinit var linearLayoutAchievements: RecyclerView
+    private var adapterHouseCharacters: AdapterHouseCharacters? = null
+    private var itemsHousesCharacters: ArrayList<ItemsHousesCharacters>? = null
+    private var adapterOtherCharacters: AdapterOtherCharacters? = null
+    private var itemsCharacters: ArrayList<ItemsCharacters>? = null
+    private var adapterArchievementsCharacter: AdapterArchievementsCharacter? = null
+    private var itemsArchievementsCharacters: ArrayList<ItemsArchievementsCharacter>? = null
+    private var isVisibillityCharacters: IsVisibillityCharacters? = null
+    private lateinit var viewModelCharacters: ViewModelCharacters
+    private lateinit var viewModelProvider: ViewModelProvider
+    private lateinit var viewRoot: View
 
-import androidx.annotation.NonNull;
-import androidx.annotation.RequiresApi;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.widget.Toolbar;
-import androidx.core.content.ContextCompat;
-import androidx.lifecycle.ViewModelProvider;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
+    @RequiresApi(Build.VERSION_CODES.N)
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        binding = ActivityCharactersBinding.inflate(layoutInflater)
+        setContentView(binding.root)
+        val toolbar = findViewById<Toolbar>(R.id.toolbar)
+        setSupportActionBar(toolbar)
+        Objects.requireNonNull(supportActionBar)?.setDisplayHomeAsUpEnabled(true)
 
-import android.util.Log;
-import android.view.MenuItem;
-import android.view.View;
-import android.view.ViewGroup;
-import android.widget.Button;
-import android.widget.EditText;
-import android.widget.LinearLayout;
-import android.widget.TextView;
-import android.widget.Toast;
+        viewRoot = findViewById(android.R.id.content)
+        viewModelProvider = ViewModelProvider(this)
+        viewModelCharacters = viewModelProvider[ViewModelCharacters::class.java]
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Objects;
+        nombrePersona = findViewById(R.id.editTextTextPersonName)
+        nombre = findViewById(R.id.nombre)
+        titulo = findViewById(R.id.titulo)
+        sexo = findViewById(R.id.sexo)
+        vocacion = findViewById(R.id.vocacion)
+        nivel = findViewById(R.id.nivel)
+        archiviement = findViewById(R.id.achivement)
+        mundo = findViewById(R.id.mundo)
+        residencia = findViewById(R.id.residencia)
+        guild = findViewById(R.id.guild)
+        lastlogin = findViewById(R.id.last_loguin)
+        comentario = findViewById(R.id.comentario)
+        textViewPremium = findViewById(R.id.textViewPremium)
+        textViewMirried = findViewById(R.id.textViewMirried)
+        textViewLoyalty = findViewById(R.id.textViewLoyalty)
+        textViewCreated = findViewById(R.id.textViewCreated)
+        btnenviar = findViewById(R.id.btnenviar)
+        btnenviar.setOnClickListener(this)
 
-import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
+        linearLayoutHouses = findViewById(R.id.linearLayoutHouses)
+        linearLayoutOtherCharacters = findViewById(R.id.linearLayoutOtherCharacters)
+        linearLayoutAchievements = findViewById(R.id.linearLayoutAchievements)
 
-public class characters extends AppCompatActivity implements View.OnClickListener {
-    ActivityCharactersBinding binding;
-    private EditText nombre_persona;
-    private TextView nombre,titulo, sexo, vocacion, nivel, archiviement, mundo, residencia, guild,
-            lastlogin, comentario, textViewPremium,textViewMirried, textViewLoyalty,textViewCreated;
-    Button btnenviar;
-    ConvertidorFecha convertidorFecha = new ConvertidorFecha();
-    LinearLayout linearLayoutDeaths;
-    RecyclerView linearLayoutHouses, linearLayoutOtherCharacters, linearLayoutAchievements;
-    AdapterHouseCharacters adapterHouseCharacters;
-    List<ItemsHousesCharacters> itemsHousesCharacters;
-    AdapterOtherCharacters adapterOtherCharacters;
-    List<ItemsCharacters> itemsCharacters;
-    AdapterArchievementsCharacter adapterArchievementsCharacter;
-    List<ItemsArchievementsCharacter> itemsArchievementsCharacters;
-    InstanciaRetrofit services = new InstanciaRetrofit();
-    IsVisibillityCharacters isVisibillityCharacters;
-    ViewModelCharacters viewModelCharacters;
-    ViewModelProvider viewModelProvider;
-    View view;
-    @RequiresApi(api = Build.VERSION_CODES.N)
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        binding = ActivityCharactersBinding.inflate(getLayoutInflater());
-        setContentView(binding.getRoot());
-        Toolbar toolbar = findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
-        Objects.requireNonNull(getSupportActionBar()).setDisplayHomeAsUpEnabled(true); //Aparicion del boton regresar en el action bar
-        //inicializando los componentes de la interfaz
-        view = findViewById(android.R.id.content);
-        viewModelProvider = new ViewModelProvider(this);
-        viewModelCharacters = viewModelProvider.get(ViewModelCharacters.class);
-        nombre_persona = findViewById(R.id.editTextTextPersonName);
-        nombre = findViewById(R.id.nombre);
-        titulo = findViewById(R.id.titulo);
-        sexo = findViewById(R.id.sexo);
-        vocacion = findViewById(R.id.vocacion);
-        nivel = findViewById(R.id.nivel);
-        archiviement = findViewById(R.id.achivement);
-        mundo = findViewById(R.id.mundo);
-        residencia = findViewById(R.id.residencia);
-        guild = findViewById(R.id.guild);
-        lastlogin = findViewById(R.id.last_loguin);
-        comentario= findViewById(R.id.comentario);
-        textViewPremium = findViewById(R.id.textViewPremium);
-        textViewMirried = findViewById(R.id.textViewMirried);
-        textViewLoyalty = findViewById(R.id.textViewLoyalty);
-        textViewCreated = findViewById(R.id.textViewCreated);
-        btnenviar = findViewById(R.id.btnenviar);
-        btnenviar.setOnClickListener(this);
-        linearLayoutHouses = findViewById(R.id.linearLayoutHouses);
-        linearLayoutOtherCharacters = findViewById(R.id.linearLayoutOtherCharacters);
-        linearLayoutAchievements = findViewById(R.id.linearLayoutAchievements);
+        viewModelCharacters.characters().observe(this) { apiResponse ->
+            isVisibillityCharacters = IsVisibillityCharacters()
+            linearLayoutDeaths = findViewById(R.id.linearLayoutDeaths)
+            linearLayoutOtherCharacters.removeAllViews()
+            linearLayoutDeaths.removeAllViews()
+            linearLayoutHouses.removeAllViews()
+            textViewMirried.text = ""
+            textViewLoyalty.text = ""
+            textViewCreated.text = ""
+            isVisibillityCharacters?.setVisibility(false)
+            isVisibillityCharacters?.VisibilityDataGeneral(binding)
+            binding.root.findViewById<View>(R.id.carga_characters)?.visibility = View.VISIBLE
+            binding.root.findViewById<View>(R.id.CardStatus)?.visibility = View.GONE
+            linearLayoutDeaths.visibility = View.GONE
+            linearLayoutHouses.visibility = View.GONE
+            linearLayoutAchievements.visibility = View.GONE
+            linearLayoutOtherCharacters.visibility = View.GONE
 
-        viewModelCharacters.characters().observe(this, characters -> {
-            isVisibillityCharacters = new IsVisibillityCharacters();
-            linearLayoutDeaths = findViewById(R.id.linearLayoutDeaths);
-            linearLayoutOtherCharacters.removeAllViews();
-            linearLayoutDeaths.removeAllViews();
-            linearLayoutHouses.removeAllViews();
-            textViewMirried.setText("");
-            textViewLoyalty.setText("");
-            textViewCreated.setText("");
-            isVisibillityCharacters.setVisibility(false);
-            isVisibillityCharacters.VisibilityDataGeneral(binding);
-            binding.getRoot().findViewById(R.id.carga_characters).setVisibility(View.VISIBLE);
-            binding.getRoot().findViewById(R.id.CardStatus).setVisibility(View.GONE);
-            linearLayoutDeaths.setVisibility(View.GONE);
-            linearLayoutHouses.setVisibility(View.GONE);
-            linearLayoutAchievements.setVisibility(View.GONE);
-            linearLayoutOtherCharacters.setVisibility(View.GONE);
-            if (characters != null){
-                int code = characters.getInformation().getStatus().getHttpCode();
+            if (apiResponse != null) {
+                val code = apiResponse.information?.status?.http_code ?: 0
                 if (code == 502) {
-                    String messageError = characters.getInformation().getStatus().getMessage();
-                    Snackbar.make(view, messageError, Snackbar.LENGTH_LONG)
-                            .setAction("Action", null).show();
+                    val messageError = apiResponse.information?.status?.message ?: "Error"
+                    Snackbar.make(viewRoot, messageError, Snackbar.LENGTH_LONG)
+                        .setAction("Action", null).show()
                 } else {
-                    nombre.setText(characters.getCharacters().getCharacter().getName());
-                    nombre.setVisibility(View.VISIBLE);
-                    System.out.println("Titulo: "+characters.getCharacters().getCharacter().getTitle());
-                    titulo.setText(characters.getCharacters().getCharacter().getTitle());
-                    sexo.setText(characters.getCharacters().getCharacter().getSex());
-                    vocacion.setText(characters.getCharacters().getCharacter().getVocation());
-                    nivel.setText(String.valueOf(characters.getCharacters().getCharacter().getLevel()));
-                    archiviement.setText(
-                            String.valueOf(
-                                    characters.getCharacters()
-                                            .getCharacter().getAchievement_points()
-                            )
-                    );
+                    val charData = apiResponse.character?.character
+                    if (charData != null) {
+                        nombre.text = charData.name
+                        nombre.visibility = View.VISIBLE
+                        titulo.text = charData.title
+                        sexo.text = charData.sex
+                        vocacion.text = charData.vocation
+                        nivel.text = charData.level.toString()
+                        archiviement.text = charData.achievement_points.toString()
+                        mundo.text = charData.world
+                        residencia.text = charData.residence
 
-                    mundo.setText(characters.getCharacters().getCharacter().getWorld());
-                    residencia.setText(characters.getCharacters().getCharacter().getResidence());
-                    String guildRank = characters.getCharacters().getCharacter().getGuild().getRank();
-                    String nameGuild = characters.getCharacters().getCharacter().getGuild().getName();
+                        val guildRank = charData.guild?.rank
+                        val nameGuild = charData.guild?.name
 
-                    if (guildRank != null && nameGuild != null){
-                        guild.setText(
-                                characters.getCharacters().getCharacter().getGuild().getRank() + " of the " +
-                                        characters.getCharacters().getCharacter().getGuild().getName());
-                    } else{
-                        guild.setText("No pertenece a una guild");
-                    }
-                    convertidorFecha.setExpiryDateString(characters.getCharacters().getCharacter().getLast_login());
-                    convertidorFecha.convertirFecha();
-                    lastlogin.setText(convertidorFecha.getFechaConvertida());
-                    comentario.setText(characters.getCharacters().getCharacter().getComment());
-                    textViewPremium.setText(characters.getCharacters().getCharacter().getAccount_status());
-                    isVisibillityCharacters.setVisibility(true);
-                    isVisibillityCharacters.VisibilityDataGeneral(binding);
-                    binding.getRoot().findViewById(R.id.CardStatus).setVisibility(View.VISIBLE);
-                    binding.getRoot().findViewById(R.id.CardStatus).setVisibility(View.VISIBLE);
-                    if (characters.getCharacters().getCharacter().getMarried_to() != null) {
-                        textViewMirried.setText("\uD83D\uDC8D️\u200D\uD83D\uDD25: " +
-                                characters.getCharacters().getCharacter().getMarried_to());
-                    }
-                    if (characters.getCharacters().getCharacter().getHouses() != null) {
-                        RecyclerHouse(characters.getCharacters().getCharacter().getHouses());
-                    }
-                    if (characters.getCharacters().getDeaths() != null) {
-                        characters.getCharacters().getDeaths().forEach(dead->{
-                            TextView textViewWeakness = new TextView(characters.this);
-                            convertidorFecha.setExpiryDateString(dead.getTime());
-                            convertidorFecha.convertirFecha();
-                            textViewWeakness.setText("☠️️" + " " + convertidorFecha.getFechaConvertida() + " - " + dead.getReason());
-                            textViewWeakness.setTextColor(ContextCompat.getColor(getApplicationContext(),R.color.md_theme_light_primary));
-                            textViewWeakness.setTextSize(15);
-                            textViewWeakness.setTextColor(Color.parseColor("#CE93D8"));
-                            textViewWeakness.setTypeface(null, Typeface.ITALIC);
-                            textViewWeakness.setLayoutParams(new LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT));
-                            linearLayoutDeaths.addView(textViewWeakness);
-                            linearLayoutDeaths.setVisibility(View.VISIBLE);
-                        });
-                    }
-                    if (characters.getCharacters().getOther_characters() != null) {
-                        RecyclerCharacters(characters.getCharacters().getOther_characters());
-                    }
-
-                    if (characters.getCharacters().getAchievements() != null) {
-                        RecyclerArchievements(characters.getCharacters().getAchievements());
-                    }
-                    /*
-                     * Llenar los campos de AccountInformation
-                     * */
-                    if (characters.getCharacters().getAccount_information() != null) {
-                        if (characters.getCharacters().getAccount_information().getLoyalty_title() != null){
-                            textViewLoyalty.setText(
-                                    "Loyalty Title: "+characters.getCharacters()
-                                            .getAccount_information().getLoyalty_title()
-                            );
+                        if (guildRank != null && nameGuild != null) {
+                            guild.text = "$guildRank of the $nameGuild"
+                        } else {
+                            guild.text = "No pertenece a una guild"
                         }
 
-                        if (characters.getCharacters().getAccount_information().getCreated() != null){
-                            convertidorFecha.setExpiryDateString(characters.getCharacters()
-                                    .getAccount_information().getCreated()
-                            );
-                            convertidorFecha.convertirFecha();
-                            textViewCreated.setText("Created: "+convertidorFecha.getFechaConvertida());
+                        convertidorFecha.expiryDateString = charData.last_login
+                        convertidorFecha.convertirFecha()
+                        lastlogin.text = convertidorFecha.fechaConvertida
+                        comentario.text = charData.comment
+                        textViewPremium.text = charData.account_status
+
+                        isVisibillityCharacters?.setVisibility(true)
+                        isVisibillityCharacters?.VisibilityDataGeneral(binding)
+                        binding.root.findViewById<View>(R.id.CardStatus)?.visibility = View.VISIBLE
+
+                        if (charData.married_to != null) {
+                            textViewMirried.text = "💍🔥: " + charData.married_to
+                        }
+                        if (charData.houses != null) {
+                            recyclerHouse(charData.houses)
+                        }
+                    }
+
+                    val deathsList = apiResponse.character?.deaths
+                    if (!deathsList.isNullOrEmpty()) {
+                        deathsList.forEach { dead ->
+                            val textViewWeakness = TextView(this).apply {
+                                convertidorFecha.expiryDateString = dead.time
+                                convertidorFecha.convertirFecha()
+                                text = "☠️️ " + convertidorFecha.fechaConvertida + " - " + dead.reason
+                                setTextColor(Color.parseColor("#CE93D8"))
+                                textSize = 15f
+                                setTypeface(null, Typeface.ITALIC)
+                                layoutParams = LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT)
+                            }
+                            linearLayoutDeaths.addView(textViewWeakness)
+                            linearLayoutDeaths.visibility = View.VISIBLE
+                        }
+                    }
+
+                    val otherChars = apiResponse.character?.other_characters
+                    if (!otherChars.isNullOrEmpty()) {
+                        recyclerCharacters(otherChars)
+                    }
+
+                    val achs = apiResponse.character?.achievements
+                    if (!achs.isNullOrEmpty()) {
+                        recyclerArchievements(achs)
+                    }
+
+                    val accInfo = apiResponse.character?.account_information
+                    if (accInfo != null) {
+                        if (accInfo.loyalty_title != null) {
+                            textViewLoyalty.text = "Loyalty Title: " + accInfo.loyalty_title
+                        }
+                        if (accInfo.created != null) {
+                            convertidorFecha.expiryDateString = accInfo.created
+                            convertidorFecha.convertirFecha()
+                            textViewCreated.text = "Created: " + convertidorFecha.fechaConvertida
                         }
                     }
                 }
-
             } else {
-                Snackbar.make(view, "Error to conection", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
-                binding.getRoot().findViewById(R.id.carga_characters).setVisibility(View.GONE);
+                Snackbar.make(viewRoot, "Error to conection", Snackbar.LENGTH_LONG)
+                    .setAction("Action", null).show()
+                binding.root.findViewById<View>(R.id.carga_characters)?.visibility = View.GONE
             }
-            binding.getRoot().findViewById(R.id.carga_characters).setVisibility(View.GONE);
-        });
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
-        int id = item.getItemId();
-
-        //noinspection SimplifiableIfStatement
-        if (id == android.R.id.home) { //aqui daremos el evento al boton regresar de nuestro action bar, haciendo uso de los ids del sistema android
-            finish();// finalizamos la actividad
-            return true;
+            binding.root.findViewById<View>(R.id.carga_characters)?.visibility = View.GONE
         }
-
-        return super.onOptionsItemSelected(item);
     }
 
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        val id = item.itemId
+        if (id == android.R.id.home) {
+            finish()
+            return true
+        }
+        return super.onOptionsItemSelected(item)
+    }
 
-    /**Logica del programa para hacer la conexion a la API de tibia*/
-    @Override
-    public void onClick(final View v) {
-        if (v.getId() == R.id.btnenviar) {
-            if (nombre_persona.getText().toString().equals("")) {
+    override fun onClick(v: View) {
+        if (v.id == R.id.btnenviar) {
+            if (nombrePersona.text.toString() == "") {
                 Snackbar.make(v, "Ingrese el nombre del personaje", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
+                    .setAction("Action", null).show()
             } else {
-                binding.getRoot().findViewById(R.id.carga_characters).setVisibility(View.VISIBLE);
-                viewModelCharacters.setCharacters(nombre_persona.getText().toString());
+                binding.root.findViewById<View>(R.id.carga_characters)?.visibility = View.VISIBLE
+                viewModelCharacters.setCharacters(nombrePersona.text.toString())
             }
-
         }
     }
 
-    //llenado de recyclerviews
-    public void RecyclerHouse(ArrayList<House> houses){
-        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this);
-        itemsHousesCharacters = new ArrayList<>();
-        for (int i = 0; i < houses.size(); i++) {
-            itemsHousesCharacters.add(new ItemsHousesCharacters(
-                houses.get(i).getName(),
-                houses.get(i).getTown(),
-                houses.get(i).getPaid(),
-                houses.get(i).getHouseid()
-            ));
+    fun recyclerHouse(houses: ArrayList<CharacterHouse>) {
+        val linearLayoutManager = LinearLayoutManager(this).apply {
+            orientation = LinearLayoutManager.HORIZONTAL
         }
-        linearLayoutHouses.setHasFixedSize(true);
-        linearLayoutManager.setOrientation(LinearLayoutManager.HORIZONTAL);
-        linearLayoutHouses.setLayoutManager(linearLayoutManager);
-        adapterHouseCharacters = new AdapterHouseCharacters(itemsHousesCharacters);
-        linearLayoutHouses.setAdapter(adapterHouseCharacters);
-        linearLayoutHouses.setVisibility(View.VISIBLE);
+        itemsHousesCharacters = ArrayList()
+        for (i in houses.indices) {
+            itemsHousesCharacters?.add(
+                ItemsHousesCharacters(
+                    houses[i].name,
+                    houses[i].town,
+                    houses[i].paid,
+                    houses[i].houseid
+                )
+            )
+        }
+        linearLayoutHouses.setHasFixedSize(true)
+        linearLayoutHouses.layoutManager = linearLayoutManager
+        adapterHouseCharacters = AdapterHouseCharacters(itemsHousesCharacters!!)
+        linearLayoutHouses.adapter = adapterHouseCharacters
+        linearLayoutHouses.visibility = View.VISIBLE
     }
 
-    @RequiresApi(api = Build.VERSION_CODES.N)
-    public void RecyclerCharacters(ArrayList<OtherCharacters> otherCharacters){
-        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this);
-        itemsCharacters = new ArrayList<>();
-        otherCharacters.forEach(characters ->{
-            itemsCharacters.add(new ItemsCharacters(
-                    characters.getName(),
-                    characters.getWorld(),
-                    characters.getStatus(),
-                    characters.getDeleted(),
-                    characters.getMain(),
-                    characters.getTraded()
-            ));
-        });
-        linearLayoutOtherCharacters.setHasFixedSize(true);
-        linearLayoutManager.setOrientation(LinearLayoutManager.HORIZONTAL);
-        linearLayoutOtherCharacters.setLayoutManager(linearLayoutManager);
-        adapterOtherCharacters = new AdapterOtherCharacters(itemsCharacters);
-        linearLayoutOtherCharacters.setAdapter(adapterOtherCharacters);
-        linearLayoutOtherCharacters.setVisibility(View.VISIBLE);
+    @RequiresApi(Build.VERSION_CODES.N)
+    fun recyclerCharacters(otherCharacters: ArrayList<OtherCharacters>) {
+        val linearLayoutManager = LinearLayoutManager(this).apply {
+            orientation = LinearLayoutManager.HORIZONTAL
+        }
+        itemsCharacters = ArrayList()
+        otherCharacters.forEach { charItem ->
+            itemsCharacters?.add(
+                ItemsCharacters(
+                    charItem.name,
+                    charItem.world,
+                    charItem.status,
+                    charItem.deleted,
+                    charItem.main,
+                    charItem.traded
+                )
+            )
+        }
+        linearLayoutOtherCharacters.setHasFixedSize(true)
+        linearLayoutOtherCharacters.layoutManager = linearLayoutManager
+        adapterOtherCharacters = AdapterOtherCharacters(itemsCharacters!!)
+        linearLayoutOtherCharacters.adapter = adapterOtherCharacters
+        linearLayoutOtherCharacters.visibility = View.VISIBLE
     }
 
-    @RequiresApi(api = Build.VERSION_CODES.N)
-    public void RecyclerArchievements(ArrayList<Achievements> achievements){
-        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this);
-        itemsArchievementsCharacters = new ArrayList<>();
-        achievements.forEach(achievement ->{
-            itemsArchievementsCharacters.add(new ItemsArchievementsCharacter(
-                    achievement.getName(),
-                    achievement.getGrade(),
-                    achievement.isSecret()
-            ));
-        });
-        linearLayoutAchievements.setHasFixedSize(true);
-        linearLayoutManager.setOrientation(LinearLayoutManager.HORIZONTAL);
-        linearLayoutAchievements.setLayoutManager(linearLayoutManager);
-        adapterArchievementsCharacter = new AdapterArchievementsCharacter(itemsArchievementsCharacters);
-        linearLayoutAchievements.setAdapter(adapterArchievementsCharacter);
-        linearLayoutAchievements.setVisibility(View.VISIBLE);
+    @RequiresApi(Build.VERSION_CODES.N)
+    fun recyclerArchievements(achievements: ArrayList<Achievements>) {
+        val linearLayoutManager = LinearLayoutManager(this).apply {
+            orientation = LinearLayoutManager.HORIZONTAL
+        }
+        itemsArchievementsCharacters = ArrayList()
+        achievements.forEach { achievement ->
+            itemsArchievementsCharacters?.add(
+                ItemsArchievementsCharacter(
+                    achievement.name,
+                    achievement.grade,
+                    achievement.secret
+                )
+            )
+        }
+        linearLayoutAchievements.setHasFixedSize(true)
+        linearLayoutAchievements.layoutManager = linearLayoutManager
+        adapterArchievementsCharacter = AdapterArchievementsCharacter(itemsArchievementsCharacters!!)
+        linearLayoutAchievements.adapter = adapterArchievementsCharacter
+        linearLayoutAchievements.visibility = View.VISIBLE
     }
 }

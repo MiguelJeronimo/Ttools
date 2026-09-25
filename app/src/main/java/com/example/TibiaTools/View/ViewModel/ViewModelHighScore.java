@@ -3,7 +3,7 @@ package com.example.TibiaTools.View.ViewModel;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
-import com.example.TibiaTools.APISERVER.models.HighScores.HighScore;
+import com.example.TibiaTools.data.model.*;
 import com.example.TibiaTools.Repository.RepositoryHighScore;
 
 import java.util.ArrayList;

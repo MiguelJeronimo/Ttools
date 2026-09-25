@@ -4,9 +4,7 @@ import androidx.annotation.NonNull;
 import androidx.lifecycle.MutableLiveData;
 
 import com.example.TibiaTools.APISERVER.TibiaAPIServer;
-import com.example.TibiaTools.APISERVER.models.CharactersInformation.APIServicesTibia;
-import com.example.TibiaTools.APISERVER.models.CharactersInformation.Information.Information;
-import com.example.TibiaTools.APISERVER.models.CharactersInformation.Information.Status;
+import com.example.TibiaTools.data.model.*;
 import com.example.TibiaTools.Operaciones.InstanciaRetrofit;
 
 import java.util.Objects;
@@ -28,7 +26,7 @@ public class RepositoryCharacters extends Repository{
                 } else {
                     APIServicesTibia apiServicesTibia = new APIServicesTibia();
                     Status status = new Status();
-                    status.setHttpCode(response.code());
+                    status.setHttp_code(response.code());
                     status.setMessage("could not find character");
                     Information information = new Information();
                     information.setStatus(status);

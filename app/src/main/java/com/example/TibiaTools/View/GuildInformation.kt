@@ -1,155 +1,128 @@
-package com.example.TibiaTools.View;
-import android.annotation.SuppressLint;
-import android.content.Intent;
-import android.os.Build;
-import android.os.Bundle;
-import com.example.TibiaTools.APISERVER.TibiaAPIServer;
-import com.example.TibiaTools.APISERVER.models.GuildInformation.ApiGuilds;
-import com.example.TibiaTools.APISERVER.models.GuildInformation.guilds.Active.Active;
-import com.example.TibiaTools.APISERVER.models.GuildInformation.guilds.Guilds;
-import com.example.TibiaTools.APISERVER.models.Worlds.DataWords;
-import com.example.TibiaTools.APISERVER.models.Worlds.RegularWorlds;
-import com.example.TibiaTools.APISERVER.models.Worlds.Worlds;
-import com.example.TibiaTools.Operaciones.InstanciaRetrofit;
-import com.example.TibiaTools.View.ViewModel.ViewModelGuilds;
-import com.example.TibiaTools.recyclerview.Adapters.AdapterRecyclerViewGuildsList;
-import com.example.TibiaTools.recyclerview.ItemsRecyclerViewGuilds;
-import com.example.ttools.R;
-import com.example.ttools.databinding.ActivityGuildsBinding;
-import com.google.android.material.progressindicator.LinearProgressIndicator;
-import com.google.android.material.snackbar.Snackbar;
+package com.example.TibiaTools.View
 
-import androidx.annotation.NonNull;
-import androidx.annotation.RequiresApi;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.lifecycle.ViewModelProvider;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
+import android.annotation.SuppressLint
+import android.content.Intent
+import android.os.Build
+import android.os.Bundle
+import android.view.MenuItem
+import android.view.View
+import android.widget.ArrayAdapter
+import android.widget.AutoCompleteTextView
+import androidx.annotation.RequiresApi
+import androidx.appcompat.app.AppCompatActivity
+import androidx.lifecycle.ViewModelProvider
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
+import com.example.TibiaTools.data.model.*
+import com.example.TibiaTools.View.ViewModel.ViewModelGuilds
+import com.example.TibiaTools.recyclerview.Adapters.AdapterRecyclerViewGuildsList
+import com.example.TibiaTools.recyclerview.ItemsRecyclerViewGuilds
+import com.example.ttools.R
+import com.example.ttools.databinding.ActivityGuildsBinding
+import com.google.android.material.progressindicator.LinearProgressIndicator
+import com.google.android.material.snackbar.Snackbar
+import java.util.ArrayList
+import java.util.Objects
 
-import android.view.MenuItem;
-import android.view.View;
-import android.widget.ArrayAdapter;
-import android.widget.AutoCompleteTextView;
-import android.widget.Toast;
+class GuildInformation : AppCompatActivity() {
+    private lateinit var binding: ActivityGuildsBinding
+    private lateinit var spinner: AutoCompleteTextView
+    private var adapter: ArrayAdapter<String>? = null
+    private lateinit var recyclerView: RecyclerView
+    private lateinit var adaptador: AdapterRecyclerViewGuildsList
+    private val itemsRecyclerViewGuilds = ArrayList<ItemsRecyclerViewGuilds>()
+    private lateinit var linearProgressIndicator: LinearProgressIndicator
+    private lateinit var viewModelProvider: ViewModelProvider
+    private lateinit var viewModelGuilds: ViewModelGuilds
+    private lateinit var viewRoot: View
 
-
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Objects;
-
-import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
-
-public class GuildInformation extends AppCompatActivity {
-    private ActivityGuildsBinding binding;
-    AutoCompleteTextView spinner;
-    ArrayAdapter<String> adapter;
-    //recyclerview
-    RecyclerView recyclerView;
-    AdapterRecyclerViewGuildsList adaptador;
-    List<ItemsRecyclerViewGuilds> itemsRecyclerViewGuilds = new ArrayList<>();
-    String url = "https://api.tibiadata.com/v4/";
-    InstanciaRetrofit servicio = new InstanciaRetrofit();
-    LinearProgressIndicator linearProgressIndicator;
-    ViewModelProvider viewModelProvider;
-    ViewModelGuilds viewModelGuilds;
-    View view;
     @SuppressLint("NotifyDataSetChanged")
-    @RequiresApi(api = Build.VERSION_CODES.N)
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        binding = ActivityGuildsBinding.inflate(getLayoutInflater());
-        setContentView(binding.getRoot());
-        setSupportActionBar(binding.toolbar);
-        linearProgressIndicator = findViewById(R.id.carga_guilds);
-        Objects.requireNonNull(getSupportActionBar()).setDisplayHomeAsUpEnabled(true); //Aparicion del boton regresar en el action bar
-        spinner = findViewById(R.id.spinner_guild);
-        view = findViewById(android.R.id.content);
-        //RecyclerView configuration
-        recyclerView = findViewById(R.id.recyclerGuilds);
-        LinearLayoutManager layoutManager = new LinearLayoutManager(this);
-        layoutManager.setOrientation(LinearLayoutManager.VERTICAL);
-        recyclerView.setLayoutManager(layoutManager);
-        adaptador = new AdapterRecyclerViewGuildsList(itemsRecyclerViewGuilds);
-        recyclerView.setHasFixedSize(true);
-        recyclerView.setAdapter(adaptador);
+    @RequiresApi(Build.VERSION_CODES.N)
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        binding = ActivityGuildsBinding.inflate(layoutInflater)
+        setContentView(binding.root)
+        setSupportActionBar(binding.toolbar)
+        linearProgressIndicator = findViewById(R.id.carga_guilds)
+        Objects.requireNonNull(supportActionBar)?.setDisplayHomeAsUpEnabled(true)
+        spinner = findViewById(R.id.spinner_guild)
+        viewRoot = findViewById(android.R.id.content)
 
-        viewModelProvider = new ViewModelProvider(this);
-        viewModelGuilds = viewModelProvider.get(ViewModelGuilds.class);
-        viewModelGuilds.Worlds().observe(this, worlds -> {
-            if (worlds != null){
-                adapter = new ArrayAdapter<>(getApplicationContext(), R.layout.auto_complete, worlds);
-                spinner.setAdapter(adapter);
-                linearProgressIndicator.setVisibility(View.GONE);
+        recyclerView = findViewById(R.id.recyclerGuilds)
+        val layoutManager = LinearLayoutManager(this)
+        layoutManager.orientation = LinearLayoutManager.VERTICAL
+        recyclerView.layoutManager = layoutManager
+        adaptador = AdapterRecyclerViewGuildsList(itemsRecyclerViewGuilds)
+        recyclerView.setHasFixedSize(true)
+        recyclerView.adapter = adaptador
+
+        viewModelProvider = ViewModelProvider(this)
+        viewModelGuilds = viewModelProvider[ViewModelGuilds::class.java]
+
+        viewModelGuilds.Worlds().observe(this) { worlds ->
+            if (worlds != null) {
+                adapter = ArrayAdapter(applicationContext, R.layout.auto_complete, worlds)
+                spinner.setAdapter(adapter)
+                linearProgressIndicator.visibility = View.GONE
             } else {
-                Snackbar.make(view, "No charged worlds", Snackbar.LENGTH_LONG).show();
-                linearProgressIndicator.setVisibility(View.GONE);
+                Snackbar.make(viewRoot, "No charged worlds", Snackbar.LENGTH_LONG).show()
+                linearProgressIndicator.visibility = View.GONE
             }
-        });
-
-        viewModelGuilds.Guild().observe(this,guilds -> {
-            itemsRecyclerViewGuilds.clear();
-            if (guilds != null){
-                if (guilds.getActive() != null){
-                    guilds.getActive().forEach(guild->{
-                        itemsRecyclerViewGuilds.add(
-                                new ItemsRecyclerViewGuilds(
-                                        guild.getName(),
-                                        guild.getLogo_url(),
-                                        guild.getDescription()
-                                )
-                        );
-                    });
-                    adaptador.notifyDataSetChanged();
-                    linearProgressIndicator.setVisibility(View.GONE);
-                } else {
-                    Snackbar.make(view, "No guilds active", Snackbar.LENGTH_LONG).show();
-                    linearProgressIndicator.setVisibility(View.GONE);
-                }
-            } else {
-                Snackbar.make(view, "Error loading data", Snackbar.LENGTH_LONG).show();
-                linearProgressIndicator.setVisibility(View.GONE);
-            }
-        });
-
-        adaptador.setOnClickListener(view -> {
-            String nameGuild = itemsRecyclerViewGuilds
-                    .get(recyclerView.getChildAdapterPosition(view)).getLbName();
-            Intent intent = new Intent(GuildInformation.this, GuildInformationName.class);
-            intent.putExtra("nameGuild",nameGuild);
-            startActivity(intent);
-        });
-
-        spinner.setOnItemClickListener((parent, view, position, id) -> {
-            if (parent.getItemAtPosition(position).toString() != "Seleccione"){
-                linearProgressIndicator.setVisibility(View.VISIBLE);
-                String guildName = parent.getItemAtPosition(position).toString();
-                viewModelGuilds.setGuild(guildName);
-            } else {
-                itemsRecyclerViewGuilds.clear();
-                adaptador.notifyDataSetChanged();
-                linearProgressIndicator.setVisibility(View.GONE);
-
-            }
-        });
-    }
-
-    //para que el boton regresar funcione
-    @Override
-    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
-        int id = item.getItemId();
-
-        //noinspection SimplifiableIfStatement
-        if (id == android.R.id.home) { //aqui daremos el evento al boton regresar de nuestro action bar, haciendo uso de los ids del sistema android
-            finish();// finalizamos la actividad
-            return true;
         }
 
-        return super.onOptionsItemSelected(item);
+        viewModelGuilds.Guild().observe(this) { guilds ->
+            itemsRecyclerViewGuilds.clear()
+            if (guilds != null) {
+                val activeList = guilds.active
+                if (activeList != null) {
+                    activeList.forEach { guild ->
+                        itemsRecyclerViewGuilds.add(
+                            ItemsRecyclerViewGuilds(
+                                guild.name,
+                                guild.logo_url,
+                                guild.description
+                            )
+                        )
+                    }
+                    adaptador.notifyDataSetChanged()
+                    linearProgressIndicator.visibility = View.GONE
+                } else {
+                    Snackbar.make(viewRoot, "No guilds active", Snackbar.LENGTH_LONG).show()
+                    linearProgressIndicator.visibility = View.GONE
+                }
+            } else {
+                Snackbar.make(viewRoot, "Error loading data", Snackbar.LENGTH_LONG).show()
+                linearProgressIndicator.visibility = View.GONE
+            }
+        }
+
+        adaptador.setOnClickListener { view ->
+            val nameGuild = itemsRecyclerViewGuilds[recyclerView.getChildAdapterPosition(view)].lbName
+            val intent = Intent(this, GuildInformationName::class.java).apply {
+                putExtra("nameGuild", nameGuild)
+            }
+            startActivity(intent)
+        }
+
+        spinner.setOnItemClickListener { parent, _, position, _ ->
+            val selectedItem = parent.getItemAtPosition(position).toString()
+            if (selectedItem != "Seleccione") {
+                linearProgressIndicator.visibility = View.VISIBLE
+                viewModelGuilds.setGuild(selectedItem)
+            } else {
+                itemsRecyclerViewGuilds.clear()
+                adaptador.notifyDataSetChanged()
+                linearProgressIndicator.visibility = View.GONE
+            }
+        }
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        val id = item.itemId
+        if (id == android.R.id.home) {
+            finish()
+            return true
+        }
+        return super.onOptionsItemSelected(item)
     }
 }

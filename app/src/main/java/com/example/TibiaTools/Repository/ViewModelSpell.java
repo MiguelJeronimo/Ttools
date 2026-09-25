@@ -3,7 +3,7 @@ package com.example.TibiaTools.Repository;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
-import com.example.TibiaTools.APISERVER.models.SpellsInformation.SpellList.Spell;
+import com.example.TibiaTools.data.model.*;
 
 public class ViewModelSpell extends ViewModel {
     RepositorySpells repository = new RepositorySpells();

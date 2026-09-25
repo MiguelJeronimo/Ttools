@@ -1,114 +1,98 @@
-package com.example.TibiaTools.View;
+package com.example.TibiaTools.View
 
-import android.content.Intent;
-import android.os.Build;
-import android.os.Bundle;
+import android.content.Intent
+import android.os.Build
+import android.os.Bundle
+import android.view.MenuItem
+import android.view.View
+import android.widget.Toast
+import androidx.annotation.RequiresApi
+import androidx.appcompat.app.AppCompatActivity
+import androidx.lifecycle.ViewModelProvider
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
+import com.example.TibiaTools.data.model.*
+import com.example.TibiaTools.View.ViewModel.ViewModelCreatures
+import com.example.TibiaTools.recyclerview.Adapters.adapterRecyclerViewCriatures
+import com.example.TibiaTools.recyclerview.ItemsRecyclerViewCriatures
+import com.example.ttools.R
+import com.example.ttools.databinding.ActivityCriaturasBinding
+import java.util.ArrayList
+import java.util.Objects
 
-import com.example.TibiaTools.APISERVER.TibiaAPIServer;
-import com.example.TibiaTools.APISERVER.models.APICriatures;
-import com.example.TibiaTools.APISERVER.models.criatures.Criatures;
-import com.example.TibiaTools.Operaciones.InstanciaRetrofit;
-import com.example.TibiaTools.View.ViewModel.ViewModelCreatures;
-import com.example.TibiaTools.recyclerview.Adapters.adapterRecyclerViewCriatures;
-import com.example.TibiaTools.recyclerview.ItemsRecyclerViewCriatures;
-import com.example.ttools.R;
-import com.example.ttools.databinding.ActivityCriaturasBinding;
+class Criaturas : AppCompatActivity() {
+    private lateinit var recyclerView: RecyclerView
+    private lateinit var myAdapter: adapterRecyclerViewCriatures
+    private val itemsRecyclerViewCriatures = ArrayList<ItemsRecyclerViewCriatures>()
+    private lateinit var binding: ActivityCriaturasBinding
+    private lateinit var viewModelProvider: ViewModelProvider
+    private lateinit var viewModelCreatures: ViewModelCreatures
 
-import androidx.annotation.NonNull;
-import androidx.annotation.RequiresApi;
-import androidx.appcompat.app.AppCompatActivity;
+    @RequiresApi(Build.VERSION_CODES.N)
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        binding = ActivityCriaturasBinding.inflate(layoutInflater)
+        setContentView(binding.root)
+        setSupportActionBar(binding.toolbar)
+        Objects.requireNonNull(supportActionBar)?.setDisplayHomeAsUpEnabled(true)
 
-import android.view.MenuItem;
-import android.view.View;
-import android.widget.Toast;
+        recyclerView = findViewById(R.id.recyclerCriaturas)
+        val layoutManager = LinearLayoutManager(this)
+        recyclerView.layoutManager = layoutManager
+        myAdapter = adapterRecyclerViewCriatures(itemsRecyclerViewCriatures)
+        layoutManager.orientation = LinearLayoutManager.VERTICAL
+        recyclerView.setHasFixedSize(true)
+        recyclerView.adapter = myAdapter
 
+        viewModelProvider = ViewModelProvider(this)
+        viewModelCreatures = viewModelProvider[ViewModelCreatures::class.java]
 
-import androidx.lifecycle.ViewModelProvider;
-import androidx.navigation.ui.AppBarConfiguration;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
-
-
-
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Objects;
-
-import retrofit2.Call;
-
-public class Criaturas extends AppCompatActivity {
-    RecyclerView recyclerView;
-    adapterRecyclerViewCriatures myAdapter;
-    List<ItemsRecyclerViewCriatures> itemsRecyclerViewCriatures = new ArrayList<>();
-    private ActivityCriaturasBinding binding;
-    ViewModelProvider viewModelProvider;
-    ViewModelCreatures viewModelCreatures;
-    @RequiresApi(api = Build.VERSION_CODES.N)
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        binding = ActivityCriaturasBinding.inflate(getLayoutInflater());
-        setContentView(binding.getRoot());
-        setSupportActionBar(binding.toolbar);
-        Objects.requireNonNull(getSupportActionBar()).setDisplayHomeAsUpEnabled(true); //Aparicion del boton regresar en el action bar
-        recyclerView = findViewById(R.id.recyclerCriaturas);
-        LinearLayoutManager layoutManager = new LinearLayoutManager(this);
-        recyclerView.setLayoutManager(layoutManager);
-        myAdapter = new adapterRecyclerViewCriatures(itemsRecyclerViewCriatures);
-        layoutManager.setOrientation(LinearLayoutManager.VERTICAL);
-        recyclerView.setHasFixedSize(true);
-        recyclerView.setAdapter(myAdapter);
-
-        viewModelProvider = new ViewModelProvider(this);
-        viewModelCreatures = viewModelProvider.get(ViewModelCreatures.class);
-
-        viewModelCreatures.creature().observe(this, creatures->{
-            if (creatures != null){
-                //binding.getRoot().findViewById(R.id.carga_criatures).setVisibility(View.GONE);
-                itemsRecyclerViewCriatures.add(new ItemsRecyclerViewCriatures(
-                        "Today's Boss: "+creatures.getBoosted().getName(),
-                        creatures.getBoosted().getRace(),
-                        creatures.getBoosted().getImage_url()));
-                creatures.getCriatures_list().forEach(creature->{
-                    itemsRecyclerViewCriatures.add(new ItemsRecyclerViewCriatures(
-                            creature.getName(),
-                            creature.getRace(),
-                            creature.getImage_url()));
-                });
-                myAdapter.notifyDataSetChanged();
-                recyclerView.setVisibility(View.VISIBLE);
+        viewModelCreatures.creature().observe(this) { creatures ->
+            if (creatures != null) {
+                itemsRecyclerViewCriatures.add(
+                    ItemsRecyclerViewCriatures(
+                        "Today's Boss: " + (creatures.boosted?.name ?: ""),
+                        creatures.boosted?.race ?: "",
+                        creatures.boosted?.image_url ?: ""
+                    )
+                )
+                creatures.creature_list.forEach { creature ->
+                    itemsRecyclerViewCriatures.add(
+                        ItemsRecyclerViewCriatures(
+                            creature.name,
+                            creature.race,
+                            creature.image_url
+                        )
+                    )
+                }
+                myAdapter.notifyDataSetChanged()
+                recyclerView.visibility = View.VISIBLE
             } else {
-                Toast.makeText(getApplicationContext(),"Error al obtener las criaturas, intente mas tarde", Toast.LENGTH_SHORT).show();
+                Toast.makeText(applicationContext, "Error al obtener las criaturas, intente mas tarde", Toast.LENGTH_SHORT).show()
             }
-            binding.getRoot().findViewById(R.id.carga_criatures).setVisibility(View.GONE);
-        });
-
-        myAdapter.setOnClickListener(view -> {
-            String raceCreatures = itemsRecyclerViewCriatures.get(recyclerView.getChildAdapterPosition(view)).getLbrace();
-            String nameCreatures = itemsRecyclerViewCriatures.get(recyclerView.getChildAdapterPosition(view)).getLbName();
-            Intent intent = new Intent(Criaturas.this, CriaturesInformation.class);
-            intent.putExtra("raceCreatures", raceCreatures);
-            intent.putExtra("nameCreatures", nameCreatures);
-            startActivity(intent);
-        });
-    }
-/*
-* Este metodo se encarga de la navegacion entre las diferentes pantallas
-* */
-    @Override
-    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
-        int id = item.getItemId();
-
-        //noinspection SimplifiableIfStatement
-        if (id == android.R.id.home) { //aqui daremos el evento al boton regresar de nuestro action bar, haciendo uso de los ids del sistema android
-            finish();// finalizamos la actividad
-            return true;
+            binding.root.findViewById<View>(R.id.carga_criatures)?.visibility = View.GONE
         }
 
-        return super.onOptionsItemSelected(item);
+        myAdapter.setOnClickListener { view ->
+            val position = recyclerView.getChildAdapterPosition(view)
+            if (position != RecyclerView.NO_POSITION) {
+                val raceCreatures = itemsRecyclerViewCriatures[position].lbrace
+                val nameCreatures = itemsRecyclerViewCriatures[position].lbName
+                val intent = Intent(this@Criaturas, CriaturesInformation::class.java).apply {
+                    putExtra("raceCreatures", raceCreatures)
+                    putExtra("nameCreatures", nameCreatures)
+                }
+                startActivity(intent)
+            }
+        }
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        val id = item.itemId
+        if (id == android.R.id.home) {
+            finish()
+            return true
+        }
+        return super.onOptionsItemSelected(item)
     }
 }
-

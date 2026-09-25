@@ -1,6 +1,6 @@
 package com.example.TibiaTools.domain.usecase
 
-import com.example.TibiaTools.APISERVER.models.APICriatures
+import com.example.TibiaTools.data.model.APICriatures
 import com.example.TibiaTools.domain.repository.TibiaRepository
 
 class GetCreaturesUseCase(private val repository: TibiaRepository) {

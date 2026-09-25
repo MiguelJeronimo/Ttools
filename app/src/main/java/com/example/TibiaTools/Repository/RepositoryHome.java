@@ -4,14 +4,7 @@ import androidx.annotation.NonNull;
 import androidx.lifecycle.MutableLiveData;
 
 import com.example.TibiaTools.APISERVER.TibiaAPIServer;
-import com.example.TibiaTools.APISERVER.models.APIBoostableBosses;
-import com.example.TibiaTools.APISERVER.models.APICriatures;
-import com.example.TibiaTools.APISERVER.models.ApiNews;
-import com.example.TibiaTools.APISERVER.models.ApiNewsTicker;
-import com.example.TibiaTools.APISERVER.models.Worlds.DataWords;
-import com.example.TibiaTools.APISERVER.models.Worlds.Worlds;
-import com.example.TibiaTools.APISERVER.models.criatures.BoostableBosses;
-import com.example.TibiaTools.APISERVER.models.criatures.Criatures;
+import com.example.TibiaTools.data.model.*;
 import com.example.TibiaTools.Operaciones.InstanciaRetrofit;
 
 import retrofit2.Call;

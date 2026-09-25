@@ -3,7 +3,7 @@ package com.example.TibiaTools.View.ViewModel;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
-import com.example.TibiaTools.APISERVER.models.Worlds.Worlds;
+import com.example.TibiaTools.data.model.*;
 import com.example.TibiaTools.Repository.Repository;
 
 import java.util.ArrayList;

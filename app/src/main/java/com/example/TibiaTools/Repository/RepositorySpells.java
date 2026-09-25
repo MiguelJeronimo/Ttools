@@ -4,10 +4,7 @@ import androidx.annotation.NonNull;
 import androidx.lifecycle.MutableLiveData;
 
 import com.example.TibiaTools.APISERVER.TibiaAPIServer;
-import com.example.TibiaTools.APISERVER.models.ApiSpells;
-import com.example.TibiaTools.APISERVER.models.ApiSpellsInformation;
-import com.example.TibiaTools.APISERVER.models.SpellsInformation.SpellList.Spell;
-import com.example.TibiaTools.APISERVER.models.SpellsInformation.Spells;
+import com.example.TibiaTools.data.model.*;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -44,7 +41,7 @@ public class RepositorySpells extends Repository{
                 if (response.isSuccessful()){
                     ApiSpellsInformation apiSpellsInformation = response.body();
                     assert apiSpellsInformation != null;
-                    Spell spell = apiSpellsInformation.getSpells();
+                    Spell spell = apiSpellsInformation.getSpell();
                     _spell.setValue(spell);
                 } else {
                     _spell.setValue(null);

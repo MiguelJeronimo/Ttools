@@ -1,22 +1,8 @@
 package com.example.TibiaTools.data.retrofit
 
-import com.example.TibiaTools.APISERVER.models.APIBoostableBosses
-import com.example.TibiaTools.APISERVER.models.APICriatures
-import com.example.TibiaTools.APISERVER.models.APICriaturesInformation
-import com.example.TibiaTools.APISERVER.models.ApiHighScores
-import com.example.TibiaTools.APISERVER.models.ApiHouses
-import com.example.TibiaTools.APISERVER.models.ApiHousesInformation
-import com.example.TibiaTools.APISERVER.models.ApiNews
-import com.example.TibiaTools.APISERVER.models.ApiNewsTicker
-import com.example.TibiaTools.APISERVER.models.ApiSpells
-import com.example.TibiaTools.APISERVER.models.ApiSpellsInformation
-import com.example.TibiaTools.APISERVER.models.CharactersInformation.APIServicesTibia
-import com.example.TibiaTools.APISERVER.models.GuildInformation.ApiGuilds
-import com.example.TibiaTools.APISERVER.models.GuildInformation.ApiGuildsName
-import com.example.TibiaTools.APISERVER.models.Worlds.DataWords
+import com.example.TibiaTools.data.model.*
 import retrofit2.http.GET
 import retrofit2.http.Path
-import retrofit2.http.Url
 
 interface TibiaAPIServer {
     @GET("/v4/character/{name}")

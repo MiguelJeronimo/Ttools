@@ -4,11 +4,7 @@ import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
-import com.example.TibiaTools.APISERVER.models.ApiNews;
-import com.example.TibiaTools.APISERVER.models.ApiNewsTicker;
-import com.example.TibiaTools.APISERVER.models.Worlds.Worlds;
-import com.example.TibiaTools.APISERVER.models.criatures.BoostableBosses;
-import com.example.TibiaTools.APISERVER.models.criatures.Criatures;
+import com.example.TibiaTools.data.model.*;
 import com.example.TibiaTools.Repository.RepositoryHome;
 
 public class ViewModelHome extends ViewModel{

@@ -4,8 +4,7 @@ import androidx.annotation.NonNull;
 import androidx.lifecycle.MutableLiveData;
 
 import com.example.TibiaTools.APISERVER.TibiaAPIServer;
-import com.example.TibiaTools.APISERVER.models.GuildInformation.ApiGuildsName;
-import com.example.TibiaTools.APISERVER.models.GuildInformation.GuildName.Guild;
+import com.example.TibiaTools.data.model.*;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -22,7 +21,7 @@ public class RepositoryGuildsInformation extends Repository{
                 if (response.isSuccessful()) {
                     ApiGuildsName apiGuildsName = response.body();
                     assert apiGuildsName != null;
-                    Guild guild = apiGuildsName.getGuilds();
+                    Guild guild = apiGuildsName.getGuild();
                     _guild.setValue(guild);
                 } else{
                     _guild.setValue(null);

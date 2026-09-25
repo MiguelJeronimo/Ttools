@@ -3,7 +3,7 @@ package com.example.TibiaTools.View.ViewModel;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
-import com.example.TibiaTools.APISERVER.models.CharactersInformation.APIServicesTibia;
+import com.example.TibiaTools.data.model.*;
 import com.example.TibiaTools.Repository.RepositoryCharacters;
 
 public class ViewModelCharacters extends ViewModel {

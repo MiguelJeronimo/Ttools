@@ -4,10 +4,7 @@ import androidx.annotation.NonNull;
 import androidx.lifecycle.MutableLiveData;
 
 import com.example.TibiaTools.APISERVER.TibiaAPIServer;
-import com.example.TibiaTools.APISERVER.models.APICriatures;
-import com.example.TibiaTools.APISERVER.models.APICriaturesInformation;
-import com.example.TibiaTools.APISERVER.models.CriatureInformation.Creature;
-import com.example.TibiaTools.APISERVER.models.criatures.Criatures;
+import com.example.TibiaTools.data.model.*;
 
 import retrofit2.Call;
 import retrofit2.Callback;

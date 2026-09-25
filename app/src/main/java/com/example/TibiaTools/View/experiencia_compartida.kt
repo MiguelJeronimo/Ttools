@@ -1,78 +1,61 @@
-package com.example.TibiaTools.View;
+package com.example.TibiaTools.View
 
-import android.os.Bundle;
+import android.os.Bundle
+import android.view.MenuItem
+import android.view.View
+import android.widget.Button
+import android.widget.EditText
+import android.widget.TextView
+import android.widget.Toast
+import androidx.appcompat.app.AppCompatActivity
+import androidx.appcompat.widget.Toolbar
+import com.example.TibiaTools.Operaciones.ExperienciaCompartida
+import com.example.ttools.R
+import java.util.Objects
 
-import com.example.TibiaTools.Operaciones.ExperienciaCompartida;
-import com.example.ttools.R;
+class experiencia_compartida : AppCompatActivity(), View.OnClickListener {
+    private lateinit var txtnivel: EditText
+    private lateinit var calcular: Button
+    private lateinit var rangoMenor: TextView
+    private lateinit var rangoMayor: TextView
+    private val exp = ExperienciaCompartida()
 
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.widget.Toolbar;
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        setContentView(R.layout.activity_experiencia_compartida)
+        val toolbar = findViewById<Toolbar>(R.id.toolbar)
+        setSupportActionBar(toolbar)
+        Objects.requireNonNull(supportActionBar)?.setDisplayHomeAsUpEnabled(true)
 
-import android.view.MenuItem;
-import android.view.View;
-import android.widget.Button;
-import android.widget.EditText;
-import android.widget.TextView;
-import android.widget.Toast;
-
-import java.util.Objects;
-
-public class experiencia_compartida extends AppCompatActivity implements View.OnClickListener {
-
-    EditText txtnivel;
-    Button calcular;
-    TextView rangoMenor, rangoMayor;
-
-    ExperienciaCompartida exp = new ExperienciaCompartida();
-
-
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_experiencia_compartida);
-        Toolbar toolbar = findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
-        Objects.requireNonNull(getSupportActionBar()).setDisplayHomeAsUpEnabled(true); //Aparicion del boton regresar en el action bar
-        txtnivel = findViewById(R.id.Nivel);
-        calcular = findViewById(R.id.calcular);
-        calcular.setOnClickListener(this);
-        rangoMenor = findViewById(R.id.Menor);
-        rangoMayor = findViewById(R.id.Mayor);
+        txtnivel = findViewById(R.id.Nivel)
+        calcular = findViewById(R.id.calcular)
+        calcular.setOnClickListener(this)
+        rangoMenor = findViewById(R.id.Menor)
+        rangoMayor = findViewById(R.id.Mayor)
     }
 
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
-        int id = item.getItemId();
-
-        //noinspection SimplifiableIfStatement
-        if (id == android.R.id.home) { //aqui daremos el evento al boton regresar de nuestro action bar, haciendo uso de los ids del sistema android
-            finish();// finalizamos la actividad
-            return true;
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        val id = item.itemId
+        if (id == android.R.id.home) {
+            finish()
+            return true
         }
-
-
-        return super.onOptionsItemSelected(item);
+        return super.onOptionsItemSelected(item)
     }
 
-    @Override
-    public void onClick(View v) {
-        if (v.getId()==R.id.calcular){
-            String nivel = txtnivel.getText().toString();
-            if (nivel.equals("")){
-                Toast.makeText(this, "Debe ingresar el nivel", Toast.LENGTH_SHORT).show();
-                rangoMayor.setText("-");
-                rangoMenor.setText("-");
-            } else{
-                double n = Double.parseDouble(nivel);
-                exp.CalculoRangoMayor(n);
-                exp.CalculoRangoMenor(n);
-                String rmayor = Integer.toString(exp.getRangoMayor());
-                String rmenor = Integer.toString(exp.getRangoMenor());
-                rangoMayor.setText(rmayor);
-                rangoMenor.setText(rmenor);
+    override fun onClick(v: View) {
+        if (v.id == R.id.calcular) {
+            val nivelStr = txtnivel.text.toString()
+            if (nivelStr == "") {
+                Toast.makeText(this, "Debe ingresar el nivel", Toast.LENGTH_SHORT).show()
+                rangoMayor.text = "-"
+                rangoMenor.text = "-"
+            } else {
+                val n = nivelStr.toDouble()
+                exp.CalculoRangoMayor(n)
+                exp.CalculoRangoMenor(n)
+                rangoMayor.text = exp.rangoMayor.toString()
+                rangoMenor.text = exp.rangoMenor.toString()
             }
         }
     }

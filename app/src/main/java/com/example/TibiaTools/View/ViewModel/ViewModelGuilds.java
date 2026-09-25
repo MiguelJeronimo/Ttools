@@ -3,7 +3,7 @@ package com.example.TibiaTools.View.ViewModel;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
-import com.example.TibiaTools.APISERVER.models.GuildInformation.guilds.Guilds;
+import com.example.TibiaTools.data.model.*;
 import com.example.TibiaTools.Repository.RepositoryGuilds;
 
 import java.util.ArrayList;

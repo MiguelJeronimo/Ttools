@@ -4,8 +4,7 @@ import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
-import com.example.TibiaTools.APISERVER.models.Houses.House;
-import com.example.TibiaTools.APISERVER.models.Houses.Houses;
+import com.example.TibiaTools.data.model.*;
 import com.example.TibiaTools.Repository.RepositoryHouses;
 
 import java.util.ArrayList;
