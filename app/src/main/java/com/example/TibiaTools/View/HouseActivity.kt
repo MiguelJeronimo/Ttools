@@ -24,6 +24,7 @@ import com.example.TibiaTools.utilidades.DataHighScores
 import com.example.TibiaTools.utilidades.Spinners
 import com.example.ttools.R
 import com.example.ttools.databinding.ActivityHouseBinding
+import org.koin.android.ext.android.inject
 import java.util.ArrayList
 import java.util.Objects
 import java.util.concurrent.Executors
@@ -40,7 +41,7 @@ class HouseActivity : AppCompatActivity(), AdapterView.OnItemClickListener {
     private lateinit var adapterRecyclerViewHouses: AdapterRecyclerViewHouses
     private val listHouses = ArrayList<ItemsRecyclerViewHouses>()
     private lateinit var viewModelProvider: ViewModelProvider
-    private lateinit var viewModelHouses: ViewModelHouses
+    private val viewModelHouses: ViewModelHouses by inject()
 
     @RequiresApi(Build.VERSION_CODES.N)
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -60,9 +61,6 @@ class HouseActivity : AppCompatActivity(), AdapterView.OnItemClickListener {
 
         Objects.requireNonNull(supportActionBar)?.setDisplayHomeAsUpEnabled(true)
         binding.root.findViewById<View>(R.id.carga_houses)?.visibility = View.VISIBLE
-
-        viewModelProvider = ViewModelProvider(this)
-        viewModelHouses = viewModelProvider[ViewModelHouses::class.java]
 
         spinnerWorlds = findViewById(R.id.spinner_mundos)
         spinnerCitys = findViewById(R.id.spinner_citys)

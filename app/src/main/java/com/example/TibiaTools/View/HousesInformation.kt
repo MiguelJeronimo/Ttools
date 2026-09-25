@@ -16,6 +16,7 @@ import com.example.TibiaTools.View.ViewModel.ViewModelHouseInformation
 import com.example.TibiaTools.utilidades.RedValidator
 import com.example.ttools.R
 import com.example.ttools.databinding.ActivityHousesInformationBinding
+import org.koin.android.ext.android.inject
 import java.text.DecimalFormat
 
 class HousesInformation : AppCompatActivity() {
@@ -35,7 +36,7 @@ class HousesInformation : AppCompatActivity() {
     private lateinit var binding: ActivityHousesInformationBinding
     private val decimalFormat = DecimalFormat("###,###.00")
     private lateinit var viewModelProvider: ViewModelProvider
-    private lateinit var viewModelHouseInformation: ViewModelHouseInformation
+    private val viewModelHouseInformation: ViewModelHouseInformation by inject()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -43,9 +44,6 @@ class HousesInformation : AppCompatActivity() {
         setContentView(binding.root)
         setSupportActionBar(binding.toolbar)
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
-
-        viewModelProvider = ViewModelProvider(this)
-        viewModelHouseInformation = viewModelProvider[ViewModelHouseInformation::class.java]
 
         intentObj = intent
         idHouse = intentObj.getStringExtra("ID")

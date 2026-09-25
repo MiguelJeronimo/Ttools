@@ -33,19 +33,19 @@ class ViewModelHome(
     val rashidLocation: LiveData<String?> get() = _rashidLocation
 
     private val _playersOnline = MutableLiveData<Worlds?>()
-    fun playersOnline(): LiveData<Worlds?> = _playersOnline
+    val playersOnline: LiveData<Worlds?> = _playersOnline
 
     private val _creatureBoss = MutableLiveData<Criatures?>()
-    fun creatureBoss(): LiveData<Criatures?> = _creatureBoss
+    val creatureBoss: LiveData<Criatures?> = _creatureBoss
 
     private val _bostedBoss = MutableLiveData<BoostableBosses?>()
-    fun bostedBoss(): LiveData<BoostableBosses?> = _bostedBoss
+    val boostedBoss: LiveData<BoostableBosses?> = _bostedBoss
 
     val _news = MutableLiveData<ApiNews?>()
-    fun news(): LiveData<ApiNews?> = _news
+    val news: LiveData<ApiNews?> = _news
 
     val _newTicker = MutableLiveData<ApiNewsTicker?>()
-    fun newTicker(): LiveData<ApiNewsTicker?> = _newTicker
+    val newTicker: LiveData<ApiNewsTicker?> = _newTicker
 
     fun setWorlds() {
         viewModelScope.launch {

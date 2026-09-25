@@ -45,6 +45,7 @@ import com.github.AAChartModel.AAChartCore.AAOptionsModel.AAStyle
 import com.google.android.material.card.MaterialCardView
 import com.google.android.material.navigation.NavigationView
 import com.google.android.material.progressindicator.LinearProgressIndicator
+import org.koin.android.ext.android.inject
 import java.util.ArrayList
 import java.util.Collections
 import java.util.Timer
@@ -84,7 +85,7 @@ class MainActivity : AppCompatActivity(), View.OnClickListener, MenuItem.OnMenuI
     private lateinit var cardNews: MaterialCardView
     private lateinit var cardNews2: MaterialCardView
 
-    private lateinit var viewModelHome: ViewModelHome
+    private val viewModelHome: ViewModelHome by inject()
     private lateinit var aaChartView: AAChartView
     private lateinit var aaChartView2: AAChartView
     private val data = ArrayList<Double>()
@@ -213,7 +214,7 @@ class MainActivity : AppCompatActivity(), View.OnClickListener, MenuItem.OnMenuI
         }
 
         val isDrawChart = AtomicBoolean(false)
-        viewModelHome.playersOnline().observe(this) { playersOnline ->
+        viewModelHome.playersOnline.observe(this) { playersOnline ->
             if (playersOnline != null) {
                 val onlines = "Players Online: ${playersOnline.players_online}"
                 textViewPlayesOnline.visibility = View.VISIBLE
@@ -260,7 +261,7 @@ class MainActivity : AppCompatActivity(), View.OnClickListener, MenuItem.OnMenuI
             }
         }
 
-        viewModelHome.creatureBoss().observe(this) { creatureBoss ->
+        viewModelHome.creatureBoss.observe(this) { creatureBoss ->
             if (creatureBoss != null) {
                 Glide.with(applicationContext).load(creatureBoss.boosted?.image_url).into(imgBossCreature)
                 textBossCreature.text = creatureBoss.boosted?.name
@@ -271,7 +272,7 @@ class MainActivity : AppCompatActivity(), View.OnClickListener, MenuItem.OnMenuI
             }
         }
 
-        viewModelHome.bostedBoss().observe(this) { bostedBoss ->
+        viewModelHome.boostedBoss.observe(this) { bostedBoss ->
             if (bostedBoss != null) {
                 val boosted = bostedBoss.boosted
                 Glide.with(applicationContext).load(boosted?.image_url).into(imgBossBosstable)
@@ -282,7 +283,7 @@ class MainActivity : AppCompatActivity(), View.OnClickListener, MenuItem.OnMenuI
             }
         }
 
-        viewModelHome.news().observe(this) { news ->
+        viewModelHome.news.observe(this) { news ->
             if (news != null) {
                 val sizeNews = news.news.size
                 val rangeNews = Math.min(sizeNews, 2)
@@ -307,7 +308,7 @@ class MainActivity : AppCompatActivity(), View.OnClickListener, MenuItem.OnMenuI
             }
         }
 
-        viewModelHome.newTicker().observe(this) { newTicker ->
+        viewModelHome.newTicker.observe(this) { newTicker ->
             if (newTicker != null) {
                 newTicker.news.forEach { news ->
                     itemsRecyclerViewNewsList.add(

@@ -18,6 +18,7 @@ import com.example.TibiaTools.recyclerview.Adapters.AdapterRecyclerViewGuildName
 import com.example.TibiaTools.recyclerview.itemsRecyclerViewGuildsName
 import com.example.ttools.R
 import com.example.ttools.databinding.ActivityGuildInformationNameBinding
+import org.koin.android.ext.android.inject
 import java.util.ArrayList
 
 class GuildInformationName : AppCompatActivity() {
@@ -36,8 +37,7 @@ class GuildInformationName : AppCompatActivity() {
     private lateinit var recyclerView: RecyclerView
     private lateinit var adapter: AdapterRecyclerViewGuildName
     private val itemsRecyclerViewGuildsNames = ArrayList<itemsRecyclerViewGuildsName>()
-    private lateinit var viewModelGuildInformation: ViewModelGuildInformation
-    private lateinit var viewModelProvider: ViewModelProvider
+    private val viewModelGuildInformation: ViewModelGuildInformation by inject()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -45,9 +45,6 @@ class GuildInformationName : AppCompatActivity() {
         setContentView(binding.root)
         setSupportActionBar(binding.toolbar)
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
-
-        viewModelProvider = ViewModelProvider(this)
-        viewModelGuildInformation = viewModelProvider[ViewModelGuildInformation::class.java]
 
         val intent = intent
         guildName = intent.getStringExtra("nameGuild")

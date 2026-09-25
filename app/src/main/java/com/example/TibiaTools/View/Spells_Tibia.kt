@@ -16,6 +16,7 @@ import com.example.TibiaTools.recyclerview.Adapters.AdapterRecyclerViewSpells
 import com.example.TibiaTools.recyclerview.ItemsRecyclerViewSpells
 import com.example.ttools.R
 import com.example.ttools.databinding.ActivitySpellsTibiaBinding
+import org.koin.android.ext.android.inject
 import java.util.ArrayList
 import java.util.Objects
 
@@ -25,7 +26,7 @@ class Spells_Tibia : AppCompatActivity() {
     private lateinit var adapter: AdapterRecyclerViewSpells
     private val itemsRecyclerViewSpellsList = ArrayList<ItemsRecyclerViewSpells>()
     private lateinit var viewModelProvider: ViewModelProvider
-    private lateinit var viewModelSpells: ViewModelSpells
+    private val viewModelSpells: ViewModelSpells by inject()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -42,9 +43,6 @@ class Spells_Tibia : AppCompatActivity() {
         adapter = AdapterRecyclerViewSpells(itemsRecyclerViewSpellsList)
         recyclerView.setHasFixedSize(true)
         recyclerView.adapter = adapter
-
-        viewModelProvider = ViewModelProvider(this)
-        viewModelSpells = viewModelProvider[ViewModelSpells::class.java]
 
         viewModelSpells.spells().observe(this) { spells ->
             if (spells != null) {

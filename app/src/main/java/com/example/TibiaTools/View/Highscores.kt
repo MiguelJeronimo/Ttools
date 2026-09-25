@@ -23,6 +23,7 @@ import com.example.TibiaTools.utilidades.DataHighScores
 import com.example.TibiaTools.utilidades.Spinners
 import com.example.ttools.R
 import com.example.ttools.databinding.ActivityHighscoresBinding
+import org.koin.android.ext.android.inject
 import java.text.DecimalFormat
 import java.util.ArrayList
 import java.util.concurrent.Executors
@@ -40,8 +41,7 @@ class Highscores : AppCompatActivity(), AdapterView.OnItemClickListener {
     private var mundo: String? = null
     private var categoria: String? = null
     private var vocacion: String? = null
-    private lateinit var viewModelHighScore: ViewModelHighScore
-    private lateinit var viewModelProvider: ViewModelProvider
+    private val viewModelHighScore: ViewModelHighScore by inject()
 
     @RequiresApi(Build.VERSION_CODES.N)
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -51,8 +51,6 @@ class Highscores : AppCompatActivity(), AdapterView.OnItemClickListener {
         setSupportActionBar(binding.toolbar)
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
 
-        viewModelProvider = ViewModelProvider(this)
-        viewModelHighScore = viewModelProvider[ViewModelHighScore::class.java]
         binding.root.findViewById<View>(R.id.carga_highscores)?.visibility = View.VISIBLE
 
         spinnerWorlds = findViewById(R.id.spinner_worldss)

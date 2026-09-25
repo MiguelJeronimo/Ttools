@@ -8,16 +8,14 @@ import android.view.View
 import android.widget.Toast
 import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
-import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.example.TibiaTools.data.model.*
 import com.example.TibiaTools.View.ViewModel.ViewModelCreatures
 import com.example.TibiaTools.recyclerview.Adapters.adapterRecyclerViewCriatures
 import com.example.TibiaTools.recyclerview.ItemsRecyclerViewCriatures
 import com.example.ttools.R
 import com.example.ttools.databinding.ActivityCriaturasBinding
-import java.util.ArrayList
+import org.koin.android.ext.android.inject
 import java.util.Objects
 
 class Criaturas : AppCompatActivity() {
@@ -25,8 +23,7 @@ class Criaturas : AppCompatActivity() {
     private lateinit var myAdapter: adapterRecyclerViewCriatures
     private val itemsRecyclerViewCriatures = ArrayList<ItemsRecyclerViewCriatures>()
     private lateinit var binding: ActivityCriaturasBinding
-    private lateinit var viewModelProvider: ViewModelProvider
-    private lateinit var viewModelCreatures: ViewModelCreatures
+    private val viewModelCreatures: ViewModelCreatures by inject()
 
     @RequiresApi(Build.VERSION_CODES.N)
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -43,9 +40,6 @@ class Criaturas : AppCompatActivity() {
         layoutManager.orientation = LinearLayoutManager.VERTICAL
         recyclerView.setHasFixedSize(true)
         recyclerView.adapter = myAdapter
-
-        viewModelProvider = ViewModelProvider(this)
-        viewModelCreatures = viewModelProvider[ViewModelCreatures::class.java]
 
         viewModelCreatures.creature().observe(this) { creatures ->
             if (creatures != null) {

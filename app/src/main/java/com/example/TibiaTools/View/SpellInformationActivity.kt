@@ -11,13 +11,11 @@ import android.widget.ImageView
 import android.widget.LinearLayout
 import android.widget.TextView
 import android.widget.Toast
-import androidx.annotation.NonNull
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
 import androidx.lifecycle.ViewModelProvider
 import com.bumptech.glide.Glide
-import com.example.TibiaTools.data.model.*
-import com.example.TibiaTools.Repository.ViewModelSpell
+import com.example.TibiaTools.View.ViewModel.ViewModelSpell
 import com.example.ttools.R
 import com.example.ttools.databinding.ActivitySpellInformationBinding
 import java.util.Objects

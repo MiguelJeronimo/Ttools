@@ -21,6 +21,7 @@ import com.example.ttools.R
 import com.example.ttools.databinding.ActivityGuildsBinding
 import com.google.android.material.progressindicator.LinearProgressIndicator
 import com.google.android.material.snackbar.Snackbar
+import org.koin.android.ext.android.inject
 import java.util.ArrayList
 import java.util.Objects
 
@@ -32,8 +33,7 @@ class GuildInformation : AppCompatActivity() {
     private lateinit var adaptador: AdapterRecyclerViewGuildsList
     private val itemsRecyclerViewGuilds = ArrayList<ItemsRecyclerViewGuilds>()
     private lateinit var linearProgressIndicator: LinearProgressIndicator
-    private lateinit var viewModelProvider: ViewModelProvider
-    private lateinit var viewModelGuilds: ViewModelGuilds
+    private val viewModelGuilds: ViewModelGuilds by inject()
     private lateinit var viewRoot: View
 
     @SuppressLint("NotifyDataSetChanged")
@@ -55,9 +55,6 @@ class GuildInformation : AppCompatActivity() {
         adaptador = AdapterRecyclerViewGuildsList(itemsRecyclerViewGuilds)
         recyclerView.setHasFixedSize(true)
         recyclerView.adapter = adaptador
-
-        viewModelProvider = ViewModelProvider(this)
-        viewModelGuilds = viewModelProvider[ViewModelGuilds::class.java]
 
         viewModelGuilds.Worlds().observe(this) { worlds ->
             if (worlds != null) {

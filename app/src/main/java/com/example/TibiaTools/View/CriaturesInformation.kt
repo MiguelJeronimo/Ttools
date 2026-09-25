@@ -19,6 +19,7 @@ import com.example.TibiaTools.View.ViewModel.ViewModelCreature
 import com.example.ttools.R
 import com.example.ttools.databinding.ActivityCriaturesInformationBinding
 import com.squareup.picasso.Picasso
+import org.koin.android.ext.android.inject
 import java.util.Objects
 
 class CriaturesInformation : AppCompatActivity() {
@@ -35,8 +36,7 @@ class CriaturesInformation : AppCompatActivity() {
     private lateinit var linearLayoutInmune: LinearLayout
     private lateinit var linearLayoutStrong: LinearLayout
     private lateinit var linearLayoutWeakness: LinearLayout
-    private lateinit var viewModelProvider: ViewModelProvider
-    private lateinit var viewModelCreature: ViewModelCreature
+    private val viewModelCreature: ViewModelCreature by inject()
 
     @RequiresApi(Build.VERSION_CODES.N)
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -58,8 +58,6 @@ class CriaturesInformation : AppCompatActivity() {
         creatureExp = binding.root.findViewById(R.id.id_experience_criature)
         creatureImage = binding.root.findViewById(R.id.imageViewCreature)
 
-        viewModelProvider = ViewModelProvider(this)
-        viewModelCreature = viewModelProvider[ViewModelCreature::class.java]
         raceCreature?.let { viewModelCreature.setCreature(it) }
 
         viewModelCreature.creature().observe(this) { creature ->
