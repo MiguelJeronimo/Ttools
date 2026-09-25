@@ -31,7 +31,7 @@ public interface TibiaAPIServer {
     @GET("/v4/boostablebosses")
     Call<APIBoostableBosses> getBoostableBosses();
 
-    @GET("{race}")
+    @GET("/v4/creature/{race}")
     Call<APICriaturesInformation> getCriatureInformation(@Path("race") String race);
 
     @GET("/v4/guilds/{world}")
@@ -40,10 +40,10 @@ public interface TibiaAPIServer {
     @GET("/v4/guild/{name}")
     Call<ApiGuildsName> getGuildsInformationName(@Path("name") String name);
 
-    @GET("spells")
+    @GET("/v4/spells")
     Call<ApiSpells> getSpells();
 
-    @GET("{spell}")
+    @GET("/v4/spell/{spell}")
     Call<ApiSpellsInformation> getSpellInformation(@Path("spell") String spell);
 
     @GET("https://api.tibialabs.com/v2/rashid")
@@ -60,6 +60,6 @@ public interface TibiaAPIServer {
 
     @GET("/v4/houses/{world}/{town}")
     Call<ApiHouses> getHousesInformation(@Path("world") String world, @Path("town") String town);
-    @GET("house/{world}/{house_id}")
+    @GET("/v4/house/{world}/{house_id}")
     Call<ApiHousesInformation> getHouseInformation(@Path("world") String world, @Path("house_id") String house_id);
 }

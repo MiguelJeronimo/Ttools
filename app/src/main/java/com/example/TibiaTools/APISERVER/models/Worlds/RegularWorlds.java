@@ -3,7 +3,7 @@ package com.example.TibiaTools.APISERVER.models.Worlds;
 import androidx.annotation.Keep;
 
 @Keep
-public class RegularWorlds {
+public class RegularWorlds implements Comparable<RegularWorlds>{
     private String name;
     private String status;
     private int players_online;
@@ -102,5 +102,10 @@ public class RegularWorlds {
 
     public void setTournament_world_type(String tournament_world_type) {
         this.tournament_world_type = tournament_world_type;
+    }
+
+    @Override
+    public int compareTo(RegularWorlds o) {
+        return Integer.compare(o.getPlayers_online(), this.getPlayers_online());
     }
 }

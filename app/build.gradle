@@ -1,19 +1,20 @@
 apply plugin: 'com.android.application'
 
 android {
-    compileSdk 34
+    compileSdk 36
     //buildToolsVersion "29.0.2"
     compileOptions {
-        sourceCompatibility = 1.8
-        targetCompatibility = 1.8
+        sourceCompatibility = JavaVersion.VERSION_11
+        targetCompatibility = JavaVersion.VERSION_11
     }
     defaultConfig {
         applicationId "com.miguel.ttools"
         minSdk 21
-        targetSdk 34
+        //noinspection OldTargetApi
+        targetSdk 35
         //VersionCode cambiar cada que vayamos a subir una actualizacion a la playstore
-        versionCode 16
-        versionName "2.0.1"
+        versionCode 17
+        versionName "2.0.2"
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
 
@@ -63,4 +64,11 @@ dependencies {
     implementation "androidx.lifecycle:lifecycle-viewmodel-ktx:2.6.2"
     // LiveData
     implementation "androidx.lifecycle:lifecycle-livedata-ktx:2.6.2"
+    //charts
+    implementation 'com.github.AAChartModel:AAChartCore:7.3.0'
+}
+java {
+    toolchain {
+        languageVersion = JavaLanguageVersion.of(17)
+    }
 }

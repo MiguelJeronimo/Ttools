@@ -11,8 +11,16 @@ import com.example.TibiaTools.APISERVER.models.criatures.BoostableBosses;
 import com.example.TibiaTools.APISERVER.models.criatures.Criatures;
 import com.example.TibiaTools.Repository.RepositoryHome;
 
-public class ViewModelHome extends ViewModel {
+public class ViewModelHome extends ViewModel{
     RepositoryHome repositoryHome = new RepositoryHome();
+
+    private final MutableLiveData<Worlds> _worlds = new MutableLiveData<>();
+
+    public MutableLiveData<Worlds> worlds() {return _worlds;}
+
+    public void setWorlds() {
+        repositoryHome.worlds(_worlds);
+    }
     private final MutableLiveData<String> _rashidLocation = new MutableLiveData<>();
     public LiveData<String> getRashidLocation() {
         return _rashidLocation;

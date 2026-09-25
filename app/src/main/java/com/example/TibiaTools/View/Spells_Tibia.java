@@ -5,6 +5,7 @@ import android.os.Bundle;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -17,6 +18,7 @@ import com.example.TibiaTools.APISERVER.models.ApiSpells;
 import com.example.TibiaTools.APISERVER.models.SpellsInformation.SpellList.SpellsList;
 import com.example.TibiaTools.APISERVER.models.SpellsInformation.Spells;
 import com.example.TibiaTools.Operaciones.InstanciaRetrofit;
+import com.example.TibiaTools.View.ViewModel.ViewModelSpells;
 import com.example.TibiaTools.recyclerview.Adapters.AdapterRecyclerViewSpells;
 import com.example.TibiaTools.recyclerview.ItemsRecyclerViewSpells;
 import com.example.ttools.R;
@@ -34,13 +36,12 @@ import retrofit2.Response;
 public class Spells_Tibia extends AppCompatActivity {
 
     private ActivitySpellsTibiaBinding binding;
-    String url = "https://api.tibiadata.com/v4/";
     //RecyclerView
     RecyclerView recyclerView;
     AdapterRecyclerViewSpells adapter;
-    List<ItemsRecyclerViewSpells> itemsRecyclerViewSpellsList;
-    InstanciaRetrofit services = new InstanciaRetrofit();
-
+    List<ItemsRecyclerViewSpells> itemsRecyclerViewSpellsList = new ArrayList<>();;
+    ViewModelProvider viewModelProvider;
+    ViewModelSpells viewModelSpells;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -48,7 +49,84 @@ public class Spells_Tibia extends AppCompatActivity {
         setContentView(binding.getRoot());
         setSupportActionBar(binding.toolbar);
         Objects.requireNonNull(getSupportActionBar()).setDisplayHomeAsUpEnabled(true); //Aparicion del boton regresar en el action bar
-        llenarRecyclerViewSpells(url);
+        recyclerView = findViewById(R.id.recyclerSpells);
+        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this);
+        linearLayoutManager.setOrientation(LinearLayoutManager.VERTICAL);
+        recyclerView.setLayoutManager(linearLayoutManager);
+        adapter = new AdapterRecyclerViewSpells(itemsRecyclerViewSpellsList);
+        recyclerView.hasFixedSize();
+        recyclerView.setAdapter(adapter);
+        viewModelProvider = new ViewModelProvider(this);
+        viewModelSpells = viewModelProvider.get(ViewModelSpells.class);
+        viewModelSpells.spells().observe(this, spells -> {
+            if (spells != null){
+                String stateGroup=null;
+                String stateType = null;
+                String statePremium = null;
+                if (spells.getSpells_list() != null){
+                    for (SpellsList spellList:spells.getSpells_list()) {
+                        if (spellList.isGroup_support()){
+                            stateGroup = "Support";
+                        }
+                        if (spellList.isGroup_healing()){
+                            stateGroup = "Healing";
+                        }
+                        if(spellList.isGroup_attack()){
+                            stateGroup = "Attack";
+                        }
+                        if (spellList.isType_instant()){
+                            stateType = "Instant";
+                        }
+                        if (spellList.isType_rune()){
+                            stateType = "Rune";
+                        }
+                        if (spellList.isPremium_only()){
+                            statePremium = "Premium Only";
+                        } else{
+                            statePremium = "Free";
+                        }
+                        itemsRecyclerViewSpellsList.add(new ItemsRecyclerViewSpells(
+                                spellList.getName(),
+                                spellList.getFormula(),
+                                String.valueOf(spellList.getMana()),
+                                String.valueOf(spellList.getPrice()),
+                                stateType,
+                                stateGroup,
+                                spellList.getSpell_id(),
+                                statePremium,
+                                String.valueOf(spellList.getLevel())
+                        ));
+                        recyclerView.setVisibility(View.VISIBLE);
+                    }
+                }
+            } else {
+                Toast.makeText(getApplicationContext(),"No hay respuesta del servidor", Toast.LENGTH_SHORT).show();
+            }
+            binding.getRoot().findViewById(R.id.carga_spells).setVisibility(View.GONE);
+            adapter.notifyDataSetChanged();
+        });
+        adapter.setOnClickListener(view -> {
+            String id = itemsRecyclerViewSpellsList.get(recyclerView.getChildAdapterPosition(view)).getSpellId();
+            String name = itemsRecyclerViewSpellsList.get(recyclerView.getChildAdapterPosition(view)).getNombre();
+            //para el caso de apprenticestrike, para quietar la 's y el espacio
+            //id = id.replace("'s ","");
+            String id1 = id.replace("'s","s");
+            String id2 = id1;
+            //quitar los espacios en blanco y unir los caracteres
+            String id3 = id2.replace(" ","");
+            //convertir ese id en minusculas
+            String id_minusculas = null;
+            id_minusculas = id3.toLowerCase();
+            String ids= id_minusculas;
+            if (ids.equals("apprenticesstrike")){
+                id = id.replace("'s ","");
+                id_minusculas = id.toLowerCase();
+            }
+            Intent intent = new Intent(Spells_Tibia.this, SpellInformationActivity.class);
+            intent.putExtra("ID",id_minusculas);
+            intent.putExtra("name", name);
+            startActivity(intent);
+        });
     }
 
     @Override
@@ -64,103 +142,5 @@ public class Spells_Tibia extends AppCompatActivity {
             return true;
         }
         return super.onOptionsItemSelected(item);
-    }
-
-    public void llenarRecyclerViewSpells(String url){
-        recyclerView = findViewById(R.id.recyclerSpells);
-        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this);
-        itemsRecyclerViewSpellsList = new ArrayList<>();
-        TibiaAPIServer tibiaAPIServer = services.getRetrofit(url).create(TibiaAPIServer.class);
-        Call <ApiSpells> call = tibiaAPIServer.getSpells();
-        call.enqueue(new Callback<ApiSpells>() {
-            @Override
-            public void onResponse(Call<ApiSpells> call, Response<ApiSpells> response) {
-                if (response.isSuccessful()){
-                    ApiSpells apiSpells = response.body();
-                    Spells spells = apiSpells.getSpells();
-                    String stateGroup=null;
-                    String stateType = null;
-                    String statePremium = null;
-                    if (spells.getSpells_list() != null){
-                        for (SpellsList spellList:spells.getSpells_list()) {
-
-                            if (spellList.isGroup_support()){
-                                stateGroup = "Support";
-                            }
-                            if (spellList.isGroup_healing()){
-                                stateGroup = "Healing";
-                            }
-                            if(spellList.isGroup_attack()){
-                                stateGroup = "Attack";
-                            }
-                            if (spellList.isType_instant()){
-                                stateType = "Instant";
-                            }
-                            if (spellList.isType_rune()){
-                                stateType = "Rune";
-                            }
-                            if (spellList.isPremium_only()){
-                                statePremium = "Premium Only";
-                            } else{
-                                statePremium = "Free";
-                            }
-
-                            itemsRecyclerViewSpellsList.add(new ItemsRecyclerViewSpells(
-                                    spellList.getName(),
-                                    spellList.getFormula(),
-                                    String.valueOf(spellList.getMana()),
-                                    String.valueOf(spellList.getPrice()),
-                                    stateType,
-                                    stateGroup,
-                                    spellList.getSpell_id(),
-                                    statePremium,
-                                    String.valueOf(spellList.getLevel())
-                            ));
-                        }
-                    }
-                    linearLayoutManager.setOrientation(LinearLayoutManager.VERTICAL);
-                    recyclerView.setLayoutManager(linearLayoutManager);
-                    adapter = new AdapterRecyclerViewSpells(itemsRecyclerViewSpellsList);
-                    adapter.notifyDataSetChanged();
-                    recyclerView.hasFixedSize();
-                    recyclerView.setAdapter(adapter);
-                    binding.getRoot().findViewById(R.id.carga_spells).setVisibility(View.GONE);
-                    recyclerView.setVisibility(View.VISIBLE);
-                    adapter.setOnClickListener(new View.OnClickListener() {
-                        @Override
-                        public void onClick(View view) {
-                            String id = itemsRecyclerViewSpellsList.get(recyclerView.getChildAdapterPosition(view)).getSpellId();
-                            //para el caso de apprenticestrike, para quietar la 's y el espacio
-                            //id = id.replace("'s ","");
-                            String id1 = id.replace("'s","s");
-                            String id2 = id1;
-                            //quitar los espacios en blanco y unir los caracteres
-                            String id3 = id2.replace(" ","");
-                            //convertir ese id en minusculas
-                            String id_minusculas = null;
-                             id_minusculas = id3.toLowerCase();
-                            String ids= id_minusculas;
-                            if (ids.equals("apprenticesstrike")){
-                                id = id.replace("'s ","");
-                                id_minusculas = id.toLowerCase();
-                            }
-                            Intent intent = new Intent(Spells_Tibia.this, SpellInformationActivity.class);
-                            intent.putExtra("ID",id_minusculas);
-                            startActivity(intent);
-                        }
-                    });
-                }else{
-                    binding.getRoot().findViewById(R.id.carga_spells).setVisibility(View.GONE);
-                    Toast.makeText(getApplicationContext(),"No hay respuesta del servidor", Toast.LENGTH_SHORT).show();
-                }
-            }
-
-            @Override
-            public void onFailure(Call<ApiSpells> call, Throwable t) {
-                System.out.println(t.getMessage());
-                binding.getRoot().findViewById(R.id.carga_spells).setVisibility(View.GONE);
-                Toast.makeText(getApplicationContext(),"Error de conexión intente mas tarde :)", Toast.LENGTH_SHORT).show();
-            }
-        });
     }
 }

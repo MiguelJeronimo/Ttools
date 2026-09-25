@@ -17,7 +17,7 @@ public class ViewModelGuilds extends ViewModel {
 
     //init
     public ViewModelGuilds(){
-        repository.worlds(_worlds);
+        repository.worlds(_worlds, null);
     }
 
     public void setGuild(String guildName){
