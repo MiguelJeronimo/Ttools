@@ -13,11 +13,12 @@ import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
-import androidx.lifecycle.ViewModelProvider
 import com.bumptech.glide.Glide
 import com.example.TibiaTools.View.ViewModel.ViewModelSpell
+import com.example.TibiaTools.data.model.*
 import com.example.ttools.R
 import com.example.ttools.databinding.ActivitySpellInformationBinding
+import org.koin.androidx.viewmodel.ext.android.viewModel
 import java.util.Objects
 
 class SpellInformationActivity : AppCompatActivity() {
@@ -43,8 +44,7 @@ class SpellInformationActivity : AppCompatActivity() {
     private lateinit var textViewPrice: TextView
     private lateinit var textViewStatus: TextView
     private lateinit var textViewCooldownGroup: TextView
-    private lateinit var viewModelProvider: ViewModelProvider
-    private lateinit var viewModelSpell: ViewModelSpell
+    private val viewModelSpell: ViewModelSpell by viewModel()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -78,8 +78,6 @@ class SpellInformationActivity : AppCompatActivity() {
         textViewStatus = findViewById(R.id.textViewStatus)
         textViewCooldownGroup = findViewById(R.id.textViewCooldownGroup)
 
-        viewModelProvider = ViewModelProvider(this)
-        viewModelSpell = viewModelProvider[ViewModelSpell::class.java]
         idSpell?.let { viewModelSpell.setSpell(it) }
 
         viewModelSpell.spell().observe(this) { spell ->

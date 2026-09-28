@@ -8,17 +8,16 @@ import android.widget.Toast
 import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
-import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.example.TibiaTools.data.model.*
 import com.example.TibiaTools.View.ViewModel.ViewModelWorlds
+import com.example.TibiaTools.data.model.*
 import com.example.TibiaTools.recyclerview.Adapters.adapterRecyclerviewMundos
 import com.example.TibiaTools.recyclerview.ItemsRecyclerViewMundos
 import com.example.ttools.R
 import com.example.ttools.databinding.ActivityMundosBinding
 import com.google.android.material.floatingactionbutton.FloatingActionButton
-import org.koin.android.ext.android.inject
+import org.koin.androidx.viewmodel.ext.android.viewModel
 import java.util.ArrayList
 
 class Mundos : AppCompatActivity() {
@@ -26,8 +25,7 @@ class Mundos : AppCompatActivity() {
     private lateinit var myAdapter: adapterRecyclerviewMundos
     private lateinit var binding: ActivityMundosBinding
     private val itemsRecyclerViewMundos = ArrayList<ItemsRecyclerViewMundos>()
-    private lateinit var viewModelProvider: ViewModelProvider
-    private val viewModelWorlds: ViewModelWorlds by inject()
+    private val viewModelWorlds: ViewModelWorlds by viewModel()
 
     @RequiresApi(Build.VERSION_CODES.N)
     override fun onCreate(savedInstanceState: Bundle?) {

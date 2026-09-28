@@ -6,19 +6,17 @@ import android.view.MenuItem
 import android.view.View
 import android.widget.ImageView
 import android.widget.TextView
-import androidx.annotation.NonNull
 import androidx.appcompat.app.AppCompatActivity
-import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
-import com.example.TibiaTools.data.model.*
 import com.example.TibiaTools.View.ViewModel.ViewModelGuildInformation
+import com.example.TibiaTools.data.model.*
 import com.example.TibiaTools.recyclerview.Adapters.AdapterRecyclerViewGuildName
 import com.example.TibiaTools.recyclerview.itemsRecyclerViewGuildsName
 import com.example.ttools.R
 import com.example.ttools.databinding.ActivityGuildInformationNameBinding
-import org.koin.android.ext.android.inject
+import org.koin.androidx.viewmodel.ext.android.viewModel
 import java.util.ArrayList
 
 class GuildInformationName : AppCompatActivity() {
@@ -37,7 +35,7 @@ class GuildInformationName : AppCompatActivity() {
     private lateinit var recyclerView: RecyclerView
     private lateinit var adapter: AdapterRecyclerViewGuildName
     private val itemsRecyclerViewGuildsNames = ArrayList<itemsRecyclerViewGuildsName>()
-    private val viewModelGuildInformation: ViewModelGuildInformation by inject()
+    private val viewModelGuildInformation: ViewModelGuildInformation by viewModel()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

@@ -13,13 +13,12 @@ import android.widget.TextView
 import android.widget.Toast
 import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
-import androidx.lifecycle.ViewModelProvider
-import com.example.TibiaTools.data.model.*
 import com.example.TibiaTools.View.ViewModel.ViewModelCreature
+import com.example.TibiaTools.data.model.*
 import com.example.ttools.R
 import com.example.ttools.databinding.ActivityCriaturesInformationBinding
 import com.squareup.picasso.Picasso
-import org.koin.android.ext.android.inject
+import org.koin.androidx.viewmodel.ext.android.viewModel
 import java.util.Objects
 
 class CriaturesInformation : AppCompatActivity() {
@@ -36,7 +35,7 @@ class CriaturesInformation : AppCompatActivity() {
     private lateinit var linearLayoutInmune: LinearLayout
     private lateinit var linearLayoutStrong: LinearLayout
     private lateinit var linearLayoutWeakness: LinearLayout
-    private val viewModelCreature: ViewModelCreature by inject()
+    private val viewModelCreature: ViewModelCreature by viewModel()
 
     @RequiresApi(Build.VERSION_CODES.N)
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -85,7 +84,7 @@ class CriaturesInformation : AppCompatActivity() {
                 binding.root.findViewById<View>(R.id.cardDescriptionCreature)?.visibility = View.VISIBLE
                 binding.root.findViewById<View>(R.id.cardBehavior)?.visibility = View.VISIBLE
 
-                creature.loot_list?.forEach { loot ->
+                creature.loot_list.forEach { loot ->
                     val textViewLoot = TextView(this).apply {
                         text = "- $loot"
                         setTextColor(Color.parseColor("#CE93D8"))
@@ -96,7 +95,7 @@ class CriaturesInformation : AppCompatActivity() {
                     binding.root.findViewById<View>(R.id.CardLootList)?.visibility = View.VISIBLE
                 }
 
-                creature.immune?.forEach { immune ->
+                creature.immune.forEach { immune ->
                     val textViewImmune = TextView(this).apply {
                         text = "- $immune"
                         setTextColor(Color.parseColor("#CE93D8"))
@@ -107,7 +106,7 @@ class CriaturesInformation : AppCompatActivity() {
                     binding.root.findViewById<View>(R.id.CardImmune)?.visibility = View.VISIBLE
                 }
 
-                creature.strong?.forEach { strong ->
+                creature.strong.forEach { strong ->
                     val textViewStrong = TextView(this).apply {
                         text = "- $strong"
                         setTextColor(Color.parseColor("#CE93D8"))
@@ -118,7 +117,7 @@ class CriaturesInformation : AppCompatActivity() {
                     binding.root.findViewById<View>(R.id.CardStrong)?.visibility = View.VISIBLE
                 }
 
-                creature.weakness?.forEach { weakness ->
+                creature.weakness.forEach { weakness ->
                     val textViewWeakness = TextView(this).apply {
                         text = "- $weakness"
                         setTextColor(Color.parseColor("#CE93D8"))

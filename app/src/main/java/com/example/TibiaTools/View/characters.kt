@@ -1,5 +1,6 @@
 package com.example.TibiaTools.View
 
+import android.annotation.SuppressLint
 import android.graphics.Color
 import android.graphics.Typeface
 import android.os.Build
@@ -14,12 +15,11 @@ import android.widget.TextView
 import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
+import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.TibiaTools.View.ViewModel.ViewModelCharacters
-import com.example.TibiaTools.data.model.Achievements
-import com.example.TibiaTools.data.model.CharacterHouse
-import com.example.TibiaTools.data.model.OtherCharacters
+import com.example.TibiaTools.data.model.*
 import com.example.TibiaTools.recyclerview.Adapters.AdapterArchievementsCharacter
 import com.example.TibiaTools.recyclerview.Adapters.AdapterHouseCharacters
 import com.example.TibiaTools.recyclerview.Adapters.AdapterOtherCharacters
@@ -31,7 +31,8 @@ import com.example.TibiaTools.utilidades.IsVisibillityCharacters
 import com.example.ttools.R
 import com.example.ttools.databinding.ActivityCharactersBinding
 import com.google.android.material.snackbar.Snackbar
-import org.koin.android.ext.android.inject
+import org.koin.androidx.viewmodel.ext.android.viewModel
+import java.util.ArrayList
 import java.util.Objects
 
 class characters : AppCompatActivity(), View.OnClickListener {
@@ -65,7 +66,7 @@ class characters : AppCompatActivity(), View.OnClickListener {
     private var adapterArchievementsCharacter: AdapterArchievementsCharacter? = null
     private var itemsArchievementsCharacters: ArrayList<ItemsArchievementsCharacter>? = null
     private var isVisibillityCharacters: IsVisibillityCharacters? = null
-    private val viewModelCharacters: ViewModelCharacters by inject()
+    private val viewModelCharacters: ViewModelCharacters by viewModel()
     private lateinit var viewRoot: View
 
     @RequiresApi(Build.VERSION_CODES.N)

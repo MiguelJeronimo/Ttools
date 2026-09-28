@@ -11,11 +11,13 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.TibiaTools.View.ViewModel.ViewModelCreatures
+import com.example.TibiaTools.data.model.*
 import com.example.TibiaTools.recyclerview.Adapters.adapterRecyclerViewCriatures
 import com.example.TibiaTools.recyclerview.ItemsRecyclerViewCriatures
 import com.example.ttools.R
 import com.example.ttools.databinding.ActivityCriaturasBinding
-import org.koin.android.ext.android.inject
+import org.koin.androidx.viewmodel.ext.android.viewModel
+import java.util.ArrayList
 import java.util.Objects
 
 class Criaturas : AppCompatActivity() {
@@ -23,7 +25,7 @@ class Criaturas : AppCompatActivity() {
     private lateinit var myAdapter: adapterRecyclerViewCriatures
     private val itemsRecyclerViewCriatures = ArrayList<ItemsRecyclerViewCriatures>()
     private lateinit var binding: ActivityCriaturasBinding
-    private val viewModelCreatures: ViewModelCreatures by inject()
+    private val viewModelCreatures: ViewModelCreatures by viewModel()
 
     @RequiresApi(Build.VERSION_CODES.N)
     override fun onCreate(savedInstanceState: Bundle?) {

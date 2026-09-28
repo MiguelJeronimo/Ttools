@@ -12,18 +12,17 @@ import android.widget.AutoCompleteTextView
 import android.widget.Toast
 import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
-import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.example.TibiaTools.data.model.*
 import com.example.TibiaTools.View.ViewModel.ViewModelHighScore
+import com.example.TibiaTools.data.model.*
 import com.example.TibiaTools.recyclerview.Adapters.AdapterRecyclerViewHighScores
 import com.example.TibiaTools.recyclerview.ItemsRecyclerViewHighScores
 import com.example.TibiaTools.utilidades.DataHighScores
 import com.example.TibiaTools.utilidades.Spinners
 import com.example.ttools.R
 import com.example.ttools.databinding.ActivityHighscoresBinding
-import org.koin.android.ext.android.inject
+import org.koin.androidx.viewmodel.ext.android.viewModel
 import java.text.DecimalFormat
 import java.util.ArrayList
 import java.util.concurrent.Executors
@@ -41,7 +40,7 @@ class Highscores : AppCompatActivity(), AdapterView.OnItemClickListener {
     private var mundo: String? = null
     private var categoria: String? = null
     private var vocacion: String? = null
-    private val viewModelHighScore: ViewModelHighScore by inject()
+    private val viewModelHighScore: ViewModelHighScore by viewModel()
 
     @RequiresApi(Build.VERSION_CODES.N)
     override fun onCreate(savedInstanceState: Bundle?) {

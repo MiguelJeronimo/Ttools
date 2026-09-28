@@ -13,18 +13,17 @@ import android.widget.AutoCompleteTextView
 import android.widget.Toast
 import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
-import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.example.TibiaTools.data.model.*
 import com.example.TibiaTools.View.ViewModel.ViewModelHouses
+import com.example.TibiaTools.data.model.*
 import com.example.TibiaTools.recyclerview.Adapters.AdapterRecyclerViewHouses
 import com.example.TibiaTools.recyclerview.ItemsRecyclerViewHouses
 import com.example.TibiaTools.utilidades.DataHighScores
 import com.example.TibiaTools.utilidades.Spinners
 import com.example.ttools.R
 import com.example.ttools.databinding.ActivityHouseBinding
-import org.koin.android.ext.android.inject
+import org.koin.androidx.viewmodel.ext.android.viewModel
 import java.util.ArrayList
 import java.util.Objects
 import java.util.concurrent.Executors
@@ -40,8 +39,7 @@ class HouseActivity : AppCompatActivity(), AdapterView.OnItemClickListener {
     private lateinit var recyclerView: RecyclerView
     private lateinit var adapterRecyclerViewHouses: AdapterRecyclerViewHouses
     private val listHouses = ArrayList<ItemsRecyclerViewHouses>()
-    private lateinit var viewModelProvider: ViewModelProvider
-    private val viewModelHouses: ViewModelHouses by inject()
+    private val viewModelHouses: ViewModelHouses by viewModel()
 
     @RequiresApi(Build.VERSION_CODES.N)
     override fun onCreate(savedInstanceState: Bundle?) {

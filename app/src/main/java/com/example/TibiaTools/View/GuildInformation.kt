@@ -10,18 +10,17 @@ import android.widget.ArrayAdapter
 import android.widget.AutoCompleteTextView
 import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
-import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.example.TibiaTools.data.model.*
 import com.example.TibiaTools.View.ViewModel.ViewModelGuilds
+import com.example.TibiaTools.data.model.*
 import com.example.TibiaTools.recyclerview.Adapters.AdapterRecyclerViewGuildsList
 import com.example.TibiaTools.recyclerview.ItemsRecyclerViewGuilds
 import com.example.ttools.R
 import com.example.ttools.databinding.ActivityGuildsBinding
 import com.google.android.material.progressindicator.LinearProgressIndicator
 import com.google.android.material.snackbar.Snackbar
-import org.koin.android.ext.android.inject
+import org.koin.androidx.viewmodel.ext.android.viewModel
 import java.util.ArrayList
 import java.util.Objects
 
@@ -33,7 +32,7 @@ class GuildInformation : AppCompatActivity() {
     private lateinit var adaptador: AdapterRecyclerViewGuildsList
     private val itemsRecyclerViewGuilds = ArrayList<ItemsRecyclerViewGuilds>()
     private lateinit var linearProgressIndicator: LinearProgressIndicator
-    private val viewModelGuilds: ViewModelGuilds by inject()
+    private val viewModelGuilds: ViewModelGuilds by viewModel()
     private lateinit var viewRoot: View
 
     @SuppressLint("NotifyDataSetChanged")

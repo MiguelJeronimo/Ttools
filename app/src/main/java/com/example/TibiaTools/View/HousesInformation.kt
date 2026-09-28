@@ -7,16 +7,14 @@ import android.view.View
 import android.widget.ImageView
 import android.widget.TextView
 import android.widget.Toast
-import androidx.annotation.NonNull
 import androidx.appcompat.app.AppCompatActivity
-import androidx.lifecycle.ViewModelProvider
 import com.bumptech.glide.Glide
-import com.example.TibiaTools.data.model.*
 import com.example.TibiaTools.View.ViewModel.ViewModelHouseInformation
+import com.example.TibiaTools.data.model.*
 import com.example.TibiaTools.utilidades.RedValidator
 import com.example.ttools.R
 import com.example.ttools.databinding.ActivityHousesInformationBinding
-import org.koin.android.ext.android.inject
+import org.koin.androidx.viewmodel.ext.android.viewModel
 import java.text.DecimalFormat
 
 class HousesInformation : AppCompatActivity() {
@@ -35,8 +33,7 @@ class HousesInformation : AppCompatActivity() {
     private lateinit var imgCasa: ImageView
     private lateinit var binding: ActivityHousesInformationBinding
     private val decimalFormat = DecimalFormat("###,###.00")
-    private lateinit var viewModelProvider: ViewModelProvider
-    private val viewModelHouseInformation: ViewModelHouseInformation by inject()
+    private val viewModelHouseInformation: ViewModelHouseInformation by viewModel()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

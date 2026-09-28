@@ -5,18 +5,16 @@ import android.os.Bundle
 import android.view.MenuItem
 import android.view.View
 import android.widget.Toast
-import androidx.annotation.NonNull
 import androidx.appcompat.app.AppCompatActivity
-import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.example.TibiaTools.data.model.*
 import com.example.TibiaTools.View.ViewModel.ViewModelSpells
+import com.example.TibiaTools.data.model.*
 import com.example.TibiaTools.recyclerview.Adapters.AdapterRecyclerViewSpells
 import com.example.TibiaTools.recyclerview.ItemsRecyclerViewSpells
 import com.example.ttools.R
 import com.example.ttools.databinding.ActivitySpellsTibiaBinding
-import org.koin.android.ext.android.inject
+import org.koin.androidx.viewmodel.ext.android.viewModel
 import java.util.ArrayList
 import java.util.Objects
 
@@ -25,8 +23,7 @@ class Spells_Tibia : AppCompatActivity() {
     private lateinit var recyclerView: RecyclerView
     private lateinit var adapter: AdapterRecyclerViewSpells
     private val itemsRecyclerViewSpellsList = ArrayList<ItemsRecyclerViewSpells>()
-    private lateinit var viewModelProvider: ViewModelProvider
-    private val viewModelSpells: ViewModelSpells by inject()
+    private val viewModelSpells: ViewModelSpells by viewModel()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
