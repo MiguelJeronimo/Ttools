@@ -272,7 +272,7 @@ class MainActivity : AppCompatActivity(), View.OnClickListener, MenuItem.OnMenuI
             }
         }
 
-        viewModelHome.boostedBoss.observe(this) { bostedBoss ->
+        viewModelHome.bostedBoss.observe(this) { bostedBoss ->
             if (bostedBoss != null) {
                 val boosted = bostedBoss.boosted
                 Glide.with(applicationContext).load(boosted?.image_url).into(imgBossBosstable)

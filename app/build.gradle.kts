@@ -96,6 +96,8 @@ dependencies {
     implementation("androidx.compose.ui:ui-graphics")
     implementation("androidx.compose.ui:ui-tooling-preview")
     implementation("androidx.compose.material3:material3:1.3.0-alpha01")
+    implementation("androidx.compose.material:material-icons-extended")
+    implementation("androidx.compose.runtime:runtime-livedata")
     implementation("androidx.activity:activity-compose:1.8.2")
     implementation("androidx.lifecycle:lifecycle-viewmodel-compose:2.7.0")
     implementation("io.insert-koin:koin-androidx-compose:3.5.3")
@@ -104,6 +106,9 @@ dependencies {
 
     // DataStore
     implementation("androidx.datastore:datastore-preferences:1.0.0")
+
+    // Coil Compose
+    implementation("io.coil-kt:coil-compose:2.6.0")
 
     // Navigation 3 / Navigation Compose
     implementation("androidx.navigation:navigation-compose:2.8.0")

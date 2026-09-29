@@ -27,25 +27,31 @@ class ViewModelHome(
 ) : ViewModel() {
 
     private val _worlds = MutableLiveData<Worlds?>()
+    val worlds: LiveData<Worlds?> get() = _worlds
     fun worlds(): LiveData<Worlds?> = _worlds
 
     private val _rashidLocation = MutableLiveData<String?>()
     val rashidLocation: LiveData<String?> get() = _rashidLocation
 
     private val _playersOnline = MutableLiveData<Worlds?>()
-    val playersOnline: LiveData<Worlds?> = _playersOnline
+    val playersOnline: LiveData<Worlds?> get() = _playersOnline
+    fun playersOnline(): LiveData<Worlds?> = _playersOnline
 
     private val _creatureBoss = MutableLiveData<Criatures?>()
-    val creatureBoss: LiveData<Criatures?> = _creatureBoss
+    val creatureBoss: LiveData<Criatures?> get() = _creatureBoss
+    fun creatureBoss(): LiveData<Criatures?> = _creatureBoss
 
     private val _bostedBoss = MutableLiveData<BoostableBosses?>()
-    val boostedBoss: LiveData<BoostableBosses?> = _bostedBoss
+    val bostedBoss: LiveData<BoostableBosses?> get() = _bostedBoss
+    fun bostedBoss(): LiveData<BoostableBosses?> = _bostedBoss
 
-    val _news = MutableLiveData<ApiNews?>()
-    val news: LiveData<ApiNews?> = _news
+    private val _news = MutableLiveData<ApiNews?>()
+    val news: LiveData<ApiNews?> get() = _news
+    fun news(): LiveData<ApiNews?> = _news
 
-    val _newTicker = MutableLiveData<ApiNewsTicker?>()
-    val newTicker: LiveData<ApiNewsTicker?> = _newTicker
+    private val _newTicker = MutableLiveData<ApiNewsTicker?>()
+    val newTicker: LiveData<ApiNewsTicker?> get() = _newTicker
+    fun newTicker(): LiveData<ApiNewsTicker?> = _newTicker
 
     fun setWorlds() {
         viewModelScope.launch {
