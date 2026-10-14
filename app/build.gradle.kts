@@ -68,6 +68,7 @@ dependencies {
     implementation("androidx.recyclerview:recyclerview-selection:1.1.0")
     
     testImplementation("junit:junit:4.13.2")
+    testImplementation("io.mockk:mockk:1.13.10")
     androidTestImplementation("androidx.test:runner:1.5.2")
     androidTestImplementation("androidx.test:espresso:espresso-core:3.5.1")
     

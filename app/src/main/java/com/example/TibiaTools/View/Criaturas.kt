@@ -12,8 +12,8 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.TibiaTools.View.ViewModel.ViewModelCreatures
 import com.example.TibiaTools.data.model.*
-import com.example.TibiaTools.recyclerview.Adapters.adapterRecyclerViewCriatures
-import com.example.TibiaTools.recyclerview.ItemsRecyclerViewCriatures
+import com.example.TibiaTools.recyclerview.adapters.AdapterRecyclerViewCreatures
+import com.example.TibiaTools.recyclerview.items.ItemsRecyclerViewCreatures
 import com.example.ttools.R
 import com.example.ttools.databinding.ActivityCriaturasBinding
 import org.koin.androidx.viewmodel.ext.android.viewModel
@@ -22,8 +22,8 @@ import java.util.Objects
 
 class Criaturas : AppCompatActivity() {
     private lateinit var recyclerView: RecyclerView
-    private lateinit var myAdapter: adapterRecyclerViewCriatures
-    private val itemsRecyclerViewCriatures = ArrayList<ItemsRecyclerViewCriatures>()
+    private lateinit var myAdapter: AdapterRecyclerViewCreatures
+    private val itemsRecyclerViewCriatures = ArrayList<ItemsRecyclerViewCreatures>()
     private lateinit var binding: ActivityCriaturasBinding
     private val viewModelCreatures: ViewModelCreatures by viewModel()
 
@@ -38,7 +38,7 @@ class Criaturas : AppCompatActivity() {
         recyclerView = findViewById(R.id.recyclerCriaturas)
         val layoutManager = LinearLayoutManager(this)
         recyclerView.layoutManager = layoutManager
-        myAdapter = adapterRecyclerViewCriatures(itemsRecyclerViewCriatures)
+        myAdapter = AdapterRecyclerViewCreatures(itemsRecyclerViewCriatures)
         layoutManager.orientation = LinearLayoutManager.VERTICAL
         recyclerView.setHasFixedSize(true)
         recyclerView.adapter = myAdapter
@@ -46,7 +46,7 @@ class Criaturas : AppCompatActivity() {
         viewModelCreatures.creature().observe(this) { creatures ->
             if (creatures != null) {
                 itemsRecyclerViewCriatures.add(
-                    ItemsRecyclerViewCriatures(
+                    ItemsRecyclerViewCreatures(
                         "Today's Boss: " + (creatures.boosted?.name ?: ""),
                         creatures.boosted?.race ?: "",
                         creatures.boosted?.image_url ?: ""
@@ -54,10 +54,10 @@ class Criaturas : AppCompatActivity() {
                 )
                 creatures.creature_list.forEach { creature ->
                     itemsRecyclerViewCriatures.add(
-                        ItemsRecyclerViewCriatures(
-                            creature.name,
-                            creature.race,
-                            creature.image_url
+                        ItemsRecyclerViewCreatures(
+                            creature.name.orEmpty(),
+                            creature.race.orEmpty(),
+                            creature.image_url.orEmpty()
                         )
                     )
                 }
@@ -72,8 +72,8 @@ class Criaturas : AppCompatActivity() {
         myAdapter.setOnClickListener { view ->
             val position = recyclerView.getChildAdapterPosition(view)
             if (position != RecyclerView.NO_POSITION) {
-                val raceCreatures = itemsRecyclerViewCriatures[position].lbrace
-                val nameCreatures = itemsRecyclerViewCriatures[position].lbName
+                val raceCreatures = itemsRecyclerViewCriatures[position].race
+                val nameCreatures = itemsRecyclerViewCriatures[position].name
                 val intent = Intent(this@Criaturas, CriaturesInformation::class.java).apply {
                     putExtra("raceCreatures", raceCreatures)
                     putExtra("nameCreatures", nameCreatures)

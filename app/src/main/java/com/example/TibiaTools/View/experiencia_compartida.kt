@@ -9,7 +9,7 @@ import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
-import com.example.TibiaTools.Operaciones.ExperienciaCompartida
+import com.example.TibiaTools.operations.SharedExperienceCalculator
 import com.example.ttools.R
 import java.util.Objects
 
@@ -18,7 +18,6 @@ class experiencia_compartida : AppCompatActivity(), View.OnClickListener {
     private lateinit var calcular: Button
     private lateinit var rangoMenor: TextView
     private lateinit var rangoMayor: TextView
-    private val exp = ExperienciaCompartida()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -45,17 +44,15 @@ class experiencia_compartida : AppCompatActivity(), View.OnClickListener {
 
     override fun onClick(v: View) {
         if (v.id == R.id.calcular) {
-            val nivelStr = txtnivel.text.toString()
-            if (nivelStr == "") {
+            val level = txtnivel.text.toString().trim().toIntOrNull()?.takeIf { it >= 1 }
+            if (level == null) {
                 Toast.makeText(this, "Debe ingresar el nivel", Toast.LENGTH_SHORT).show()
                 rangoMayor.text = "-"
                 rangoMenor.text = "-"
             } else {
-                val n = nivelStr.toDouble()
-                exp.CalculoRangoMayor(n)
-                exp.CalculoRangoMenor(n)
-                rangoMayor.text = exp.rangoMayor.toString()
-                rangoMenor.text = exp.rangoMenor.toString()
+                val range = SharedExperienceCalculator.calculate(level)
+                rangoMayor.text = range.maxLevel.toString()
+                rangoMenor.text = range.minLevel.toString()
             }
         }
     }

@@ -12,8 +12,8 @@ import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.example.TibiaTools.View.ViewModel.ViewModelGuildInformation
 import com.example.TibiaTools.data.model.*
-import com.example.TibiaTools.recyclerview.Adapters.AdapterRecyclerViewGuildName
-import com.example.TibiaTools.recyclerview.itemsRecyclerViewGuildsName
+import com.example.TibiaTools.recyclerview.adapters.AdapterRecyclerViewGuildMembers
+import com.example.TibiaTools.recyclerview.items.ItemsRecyclerViewGuildMembers
 import com.example.ttools.R
 import com.example.ttools.databinding.ActivityGuildInformationNameBinding
 import org.koin.androidx.viewmodel.ext.android.viewModel
@@ -33,8 +33,8 @@ class GuildInformationName : AppCompatActivity() {
     private lateinit var textViewFounded: TextView
     private lateinit var textViewActive: TextView
     private lateinit var recyclerView: RecyclerView
-    private lateinit var adapter: AdapterRecyclerViewGuildName
-    private val itemsRecyclerViewGuildsNames = ArrayList<itemsRecyclerViewGuildsName>()
+    private lateinit var adapter: AdapterRecyclerViewGuildMembers
+    private val itemsRecyclerViewGuildsNames = ArrayList<ItemsRecyclerViewGuildMembers>()
     private val viewModelGuildInformation: ViewModelGuildInformation by viewModel()
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -64,7 +64,7 @@ class GuildInformationName : AppCompatActivity() {
         val layoutManager = LinearLayoutManager(this)
         layoutManager.orientation = LinearLayoutManager.VERTICAL
         recyclerView.layoutManager = layoutManager
-        adapter = AdapterRecyclerViewGuildName(itemsRecyclerViewGuildsNames)
+        adapter = AdapterRecyclerViewGuildMembers(itemsRecyclerViewGuildsNames)
         recyclerView.setHasFixedSize(true)
         recyclerView.adapter = adapter
 
@@ -90,14 +90,14 @@ class GuildInformationName : AppCompatActivity() {
                     itemsRecyclerViewGuildsNames.clear()
                     membersList.forEach { membersGuild ->
                         itemsRecyclerViewGuildsNames.add(
-                            itemsRecyclerViewGuildsName(
-                                membersGuild.name,
-                                membersGuild.title,
-                                membersGuild.rank,
-                                membersGuild.vocation,
-                                membersGuild.level,
-                                membersGuild.joined,
-                                membersGuild.status
+                            ItemsRecyclerViewGuildMembers(
+                                membersGuild.name.orEmpty(),
+                                membersGuild.title.orEmpty(),
+                                membersGuild.rank.orEmpty(),
+                                membersGuild.vocation.orEmpty(),
+                                membersGuild.level?.toIntOrNull() ?: 0,
+                                membersGuild.joined.orEmpty(),
+                                membersGuild.status.orEmpty()
                             )
                         )
                     }

@@ -12,8 +12,8 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.TibiaTools.View.ViewModel.ViewModelWorlds
 import com.example.TibiaTools.data.model.*
-import com.example.TibiaTools.recyclerview.Adapters.adapterRecyclerviewMundos
-import com.example.TibiaTools.recyclerview.ItemsRecyclerViewMundos
+import com.example.TibiaTools.recyclerview.adapters.AdapterRecyclerViewWorlds
+import com.example.TibiaTools.recyclerview.items.ItemsRecyclerViewWorlds
 import com.example.ttools.R
 import com.example.ttools.databinding.ActivityMundosBinding
 import com.google.android.material.floatingactionbutton.FloatingActionButton
@@ -22,9 +22,9 @@ import java.util.ArrayList
 
 class Mundos : AppCompatActivity() {
     private lateinit var recyclerView: RecyclerView
-    private lateinit var myAdapter: adapterRecyclerviewMundos
+    private lateinit var myAdapter: AdapterRecyclerViewWorlds
     private lateinit var binding: ActivityMundosBinding
-    private val itemsRecyclerViewMundos = ArrayList<ItemsRecyclerViewMundos>()
+    private val itemsRecyclerViewMundos = ArrayList<ItemsRecyclerViewWorlds>()
     private val viewModelWorlds: ViewModelWorlds by viewModel()
 
     @RequiresApi(Build.VERSION_CODES.N)
@@ -41,7 +41,7 @@ class Mundos : AppCompatActivity() {
         recyclerView.setHasFixedSize(true)
         layoutManager.orientation = LinearLayoutManager.VERTICAL
         recyclerView.layoutManager = layoutManager
-        myAdapter = adapterRecyclerviewMundos(itemsRecyclerViewMundos)
+        myAdapter = AdapterRecyclerViewWorlds(itemsRecyclerViewMundos)
         recyclerView.adapter = myAdapter
 
         viewModelWorlds.worlds().observe(this) { worlds ->
@@ -49,18 +49,18 @@ class Mundos : AppCompatActivity() {
                 itemsRecyclerViewMundos.clear()
                 worlds.regular_worlds.forEach { world ->
                     itemsRecyclerViewMundos.add(
-                        ItemsRecyclerViewMundos(
-                            world.name,
-                            world.status,
+                        ItemsRecyclerViewWorlds(
+                            world.name.orEmpty(),
+                            world.status.orEmpty(),
                             world.players_online.toString(),
-                            world.location,
-                            world.pvp_type,
+                            world.location.orEmpty(),
+                            world.pvp_type.orEmpty(),
                             world.premium_only.toString(),
-                            world.transfer_type,
+                            world.transfer_type.orEmpty(),
                             world.battleye_protected.toString(),
-                            world.battleye_date,
-                            world.game_world_type,
-                            world.tournament_world_type
+                            world.battleye_date.orEmpty(),
+                            world.game_world_type.orEmpty(),
+                            world.tournament_world_type.orEmpty()
                         )
                     )
                 }

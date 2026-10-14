@@ -10,8 +10,8 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.TibiaTools.View.ViewModel.ViewModelSpells
 import com.example.TibiaTools.data.model.*
-import com.example.TibiaTools.recyclerview.Adapters.AdapterRecyclerViewSpells
-import com.example.TibiaTools.recyclerview.ItemsRecyclerViewSpells
+import com.example.TibiaTools.recyclerview.adapters.AdapterRecyclerViewSpells
+import com.example.TibiaTools.recyclerview.items.ItemsRecyclerViewSpells
 import com.example.ttools.R
 import com.example.ttools.databinding.ActivitySpellsTibiaBinding
 import org.koin.androidx.viewmodel.ext.android.viewModel
@@ -58,15 +58,15 @@ class Spells_Tibia : AppCompatActivity() {
 
                         itemsRecyclerViewSpellsList.add(
                             ItemsRecyclerViewSpells(
-                                item.name,
-                                item.formula,
-                                item.mana.toString(),
-                                item.price.toString(),
+                                item.name.orEmpty(),
+                                item.formula.orEmpty(),
+                                item.mana.orEmpty(),
+                                item.price.orEmpty(),
                                 stateType,
                                 stateGroup,
-                                item.spell_id,
+                                item.spell_id.orEmpty(),
                                 statePremium,
-                                item.level.toString()
+                                item.level.orEmpty()
                             )
                         )
                         recyclerView.visibility = View.VISIBLE
@@ -83,7 +83,7 @@ class Spells_Tibia : AppCompatActivity() {
             val position = recyclerView.getChildAdapterPosition(view)
             if (position != RecyclerView.NO_POSITION) {
                 var id = itemsRecyclerViewSpellsList[position].spellId
-                val name = itemsRecyclerViewSpellsList[position].nombre
+                val name = itemsRecyclerViewSpellsList[position].name
                 var id1 = id.replace("'s", "s")
                 var id3 = id1.replace(" ", "")
                 var idMinusculas = id3.lowercase()

@@ -8,14 +8,12 @@ import android.webkit.WebView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.navigation.ui.AppBarConfiguration
-import com.example.TibiaTools.utilidades.RedValidator
-import com.example.TibiaTools.utilidades.utilidades
+import com.example.TibiaTools.utils.NetworkValidator
 import com.example.ttools.R
 import com.example.ttools.databinding.ActivityTibiaMapsBinding
 
 class TibiaMaps : AppCompatActivity() {
     private lateinit var binding: ActivityTibiaMapsBinding
-    private val utilidadesObj = utilidades()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -25,7 +23,7 @@ class TibiaMaps : AppCompatActivity() {
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
 
         val maps = binding.root.findViewById<WebView>(R.id.mapsImage)
-        if (RedValidator.ValidarInternet(application)) {
+        if (NetworkValidator.isConnected(application)) {
             maps.loadUrl("https://tibiamaps.github.io/tibia-map/#32371,32219,7:1")
             val webSettings: WebSettings = maps.settings
             webSettings.javaScriptEnabled = true
