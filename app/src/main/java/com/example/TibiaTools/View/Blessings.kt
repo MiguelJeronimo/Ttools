@@ -8,11 +8,11 @@ import android.widget.EditText
 import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
-import com.example.TibiaTools.Operaciones.calcularBlessings
+import com.example.TibiaTools.operations.BlessingCalculator
+import com.example.TibiaTools.utils.GoldFormatter
 import com.example.ttools.R
 import com.example.ttools.databinding.ActivityBlessingsBinding
 import com.google.android.material.materialswitch.MaterialSwitch
-import java.text.DecimalFormat
 
 class Blessings : AppCompatActivity(), View.OnClickListener {
     private lateinit var binding: ActivityBlessingsBinding
@@ -29,9 +29,6 @@ class Blessings : AppCompatActivity(), View.OnClickListener {
     private lateinit var calcular: Button
     private lateinit var switchHeart: MaterialSwitch
     private lateinit var switchBlood: MaterialSwitch
-
-    private val c = calcularBlessings()
-    private val decimalFormat = DecimalFormat("###,###.00")
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -71,63 +68,27 @@ class Blessings : AppCompatActivity(), View.OnClickListener {
     }
 
     override fun onClick(view: View) {
-        if (view.id == R.id.calcular) {
-            val nivelPersonaje = nivel.text.toString()
-            if (nivelPersonaje.equals("", ignoreCase = true)) {
-                Toast.makeText(this, "Favor de ingresar el nivel", Toast.LENGTH_SHORT).show()
-            } else {
-                val nvl = nivelPersonaje.toInt()
-                c.blessingIndividual(nvl)
-                c.blessingTwistOfFate(nvl)
-                c.sumaBlessingsPrincipales(nvl)
-                val blessingIndividual = decimalFormat.format(c.getBlessingIndividual().toDouble())
-                val blessingTwitsOfFate = decimalFormat.format(c.getblessingTwistOfFate().toDouble())
-                spiritual.text = blessingIndividual
-                embrace.text = blessingIndividual
-                suns.text = blessingIndividual
-                solitude.text = blessingIndividual
-                phoenix.text = blessingIndividual
-                twitsOfFate.text = blessingTwitsOfFate
-            }
+        val level = nivel.text.toString().trim().toIntOrNull()?.takeIf { it >= 1 }
+        if (level == null) {
+            Toast.makeText(this, "Favor de ingresar el nivel", Toast.LENGTH_SHORT).show()
+            return
         }
 
-        if (switchBlood.isChecked) {
-            val nivelPersonaje = nivel.text.toString()
-            if (nivelPersonaje.equals("", ignoreCase = true)) {
-                Toast.makeText(this, "Favor de ingresar el nivel", Toast.LENGTH_SHORT).show()
-            } else {
-                val nvl = nivelPersonaje.toInt()
-                c.blessingEspecial(nvl)
-                val getEspecial = c.getBlessingEspecial()
-                c.setHeartOfMountain(getEspecial)
-                val blessingEspecial = decimalFormat.format(c.getBlessingEspecial().toDouble())
-                blood.text = blessingEspecial
-            }
-        } else {
-            blood.text = ""
-            c.setHeartOfMountain(0)
-        }
-
-        if (switchHeart.isChecked) {
-            val nivelPersonaje = nivel.text.toString()
-            if (nivelPersonaje.equals("", ignoreCase = true)) {
-                Toast.makeText(this, "Favor de ingresar el nivel", Toast.LENGTH_SHORT).show()
-            } else {
-                val nvl = nivelPersonaje.toInt()
-                c.blessingEspecial(nvl)
-                val getEspecial = c.getBlessingEspecial()
-                c.setBloodOfMountain(getEspecial)
-                val blessingEspecial = decimalFormat.format(c.getBlessingEspecial().toDouble())
-                heart.text = blessingEspecial
-            }
-        } else {
-            heart.text = ""
-            c.setBloodOfMountain(0)
-        }
-
-        val totalBlessing = decimalFormat.format(
-            (c.getSumaBlessingsPrincipales() + c.getblessingTwistOfFate() + c.getHeartOfMountain() + c.getBloodOfMountain()).toDouble()
+        val costs = BlessingCalculator.calculate(
+            level = level,
+            includeHeartOfTheMountain = switchHeart.isChecked,
+            includeBloodOfTheMountain = switchBlood.isChecked
         )
-        total.text = totalBlessing
+
+        val regular = GoldFormatter.format(costs.regularBlessing)
+        spiritual.text = regular
+        embrace.text = regular
+        suns.text = regular
+        solitude.text = regular
+        phoenix.text = regular
+        twitsOfFate.text = GoldFormatter.format(costs.twistOfFate)
+        heart.text = if (switchHeart.isChecked) GoldFormatter.format(costs.heartOfTheMountain) else ""
+        blood.text = if (switchBlood.isChecked) GoldFormatter.format(costs.bloodOfTheMountain) else ""
+        total.text = GoldFormatter.format(costs.total)
     }
 }

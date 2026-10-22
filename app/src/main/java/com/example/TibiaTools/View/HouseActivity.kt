@@ -17,10 +17,10 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.TibiaTools.View.ViewModel.ViewModelHouses
 import com.example.TibiaTools.data.model.*
-import com.example.TibiaTools.recyclerview.Adapters.AdapterRecyclerViewHouses
-import com.example.TibiaTools.recyclerview.ItemsRecyclerViewHouses
-import com.example.TibiaTools.utilidades.DataHighScores
-import com.example.TibiaTools.utilidades.Spinners
+import com.example.TibiaTools.recyclerview.adapters.AdapterRecyclerViewHouses
+import com.example.TibiaTools.recyclerview.items.ItemsRecyclerViewHouses
+import com.example.TibiaTools.utils.RawResourceReader
+import com.example.TibiaTools.utils.SearchFilter
 import com.example.ttools.R
 import com.example.ttools.databinding.ActivityHouseBinding
 import org.koin.androidx.viewmodel.ext.android.viewModel
@@ -31,7 +31,6 @@ import java.util.concurrent.Executors
 class HouseActivity : AppCompatActivity(), AdapterView.OnItemClickListener {
     private lateinit var binding: ActivityHouseBinding
     private var mundo: String? = null
-    private val dataHighScores = DataHighScores()
     private lateinit var spinnerWorlds: AutoCompleteTextView
     private lateinit var spinnerCitys: AutoCompleteTextView
     private var adapterWorlds: ArrayAdapter<String>? = null
@@ -83,10 +82,10 @@ class HouseActivity : AppCompatActivity(), AdapterView.OnItemClickListener {
             if (houses != null) {
                 mundo = houses.world
                 houses.house_list.forEach { houseList ->
-                    val rented = if (houseList.rented) "Ocupada" else "Desocupada"
+                    val rented = ItemsRecyclerViewHouses.rentedLabel(houseList.rented)
                     listHouses.add(
                         ItemsRecyclerViewHouses(
-                            houseList.name,
+                            houseList.name.orEmpty(),
                             houseList.size.toString(),
                             houseList.rent.toString(),
                             rented,
@@ -95,10 +94,10 @@ class HouseActivity : AppCompatActivity(), AdapterView.OnItemClickListener {
                     )
                 }
                 houses.guildhall_list?.forEach { guildhallList ->
-                    val rented = if (guildhallList.rented) "Ocupada" else "Desocupada"
+                    val rented = ItemsRecyclerViewHouses.rentedLabel(guildhallList.rented)
                     listHouses.add(
                         ItemsRecyclerViewHouses(
-                            guildhallList.name,
+                            guildhallList.name.orEmpty(),
                             guildhallList.size.toString(),
                             guildhallList.rent.toString(),
                             rented,
@@ -136,8 +135,7 @@ class HouseActivity : AppCompatActivity(), AdapterView.OnItemClickListener {
     }
 
     private fun spinnersCity() {
-        val spinners = Spinners()
-        adapterCitys = ArrayAdapter(applicationContext, R.layout.auto_complete, spinners.LeerDataCitys(resources.openRawResource(R.raw.data)))
+        adapterCitys = ArrayAdapter(applicationContext, R.layout.auto_complete, RawResourceReader.readLines(resources.openRawResource(R.raw.data)))
         Handler(Looper.getMainLooper()).post {
             spinnerCitys.setAdapter(adapterCitys)
         }
@@ -154,10 +152,8 @@ class HouseActivity : AppCompatActivity(), AdapterView.OnItemClickListener {
         if (cityText.isNotEmpty() && worldText.isNotEmpty()) {
             if (!cityText.equals("Seleccione una ciudad", ignoreCase = true) && !worldText.equals("Seleccione", ignoreCase = true)) {
                 mundo = worldText
-                val ciudad = cityText
-                dataHighScores.mundo = mundo
-                dataHighScores.ciudad = ciudad
-                viewModelHouses.setHouses(dataHighScores.mundo, dataHighScores.ciudad)
+                val filter = SearchFilter(world = worldText, city = cityText)
+                viewModelHouses.setHouses(filter.world, filter.city)
             } else {
                 listHouses.clear()
                 adapterRecyclerViewHouses.notifyDataSetChanged()

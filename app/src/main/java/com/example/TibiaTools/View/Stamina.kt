@@ -8,11 +8,10 @@ import android.widget.EditText
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
-import com.example.TibiaTools.Operaciones.staminaTibia
+import com.example.TibiaTools.operations.StaminaCalculator
 import com.example.ttools.R
 import com.google.android.material.snackbar.Snackbar
 import java.util.Objects
-import java.util.regex.Pattern
 
 class Stamina : AppCompatActivity(), View.OnClickListener {
     private lateinit var tiempo: EditText
@@ -20,7 +19,6 @@ class Stamina : AppCompatActivity(), View.OnClickListener {
     private lateinit var lbMinutos: TextView
     private lateinit var lbmedio: TextView
     private lateinit var btnalcular: Button
-    private val stamina = staminaTibia()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -47,25 +45,12 @@ class Stamina : AppCompatActivity(), View.OnClickListener {
 
     override fun onClick(v: View) {
         if (v.id == R.id.calcular) {
-            val txtTiempo = tiempo.text.toString()
-            val pattern = Pattern.compile("^([01]?[0-9]|2[0-9]|3[0-9]|4[0-2]):[0-5][0-9]$")
-            val matcher = pattern.matcher(txtTiempo)
-            if (matcher.matches()) {
-                val particion = txtTiempo.split(":".toRegex()).dropLastWhile { it.isEmpty() }.toTypedArray()
-                val horas = particion[0].toInt()
-                val minutos = particion[1].toInt()
-                if (horas > 0 && horas <= 42) {
-                    stamina.convertirHoraMinutosStamina(horas, minutos)
-                    val minutoStamina = stamina.getConvertirHoraMinutosStamina()
-                    stamina.minutoStamina(minutoStamina)
-                    val tiempoStamina = stamina.getminutoStamina()
-                    stamina.convertirMinutosHora(tiempoStamina)
-                    val horaReal = stamina.getHorasReales()
-                    val minutosReales = stamina.getMinutosReales()
-                    lbHora.text = horaReal.toString()
-                    lbmedio.text = ":"
-                    lbMinutos.text = minutosReales.toString()
-                }
+            val current = StaminaCalculator.parse(tiempo.text.toString())
+            if (current != null) {
+                val offline = StaminaCalculator.timeToFullStamina(current)
+                lbHora.text = offline.hours.toString()
+                lbmedio.text = ":"
+                lbMinutos.text = offline.minutes.toString().padStart(2, '0')
             } else {
                 Snackbar.make(v, "El dato ingresado no es valido", Snackbar.LENGTH_LONG)
                     .setAction("Action", null).show()

@@ -20,14 +20,14 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.TibiaTools.View.ViewModel.ViewModelCharacters
 import com.example.TibiaTools.data.model.*
-import com.example.TibiaTools.recyclerview.Adapters.AdapterArchievementsCharacter
-import com.example.TibiaTools.recyclerview.Adapters.AdapterHouseCharacters
-import com.example.TibiaTools.recyclerview.Adapters.AdapterOtherCharacters
-import com.example.TibiaTools.recyclerview.ItemsArchievementsCharacter
-import com.example.TibiaTools.recyclerview.ItemsCharacters
-import com.example.TibiaTools.recyclerview.ItemsHousesCharacters
-import com.example.TibiaTools.utilidades.ConvertidorFecha
-import com.example.TibiaTools.utilidades.IsVisibillityCharacters
+import com.example.TibiaTools.recyclerview.adapters.AdapterAchievementsCharacter
+import com.example.TibiaTools.recyclerview.adapters.AdapterHouseCharacters
+import com.example.TibiaTools.recyclerview.adapters.AdapterOtherCharacters
+import com.example.TibiaTools.recyclerview.items.ItemsAchievementsCharacter
+import com.example.TibiaTools.recyclerview.items.ItemsCharacters
+import com.example.TibiaTools.recyclerview.items.ItemsHousesCharacters
+import com.example.TibiaTools.utils.CharacterInfoVisibility
+import com.example.TibiaTools.utils.DateFormatter
 import com.example.ttools.R
 import com.example.ttools.databinding.ActivityCharactersBinding
 import com.google.android.material.snackbar.Snackbar
@@ -54,7 +54,6 @@ class characters : AppCompatActivity(), View.OnClickListener {
     private lateinit var textViewLoyalty: TextView
     private lateinit var textViewCreated: TextView
     private lateinit var btnenviar: Button
-    private val convertidorFecha = ConvertidorFecha()
     private lateinit var linearLayoutDeaths: LinearLayout
     private lateinit var linearLayoutHouses: RecyclerView
     private lateinit var linearLayoutOtherCharacters: RecyclerView
@@ -63,9 +62,8 @@ class characters : AppCompatActivity(), View.OnClickListener {
     private var itemsHousesCharacters: ArrayList<ItemsHousesCharacters>? = null
     private var adapterOtherCharacters: AdapterOtherCharacters? = null
     private var itemsCharacters: ArrayList<ItemsCharacters>? = null
-    private var adapterArchievementsCharacter: AdapterArchievementsCharacter? = null
-    private var itemsArchievementsCharacters: ArrayList<ItemsArchievementsCharacter>? = null
-    private var isVisibillityCharacters: IsVisibillityCharacters? = null
+    private var adapterAchievementsCharacter: AdapterAchievementsCharacter? = null
+    private var itemsAchievementsCharacters: ArrayList<ItemsAchievementsCharacter>? = null
     private val viewModelCharacters: ViewModelCharacters by viewModel()
     private lateinit var viewRoot: View
 
@@ -104,7 +102,6 @@ class characters : AppCompatActivity(), View.OnClickListener {
         linearLayoutAchievements = findViewById(R.id.linearLayoutAchievements)
 
         viewModelCharacters.characters().observe(this) { apiResponse ->
-            isVisibillityCharacters = IsVisibillityCharacters()
             linearLayoutDeaths = findViewById(R.id.linearLayoutDeaths)
             linearLayoutOtherCharacters.removeAllViews()
             linearLayoutDeaths.removeAllViews()
@@ -112,8 +109,7 @@ class characters : AppCompatActivity(), View.OnClickListener {
             textViewMirried.text = ""
             textViewLoyalty.text = ""
             textViewCreated.text = ""
-            isVisibillityCharacters?.setVisibility(false)
-            isVisibillityCharacters?.VisibilityDataGeneral(binding)
+            CharacterInfoVisibility.apply(binding.root, visible = false)
             binding.root.findViewById<View>(R.id.carga_characters)?.visibility = View.VISIBLE
             binding.root.findViewById<View>(R.id.CardStatus)?.visibility = View.GONE
             linearLayoutDeaths.visibility = View.GONE
@@ -149,14 +145,11 @@ class characters : AppCompatActivity(), View.OnClickListener {
                             guild.text = "No pertenece a una guild"
                         }
 
-                        convertidorFecha.expiryDateString = charData.last_login
-                        convertidorFecha.convertirFecha()
-                        lastlogin.text = convertidorFecha.fechaConvertida
+                        lastlogin.text = DateFormatter.format(charData.last_login) ?: "-"
                         comentario.text = charData.comment
                         textViewPremium.text = charData.account_status
 
-                        isVisibillityCharacters?.setVisibility(true)
-                        isVisibillityCharacters?.VisibilityDataGeneral(binding)
+                        CharacterInfoVisibility.apply(binding.root, visible = true)
                         binding.root.findViewById<View>(R.id.CardStatus)?.visibility = View.VISIBLE
 
                         if (charData.married_to != null) {
@@ -171,9 +164,7 @@ class characters : AppCompatActivity(), View.OnClickListener {
                     if (!deathsList.isNullOrEmpty()) {
                         deathsList.forEach { dead ->
                             val textViewWeakness = TextView(this).apply {
-                                convertidorFecha.expiryDateString = dead.time
-                                convertidorFecha.convertirFecha()
-                                text = "☠️️ " + convertidorFecha.fechaConvertida + " - " + dead.reason
+                                text = "☠️️ " + (DateFormatter.format(dead.time) ?: "-") + " - " + dead.reason
                                 setTextColor(Color.parseColor("#CE93D8"))
                                 textSize = 15f
                                 setTypeface(null, Typeface.ITALIC)
@@ -200,9 +191,7 @@ class characters : AppCompatActivity(), View.OnClickListener {
                             textViewLoyalty.text = "Loyalty Title: " + accInfo.loyalty_title
                         }
                         if (accInfo.created != null) {
-                            convertidorFecha.expiryDateString = accInfo.created
-                            convertidorFecha.convertirFecha()
-                            textViewCreated.text = "Created: " + convertidorFecha.fechaConvertida
+                            textViewCreated.text = "Created: " + (DateFormatter.format(accInfo.created) ?: "-")
                         }
                     }
                 }
@@ -244,9 +233,9 @@ class characters : AppCompatActivity(), View.OnClickListener {
         for (i in houses.indices) {
             itemsHousesCharacters?.add(
                 ItemsHousesCharacters(
-                    houses[i].name,
-                    houses[i].town,
-                    houses[i].paid,
+                    houses[i].name.orEmpty(),
+                    houses[i].town.orEmpty(),
+                    houses[i].paid.orEmpty(),
                     houses[i].houseid
                 )
             )
@@ -267,9 +256,9 @@ class characters : AppCompatActivity(), View.OnClickListener {
         otherCharacters.forEach { charItem ->
             itemsCharacters?.add(
                 ItemsCharacters(
-                    charItem.name,
-                    charItem.world,
-                    charItem.status,
+                    charItem.name.orEmpty(),
+                    charItem.world.orEmpty(),
+                    charItem.status.orEmpty(),
                     charItem.deleted,
                     charItem.main,
                     charItem.traded
@@ -288,20 +277,20 @@ class characters : AppCompatActivity(), View.OnClickListener {
         val linearLayoutManager = LinearLayoutManager(this).apply {
             orientation = LinearLayoutManager.HORIZONTAL
         }
-        itemsArchievementsCharacters = ArrayList()
+        itemsAchievementsCharacters = ArrayList()
         achievements.forEach { achievement ->
-            itemsArchievementsCharacters?.add(
-                ItemsArchievementsCharacter(
-                    achievement.name,
-                    achievement.grade,
+            itemsAchievementsCharacters?.add(
+                ItemsAchievementsCharacter(
+                    achievement.name.orEmpty(),
+                    achievement.grade.orEmpty(),
                     achievement.secret
                 )
             )
         }
         linearLayoutAchievements.setHasFixedSize(true)
         linearLayoutAchievements.layoutManager = linearLayoutManager
-        adapterArchievementsCharacter = AdapterArchievementsCharacter(itemsArchievementsCharacters!!)
-        linearLayoutAchievements.adapter = adapterArchievementsCharacter
+        adapterAchievementsCharacter = AdapterAchievementsCharacter(itemsAchievementsCharacters!!)
+        linearLayoutAchievements.adapter = adapterAchievementsCharacter
         linearLayoutAchievements.visibility = View.VISIBLE
     }
 }

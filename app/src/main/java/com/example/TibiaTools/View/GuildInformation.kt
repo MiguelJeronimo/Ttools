@@ -14,8 +14,8 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.TibiaTools.View.ViewModel.ViewModelGuilds
 import com.example.TibiaTools.data.model.*
-import com.example.TibiaTools.recyclerview.Adapters.AdapterRecyclerViewGuildsList
-import com.example.TibiaTools.recyclerview.ItemsRecyclerViewGuilds
+import com.example.TibiaTools.recyclerview.adapters.AdapterRecyclerViewGuildsList
+import com.example.TibiaTools.recyclerview.items.ItemsRecyclerViewGuilds
 import com.example.ttools.R
 import com.example.ttools.databinding.ActivityGuildsBinding
 import com.google.android.material.progressindicator.LinearProgressIndicator
@@ -74,9 +74,9 @@ class GuildInformation : AppCompatActivity() {
                     activeList.forEach { guild ->
                         itemsRecyclerViewGuilds.add(
                             ItemsRecyclerViewGuilds(
-                                guild.name,
-                                guild.logo_url,
-                                guild.description
+                                guild.name.orEmpty(),
+                                guild.logo_url.orEmpty(),
+                                guild.description.orEmpty()
                             )
                         )
                     }
@@ -93,7 +93,7 @@ class GuildInformation : AppCompatActivity() {
         }
 
         adaptador.setOnClickListener { view ->
-            val nameGuild = itemsRecyclerViewGuilds[recyclerView.getChildAdapterPosition(view)].lbName
+            val nameGuild = itemsRecyclerViewGuilds[recyclerView.getChildAdapterPosition(view)].name
             val intent = Intent(this, GuildInformationName::class.java).apply {
                 putExtra("nameGuild", nameGuild)
             }

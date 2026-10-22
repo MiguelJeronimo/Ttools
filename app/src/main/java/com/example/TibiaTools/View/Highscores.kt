@@ -16,10 +16,10 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.TibiaTools.View.ViewModel.ViewModelHighScore
 import com.example.TibiaTools.data.model.*
-import com.example.TibiaTools.recyclerview.Adapters.AdapterRecyclerViewHighScores
-import com.example.TibiaTools.recyclerview.ItemsRecyclerViewHighScores
-import com.example.TibiaTools.utilidades.DataHighScores
-import com.example.TibiaTools.utilidades.Spinners
+import com.example.TibiaTools.recyclerview.adapters.AdapterRecyclerViewHighScores
+import com.example.TibiaTools.recyclerview.items.ItemsRecyclerViewHighScores
+import com.example.TibiaTools.utils.RawResourceReader
+import com.example.TibiaTools.utils.SearchFilter
 import com.example.ttools.R
 import com.example.ttools.databinding.ActivityHighscoresBinding
 import org.koin.androidx.viewmodel.ext.android.viewModel
@@ -29,7 +29,6 @@ import java.util.concurrent.Executors
 
 class Highscores : AppCompatActivity(), AdapterView.OnItemClickListener {
     private lateinit var binding: ActivityHighscoresBinding
-    private val dataHighScores = DataHighScores()
     private lateinit var spinnerWorlds: AutoCompleteTextView
     private lateinit var spinnerVocations: AutoCompleteTextView
     private lateinit var spinnerCategorys: AutoCompleteTextView
@@ -110,12 +109,12 @@ class Highscores : AppCompatActivity(), AdapterView.OnItemClickListener {
                     listaHighscore.add(
                         ItemsRecyclerViewHighScores(
                             highscoreList.rank.toString(),
-                            highscoreList.name,
-                            highscoreList.vocation,
-                            highscoreList.world,
+                            highscoreList.name.orEmpty(),
+                            highscoreList.vocation.orEmpty(),
+                            highscoreList.world.orEmpty(),
                             highscoreList.level.toString(),
                             value,
-                            highscoreList.title
+                            highscoreList.title.orEmpty()
                         )
                     )
                 }
@@ -137,9 +136,8 @@ class Highscores : AppCompatActivity(), AdapterView.OnItemClickListener {
     }
 
     private fun spinners() {
-        val spinners = Spinners()
-        val dataVocation = spinners.spinnerVocations(resources.openRawResource(R.raw.vocations))
-        val dataCategorys = spinners.spinnerCategory(resources.openRawResource(R.raw.categorias))
+        val dataVocation = RawResourceReader.readLines(resources.openRawResource(R.raw.vocations))
+        val dataCategorys = RawResourceReader.readLines(resources.openRawResource(R.raw.categorias))
         val adapterVocations = ArrayAdapter(applicationContext, R.layout.auto_complete, dataVocation)
         val adapterCategorys = ArrayAdapter(applicationContext, R.layout.auto_complete, dataCategorys)
         Handler(Looper.getMainLooper()).post {
@@ -164,16 +162,10 @@ class Highscores : AppCompatActivity(), AdapterView.OnItemClickListener {
         ) {
             binding.root.findViewById<View>(R.id.carga_highscores)?.visibility = View.VISIBLE
             mundo = worldText
-            dataHighScores.mundo = mundo
             vocacion = vocationText
-            dataHighScores.vocacion = vocacion
             categoria = categoryText
-            dataHighScores.categoria = categoria
-            viewModelHighScore.setHighScores(
-                dataHighScores.mundo,
-                dataHighScores.categoria.replace(" ", "").lowercase(),
-                dataHighScores.vocacion
-            )
+            val filter = SearchFilter(world = worldText, category = categoryText, vocation = vocationText)
+            viewModelHighScore.setHighScores(filter.world, filter.categoryQuery, filter.vocation)
         } else {
             listaHighscore.clear()
             adaptador.notifyDataSetChanged()

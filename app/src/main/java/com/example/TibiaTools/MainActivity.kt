@@ -33,9 +33,9 @@ import com.example.TibiaTools.View.TibiaMaps
 import com.example.TibiaTools.View.ViewModel.ViewModelHome
 import com.example.TibiaTools.View.characters
 import com.example.TibiaTools.View.experiencia_compartida
-import com.example.TibiaTools.recyclerview.Adapters.AdapterRecyclerViewNews
-import com.example.TibiaTools.recyclerview.ItemsRecyclerViewNews
-import com.example.TibiaTools.utilidades.RedValidator
+import com.example.TibiaTools.recyclerview.adapters.AdapterRecyclerViewNews
+import com.example.TibiaTools.recyclerview.items.ItemsRecyclerViewNews
+import com.example.TibiaTools.utils.NetworkValidator
 import com.example.ttools.R
 import com.github.AAChartModel.AAChartCore.AAChartCreator.AAChartModel
 import com.github.AAChartModel.AAChartCore.AAChartCreator.AAChartView
@@ -313,12 +313,12 @@ class MainActivity : AppCompatActivity(), View.OnClickListener, MenuItem.OnMenuI
                 newTicker.news.forEach { news ->
                     itemsRecyclerViewNewsList.add(
                         ItemsRecyclerViewNews(
-                            news.id,
-                            news.date,
-                            news.news,
-                            news.category,
-                            news.type,
-                            news.url
+                            news.id.orEmpty(),
+                            news.date.orEmpty(),
+                            news.news.orEmpty(),
+                            news.category.orEmpty(),
+                            news.type.orEmpty(),
+                            news.url.orEmpty()
                         )
                     )
                 }
@@ -341,7 +341,7 @@ class MainActivity : AppCompatActivity(), View.OnClickListener, MenuItem.OnMenuI
             }
         }, 0, 3000)
 
-        if (RedValidator.ValidarInternet(application)) {
+        if (NetworkValidator.isConnected(application)) {
             threads()
         } else {
             Toast.makeText(this, "Revisa tu conexion a internet :)", Toast.LENGTH_SHORT).show()

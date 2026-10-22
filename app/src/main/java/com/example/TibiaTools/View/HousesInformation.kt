@@ -11,7 +11,7 @@ import androidx.appcompat.app.AppCompatActivity
 import com.bumptech.glide.Glide
 import com.example.TibiaTools.View.ViewModel.ViewModelHouseInformation
 import com.example.TibiaTools.data.model.*
-import com.example.TibiaTools.utilidades.RedValidator
+import com.example.TibiaTools.utils.NetworkValidator
 import com.example.ttools.R
 import com.example.ttools.databinding.ActivityHousesInformationBinding
 import org.koin.androidx.viewmodel.ext.android.viewModel
@@ -58,7 +58,7 @@ class HousesInformation : AppCompatActivity() {
         txtPrice = findViewById(R.id.txtPrice)
         txtOwner = findViewById(R.id.txtOwner)
 
-        if (RedValidator.ValidarInternet(application)) {
+        if (NetworkValidator.isConnected(application)) {
             if (mundo != null && idHouse != null) {
                 viewModelHouseInformation.setHouse(mundo!!, idHouse!!)
             }
