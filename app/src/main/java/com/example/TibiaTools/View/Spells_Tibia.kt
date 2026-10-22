@@ -58,15 +58,15 @@ class Spells_Tibia : AppCompatActivity() {
 
                         itemsRecyclerViewSpellsList.add(
                             ItemsRecyclerViewSpells(
-                                item.name.orEmpty(),
-                                item.formula.orEmpty(),
-                                item.mana.orEmpty(),
-                                item.price.orEmpty(),
-                                stateType,
-                                stateGroup,
-                                item.spell_id.orEmpty(),
-                                statePremium,
-                                item.level.orEmpty()
+                                name = item.name.orEmpty(),
+                                formula = item.formula.orEmpty(),
+                                mana = item.mana.orEmpty(),
+                                price = item.price.orEmpty(),
+                                type = stateType.orEmpty(),
+                                group = stateGroup.orEmpty(),
+                                spellId = item.spell_id.orEmpty(),
+                                premium = statePremium.orEmpty(),
+                                level = item.level.orEmpty()
                             )
                         )
                         recyclerView.visibility = View.VISIBLE
