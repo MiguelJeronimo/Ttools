@@ -5,14 +5,14 @@ plugins {
 
 android {
     namespace = "com.example.ttools"
-    compileSdk = 36
+    compileSdk = 37
 
     defaultConfig {
         applicationId = "com.miguel.ttools"
-        minSdk = 21
-        targetSdk = 35
-        versionCode = 17
-        versionName = "2.0.2"
+        minSdk = 23
+        targetSdk = 36
+        versionCode = 19
+        versionName = "2.0.3"
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
     }
