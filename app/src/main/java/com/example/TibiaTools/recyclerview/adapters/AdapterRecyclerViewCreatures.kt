@@ -7,8 +7,8 @@ import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.example.TibiaTools.recyclerview.items.ItemsRecyclerViewCreatures
+import com.example.TibiaTools.utils.GlideImageLoader
 import com.example.TibiaTools.utils.ImageLoader
-import com.example.TibiaTools.utils.PicassoImageLoader
 import com.example.ttools.R
 
 /**
@@ -25,11 +25,11 @@ import com.example.ttools.R
  *
  * @param items lista que se muestra. El adapter guarda la referencia: si la modificas,
  * llama a `notifyDataSetChanged()`.
- * @param imageLoader carga la imagen de la criatura; por defecto Picasso.
+ * @param imageLoader carga la imagen de la criatura; por defecto Glide.
  */
 class AdapterRecyclerViewCreatures(
     private val items: List<ItemsRecyclerViewCreatures>,
-    private val imageLoader: ImageLoader = PicassoImageLoader
+    private val imageLoader: ImageLoader = GlideImageLoader
 ) : RecyclerView.Adapter<AdapterRecyclerViewCreatures.ViewHolder>() {
 
     private var listener: View.OnClickListener? = null
