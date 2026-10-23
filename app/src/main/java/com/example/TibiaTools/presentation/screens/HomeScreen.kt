@@ -1,17 +1,51 @@
-package com.example.TibiaTools.presentation
+package com.example.TibiaTools.presentation.screens
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
-import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.PaddingValues
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.WindowInsets
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.offset
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.*
-import androidx.compose.material3.*
-import androidx.compose.runtime.*
+import androidx.compose.material.icons.filled.Campaign
+import androidx.compose.material.icons.filled.Group
+import androidx.compose.material.icons.filled.Map
+import androidx.compose.material.icons.filled.Menu
+import androidx.compose.material.icons.filled.PersonSearch
+import androidx.compose.material.icons.filled.Public
+import androidx.compose.material.icons.filled.Refresh
+import androidx.compose.material.icons.filled.Schedule
+import androidx.compose.material.icons.filled.Star
+import androidx.compose.material.icons.filled.Storefront
+import androidx.compose.material3.Card
+import androidx.compose.material3.CardDefaults
+import androidx.compose.material3.DrawerValue
+import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Scaffold
+import androidx.compose.material3.Text
+import androidx.compose.material3.TopAppBar
+import androidx.compose.material3.TopAppBarDefaults
+import androidx.compose.material3.rememberDrawerState
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.getValue
 import androidx.compose.runtime.livedata.observeAsState
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -20,13 +54,15 @@ import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import coil.compose.AsyncImage
 import com.example.TibiaTools.View.ViewModel.ViewModelHome
 import com.example.TibiaTools.data.model.News
-import com.example.TibiaTools.presentation.theme.TibiaToolsTheme
+import com.example.TibiaTools.presentation.components.MainBottonBar
+import com.example.TibiaTools.presentation.components.MainDrawerMenu
+import kotlinx.coroutines.launch
+import org.koin.androidx.compose.koinViewModel
 import java.util.Calendar
 
 data class QuickToolItem(
@@ -36,31 +72,31 @@ data class QuickToolItem(
     val contentColor: Color,
     val onClick: () -> Unit
 )
-
 @Composable
 fun HomeScreen(
-    viewModel: ViewModelHome,
+    modifier: Modifier = Modifier,
     onMenuClick: () -> Unit = {},
     onSearchClick: () -> Unit = {},
     onWorldsClick: () -> Unit = {},
     onToolClick: (String) -> Unit = {},
     onNewsClick: (News) -> Unit = {},
-    modifier: Modifier = Modifier
-) {
-    val worldsState by viewModel.worlds.observeAsState()
-    val playersOnlineState by viewModel.playersOnline.observeAsState()
-    val rashidState by viewModel.rashidLocation.observeAsState()
-    val creatureBossState by viewModel.creatureBoss.observeAsState()
-    val bostedBossState by viewModel.bostedBoss.observeAsState()
-    val newsState by viewModel.news.observeAsState()
+    homeViewModel: ViewModelHome = koinViewModel()
+){
+    //val homeViewModel: ViewModelHome = viewModel ?: koinViewModel()
+    val worldsState by homeViewModel.worlds.observeAsState()
+    val playersOnlineState by homeViewModel.playersOnline.observeAsState()
+    val rashidState by homeViewModel.rashidLocation.observeAsState()
+    val creatureBossState by homeViewModel.creatureBoss.observeAsState()
+    val bostedBossState by homeViewModel.bostedBoss.observeAsState()
+    val newsState by homeViewModel.news.observeAsState()
 
     LaunchedEffect(Unit) {
-        viewModel.setWorlds()
-        viewModel.setPlayersOnline()
-        viewModel.setRashirLocation()
-        viewModel.setCreatureBoss()
-        viewModel.setBostedBoss()
-        viewModel.setNews()
+        homeViewModel.setWorlds()
+        homeViewModel.setPlayersOnline()
+        homeViewModel.setRashirLocation()
+        homeViewModel.setCreatureBoss()
+        homeViewModel.setBostedBoss()
+        homeViewModel.setNews()
     }
 
     val totalOnline = playersOnlineState?.players_online ?: worldsState?.players_online ?: 0
@@ -73,6 +109,7 @@ fun HomeScreen(
     val newsList = newsState?.news ?: emptyList()
 
     HomeContent(
+        modifier = modifier,
         totalOnline = totalOnline,
         totalWorlds = totalWorlds,
         rashidCity = rashidCity,
@@ -86,13 +123,14 @@ fun HomeScreen(
         onWorldsClick = onWorldsClick,
         onToolClick = onToolClick,
         onNewsClick = onNewsClick,
-        modifier = modifier
     )
 }
+
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun HomeContent(
+    modifier: Modifier = Modifier,
     totalOnline: Int,
     totalWorlds: Int,
     rashidCity: String,
@@ -106,106 +144,118 @@ fun HomeContent(
     onWorldsClick: () -> Unit = {},
     onToolClick: (String) -> Unit = {},
     onNewsClick: (News) -> Unit = {},
-    modifier: Modifier = Modifier
 ) {
-    Scaffold(
-        topBar = {
-            TopAppBar(
-                title = {
-                    Text(
-                        text = "TibiaTools",
-                        style = MaterialTheme.typography.titleLarge,
-                        fontWeight = FontWeight.Bold
-                    )
-                },
-                navigationIcon = {
-                    IconButton(onClick = onMenuClick) {
-                        Icon(
-                            imageVector = Icons.Default.Menu,
-                            contentDescription = "Menu"
+    val scope = rememberCoroutineScope()
+    val drawerState = rememberDrawerState(initialValue = DrawerValue.Closed)
+    MainDrawerMenu(drawerState = drawerState) {
+        Scaffold(
+            modifier = modifier,
+            contentWindowInsets = WindowInsets(0, 0, 0, 0), // ELIMINA EL ESPACIO EXTRA INFERIOR
+            topBar = {
+                TopAppBar(
+                    title = {
+                        Text(
+                            text = "TibiaTools",
+                            style = MaterialTheme.typography.titleLarge,
+                            fontWeight = FontWeight.Bold
                         )
-                    }
-                },
-                actions = {
-                    IconButton(onClick = onSearchClick) {
-                        Icon(
-                            imageVector = Icons.Default.PersonSearch,
-                            contentDescription = "Search"
-                        )
-                    }
-                },
-                colors = TopAppBarDefaults.topAppBarColors(
-                    containerColor = MaterialTheme.colorScheme.background,
-                    titleContentColor = MaterialTheme.colorScheme.onBackground
-                )
-            )
-        },
-        containerColor = MaterialTheme.colorScheme.background,
-        modifier = modifier
-    ) { paddingValues ->
-        LazyColumn(
-            modifier = Modifier
-                .fillMaxSize()
-                .padding(paddingValues),
-            contentPadding = PaddingValues(horizontal = 16.dp, vertical = 8.dp),
-            verticalArrangement = Arrangement.spacedBy(16.dp)
-        ) {
-            // 1. Hero Card - Players Online
-            item {
-                PlayersOnlineHeroCard(
-                    totalOnline = totalOnline,
-                    totalWorlds = totalWorlds,
-                    onWorldsClick = onWorldsClick
-                )
-            }
-
-            // 2. Rashid Today Card
-            item {
-                RashidTodayCard(city = rashidCity)
-            }
-
-            // 3. Boosted Creature & Boss Section (2 Columns)
-            item {
-                Row(
-                    modifier = Modifier.fillMaxWidth(),
-                    horizontalArrangement = Arrangement.spacedBy(12.dp)
-                ) {
-                    BoostedCard(
-                        category = "BOOSTED CREATURE",
-                        name = boostedCreatureName,
-                        imageUrl = boostedCreatureImage,
-                        categoryColor = MaterialTheme.colorScheme.primary,
-                        modifier = Modifier.weight(1f)
+                    },
+                    navigationIcon = {
+                        IconButton(onClick = {
+                            scope.launch {
+                                if (drawerState.isClosed) {
+                                    drawerState.open()
+                                } else {
+                                    drawerState.close()
+                                }
+                            }
+                        }) {
+                            Icon(
+                                imageVector = Icons.Default.Menu,
+                                contentDescription = "Menu"
+                            )
+                        }
+                    },
+                    actions = {
+                        IconButton(onClick = onSearchClick) {
+                            Icon(
+                                imageVector = Icons.Default.PersonSearch,
+                                contentDescription = "Search"
+                            )
+                        }
+                    },
+                    colors = TopAppBarDefaults.topAppBarColors(
+                        containerColor = MaterialTheme.colorScheme.background,
+                        titleContentColor = MaterialTheme.colorScheme.onBackground
                     )
-                    BoostedCard(
-                        category = "BOOSTED BOSS",
-                        name = boostedBossName,
-                        imageUrl = boostedBossImage,
-                        categoryColor = MaterialTheme.colorScheme.tertiary,
-                        modifier = Modifier.weight(1f)
+                )
+            },
+            containerColor = MaterialTheme.colorScheme.background,
+        ) { paddingValues ->
+            LazyColumn(
+                modifier = Modifier
+                    .fillMaxSize()
+                    .padding(paddingValues),
+                contentPadding = PaddingValues(horizontal = 16.dp, vertical = 8.dp),
+                verticalArrangement = Arrangement.spacedBy(16.dp)
+            ) {
+                // 1. Hero Card - Players Online
+                item {
+                    PlayersOnlineHeroCard(
+                        totalOnline = totalOnline,
+                        totalWorlds = totalWorlds,
+                        onWorldsClick = onWorldsClick
                     )
                 }
-            }
 
-            // 4. Quick Tools Section
-            item {
-                QuickToolsSection(onToolClick = onToolClick)
-            }
+                // 2. Rashid Today Card
+                item {
+                    RashidTodayCard(city = rashidCity)
+                }
 
-            // 5. Latest News Section Header
-            item {
-                Text(
-                    text = "Latest news",
-                    style = MaterialTheme.typography.titleMedium,
-                    fontWeight = FontWeight.Bold,
-                    color = MaterialTheme.colorScheme.onBackground,
-                    modifier = Modifier.padding(horizontal = 4.dp, vertical = 4.dp)
-                )
-            }
+                // 3. Boosted Creature & Boss Section (2 Columns)
+                item {
+                    Row(
+                        modifier = Modifier.fillMaxWidth(),
+                        horizontalArrangement = Arrangement.spacedBy(12.dp)
+                    ) {
+                        BoostedCard(
+                            category = "BOOSTED CREATURE",
+                            name = boostedCreatureName,
+                            imageUrl = boostedCreatureImage,
+                            categoryColor = MaterialTheme.colorScheme.primary,
+                            modifier = Modifier.weight(1f)
+                        )
+                        BoostedCard(
+                            category = "BOOSTED BOSS",
+                            name = boostedBossName,
+                            imageUrl = boostedBossImage,
+                            categoryColor = MaterialTheme.colorScheme.tertiary,
+                            modifier = Modifier.weight(1f)
+                        )
+                    }
+                }
 
-            // News Items
-            items(newsList.ifEmpty { sampleNewsList }) { newsItem ->
-                NewsCard(news = newsItem, onClick = { onNewsClick(newsItem) })
+                // 4. Quick Tools Section
+                item {
+                    QuickToolsSection(onToolClick = onToolClick)
+                }
+
+                // 5. Latest News Section Header
+                item {
+                    Text(
+                        text = "Latest news",
+                        style = MaterialTheme.typography.titleMedium,
+                        fontWeight = FontWeight.Bold,
+                        color = MaterialTheme.colorScheme.onBackground,
+                        modifier = Modifier.padding(horizontal = 4.dp, vertical = 4.dp)
+                    )
+                }
+
+                // News Items
+                items(newsList.ifEmpty { sampleNewsList }) { newsItem ->
+                    NewsCard(news = newsItem, onClick = { onNewsClick(newsItem) })
+                }
             }
         }
     }
@@ -619,20 +669,3 @@ private val sampleNewsList = listOf(
     News(id = "2", date = "2024-03-02", news = "Extended Double XP and Skill Event announced.", category = "community", type = "news"),
     News(id = "3", date = "2024-03-03", news = "New Server Save times and maintenance window update.", category = "technical", type = "news")
 )
-
-@Preview(showBackground = true, showSystemUi = true)
-@Composable
-fun HomeScreenPreview() {
-    TibiaToolsTheme(darkTheme = true) {
-        HomeContent(
-            totalOnline = 17445,
-            totalWorlds = 96,
-            rashidCity = "Carlin",
-            boostedCreatureName = "Dragon",
-            boostedCreatureImage = "https://static.tibia.com/images/library/dragon.gif",
-            boostedBossName = "Ferumbras",
-            boostedBossImage = "https://static.tibia.com/images/library/ferumbras.gif",
-            newsList = sampleNewsList
-        )
-    }
-}
