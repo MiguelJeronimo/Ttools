@@ -3,16 +3,15 @@ package com.example.TibiaTools.presentation.theme
 import android.app.Activity
 import android.os.Build
 import androidx.compose.foundation.isSystemInDarkTheme
-import androidx.compose.material3.ExperimentalMaterial3ExpressiveApi
 import androidx.compose.material3.MaterialExpressiveTheme
-import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.MotionScheme
+import androidx.compose.material3.Shapes
 import androidx.compose.material3.darkColorScheme
 import androidx.compose.material3.dynamicDarkColorScheme
 import androidx.compose.material3.dynamicLightColorScheme
 import androidx.compose.material3.lightColorScheme
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.SideEffect
-import androidx.compose.ui.graphics.toArgb
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalView
 import androidx.core.view.WindowCompat
@@ -81,7 +80,26 @@ private val DarkColorScheme = darkColorScheme(
     scrim = md_theme_dark_scrim
 )
 
-@OptIn(ExperimentalMaterial3ExpressiveApi::class)
+/**
+ * Tema de la app basado en **Material 3 Expressive**.
+ *
+ * - [MaterialExpressiveTheme] aplica el `MotionScheme` expresivo (animaciones con
+ *   resortes) y los valores por defecto expresivos de los componentes.
+ * - Los colores siguen siendo los de la marca; con [dynamicColor] se usan los del
+ *   fondo de pantalla en Android 12+.
+ * - La barra de estado es transparente gracias a `enableEdgeToEdge()` en la Activity;
+ *   aquí solo se ajusta el color de sus iconos. `window.statusBarColor` está deprecado
+ *   desde API 35 y no tiene efecto con edge-to-edge.
+ *
+ * Ejemplo:
+ * ```kotlin
+ * setContent {
+ *     TibiaToolsTheme {
+ *         MainScreen()
+ *     }
+ * }
+ * ```
+ */
 @Composable
 fun TibiaToolsTheme(
     darkTheme: Boolean = isSystemInDarkTheme(),
@@ -101,13 +119,14 @@ fun TibiaToolsTheme(
     if (!view.isInEditMode) {
         SideEffect {
             val window = (view.context as Activity).window
-            window.statusBarColor = colorScheme.background.toArgb()
             WindowCompat.getInsetsController(window, view).isAppearanceLightStatusBars = !darkTheme
         }
     }
 
     MaterialExpressiveTheme(
         colorScheme = colorScheme,
+        motionScheme = MotionScheme.expressive(),
+        shapes = Shapes(),
         typography = Typography,
         content = content
     )

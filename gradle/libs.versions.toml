@@ -1,22 +1,107 @@
+# Catálogo único de dependencias del proyecto.
+# Versiones verificadas en developer.android.com, plugins.gradle.org y Maven Central (octubre 2026).
+
 [versions]
-nav3Core = "1.2.0"
-lifecycleViewmodelNav3 = "2.12.0-alpha04"
-kotlinSerialization = "2.0.21"
-kotlinxSerializationCore = "1.6.3"
-material3AdaptiveNav3 = "1.4.0-alpha03"
-material3 = "1.0.0-alpha17"
+# Build
+agp = "9.4.0"
+kotlin = "2.4.21"
+
+# AndroidX
+coreKtx = "1.19.1"
+appcompat = "1.8.0"
+activityCompose = "1.13.0"
+lifecycle = "2.11.0"
+constraintlayout = "2.2.2"
+recyclerview = "1.4.0"
+navigation3 = "1.2.0"
+
+# Compose
+composeBom = "2026.09.00"
+# Material 3 Expressive: sus APIs públicas solo existen en la línea 1.5.0
+# (1.4.0 estable las eliminó). Se fija fuera del BOM a propósito.
+material3 = "1.5.0-beta02"
+
+# Material Components (vistas XML heredadas)
+material = "1.12.0"
+
+# Red / Serialización
+retrofit = "3.0.0"
+kotlinxSerialization = "1.12.0"
+coroutines = "1.11.0"
+
+# DI
+koinBom = "4.2.2"
+
+# Imágenes
+coil = "3.6.3"
+glide = "5.0.9"
+
+# Gráficas (JitPack)
+aachartcore = "7.3.0"
+
+# Tests
+junit = "4.13.2"
+mockk = "1.14.11"
+androidxTestRunner = "1.7.0"
+espresso = "3.7.0"
 
 [libraries]
-# Core Navigation 3 libraries
-androidx-navigation3-runtime = { module = "androidx.navigation3:navigation3-runtime", version.ref = "nav3Core" }
-androidx-navigation3-ui = { module = "androidx.navigation3:navigation3-ui", version.ref = "nav3Core" }
+# AndroidX
+androidx-core-ktx = { module = "androidx.core:core-ktx", version.ref = "coreKtx" }
+androidx-appcompat = { module = "androidx.appcompat:appcompat", version.ref = "appcompat" }
+androidx-activity-compose = { module = "androidx.activity:activity-compose", version.ref = "activityCompose" }
+androidx-constraintlayout = { module = "androidx.constraintlayout:constraintlayout", version.ref = "constraintlayout" }
+androidx-recyclerview = { module = "androidx.recyclerview:recyclerview", version.ref = "recyclerview" }
+androidx-lifecycle-viewmodel-ktx = { module = "androidx.lifecycle:lifecycle-viewmodel-ktx", version.ref = "lifecycle" }
+androidx-lifecycle-livedata-ktx = { module = "androidx.lifecycle:lifecycle-livedata-ktx", version.ref = "lifecycle" }
+androidx-lifecycle-viewmodel-compose = { module = "androidx.lifecycle:lifecycle-viewmodel-compose", version.ref = "lifecycle" }
+androidx-navigation3-runtime = { module = "androidx.navigation3:navigation3-runtime", version.ref = "navigation3" }
+androidx-navigation3-ui = { module = "androidx.navigation3:navigation3-ui", version.ref = "navigation3" }
 
-# Optional add-on libraries
-androidx-lifecycle-viewmodel-navigation3 = { module = "androidx.lifecycle:lifecycle-viewmodel-navigation3", version.ref = "lifecycleViewmodelNav3" }
-kotlinx-serialization-core = { module = "org.jetbrains.kotlinx:kotlinx-serialization-core", version.ref = "kotlinxSerializationCore" }
-androidx-material3-adaptive-navigation3 = { group = "androidx.compose.material3.adaptive", name = "adaptive-navigation3", version.ref = "material3AdaptiveNav3" }
-androidx-material3 = { group = "androidx.xr.compose.material3", name = "material3", version.ref = "material3" }
+# Compose (versiones gestionadas por el BOM)
+androidx-compose-bom = { module = "androidx.compose:compose-bom", version.ref = "composeBom" }
+androidx-compose-ui = { module = "androidx.compose.ui:ui" }
+androidx-compose-ui-graphics = { module = "androidx.compose.ui:ui-graphics" }
+androidx-compose-ui-tooling = { module = "androidx.compose.ui:ui-tooling" }
+androidx-compose-ui-tooling-preview = { module = "androidx.compose.ui:ui-tooling-preview" }
+androidx-compose-ui-test-manifest = { module = "androidx.compose.ui:ui-test-manifest" }
+androidx-compose-runtime-livedata = { module = "androidx.compose.runtime:runtime-livedata" }
+androidx-compose-material-icons-extended = { module = "androidx.compose.material:material-icons-extended" }
+androidx-compose-material3 = { module = "androidx.compose.material3:material3", version.ref = "material3" }
+
+# Material Components (XML)
+google-material = { module = "com.google.android.material:material", version.ref = "material" }
+
+# Red / Serialización / Concurrencia
+retrofit = { module = "com.squareup.retrofit2:retrofit", version.ref = "retrofit" }
+retrofit-converter-gson = { module = "com.squareup.retrofit2:converter-gson", version.ref = "retrofit" }
+retrofit-converter-scalars = { module = "com.squareup.retrofit2:converter-scalars", version.ref = "retrofit" }
+kotlinx-serialization-core = { module = "org.jetbrains.kotlinx:kotlinx-serialization-core", version.ref = "kotlinxSerialization" }
+kotlinx-coroutines-android = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-android", version.ref = "coroutines" }
+
+# Koin (versiones gestionadas por el BOM)
+koin-bom = { module = "io.insert-koin:koin-bom", version.ref = "koinBom" }
+koin-android = { module = "io.insert-koin:koin-android" }
+koin-androidx-compose = { module = "io.insert-koin:koin-androidx-compose" }
+
+# Imágenes: Coil para Compose, Glide para las vistas XML que quedan
+coil-compose = { module = "io.coil-kt.coil3:coil-compose", version.ref = "coil" }
+coil-network-okhttp = { module = "io.coil-kt.coil3:coil-network-okhttp", version.ref = "coil" }
+glide = { module = "com.github.bumptech.glide:glide", version.ref = "glide" }
+
+# Gráficas
+aachartcore = { module = "com.github.AAChartModel:AAChartCore", version.ref = "aachartcore" }
+
+# Tests
+junit = { module = "junit:junit", version.ref = "junit" }
+mockk = { module = "io.mockk:mockk", version.ref = "mockk" }
+androidx-test-runner = { module = "androidx.test:runner", version.ref = "androidxTestRunner" }
+androidx-test-espresso-core = { module = "androidx.test.espresso:espresso-core", version.ref = "espresso" }
 
 [plugins]
-# Optional plugins
-jetbrains-kotlin-serialization = { id = "org.jetbrains.kotlin.plugin.serialization", version.ref = "kotlinSerialization" }
+android-application = { id = "com.android.application", version.ref = "agp" }
+# Con AGP 9 Kotlin viene integrado: ya no se aplica org.jetbrains.kotlin.android.
+# Estos plugins del compilador fijan también la versión de Kotlin que usa AGP.
+kotlin-compose = { id = "org.jetbrains.kotlin.plugin.compose", version.ref = "kotlin" }
+kotlin-serialization = { id = "org.jetbrains.kotlin.plugin.serialization", version.ref = "kotlin" }
+kotlin-parcelize = { id = "org.jetbrains.kotlin.plugin.parcelize", version.ref = "kotlin" }
