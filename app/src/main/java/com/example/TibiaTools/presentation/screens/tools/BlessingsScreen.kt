@@ -8,7 +8,6 @@ import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.shape.CornerSize
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material3.Card
@@ -117,88 +116,93 @@ fun BlessingScreen(
                 containerColor = MaterialTheme.colorScheme.surfaceVariant
             )
         ) {
-            LazyColumn(
+            Column(
                 modifier = Modifier.fillMaxWidth()
             ) {
-                item {
-                    BlessCost(
-                        title = "Wisdom of Solitude",
-                        subtitle = "Regular",
-                        amount = GoldFormatter.format(regularUnitCost),
-                        checked = isSolitudeChecked,
-                        onCheckedChange = { isSolitudeChecked = it }
-                    )
-                    HorizontalDivider()
-                }
-                item {
-                    BlessCost(
-                        title = "Spark of the Phoenix",
-                        subtitle = "Regular",
-                        amount = GoldFormatter.format(regularUnitCost),
-                        checked = isPhoenixChecked,
-                        onCheckedChange = { isPhoenixChecked = it }
-                    )
-                    HorizontalDivider()
-                }
-                item {
-                    BlessCost(
-                        title = "Fire of the Suns",
-                        subtitle = "Regular",
-                        amount = GoldFormatter.format(regularUnitCost),
-                        checked = isSunsChecked,
-                        onCheckedChange = { isSunsChecked = it }
-                    )
-                    HorizontalDivider()
-                }
-                item {
-                    BlessCost(
-                        title = "Spiritual Shielding",
-                        subtitle = "Regular",
-                        amount = GoldFormatter.format(regularUnitCost),
-                        checked = isShieldingChecked,
-                        onCheckedChange = { isShieldingChecked = it }
-                    )
-                    HorizontalDivider()
-                }
-                item {
-                    BlessCost(
-                        title = "Embrace of Tibia",
-                        subtitle = "Regular",
-                        amount = GoldFormatter.format(regularUnitCost),
-                        checked = isEmbraceChecked,
-                        onCheckedChange = { isEmbraceChecked = it }
-                    )
-                    HorizontalDivider()
-                }
-                item {
-                    BlessCost(
-                        title = "Heart of the Mountain",
-                        subtitle = "Enhanced",
-                        amount = GoldFormatter.format(enhancedUnitCost),
-                        checked = isHeartChecked,
-                        onCheckedChange = { isHeartChecked = it }
-                    )
-                    HorizontalDivider()
-                }
-                item {
-                    BlessCost(
-                        title = "Blood of the Mountain",
-                        subtitle = "Enhanced",
-                        amount = GoldFormatter.format(enhancedUnitCost),
-                        checked = isBloodChecked,
-                        onCheckedChange = { isBloodChecked = it }
-                    )
-                    HorizontalDivider()
-                }
-                item {
-                    BlessCost(
-                        title = "Twist of Fate",
-                        subtitle = "PvP",
-                        amount = GoldFormatter.format(twistUnitCost),
-                        checked = isTwistChecked,
-                        onCheckedChange = { isTwistChecked = it }
-                    )
-                }
+                BlessCost(
+                    title = "Wisdom of Solitude",
+                    subtitle = "Regular",
+                    amount = GoldFormatter.format(regularUnitCost),
+                    checked = isSolitudeChecked,
+                    onCheckedChange = { isSolitudeChecked = it }
+                )
+                HorizontalDivider(
+                    thickness = 1.dp,
+                    color = MaterialTheme.colorScheme.onSurfaceVariant
+                )
+                BlessCost(
+                    title = "Spark of the Phoenix",
+                    subtitle = "Regular",
+                    amount = GoldFormatter.format(regularUnitCost),
+                    checked = isPhoenixChecked,
+                    onCheckedChange = { isPhoenixChecked = it }
+                )
+                HorizontalDivider(
+                    thickness = 1.dp,
+                    color = MaterialTheme.colorScheme.onSurfaceVariant
+                )
+                BlessCost(
+                    title = "Fire of the Suns",
+                    subtitle = "Regular",
+                    amount = GoldFormatter.format(regularUnitCost),
+                    checked = isSunsChecked,
+                    onCheckedChange = { isSunsChecked = it }
+                )
+                HorizontalDivider(
+                    thickness = 1.dp,
+                    color = MaterialTheme.colorScheme.onSurfaceVariant
+                )
+                BlessCost(
+                    title = "Spiritual Shielding",
+                    subtitle = "Regular",
+                    amount = GoldFormatter.format(regularUnitCost),
+                    checked = isShieldingChecked,
+                    onCheckedChange = { isShieldingChecked = it }
+                )
+                HorizontalDivider(
+                    thickness = 1.dp,
+                    color = MaterialTheme.colorScheme.onSurfaceVariant
+                )
+                BlessCost(
+                    title = "Embrace of Tibia",
+                    subtitle = "Regular",
+                    amount = GoldFormatter.format(regularUnitCost),
+                    checked = isEmbraceChecked,
+                    onCheckedChange = { isEmbraceChecked = it }
+                )
+                HorizontalDivider(
+                    thickness = 1.dp,
+                    color = MaterialTheme.colorScheme.onSurfaceVariant
+                )
+                BlessCost(
+                    title = "Heart of the Mountain",
+                    subtitle = "Enhanced",
+                    amount = GoldFormatter.format(enhancedUnitCost),
+                    checked = isHeartChecked,
+                    onCheckedChange = { isHeartChecked = it }
+                )
+                HorizontalDivider(
+                    thickness = 1.dp,
+                    color = MaterialTheme.colorScheme.onSurfaceVariant
+                )
+                BlessCost(
+                    title = "Blood of the Mountain",
+                    subtitle = "Enhanced",
+                    amount = GoldFormatter.format(enhancedUnitCost),
+                    checked = isBloodChecked,
+                    onCheckedChange = { isBloodChecked = it }
+                )
+                HorizontalDivider(
+                    thickness = 1.dp,
+                    color = MaterialTheme.colorScheme.onSurfaceVariant
+                )
+                BlessCost(
+                    title = "Twist of Fate",
+                    subtitle = "PvP",
+                    amount = GoldFormatter.format(twistUnitCost),
+                    checked = isTwistChecked,
+                    onCheckedChange = { isTwistChecked = it }
+                )
             }
         }
     }
@@ -255,7 +259,7 @@ fun BlessCost(
     modifier: Modifier = Modifier,
     title: String = "Blessing",
     subtitle: String = "Regular",
-    amount: String = "10,000",
+    amount: String = "0",
     checked: Boolean = false,
     onCheckedChange: (Boolean) -> Unit = {}
 ) {
@@ -263,7 +267,7 @@ fun BlessCost(
         modifier = modifier
             .fillMaxWidth()
             .clickable { onCheckedChange(!checked) }
-            .padding(horizontal = 16.dp, vertical = 8.dp),
+            .padding(horizontal = 16.dp, vertical = 12.dp),
         verticalAlignment = Alignment.CenterVertically,
         horizontalArrangement = Arrangement.SpaceBetween
     ) {
@@ -272,27 +276,28 @@ fun BlessCost(
             onCheckedChange = onCheckedChange
         )
         Column(
-            modifier = Modifier.padding(start = 8.dp)
+            modifier = Modifier
+                .padding(start = 12.dp)
+                .weight(1f)
         ) {
             Text(
                 text = title,
                 style = MaterialTheme.typography.titleMedium,
-                fontWeight = FontWeight.SemiBold,
-                color = MaterialTheme.colorScheme.onSurfaceVariant
+                fontWeight = FontWeight.Bold,
+                color = MaterialTheme.colorScheme.onSurface
             )
             Text(
                 text = subtitle,
                 style = MaterialTheme.typography.bodyMedium,
-                color = MaterialTheme.colorScheme.onSurfaceVariant.copy(alpha = 0.8f)
+                color = MaterialTheme.colorScheme.onSurfaceVariant
             )
         }
         Text(
-            modifier = Modifier.weight(1f),
-            text = "$amount gp",
+            text = amount,
             textAlign = TextAlign.End,
-            fontWeight = FontWeight.Bold,
-            style = MaterialTheme.typography.bodyMedium,
-            color = MaterialTheme.colorScheme.onSurfaceVariant.copy(alpha = 0.8f)
+            fontWeight = FontWeight.ExtraBold,
+            style = MaterialTheme.typography.titleMedium,
+            color = MaterialTheme.colorScheme.onSurface
         )
     }
 }
@@ -301,7 +306,7 @@ fun BlessCost(
 @Preview(showBackground = true, showSystemUi = true)
 @Composable
 fun BlessingScreenPreview() {
-    TibiaToolsTheme {
+    TibiaToolsTheme(darkTheme = true) {
         BlessingScreen(
             modifier = Modifier.fillMaxWidth().padding(horizontal = 10.dp, vertical = 20.dp)
         )
