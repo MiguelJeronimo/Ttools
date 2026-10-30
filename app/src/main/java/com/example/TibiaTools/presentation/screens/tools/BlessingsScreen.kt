@@ -31,6 +31,7 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.example.TibiaTools.operations.BlessingCalculator
+import com.example.TibiaTools.presentation.components.LevelTextField
 import com.example.TibiaTools.presentation.theme.TibiaToolsTheme
 import com.example.TibiaTools.utils.GoldFormatter
 
@@ -84,20 +85,13 @@ fun BlessingScreen(
         modifier = modifier,
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
-        OutlinedTextField(
-            modifier = Modifier.fillMaxWidth(),
-            value = levelText,
-            onValueChange = { levelText = it },
-            label = { Text(text = "Character level") },
-            shape = MaterialTheme.shapes.large,
-            keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
+        LevelTextField(
+            level = levelText,
+            onValueChange = {
+                levelText = it
+            },
             isError = isError,
-            singleLine = true,
-            supportingText = {
-                if (isError) {
-                    Text(text = "Invalid level (must be >= 1)")
-                }
-            }
+            errorMessage = "Invalid level (must be >= 1) and integer number"
         )
 
         Spacer(modifier = Modifier.height(12.dp))
