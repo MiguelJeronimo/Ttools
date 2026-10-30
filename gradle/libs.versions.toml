@@ -44,6 +44,7 @@ junit = "4.13.2"
 mockk = "1.14.11"
 androidxTestRunner = "1.7.0"
 espresso = "3.7.0"
+material3Version = "1.4.0"
 
 [libraries]
 # AndroidX

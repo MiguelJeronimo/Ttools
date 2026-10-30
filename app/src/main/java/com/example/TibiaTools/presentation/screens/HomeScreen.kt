@@ -31,6 +31,7 @@ import androidx.compose.material.icons.filled.Star
 import androidx.compose.material.icons.filled.Storefront
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
+import androidx.compose.material3.DrawerState
 import androidx.compose.material3.DrawerValue
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
@@ -54,6 +55,7 @@ import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import coil3.compose.AsyncImage
@@ -61,6 +63,7 @@ import com.example.TibiaTools.View.ViewModel.ViewModelHome
 import com.example.TibiaTools.data.model.News
 import com.example.TibiaTools.presentation.components.MainBottonBar
 import com.example.TibiaTools.presentation.components.MainDrawerMenu
+import com.example.TibiaTools.presentation.theme.TibiaToolsTheme
 import kotlinx.coroutines.launch
 import org.koin.androidx.compose.koinViewModel
 import java.util.Calendar
@@ -80,7 +83,8 @@ fun HomeScreen(
     onWorldsClick: () -> Unit = {},
     onToolClick: (String) -> Unit = {},
     onNewsClick: (News) -> Unit = {},
-    homeViewModel: ViewModelHome = koinViewModel()
+    homeViewModel: ViewModelHome = koinViewModel(),
+    drawerState: DrawerState
 ){
     //val homeViewModel: ViewModelHome = viewModel ?: koinViewModel()
     val worldsState by homeViewModel.worlds.observeAsState()
@@ -144,52 +148,12 @@ fun HomeContent(
     onWorldsClick: () -> Unit = {},
     onToolClick: (String) -> Unit = {},
     onNewsClick: (News) -> Unit = {},
+    drawerState: DrawerState = rememberDrawerState(initialValue = DrawerValue.Closed)
 ) {
-    val scope = rememberCoroutineScope()
-    val drawerState = rememberDrawerState(initialValue = DrawerValue.Closed)
     MainDrawerMenu(drawerState = drawerState) {
         Scaffold(
             modifier = modifier,
             contentWindowInsets = WindowInsets(0, 0, 0, 0), // ELIMINA EL ESPACIO EXTRA INFERIOR
-            topBar = {
-                TopAppBar(
-                    title = {
-                        Text(
-                            text = "TibiaTools",
-                            style = MaterialTheme.typography.titleLarge,
-                            fontWeight = FontWeight.Bold
-                        )
-                    },
-                    navigationIcon = {
-                        IconButton(onClick = {
-                            scope.launch {
-                                if (drawerState.isClosed) {
-                                    drawerState.open()
-                                } else {
-                                    drawerState.close()
-                                }
-                            }
-                        }) {
-                            Icon(
-                                imageVector = Icons.Default.Menu,
-                                contentDescription = "Menu"
-                            )
-                        }
-                    },
-                    actions = {
-                        IconButton(onClick = onSearchClick) {
-                            Icon(
-                                imageVector = Icons.Default.PersonSearch,
-                                contentDescription = "Search"
-                            )
-                        }
-                    },
-                    colors = TopAppBarDefaults.topAppBarColors(
-                        containerColor = MaterialTheme.colorScheme.background,
-                        titleContentColor = MaterialTheme.colorScheme.onBackground
-                    )
-                )
-            },
             containerColor = MaterialTheme.colorScheme.background,
         ) { paddingValues ->
             LazyColumn(
@@ -669,3 +633,16 @@ private val sampleNewsList = listOf(
     News(id = "2", date = "2024-03-02", news = "Extended Double XP and Skill Event announced.", category = "community", type = "news"),
     News(id = "3", date = "2024-03-03", news = "New Server Save times and maintenance window update.", category = "technical", type = "news")
 )
+
+
+@Preview(showBackground = true)
+@Composable
+fun HomeScreenPreview() {
+    TibiaToolsTheme(darkTheme = true) {
+        PlayersOnlineHeroCard(
+            totalOnline = 17445,
+        totalWorlds = 96,
+        onWorldsClick = {}
+        )
+    }
+}

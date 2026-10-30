@@ -9,4 +9,7 @@ sealed class HomeRoutes: NavKey, Parcelable {
     @Serializable
     @Parcelize
     object Home: HomeRoutes()
+    @Serializable
+    @Parcelize
+    object Tools: HomeRoutes()
 }

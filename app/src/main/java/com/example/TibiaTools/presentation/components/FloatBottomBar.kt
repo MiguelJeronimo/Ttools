@@ -19,6 +19,7 @@ import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
+import com.example.TibiaTools.presentation.routes.Options
 import com.example.ttools.R
 
 data class MainItemModel(
@@ -29,32 +30,33 @@ data class MainItemModel(
     @DrawableRes val drawableRes: Int? = null
 )
 
+
 val list = listOf(
     MainItemModel(
         title = "Home",
         icon = Icons.Default.Home,
-        route = "home"
+        route = Options.HOME.name
     ),
     MainItemModel(
         titleRes = R.string.nd_character,
         drawableRes = R.drawable.character_icon,
-        route = "players"
+        route = Options.PLAYERS.name
     ),
     MainItemModel(
         title = "Ranks",
         drawableRes = R.drawable.icon_highscores,
-        route = "ranks"
+        route = Options.RANKS.name
     ),
     MainItemModel(
         title = "Library",
         icon = Icons.Outlined.MenuBook,
-        route = "library"
+        route = Options.LIBRARY.name
     ),
 
     MainItemModel(
         title = "Tools",
         icon = Icons.Outlined.Calculate,
-        route = "tools"
+        route = Options.TOOLS.name
     )
 )
 
