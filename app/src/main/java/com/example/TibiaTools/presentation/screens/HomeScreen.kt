@@ -22,8 +22,6 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Campaign
 import androidx.compose.material.icons.filled.Group
 import androidx.compose.material.icons.filled.Map
-import androidx.compose.material.icons.filled.Menu
-import androidx.compose.material.icons.filled.PersonSearch
 import androidx.compose.material.icons.filled.Public
 import androidx.compose.material.icons.filled.Refresh
 import androidx.compose.material.icons.filled.Schedule
@@ -31,22 +29,15 @@ import androidx.compose.material.icons.filled.Star
 import androidx.compose.material.icons.filled.Storefront
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
-import androidx.compose.material3.DrawerState
-import androidx.compose.material3.DrawerValue
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
-import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
-import androidx.compose.material3.TopAppBar
-import androidx.compose.material3.TopAppBarDefaults
-import androidx.compose.material3.rememberDrawerState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.livedata.observeAsState
-import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -61,10 +52,7 @@ import androidx.compose.ui.unit.sp
 import coil3.compose.AsyncImage
 import com.example.TibiaTools.View.ViewModel.ViewModelHome
 import com.example.TibiaTools.data.model.News
-import com.example.TibiaTools.presentation.components.MainBottonBar
-import com.example.TibiaTools.presentation.components.MainDrawerMenu
 import com.example.TibiaTools.presentation.theme.TibiaToolsTheme
-import kotlinx.coroutines.launch
 import org.koin.androidx.compose.koinViewModel
 import java.util.Calendar
 
@@ -75,6 +63,7 @@ data class QuickToolItem(
     val contentColor: Color,
     val onClick: () -> Unit
 )
+
 @Composable
 fun HomeScreen(
     modifier: Modifier = Modifier,
@@ -83,10 +72,8 @@ fun HomeScreen(
     onWorldsClick: () -> Unit = {},
     onToolClick: (String) -> Unit = {},
     onNewsClick: (News) -> Unit = {},
-    homeViewModel: ViewModelHome = koinViewModel(),
-    drawerState: DrawerState
-){
-    //val homeViewModel: ViewModelHome = viewModel ?: koinViewModel()
+    homeViewModel: ViewModelHome = koinViewModel()
+) {
     val worldsState by homeViewModel.worlds.observeAsState()
     val playersOnlineState by homeViewModel.playersOnline.observeAsState()
     val rashidState by homeViewModel.rashidLocation.observeAsState()
@@ -126,7 +113,7 @@ fun HomeScreen(
         onSearchClick = onSearchClick,
         onWorldsClick = onWorldsClick,
         onToolClick = onToolClick,
-        onNewsClick = onNewsClick,
+        onNewsClick = onNewsClick
     )
 }
 
@@ -147,79 +134,76 @@ fun HomeContent(
     onSearchClick: () -> Unit = {},
     onWorldsClick: () -> Unit = {},
     onToolClick: (String) -> Unit = {},
-    onNewsClick: (News) -> Unit = {},
-    drawerState: DrawerState = rememberDrawerState(initialValue = DrawerValue.Closed)
+    onNewsClick: (News) -> Unit = {}
 ) {
-    MainDrawerMenu(drawerState = drawerState) {
-        Scaffold(
-            modifier = modifier,
-            contentWindowInsets = WindowInsets(0, 0, 0, 0), // ELIMINA EL ESPACIO EXTRA INFERIOR
-            containerColor = MaterialTheme.colorScheme.background,
-        ) { paddingValues ->
-            LazyColumn(
-                modifier = Modifier
-                    .fillMaxSize()
-                    .padding(paddingValues),
-                contentPadding = PaddingValues(horizontal = 16.dp, vertical = 8.dp),
-                verticalArrangement = Arrangement.spacedBy(16.dp)
-            ) {
-                // 1. Hero Card - Players Online
-                item {
-                    PlayersOnlineHeroCard(
-                        totalOnline = totalOnline,
-                        totalWorlds = totalWorlds,
-                        onWorldsClick = onWorldsClick
+    Scaffold(
+        modifier = modifier,
+        contentWindowInsets = WindowInsets(0, 0, 0, 0),
+        containerColor = MaterialTheme.colorScheme.background,
+    ) { paddingValues ->
+        LazyColumn(
+            modifier = Modifier
+                .fillMaxSize()
+                .padding(paddingValues),
+            contentPadding = PaddingValues(horizontal = 16.dp, vertical = 8.dp),
+            verticalArrangement = Arrangement.spacedBy(16.dp)
+        ) {
+            // 1. Hero Card - Players Online
+            item {
+                PlayersOnlineHeroCard(
+                    totalOnline = totalOnline,
+                    totalWorlds = totalWorlds,
+                    onWorldsClick = onWorldsClick
+                )
+            }
+
+            // 2. Rashid Today Card
+            item {
+                RashidTodayCard(city = rashidCity)
+            }
+
+            // 3. Boosted Creature & Boss Section (2 Columns)
+            item {
+                Row(
+                    modifier = Modifier.fillMaxWidth(),
+                    horizontalArrangement = Arrangement.spacedBy(12.dp)
+                ) {
+                    BoostedCard(
+                        category = "BOOSTED CREATURE",
+                        name = boostedCreatureName,
+                        imageUrl = boostedCreatureImage,
+                        categoryColor = MaterialTheme.colorScheme.primary,
+                        modifier = Modifier.weight(1f)
+                    )
+                    BoostedCard(
+                        category = "BOOSTED BOSS",
+                        name = boostedBossName,
+                        imageUrl = boostedBossImage,
+                        categoryColor = MaterialTheme.colorScheme.tertiary,
+                        modifier = Modifier.weight(1f)
                     )
                 }
+            }
 
-                // 2. Rashid Today Card
-                item {
-                    RashidTodayCard(city = rashidCity)
-                }
+            // 4. Quick Tools Section
+            item {
+                QuickToolsSection(onToolClick = onToolClick)
+            }
 
-                // 3. Boosted Creature & Boss Section (2 Columns)
-                item {
-                    Row(
-                        modifier = Modifier.fillMaxWidth(),
-                        horizontalArrangement = Arrangement.spacedBy(12.dp)
-                    ) {
-                        BoostedCard(
-                            category = "BOOSTED CREATURE",
-                            name = boostedCreatureName,
-                            imageUrl = boostedCreatureImage,
-                            categoryColor = MaterialTheme.colorScheme.primary,
-                            modifier = Modifier.weight(1f)
-                        )
-                        BoostedCard(
-                            category = "BOOSTED BOSS",
-                            name = boostedBossName,
-                            imageUrl = boostedBossImage,
-                            categoryColor = MaterialTheme.colorScheme.tertiary,
-                            modifier = Modifier.weight(1f)
-                        )
-                    }
-                }
+            // 5. Latest News Section Header
+            item {
+                Text(
+                    text = "Latest news",
+                    style = MaterialTheme.typography.titleMedium,
+                    fontWeight = FontWeight.Bold,
+                    color = MaterialTheme.colorScheme.onBackground,
+                    modifier = Modifier.padding(horizontal = 4.dp, vertical = 4.dp)
+                )
+            }
 
-                // 4. Quick Tools Section
-                item {
-                    QuickToolsSection(onToolClick = onToolClick)
-                }
-
-                // 5. Latest News Section Header
-                item {
-                    Text(
-                        text = "Latest news",
-                        style = MaterialTheme.typography.titleMedium,
-                        fontWeight = FontWeight.Bold,
-                        color = MaterialTheme.colorScheme.onBackground,
-                        modifier = Modifier.padding(horizontal = 4.dp, vertical = 4.dp)
-                    )
-                }
-
-                // News Items
-                items(newsList.ifEmpty { sampleNewsList }) { newsItem ->
-                    NewsCard(news = newsItem, onClick = { onNewsClick(newsItem) })
-                }
+            // News Items
+            items(newsList.ifEmpty { sampleNewsList }) { newsItem ->
+                NewsCard(news = newsItem, onClick = { onNewsClick(newsItem) })
             }
         }
     }
@@ -234,7 +218,7 @@ fun PlayersOnlineHeroCard(
     Card(
         shape = RoundedCornerShape(32.dp),
         colors = CardDefaults.cardColors(
-            containerColor = Color(0xFF004D64), // Expressive Hero background
+            containerColor = Color(0xFF004D64),
             contentColor = Color(0xFFBDE9FF)
         ),
         modifier = Modifier
@@ -245,7 +229,6 @@ fun PlayersOnlineHeroCard(
         Box(
             modifier = Modifier.fillMaxWidth()
         ) {
-            // Background Decorative Blob 1 (Top-Right)
             Box(
                 modifier = Modifier
                     .align(Alignment.TopEnd)
@@ -257,7 +240,6 @@ fun PlayersOnlineHeroCard(
                     )
             )
 
-            // Background Decorative Blob 2 (Bottom-Right)
             Box(
                 modifier = Modifier
                     .align(Alignment.BottomEnd)
@@ -269,14 +251,12 @@ fun PlayersOnlineHeroCard(
                     )
             )
 
-            // Card Foreground Content
             Column(
                 modifier = Modifier
                     .fillMaxWidth()
                     .padding(horizontal = 22.dp, vertical = 20.dp),
                 verticalArrangement = Arrangement.spacedBy(6.dp)
             ) {
-                // Indicator Dot + Label
                 Row(
                     verticalAlignment = Alignment.CenterVertically,
                     horizontalArrangement = Arrangement.spacedBy(6.dp)
@@ -295,7 +275,6 @@ fun PlayersOnlineHeroCard(
                     )
                 }
 
-                // Online Number
                 Text(
                     text = String.format("%,d", if (totalOnline > 0) totalOnline else 17445),
                     style = MaterialTheme.typography.displayMedium,
@@ -304,13 +283,11 @@ fun PlayersOnlineHeroCard(
                     letterSpacing = (-1).sp
                 )
 
-                // Chips Row
                 Row(
                     modifier = Modifier.padding(top = 8.dp),
                     horizontalArrangement = Arrangement.spacedBy(8.dp),
                     verticalAlignment = Alignment.CenterVertically
                 ) {
-                    // Worlds Chip
                     Box(
                         modifier = Modifier
                             .height(28.dp)
@@ -339,7 +316,6 @@ fun PlayersOnlineHeroCard(
                         }
                     }
 
-                    // Server Save Chip
                     Box(
                         modifier = Modifier
                             .height(28.dp)
@@ -641,8 +617,8 @@ fun HomeScreenPreview() {
     TibiaToolsTheme(darkTheme = true) {
         PlayersOnlineHeroCard(
             totalOnline = 17445,
-        totalWorlds = 96,
-        onWorldsClick = {}
+            totalWorlds = 96,
+            onWorldsClick = {}
         )
     }
 }
