@@ -1,5 +1,6 @@
 package com.example.TibiaTools.presentation.screens.tools
 
+import androidx.compose.foundation.horizontalScroll
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -8,7 +9,9 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.windowInsetsEndWidth
+import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.CornerSize
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.ArrowBack
 import androidx.compose.material3.Card
@@ -57,7 +60,16 @@ fun SharedExperiencesScreen(
             isError = isError,
             errorMessage = "Invalid level (must be >= 1) and integer number"
         )
-
+        Spacer(modifier = Modifier.size(20.dp))
+        SharedExperiencesDataContainer(modifier = Modifier.fillMaxWidth())
+        Spacer(modifier = Modifier.size(10.dp))
+        Text(
+            modifier = Modifier.fillMaxWidth(),
+            textAlign = TextAlign.Center,
+            fontSize = 12.sp,
+            text = "Party members must be within the 2/3 – 3/2 level range of each other and stay active to keep the shared bonus.",
+            color = MaterialTheme.colorScheme.tertiary.copy(alpha = 0.8f)
+        )
     }
 }
 
@@ -148,7 +160,7 @@ fun SharedExperiencesDataContainer(modifier: Modifier = Modifier){
 fun SharedExperiencesScreenPreview(){
     TibiaToolsTheme {
         SharedExperiencesScreen(
-            modifier = Modifier.fillMaxWidth()
+            modifier = Modifier.fillMaxWidth().padding(10.dp).verticalScroll(rememberScrollState())
         )
     }
 }
