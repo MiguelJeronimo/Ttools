@@ -9,19 +9,19 @@ class StaminaCalculatorTest {
     // region parse
     @Test
     fun `parse accepts H mm and HH mm`() {
-        assertEquals(StaminaTime(9, 5), StaminaCalculator.parse("9:05"))
-        assertEquals(StaminaTime(39, 30), StaminaCalculator.parse("39:30"))
-        assertEquals(StaminaTime(42, 0), StaminaCalculator.parse("42:00"))
+        assertEquals(StaminaCalculator.parse("9:05"), StaminaTime(9, 5))
+        assertEquals(StaminaCalculator.parse("39:30"), StaminaTime(39, 30))
+        assertEquals(StaminaCalculator.parse("42:00"), StaminaTime(42, 0))
     }
 
     @Test
     fun `parse accepts zero hours`() {
-        assertEquals(StaminaTime(0, 30), StaminaCalculator.parse("0:30"))
+        assertEquals(StaminaCalculator.parse("0:30"), StaminaTime(0, 30))
     }
 
     @Test
     fun `parse trims whitespace`() {
-        assertEquals(StaminaTime(10, 0), StaminaCalculator.parse("  10:00 "))
+        assertEquals(StaminaCalculator.parse("  10:00 "), StaminaTime(10, 0))
     }
 
     @Test
@@ -77,8 +77,8 @@ class StaminaCalculatorTest {
 
     @Test
     fun `fromMinutes splits hours and minutes`() {
-        assertEquals(StaminaTime(2, 5), StaminaTime.fromMinutes(125))
-        assertEquals(StaminaTime(0, 0), StaminaTime.fromMinutes(0))
+        assertEquals(StaminaTime.fromMinutes(125), StaminaTime(2, 5))
+        assertEquals(StaminaTime.fromMinutes(0), StaminaTime(0, 0))
     }
 
     @Test(expected = IllegalArgumentException::class)
