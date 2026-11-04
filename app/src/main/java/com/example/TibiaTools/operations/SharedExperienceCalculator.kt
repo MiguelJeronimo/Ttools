@@ -1,5 +1,7 @@
 package com.example.TibiaTools.operations
 
+import android.util.Log
+
 /**
  * Calcula el rango de niveles con los que un personaje puede compartir experiencia en party.
  *
@@ -28,6 +30,7 @@ object SharedExperienceCalculator {
      * @throws IllegalArgumentException si [level] < 1.
      */
     fun calculate(level: Int): SharedExperienceRange {
+        Log.i("SharedExperiencesScreen", "Calculating shared experience range for level: $level")
         require(level >= 1) { "El nivel debe ser >= 1 (recibido: $level)" }
         val lvl = level.toLong()
         val min = (lvl * 2 + 2) / 3 // ⌈2L/3⌉ con enteros

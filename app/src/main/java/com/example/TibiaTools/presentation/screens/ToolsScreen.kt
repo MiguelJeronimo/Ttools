@@ -18,6 +18,7 @@ import androidx.compose.ui.unit.dp
 import com.example.TibiaTools.presentation.components.ButtonSection
 import com.example.TibiaTools.presentation.components.SectionOption
 import com.example.TibiaTools.presentation.screens.tools.BlessingScreen
+import com.example.TibiaTools.presentation.screens.tools.SharedExperiencesScreen
 
 @Composable
 fun ToolsScreen(
@@ -52,6 +53,7 @@ fun ToolsScreen(
                 options = sectionOptions
             ) { option ->
                 when (option.id) {
+                    1 -> SharedExperiencesScreen(modifier = Modifier.fillMaxWidth())
                     3 -> BlessingScreen(modifier = Modifier.fillMaxWidth())
                     else -> {
                         BlessingScreen(modifier = Modifier.fillMaxWidth())

@@ -1,6 +1,5 @@
 package com.example.TibiaTools.presentation.screens.tools
 
-import androidx.compose.foundation.horizontalScroll
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -8,12 +7,9 @@ import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.layout.windowInsetsEndWidth
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.CornerSize
 import androidx.compose.foundation.verticalScroll
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.outlined.ArrowBack
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.Icon
@@ -22,20 +18,21 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.PlatformTextStyle
-import androidx.compose.ui.text.TextStyle
-import androidx.compose.ui.text.font.FontStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.LineHeightStyle
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.example.TibiaTools.operations.SharedExperienceCalculator
+import com.example.TibiaTools.operations.SharedExperienceRange
 import com.example.TibiaTools.presentation.components.LevelTextField
 import com.example.TibiaTools.presentation.theme.TibiaToolsTheme
 import com.example.ttools.R
@@ -45,8 +42,13 @@ fun SharedExperiencesScreen(
     modifier: Modifier = Modifier
 ){
     var levelText by rememberSaveable { mutableStateOf("") }
-    val level = levelText.toIntOrNull()?.takeIf { it >= 1 }
+    var level = levelText.toIntOrNull()?.takeIf { it >= 1 }
     val isError = levelText.isNotEmpty() && level == null
+
+    var sharedExperience by remember {mutableStateOf(SharedExperienceRange(0, 0))}
+
+    level = level?:0
+    sharedExperience = if (level > 0) SharedExperienceCalculator.calculate(level) else SharedExperienceRange(0, 0)
 
     Column(
         modifier = modifier,
@@ -61,7 +63,11 @@ fun SharedExperiencesScreen(
             errorMessage = "Invalid level (must be >= 1) and integer number"
         )
         Spacer(modifier = Modifier.size(20.dp))
-        SharedExperiencesDataContainer(modifier = Modifier.fillMaxWidth())
+        SharedExperiencesDataContainer(
+            modifier = Modifier.fillMaxWidth(),
+            level = level,
+            sharedExperience = sharedExperience
+        )
         Spacer(modifier = Modifier.size(10.dp))
         Text(
             modifier = Modifier.fillMaxWidth(),
@@ -76,7 +82,11 @@ fun SharedExperiencesScreen(
 
 
 @Composable
-fun SharedExperiencesDataContainer(modifier: Modifier = Modifier){
+fun SharedExperiencesDataContainer(
+    modifier: Modifier = Modifier,
+    level: Int = 0,
+    sharedExperience: SharedExperienceRange = SharedExperienceRange(0,0)
+    ){
     Card(
         modifier = modifier,
         shape = MaterialTheme.shapes.extraLargeIncreased.copy(all = CornerSize(35.dp)),
@@ -89,7 +99,7 @@ fun SharedExperiencesDataContainer(modifier: Modifier = Modifier){
             modifier = Modifier.fillMaxWidth().padding(horizontal = 20.dp, vertical = 20.dp)
         ) {
             Text(
-               text = "A level 250 can share experience with",
+                text = if (level > 0) "A level $level can share experience with" else "A level can share experience with",
                 style = MaterialTheme.typography.labelMedium.copy(fontWeight = FontWeight.Bold, fontSize = 14.sp),
                 color = MaterialTheme.colorScheme.onPrimaryContainer.copy(alpha = 0.8f)
             )
@@ -134,7 +144,7 @@ fun SharedExperiencesDataContainer(modifier: Modifier = Modifier){
             ) {
                 Text(
                     modifier = Modifier.weight(1f),
-                    text = "2000",
+                    text = "${sharedExperience.minLevel}",
                     style = MaterialTheme.typography.displayMedium.copy(fontSize = 48.sp),
                     fontWeight = FontWeight.ExtraBold,
                 )
@@ -146,7 +156,7 @@ fun SharedExperiencesDataContainer(modifier: Modifier = Modifier){
                 Text(
                     modifier = Modifier.weight(1f),
                     textAlign = TextAlign.End,
-                    text = "3000",
+                    text = "${sharedExperience.maxLevel}",
                     style = MaterialTheme.typography.displayMedium.copy(fontSize = 48.sp),
                     fontWeight = FontWeight.ExtraBold,
                 )
