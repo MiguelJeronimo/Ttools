@@ -16,14 +16,12 @@
         <activity
             android:name="com.example.TibiaTools.View.TibiaMaps"
             android:exported="false"
-            android:screenOrientation="portrait"
             android:label="@string/title_activity_tibia_maps"
             android:theme="@style/AppTheme" />
         <activity
             android:name="com.example.TibiaTools.View.About"
             android:exported="false"
             android:label="@string/title_activity_about"
-            android:screenOrientation="portrait"
             android:theme="@style/AppTheme">
             <meta-data
                 android:name="android.app.lib_name"
@@ -32,7 +30,6 @@
         <activity
             android:name="com.example.TibiaTools.View.HousesInformation"
             android:exported="false"
-            android:screenOrientation="portrait"
             android:label="@string/title_activity_houses_information"
             android:theme="@style/AppTheme">
             <meta-data
@@ -43,7 +40,6 @@
             android:name="com.example.TibiaTools.View.HouseActivity"
             android:exported="false"
             android:label="@string/title_activity_house"
-            android:screenOrientation="portrait"
             android:theme="@style/AppTheme">
             <meta-data
                 android:name="android.app.lib_name"
@@ -53,7 +49,6 @@
             android:name="com.example.TibiaTools.View.Highscores"
             android:exported="false"
             android:label="@string/title_activity_highscores"
-            android:screenOrientation="portrait"
             android:theme="@style/AppTheme">
             <meta-data
                 android:name="android.app.lib_name"
@@ -63,7 +58,6 @@
             android:name="com.example.TibiaTools.View.Blessings"
             android:exported="false"
             android:label="@string/title_activity_blessings"
-            android:screenOrientation="portrait"
             android:theme="@style/AppTheme">
             <meta-data
                 android:name="android.app.lib_name"
@@ -73,7 +67,6 @@
             android:name="com.example.TibiaTools.View.SpellInformationActivity"
             android:exported="false"
             android:label="@string/title_activity_spell_information"
-            android:screenOrientation="portrait"
             android:theme="@style/AppTheme">
             <meta-data
                 android:name="android.app.lib_name"
@@ -83,7 +76,6 @@
             android:name="com.example.TibiaTools.View.Spells_Tibia"
             android:exported="false"
             android:label="@string/title_activity_spells_tibia"
-            android:screenOrientation="portrait"
             android:theme="@style/AppTheme">
             <meta-data
                 android:name="android.app.lib_name"
@@ -93,7 +85,6 @@
             android:name="com.example.TibiaTools.View.GuildInformationName"
             android:exported="false"
             android:label="@string/title_activity_guild_information_name"
-            android:screenOrientation="portrait"
             android:theme="@style/AppTheme">
             <meta-data
                 android:name="android.app.lib_name"
@@ -102,7 +93,6 @@
         <activity
             android:name="com.example.TibiaTools.View.GuildInformation"
             android:label="@string/title_activity_guilds"
-            android:screenOrientation="portrait"
             android:theme="@style/AppTheme">
             <meta-data
                 android:name="android.app.lib_name"
@@ -112,38 +102,31 @@
             android:name="com.example.TibiaTools.View.CriaturesInformation"
             android:exported="false"
             android:label="@string/title_activity_criatures_information"
-            android:screenOrientation="portrait"
             android:theme="@style/AppTheme" />
         <activity
             android:name="com.example.TibiaTools.View.Criaturas"
             android:label="@string/title_activity_criaturas"
-            android:screenOrientation="portrait"
             android:theme="@style/AppTheme" />
         <activity
             android:name="com.example.TibiaTools.View.Mundos"
             android:label="@string/title_activity_mundos"
-            android:screenOrientation="portrait"
             android:theme="@style/AppTheme" />
         <activity
             android:name="com.example.TibiaTools.View.Stamina"
             android:label="@string/title_activity_stamina"
-            android:screenOrientation="portrait"
             android:theme="@style/AppTheme" />
         <activity
             android:name="com.example.TibiaTools.View.characters"
             android:label="@string/title_activity_characters"
-            android:screenOrientation="portrait"
             android:theme="@style/AppTheme" />
         <activity
             android:name="com.example.TibiaTools.View.experiencia_compartida"
             android:label="@string/title_activity_experiencia_compartida"
-            android:screenOrientation="portrait"
             android:theme="@style/AppTheme" />
         <activity
             android:name="com.example.TibiaTools.MainActivity"
             android:exported="true"
             android:label="@string/app_name"
-            android:screenOrientation="portrait"
             android:theme="@style/AppTheme">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

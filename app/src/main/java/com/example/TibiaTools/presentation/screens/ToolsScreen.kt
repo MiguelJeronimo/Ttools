@@ -55,7 +55,7 @@ fun ToolsScreen(
             ) { option ->
                 when (option.id) {
                     1 -> SharedExperiencesScreen(modifier = Modifier.fillMaxWidth())
-                    2-> StaminaScreen(modifier = modifier.fillMaxWidth())
+                    2 -> StaminaScreen(modifier = Modifier.fillMaxWidth())
                     3 -> BlessingScreen(modifier = Modifier.fillMaxWidth())
                     else -> {
                         BlessingScreen(modifier = Modifier.fillMaxWidth())
