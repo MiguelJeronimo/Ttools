@@ -1,5 +1,6 @@
 package com.example.TibiaTools.presentation.screens.tools
 
+import android.util.Log
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -49,11 +50,11 @@ fun StaminaScreen(
 ){
     var timeText by rememberSaveable { mutableStateOf("") }
 
-    val isError = timeText.isNotEmpty()
-
     val staminaTime = remember(timeText) {
-        StaminaCalculator.parse(input = timeText)
+        if(timeText.isNotEmpty()) StaminaCalculator.parse(input = timeText) else null
     }
+
+    val isError = timeText.isNotEmpty() && staminaTime == null
 
     val greenTimeState = remember(staminaTime) {
         StaminaCalculator.timeToGreenStamina(current = staminaTime?: StaminaTime(0, 0))
@@ -84,14 +85,14 @@ fun StaminaScreen(
                     containerColor = MaterialTheme.colorScheme.tertiaryContainer,
                     contentColor = MaterialTheme.colorScheme.onTertiaryContainer
                 ),
-                subtitle = greenTimeState.format(),
+                subtitle = if (timeText.isNotEmpty() && staminaTime != null) greenTimeState.format() else "--:--",
                 staminaTime = greenTimeState
             )
             Spacer(modifier = Modifier.size(10.dp))
             CardHoursStamina(
                 modifier = Modifier.weight(1f),
                 title = "To full (42:00)",
-                subtitle = fullTimeState.format(),
+                subtitle = if (timeText.isNotEmpty() && staminaTime != null) fullTimeState.format() else "--:--",
                 color = CardDefaults.cardColors(
                     containerColor = MaterialTheme.colorScheme.primaryContainer,
                     contentColor = MaterialTheme.colorScheme.onPrimaryContainer
