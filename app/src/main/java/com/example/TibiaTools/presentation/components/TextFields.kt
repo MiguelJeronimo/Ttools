@@ -33,3 +33,28 @@ fun LevelTextField(
         }
     )
 }
+
+@Composable
+fun StaminaTextField(
+    label: String = "Stamina time",
+    level: String,
+    onValueChange: (String) -> Unit,
+    isError: Boolean = false,
+    errorMessage: String = ""
+){
+    OutlinedTextField(
+        modifier = Modifier.fillMaxWidth(),
+        value = level,
+        onValueChange = onValueChange,
+        label = { Text(text = label) },
+        shape = MaterialTheme.shapes.large,
+        keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Time),
+        isError = isError,
+        singleLine = true,
+        supportingText = {
+            if (isError) {
+                Text(text = errorMessage)
+            }
+        }
+    )
+}

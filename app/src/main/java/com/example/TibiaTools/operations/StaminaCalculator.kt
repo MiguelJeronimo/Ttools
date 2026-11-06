@@ -86,7 +86,7 @@ object StaminaCalculator {
      * @throws IllegalArgumentException si [current] supera la stamina máxima.
      */
     fun timeToFullStamina(current: StaminaTime): StaminaTime {
-        requireValid(current)            
+        requireValid(current)
         return offlineTime(normalRegenerationMinutes(current) + greenRegenerationMinutes(current))
     }
 
@@ -125,11 +125,20 @@ data class StaminaTime(val hours: Int, val minutes: Int) {
         require(minutes in 0..59) { "minutes debe estar entre 0 y 59 (recibido: $minutes)" }
     }
 
+    /** Stamina máxima en minutos (42 h). */
+    private val MAX_STAMINA_MINUTES = 42 * 60
     /** Duración total en minutos. */
     val totalMinutes: Int get() = hours * 60 + minutes
 
     /** @return la duración como `H:mm`, p. ej. `"15:05"`. */
     fun format(): String = "$hours:${minutes.toString().padStart(2, '0')}"
+
+    /**
+     * @return porcentaje entre el tiempo actual de stamina con respecto al 42:00
+     * **/
+    fun percent(): Float {
+        return totalMinutes.toFloat()/MAX_STAMINA_MINUTES.toFloat()
+    }
 
     companion object {
         /** Crea un [StaminaTime] a partir de un total de minutos (≥ 0). */

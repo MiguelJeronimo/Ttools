@@ -1,4 +1,4 @@
-package com.example.TibiaTools.utils
+package com.example.TibiaTools.utils.ex
 
 import androidx.navigation3.runtime.NavBackStack
 import androidx.navigation3.runtime.NavKey

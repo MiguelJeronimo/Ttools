@@ -37,8 +37,8 @@ import com.example.TibiaTools.presentation.routes.HomeRoutes
 import com.example.TibiaTools.presentation.routes.Options
 import com.example.TibiaTools.presentation.screens.HomeScreen
 import com.example.TibiaTools.presentation.screens.ToolsScreen
-import com.example.TibiaTools.utils.back
-import com.example.TibiaTools.utils.navigateTo
+import com.example.TibiaTools.utils.ex.back
+import com.example.TibiaTools.utils.ex.navigateTo
 import kotlinx.coroutines.launch
 
 @Composable
