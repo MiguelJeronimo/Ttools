@@ -17,6 +17,8 @@ import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.CornerSize
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Card
+import androidx.compose.material3.CardColors
+import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -28,6 +30,9 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.text.PlatformTextStyle
+import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.LineHeightStyle
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -50,11 +55,12 @@ fun StaminaScreen(
         StaminaCalculator.parse(input = timeText)
     }
 
-    val greenTimeState by remember { mutableStateOf(StaminaTime(0, 0)) }
-    val fullTimeState by remember { mutableStateOf(StaminaTime(0, 0)) }
-
-//    val timeGreen = StaminaCalculator.timeToGreenStamina(current = parseStamina?: StaminaTime(0, 0))
-//    val fullTime = StaminaCalculator.timeToFullStamina(current = parseStamina?: StaminaTime(0, 0))
+    val greenTimeState = remember(staminaTime) {
+        StaminaCalculator.timeToGreenStamina(current = staminaTime?: StaminaTime(0, 0))
+    }
+    val fullTimeState = remember(staminaTime) {
+        StaminaCalculator.timeToFullStamina(current = staminaTime?: StaminaTime(0, 0))
+    }
 
     Column(modifier = modifier) {
         StaminaTextField(
@@ -64,10 +70,50 @@ fun StaminaScreen(
                 timeText = it
             },
             isError = isError,
-            errorMessage = ""
+            errorMessage = "Invalid format. Use hh:mm (0:00 - 42:00)"
         )
         Spacer(modifier = Modifier.size(20.dp))
         StaminaCard(modifier = Modifier.fillMaxWidth(), time = staminaTime)
+        Spacer(modifier = Modifier.size(20.dp))
+        Row(
+            modifier = Modifier.fillMaxWidth(),
+        ){
+            CardHoursStamina(
+                modifier = Modifier.weight(1f),
+                color = CardDefaults.cardColors(
+                    containerColor = MaterialTheme.colorScheme.tertiaryContainer,
+                    contentColor = MaterialTheme.colorScheme.onTertiaryContainer
+                ),
+                subtitle = greenTimeState.format(),
+                staminaTime = greenTimeState
+            )
+            Spacer(modifier = Modifier.size(10.dp))
+            CardHoursStamina(
+                modifier = Modifier.weight(1f),
+                title = "To full (42:00)",
+                subtitle = fullTimeState.format(),
+                color = CardDefaults.cardColors(
+                    containerColor = MaterialTheme.colorScheme.primaryContainer,
+                    contentColor = MaterialTheme.colorScheme.onPrimaryContainer
+                ),
+                staminaTime = fullTimeState
+            )
+        }
+        Spacer(modifier = Modifier.size(20.dp))
+        Text(
+            text = "Offline regeneration starts 10 minutes after logout: 1 min per 3 min offline up to 39:00, then 1 min per 10 min.",
+            style = MaterialTheme.typography.bodySmall.copy(
+                fontSize = 12.sp,
+                fontWeight = FontWeight.Normal,
+                platformStyle = PlatformTextStyle(
+                    includeFontPadding = false
+                ),
+                lineHeightStyle = LineHeightStyle(
+                    alignment = LineHeightStyle.Alignment.Center,
+                    trim = LineHeightStyle.Trim.Both
+                )
+            )
+        )
     }
 }
 
@@ -78,7 +124,9 @@ fun StaminaCard(modifier: Modifier = Modifier, time: StaminaTime?){
         modifier = modifier,
         shape = MaterialTheme.shapes.extraLargeIncreased.copy(all = CornerSize(35.dp))
     ) {
-        Column(modifier = Modifier.fillMaxWidth().padding(horizontal = 20.dp, vertical = 20.dp)) {
+        Column(modifier = Modifier
+            .fillMaxWidth()
+            .padding(horizontal = 20.dp, vertical = 20.dp)) {
             Row(
                 modifier = Modifier.fillMaxWidth(),
                 horizontalArrangement = Arrangement.SpaceBetween
@@ -100,6 +148,55 @@ fun StaminaCard(modifier: Modifier = Modifier, time: StaminaTime?){
             StaminaSlider(
                 modifier = Modifier.fillMaxWidth(),
                 time = time
+            )
+        }
+    }
+}
+
+@Composable
+fun CardHoursStamina(
+    modifier: Modifier = Modifier,
+    color: CardColors = CardDefaults.cardColors(
+        containerColor = MaterialTheme.colorScheme.primaryContainer,
+        contentColor = MaterialTheme.colorScheme.onPrimaryContainer
+    ),
+    title: String = "To green (39:00)",
+    subtitle: String = "5h 00m",
+    staminaTime: StaminaTime
+){
+    Card(
+        modifier = modifier,
+        shape = MaterialTheme.shapes.extraLargeIncreased.copy(all = CornerSize(35.dp)),
+        colors = color
+    ) {
+        Column(modifier = Modifier.padding(20.dp)) {
+            Text(
+                style = MaterialTheme.typography.titleLarge.copy(
+                    fontSize = 12.sp, fontWeight = FontWeight.Bold,
+                    platformStyle = PlatformTextStyle(
+                        includeFontPadding = false
+                    ),
+                    lineHeightStyle = LineHeightStyle(
+                        alignment = LineHeightStyle.Alignment.Center,
+                        trim = LineHeightStyle.Trim.Both
+                    )
+                ),
+                color = MaterialTheme.colorScheme.onPrimaryContainer.copy(alpha = 0.6f),
+                text = title
+            )
+            Text(
+                style = MaterialTheme.typography.displayMedium.copy(
+                    fontSize = 26.sp,
+                    platformStyle = PlatformTextStyle(
+                        includeFontPadding = false
+                    ),
+                    lineHeightStyle = LineHeightStyle(
+                        alignment = LineHeightStyle.Alignment.Center,
+                        trim = LineHeightStyle.Trim.Both
+                    )
+                ),
+                fontWeight = FontWeight.ExtraBold,
+                text = subtitle
             )
         }
     }
@@ -176,7 +273,9 @@ fun StaminaSlider(
 fun StaminaCardPreview(){
     TibiaToolsTheme(darkTheme = true) {
         StaminaCard(
-            modifier = Modifier.fillMaxWidth().padding(10.dp),
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(10.dp),
             time = StaminaTime(39, 0)
         )
     }
@@ -188,7 +287,9 @@ fun StaminaCardPreview(){
 fun StaminaCardOrangePreview(){
     TibiaToolsTheme(darkTheme = true) {
         StaminaCard(
-            modifier = Modifier.fillMaxWidth().padding(10.dp),
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(10.dp),
             time = StaminaTime(14, 0)
         )
     }
@@ -199,7 +300,9 @@ fun StaminaCardOrangePreview(){
 fun StaminaCardRedPreview(){
     TibiaToolsTheme(darkTheme = true) {
         StaminaCard(
-            modifier = Modifier.fillMaxWidth().padding(10.dp),
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(10.dp),
             time = StaminaTime(1, 0)
         )
     }
@@ -210,7 +313,9 @@ fun StaminaCardRedPreview(){
 fun StaminaScreenPreview(){
     TibiaToolsTheme {
         StaminaScreen(
-            modifier = Modifier.fillMaxWidth().padding(10.dp)
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(10.dp)
         )
     }
 }

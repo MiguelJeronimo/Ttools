@@ -1,12 +1,20 @@
 package com.example.TibiaTools.presentation
 
 import android.util.Log
+import androidx.compose.animation.ContentTransform
+import androidx.compose.animation.EnterTransition
+import androidx.compose.animation.ExitTransition
+import androidx.compose.animation.core.CubicBezierEasing
+import androidx.compose.animation.core.LinearOutSlowInEasing
+import androidx.compose.animation.core.tween
 import androidx.compose.animation.fadeIn
 import androidx.compose.animation.fadeOut
 import androidx.compose.animation.scaleIn
 import androidx.compose.animation.scaleOut
 import androidx.compose.animation.slideInHorizontally
+import androidx.compose.animation.slideInVertically
 import androidx.compose.animation.slideOutHorizontally
+import androidx.compose.animation.slideOutVertically
 import androidx.compose.animation.togetherWith
 import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.foundation.layout.fillMaxSize
@@ -27,7 +35,9 @@ import androidx.compose.material3.rememberDrawerState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.unit.dp
 import androidx.navigation3.runtime.NavEntry
 import androidx.navigation3.runtime.rememberNavBackStack
 import androidx.navigation3.ui.NavDisplay
@@ -40,6 +50,16 @@ import com.example.TibiaTools.presentation.screens.ToolsScreen
 import com.example.TibiaTools.utils.ex.back
 import com.example.TibiaTools.utils.ex.navigateTo
 import kotlinx.coroutines.launch
+
+
+private val FadeUpEasing = CubicBezierEasing(0.2f, 0.9f, 0.3f, 1.1f)
+
+private fun fadeInUp(offsetPx: Int): ContentTransform =
+    (fadeIn(tween(380, easing = LinearOutSlowInEasing)) +
+            slideInVertically(
+                animationSpec = tween(380, easing = FadeUpEasing),
+                initialOffsetY = { offsetPx },
+            )) togetherWith ExitTransition.None
 
 @Composable
 fun MainScreen() {
@@ -122,6 +142,8 @@ fun MainScreen() {
             },
             contentWindowInsets = WindowInsets(0, 0, 0, 0)
         ) { innerPadding ->
+            val offsetPx = with(LocalDensity.current) { 18.dp.roundToPx() }
+
             NavDisplay(
                 modifier = Modifier
                     .fillMaxSize()
@@ -152,47 +174,11 @@ fun MainScreen() {
                         else -> error("Unknown screen: $keyScreen")
                     }
                 },
-                transitionSpec = {
-                    (slideInHorizontally(
-                        animationSpec = expressiveScheme.defaultSpatialSpec(),
-                        initialOffsetX = { fullWidth -> (fullWidth * 0.15f).toInt() }
-                    ) + fadeIn(
-                        animationSpec = expressiveScheme.defaultEffectsSpec()
-                    ) + scaleIn(
-                        animationSpec = expressiveScheme.defaultSpatialSpec(),
-                        initialScale = 0.95f
-                    )).togetherWith(
-                        slideOutHorizontally(
-                            animationSpec = expressiveScheme.defaultSpatialSpec(),
-                            targetOffsetX = { fullWidth -> -(fullWidth * 0.10f).toInt() }
-                        ) + fadeOut(
-                            animationSpec = expressiveScheme.defaultEffectsSpec()
-                        ) + scaleOut(
-                            animationSpec = expressiveScheme.defaultSpatialSpec(),
-                            targetScale = 0.92f
-                        )
-                    )
-                },
-                popTransitionSpec = {
-                    (slideInHorizontally(
-                        animationSpec = expressiveScheme.defaultSpatialSpec(),
-                        initialOffsetX = { fullWidth -> -(fullWidth * 0.10f).toInt() }
-                    ) + fadeIn(
-                        animationSpec = expressiveScheme.defaultEffectsSpec()
-                    ) + scaleIn(
-                        animationSpec = expressiveScheme.defaultSpatialSpec(),
-                        initialScale = 0.92f
-                    )).togetherWith(
-                        slideOutHorizontally(
-                            animationSpec = expressiveScheme.defaultSpatialSpec(),
-                            targetOffsetX = { fullWidth -> (fullWidth * 0.15f).toInt() }
-                        ) + fadeOut(
-                            animationSpec = expressiveScheme.defaultEffectsSpec()
-                        ) + scaleOut(
-                            animationSpec = expressiveScheme.defaultSpatialSpec(),
-                            targetScale = 0.95f
-                        )
-                    )
+                transitionSpec = { fadeInUp(offsetPx) },
+                popTransitionSpec = { fadeInUp(offsetPx) },
+                predictivePopTransitionSpec = {
+                    EnterTransition.None togetherWith
+                            (fadeOut() + slideOutVertically(targetOffsetY = { offsetPx }))
                 },
             )
         }
