@@ -1,5 +1,8 @@
 package com.example.TibiaTools.operations
 
+import com.example.TibiaTools.utils.ex.StaminaLevel
+import com.example.TibiaTools.utils.ex.level
+import com.example.TibiaTools.utils.ex.progress
 import org.junit.Assert.assertEquals
 import org.junit.Assert.assertNull
 import org.junit.Test
@@ -9,19 +12,19 @@ class StaminaCalculatorTest {
     // region parse
     @Test
     fun `parse accepts H mm and HH mm`() {
-        assertEquals(StaminaCalculator.parse("9:05"), StaminaTime(9, 5))
-        assertEquals(StaminaCalculator.parse("39:30"), StaminaTime(39, 30))
-        assertEquals(StaminaCalculator.parse("42:00"), StaminaTime(42, 0))
+        assertEquals(StaminaTime(9, 5), StaminaCalculator.parse("9:05"))
+        assertEquals(StaminaTime(39, 30), StaminaCalculator.parse("39:30"))
+        assertEquals(StaminaTime(42, 0), StaminaCalculator.parse("42:00"))
     }
 
     @Test
     fun `parse accepts zero hours`() {
-        assertEquals(StaminaCalculator.parse("0:30"), StaminaTime(0, 30))
+        assertEquals(StaminaTime(0, 30), StaminaCalculator.parse("0:30"))
     }
 
     @Test
     fun `parse trims whitespace`() {
-        assertEquals(StaminaCalculator.parse("  10:00 "), StaminaTime(10, 0))
+        assertEquals(StaminaTime(10, 0), StaminaCalculator.parse("  10:00 "))
     }
 
     @Test
@@ -38,11 +41,46 @@ class StaminaCalculatorTest {
     }
     // endregion
 
+    // region timeToGreenStamina
+    @Test
+    fun `time to green stamina from below green`() {
+        // 37:20 (2240 min) -> falta 100 min -> 100 * 3 + 10 = 310 min = 5:10
+        assertEquals(StaminaTime(5, 10), StaminaCalculator.timeToGreenStamina(StaminaTime(37, 20)))
+    }
+
+    @Test
+    fun `time to green stamina from zero`() {
+        // 0:00 (0 min) -> falta 2340 min -> 2340 * 3 + 10 = 7030 min = 117:10
+        assertEquals(StaminaTime(117, 10), StaminaCalculator.timeToGreenStamina(StaminaTime(0, 0)))
+    }
+
+    @Test
+    fun `time to green stamina when already in green`() {
+        assertEquals(StaminaTime(0, 0), StaminaCalculator.timeToGreenStamina(StaminaTime(39, 0)))
+        assertEquals(StaminaTime(0, 0), StaminaCalculator.timeToGreenStamina(StaminaTime(40, 0)))
+        assertEquals(StaminaTime(0, 0), StaminaCalculator.timeToGreenStamina(StaminaTime(42, 0)))
+    }
+
+    @Test(expected = IllegalArgumentException::class)
+    fun `time to green stamina rejects values above max`() {
+        StaminaCalculator.timeToGreenStamina(StaminaTime(42, 1))
+    }
+    // endregion
+
     // region timeToFullStamina
     @Test
-    fun `time to full stamina from 39 30`() {
-        // Faltan 150 min → 150 × 6 + 10 = 910 min = 15:10
+    fun `time to full stamina from green range 39 30`() {
+        // Faltan 150 min -> 150 * 6 + 10 = 910 min = 15:10
         assertEquals(StaminaTime(15, 10), StaminaCalculator.timeToFullStamina(StaminaTime(39, 30)))
+    }
+
+    @Test
+    fun `time to full stamina from normal range 37 20`() {
+        // Normal (2340-2240=100 min) * 3 = 300 min
+        // Green 180 min * 6 = 1080 min
+        // Delay = 10 min
+        // Total = 1390 min = 23:10
+        assertEquals(StaminaTime(23, 10), StaminaCalculator.timeToFullStamina(StaminaTime(37, 20)))
     }
 
     @Test
@@ -52,8 +90,11 @@ class StaminaCalculatorTest {
 
     @Test
     fun `time to full stamina from zero`() {
-        // 2520 × 6 + 10 = 15130 min = 252:10
-        assertEquals(StaminaTime(252, 10), StaminaCalculator.timeToFullStamina(StaminaTime(0, 0)))
+        // Normal: 2340 * 3 = 7020 min
+        // Green: 180 * 6 = 1080 min
+        // Delay: 10 min
+        // Total = 8110 min = 135:10
+        assertEquals(StaminaTime(135, 10), StaminaCalculator.timeToFullStamina(StaminaTime(0, 0)))
     }
 
     @Test
@@ -76,9 +117,16 @@ class StaminaCalculatorTest {
     }
 
     @Test
+    fun `stamina time percent`() {
+        assertEquals(0.0f, StaminaTime(0, 0).percent(), 0.001f)
+        assertEquals(0.5f, StaminaTime(21, 0).percent(), 0.001f)
+        assertEquals(1.0f, StaminaTime(42, 0).percent(), 0.001f)
+    }
+
+    @Test
     fun `fromMinutes splits hours and minutes`() {
-        assertEquals(StaminaTime.fromMinutes(125), StaminaTime(2, 5))
-        assertEquals(StaminaTime.fromMinutes(0), StaminaTime(0, 0))
+        assertEquals(StaminaTime(2, 5), StaminaTime.fromMinutes(125))
+        assertEquals(StaminaTime(0, 0), StaminaTime.fromMinutes(0))
     }
 
     @Test(expected = IllegalArgumentException::class)
@@ -94,6 +142,26 @@ class StaminaCalculatorTest {
     @Test(expected = IllegalArgumentException::class)
     fun `fromMinutes rejects negative values`() {
         StaminaTime.fromMinutes(-1)
+    }
+    // endregion
+
+    // region StaminaEx extensions
+    @Test
+    fun `stamina level classification`() {
+        assertEquals(StaminaLevel.GREEN, StaminaTime(42, 0).level())
+        assertEquals(StaminaLevel.GREEN, StaminaTime(39, 0).level())
+        assertEquals(StaminaLevel.ORANGE, StaminaTime(38, 59).level())
+        assertEquals(StaminaLevel.ORANGE, StaminaTime(14, 0).level())
+        assertEquals(StaminaLevel.RED, StaminaTime(13, 59).level())
+        assertEquals(StaminaLevel.RED, StaminaTime(0, 1).level())
+        assertEquals(StaminaLevel.EMPTY, StaminaTime(0, 0).level())
+    }
+
+    @Test
+    fun `stamina progress extension`() {
+        assertEquals(0.0f, StaminaTime(0, 0).progress(), 0.001f)
+        assertEquals(0.5f, StaminaTime(21, 0).progress(), 0.001f)
+        assertEquals(1.0f, StaminaTime(42, 0).progress(), 0.001f)
     }
     // endregion
 }
