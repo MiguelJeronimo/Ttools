@@ -1,27 +1,19 @@
 package com.example.TibiaTools.operations
 
 /**
- * Calcula cuánto tiempo tiene que estar un personaje desconectado para recuperar toda su
- * stamina (42:00).
+ * Calcula cuánto tiempo tiene que estar un personaje desconectado para llegar a la stamina
+ * verde (39:00) y a la stamina completa (42:00).
  *
- * Regla que se usa (la misma que tenía `staminaTibia`):
- * `tiempo offline = (minutos que faltan) × 6 + 10`. Los 10 minutos son la espera antes de
- * que empiece la regeneración.
- *
- * Sustituye a `staminaTibia`, que tenía 9 campos mutables y un "constructor" que en
- * realidad era un método `void`. Cambios de comportamiento:
- * - [parse] rechaza valores mayores que 42:00. Antes la regex aceptaba hasta 42:59 y el
- *   resultado salía negativo.
- * - [parse] acepta 0:xx. Antes se descartaba sin avisar al usuario.
- * - Si la stamina ya está completa, el resultado es 0:00 (antes salía 0:10).
+ * Reglas:
+ * - Hasta 39:00: 3 minutos offline por cada minuto de stamina.
+ * - De 39:00 a 42:00: 6 minutos offline por cada minuto de stamina.
+ * - La regeneración empieza tras 10 minutos offline.
  *
  * Ejemplo:
  * ```kotlin
- * val current = StaminaCalculator.parse("39:30") ?: return showError()
- * val offline = StaminaCalculator.timeToFullStamina(current)
- * offline.hours   // 15
- * offline.minutes // 10
- * offline.format() // "15:10"
+ * val current = StaminaCalculator.parse("37:20") ?: return showError()
+ * StaminaCalculator.timeToGreenStamina(current).format() // "5:10"
+ * StaminaCalculator.timeToFullStamina(current).format()  // "23:10"
  * ```
  */
 object StaminaCalculator {
@@ -29,8 +21,14 @@ object StaminaCalculator {
     /** Stamina máxima en minutos (42 h). */
     const val MAX_STAMINA_MINUTES = 42 * 60
 
-    /** Minutos offline necesarios para regenerar 1 minuto de stamina. */
-    const val OFFLINE_MINUTES_PER_STAMINA_MINUTE = 6
+    /**Stamina maxima en color verde 39:00**/
+    private const val GREEN_THRESHOLD_MINUTES = 39 * 60
+
+    /** Minutos offline para regenerar 1 minuto de stamina por debajo de la zona verde. */
+    const val OFFLINE_MINUTES_PER_NORMAL_MINUTE = 3
+
+    /** Minutos offline para regenerar 1 minuto de stamina dentro de la zona verde. */
+    const val OFFLINE_MINUTES_PER_GREEN_MINUTE = 6
 
     /** Minutos offline antes de que empiece la regeneración. */
     const val REGENERATION_DELAY_MINUTES = 10
@@ -50,18 +48,69 @@ object StaminaCalculator {
     }
 
     /**
+     * Calcula el tiempo offline necesario para llegar a la stamina verde (39:00).
+     *
+     * Fórmula, con `actual` en minutos:
+     * ```
+     * tramoNormal = max(2340 - actual, 0) × 3
+     * tiempoOffline = 0                  si tramoNormal = 0
+     * tiempoOffline = tramoNormal + 10   en otro caso
+     * ```
+     *
+     * Ejemplo con 37:20 (2240 min): `(2340 - 2240) × 3 + 10 = 310 min`, es decir, `5:10`.
+     *
      * @param current stamina actual (0:00 – 42:00).
-     * @return tiempo que hay que estar offline para llegar a 42:00.
+     * @return tiempo que hay que estar offline para llegar a 39:00, o 0:00 si ya se alcanzó.
+     * @throws IllegalArgumentException si [current] supera la stamina máxima.
+     */
+    fun timeToGreenStamina(current: StaminaTime): StaminaTime {
+        requireValid(current)
+        return offlineTime(normalRegenerationMinutes(current))
+    }
+
+    /**
+     * Calcula el tiempo offline necesario para llegar a la stamina completa (42:00).
+     *
+     * Fórmula, con `actual` en minutos:
+     * ```
+     * tramoNormal = max(2340 - actual, 0) × 3
+     * tramoVerde = (2520 - max(actual, 2340)) × 6
+     * tiempoOffline = 0                               si tramoNormal + tramoVerde = 0
+     * tiempoOffline = tramoNormal + tramoVerde + 10   en otro caso
+     * ```
+     *
+     * Ejemplo con 37:20 (2240 min): `(100 × 3) + (180 × 6) + 10 = 1390 min`, es decir, `23:10`.
+     *
+     * @param current stamina actual (0:00 – 42:00).
+     * @return tiempo que hay que estar offline para llegar a 42:00, o 0:00 si ya se alcanzó.
      * @throws IllegalArgumentException si [current] supera la stamina máxima.
      */
     fun timeToFullStamina(current: StaminaTime): StaminaTime {
+        requireValid(current)
+        return offlineTime(normalRegenerationMinutes(current) + greenRegenerationMinutes(current))
+    }
+
+
+    private fun requireValid(current: StaminaTime) {
         require(current.totalMinutes <= MAX_STAMINA_MINUTES) {
             "La stamina no puede superar 42:00 (recibido: ${current.format()})"
         }
-        val missing = MAX_STAMINA_MINUTES - current.totalMinutes
-        if (missing == 0) return StaminaTime(0, 0)
-        return StaminaTime.fromMinutes(missing * OFFLINE_MINUTES_PER_STAMINA_MINUTE + REGENERATION_DELAY_MINUTES)
     }
+
+    private fun normalRegenerationMinutes(current: StaminaTime): Int =
+        (GREEN_THRESHOLD_MINUTES - current.totalMinutes).coerceAtLeast(0) *
+                OFFLINE_MINUTES_PER_NORMAL_MINUTE
+
+    private fun greenRegenerationMinutes(current: StaminaTime): Int =
+        (MAX_STAMINA_MINUTES - maxOf(current.totalMinutes, GREEN_THRESHOLD_MINUTES)) *
+                OFFLINE_MINUTES_PER_GREEN_MINUTE
+
+    private fun offlineTime(regenerationMinutes: Int): StaminaTime =
+        if (regenerationMinutes == 0) {
+            StaminaTime(0, 0)
+        } else {
+            StaminaTime.fromMinutes(regenerationMinutes + REGENERATION_DELAY_MINUTES)
+        }
 }
 
 /**
@@ -76,11 +125,20 @@ data class StaminaTime(val hours: Int, val minutes: Int) {
         require(minutes in 0..59) { "minutes debe estar entre 0 y 59 (recibido: $minutes)" }
     }
 
+    /** Stamina máxima en minutos (42 h). */
+    private val MAX_STAMINA_MINUTES = 42 * 60
     /** Duración total en minutos. */
     val totalMinutes: Int get() = hours * 60 + minutes
 
     /** @return la duración como `H:mm`, p. ej. `"15:05"`. */
     fun format(): String = "$hours:${minutes.toString().padStart(2, '0')}"
+
+    /**
+     * @return porcentaje entre el tiempo actual de stamina con respecto al 42:00
+     * **/
+    fun percent(): Float {
+        return totalMinutes.toFloat()/MAX_STAMINA_MINUTES.toFloat()
+    }
 
     companion object {
         /** Crea un [StaminaTime] a partir de un total de minutos (≥ 0). */

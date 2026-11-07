@@ -7,7 +7,6 @@ import android.webkit.WebSettings
 import android.webkit.WebView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
-import androidx.navigation.ui.AppBarConfiguration
 import com.example.TibiaTools.utils.NetworkValidator
 import com.example.ttools.R
 import com.example.ttools.databinding.ActivityTibiaMapsBinding

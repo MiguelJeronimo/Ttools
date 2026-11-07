@@ -5,7 +5,7 @@ import com.example.TibiaTools.data.repository.TibiaRepositoryImpl
 import com.example.TibiaTools.data.retrofit.TibiaAPIServer
 import com.example.TibiaTools.domain.repository.TibiaRepository
 import com.example.TibiaTools.domain.usecase.*
-import org.koin.androidx.viewmodel.dsl.viewModel
+import org.koin.core.module.dsl.viewModel
 import org.koin.dsl.module
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory

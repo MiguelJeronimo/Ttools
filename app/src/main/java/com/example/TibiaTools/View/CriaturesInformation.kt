@@ -13,11 +13,11 @@ import android.widget.TextView
 import android.widget.Toast
 import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
+import com.bumptech.glide.Glide
 import com.example.TibiaTools.View.ViewModel.ViewModelCreature
 import com.example.TibiaTools.data.model.*
 import com.example.ttools.R
 import com.example.ttools.databinding.ActivityCriaturesInformationBinding
-import com.squareup.picasso.Picasso
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import java.util.Objects
 
@@ -78,7 +78,7 @@ class CriaturesInformation : AppCompatActivity() {
                 creatureExp.visibility = View.VISIBLE
 
                 val imageCreature = creature.image_url
-                Picasso.get().load(imageCreature).into(creatureImage)
+                Glide.with(creatureImage).load(imageCreature).into(creatureImage)
                 creatureImage.visibility = View.VISIBLE
 
                 binding.root.findViewById<View>(R.id.cardDescriptionCreature)?.visibility = View.VISIBLE

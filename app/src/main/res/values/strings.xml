@@ -23,19 +23,19 @@
     <string name="nav_open">Open</string>
     <string name="nav_close">Close</string>
     <!--Titulos de los items del navigation drawer-->
-    <string name="nd_character">Jugadores</string>
-    <string name="nd_experiencia_compartida">Experiencia compartida</string>
+    <string name="nd_character">Player</string>
+    <string name="nd_experiencia_compartida">Shared Experience</string>
     <string name="nd_stamina">Stamina</string>
-    <string name="nd_mundos">Mundos</string>
+    <string name="nd_mundos">Worlds</string>
     <string name="nd_criaturas">Criaturas</string>
     <string name="nd_guild">Guilds</string>
-    <string name="nd_spells">Magias</string>
+    <string name="nd_spells">Spells</string>
     <string name="nd_maps">Tibia Maps</string>
     <string name="nd_bless">Blessings</string>
-    <string name="nd_highscores">Highscores</string>
-    <string name="nd_houses">Casas</string>
+    <string name="nd_highscores">HighScores</string>
+    <string name="nd_houses">Houses</string>
     <string name="nd_salir">Salir</string>
-    <string name="nd_about">Acerca de</string>
+    <string name="nd_about">About</string>
     <string name="title_activity_tibia_maps">Tibia Maps</string>
     <!-- Strings used for fragments for navigation -->
     <string name="first_fragment_label">First Fragment</string>

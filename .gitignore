@@ -1,16 +1,46 @@
+# ─── Gradle ───────────────────────────────────────────────
+.gradle/
+build/
+!gradle/wrapper/gradle-wrapper.jar
+# Caché de compilación incremental de Kotlin 2.x (se crea en la raíz del proyecto)
+.kotlin/
+
+# ─── Configuración local ─────────────────────────────────
+local.properties
+
+# ─── Android Studio / IntelliJ ───────────────────────────
+# Se ignora toda la carpeta .idea porque Android Studio la regenera en cada sync
+# (gradle.xml, misc.xml, deploymentTargetSelector.xml, ...). Solo se comparten el
+# estilo de código y los perfiles de inspección del equipo.
+.idea/*
+!.idea/codeStyles/
+!.idea/inspectionProfiles/
 *.iml
-.gradle
-/local.properties
-/.idea/caches
-/.idea/libraries
-/.idea/modules.xml
-/.idea/workspace.xml
-/.idea/navEditor.xml
-/.idea/assetWizardSettings.xml
-.DS_Store
-/build
-/captures
-.externalNativeBuild
-.cxx
+*.ipr
+*.iws
+out/
+captures/
+.navigation/
+
+# ─── Builds nativos ──────────────────────────────────────
+.externalNativeBuild/
+.cxx/
+
+# ─── Artefactos de salida ────────────────────────────────
+*.apk
+*.aab
+*.ap_
+*.dex
 /.artifacts/
-/.idea/*
+app/release/
+output-metadata.json
+
+# ─── Firma (nunca versionar llaves) ──────────────────────
+*.jks
+*.keystore
+keystore.properties
+
+# ─── Logs y sistema operativo ────────────────────────────
+*.log
+.DS_Store
+Thumbs.db

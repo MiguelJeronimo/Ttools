@@ -1,16 +1,42 @@
-package com.example.TibiaTools.presentation
+package com.example.TibiaTools.presentation.screens
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
-import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.PaddingValues
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.WindowInsets
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.offset
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.*
-import androidx.compose.material3.*
-import androidx.compose.runtime.*
+import androidx.compose.material.icons.filled.Campaign
+import androidx.compose.material.icons.filled.Group
+import androidx.compose.material.icons.filled.Map
+import androidx.compose.material.icons.filled.Public
+import androidx.compose.material.icons.filled.Refresh
+import androidx.compose.material.icons.filled.Schedule
+import androidx.compose.material.icons.filled.Star
+import androidx.compose.material.icons.filled.Storefront
+import androidx.compose.material3.Card
+import androidx.compose.material3.CardDefaults
+import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.Icon
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Scaffold
+import androidx.compose.material3.Text
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.getValue
 import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -23,10 +49,11 @@ import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import coil.compose.AsyncImage
+import coil3.compose.AsyncImage
 import com.example.TibiaTools.View.ViewModel.ViewModelHome
 import com.example.TibiaTools.data.model.News
 import com.example.TibiaTools.presentation.theme.TibiaToolsTheme
+import org.koin.androidx.compose.koinViewModel
 import java.util.Calendar
 
 data class QuickToolItem(
@@ -39,28 +66,28 @@ data class QuickToolItem(
 
 @Composable
 fun HomeScreen(
-    viewModel: ViewModelHome,
+    modifier: Modifier = Modifier,
     onMenuClick: () -> Unit = {},
     onSearchClick: () -> Unit = {},
     onWorldsClick: () -> Unit = {},
     onToolClick: (String) -> Unit = {},
     onNewsClick: (News) -> Unit = {},
-    modifier: Modifier = Modifier
+    homeViewModel: ViewModelHome = koinViewModel()
 ) {
-    val worldsState by viewModel.worlds.observeAsState()
-    val playersOnlineState by viewModel.playersOnline.observeAsState()
-    val rashidState by viewModel.rashidLocation.observeAsState()
-    val creatureBossState by viewModel.creatureBoss.observeAsState()
-    val bostedBossState by viewModel.bostedBoss.observeAsState()
-    val newsState by viewModel.news.observeAsState()
+    val worldsState by homeViewModel.worlds.observeAsState()
+    val playersOnlineState by homeViewModel.playersOnline.observeAsState()
+    val rashidState by homeViewModel.rashidLocation.observeAsState()
+    val creatureBossState by homeViewModel.creatureBoss.observeAsState()
+    val bostedBossState by homeViewModel.bostedBoss.observeAsState()
+    val newsState by homeViewModel.news.observeAsState()
 
     LaunchedEffect(Unit) {
-        viewModel.setWorlds()
-        viewModel.setPlayersOnline()
-        viewModel.setRashirLocation()
-        viewModel.setCreatureBoss()
-        viewModel.setBostedBoss()
-        viewModel.setNews()
+        homeViewModel.setWorlds()
+        homeViewModel.setPlayersOnline()
+        homeViewModel.setRashirLocation()
+        homeViewModel.setCreatureBoss()
+        homeViewModel.setBostedBoss()
+        homeViewModel.setNews()
     }
 
     val totalOnline = playersOnlineState?.players_online ?: worldsState?.players_online ?: 0
@@ -73,6 +100,7 @@ fun HomeScreen(
     val newsList = newsState?.news ?: emptyList()
 
     HomeContent(
+        modifier = modifier,
         totalOnline = totalOnline,
         totalWorlds = totalWorlds,
         rashidCity = rashidCity,
@@ -85,14 +113,15 @@ fun HomeScreen(
         onSearchClick = onSearchClick,
         onWorldsClick = onWorldsClick,
         onToolClick = onToolClick,
-        onNewsClick = onNewsClick,
-        modifier = modifier
+        onNewsClick = onNewsClick
     )
 }
+
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun HomeContent(
+    modifier: Modifier = Modifier,
     totalOnline: Int,
     totalWorlds: Int,
     rashidCity: String,
@@ -105,43 +134,12 @@ fun HomeContent(
     onSearchClick: () -> Unit = {},
     onWorldsClick: () -> Unit = {},
     onToolClick: (String) -> Unit = {},
-    onNewsClick: (News) -> Unit = {},
-    modifier: Modifier = Modifier
+    onNewsClick: (News) -> Unit = {}
 ) {
     Scaffold(
-        topBar = {
-            TopAppBar(
-                title = {
-                    Text(
-                        text = "TibiaTools",
-                        style = MaterialTheme.typography.titleLarge,
-                        fontWeight = FontWeight.Bold
-                    )
-                },
-                navigationIcon = {
-                    IconButton(onClick = onMenuClick) {
-                        Icon(
-                            imageVector = Icons.Default.Menu,
-                            contentDescription = "Menu"
-                        )
-                    }
-                },
-                actions = {
-                    IconButton(onClick = onSearchClick) {
-                        Icon(
-                            imageVector = Icons.Default.PersonSearch,
-                            contentDescription = "Search"
-                        )
-                    }
-                },
-                colors = TopAppBarDefaults.topAppBarColors(
-                    containerColor = MaterialTheme.colorScheme.background,
-                    titleContentColor = MaterialTheme.colorScheme.onBackground
-                )
-            )
-        },
+        modifier = modifier,
+        contentWindowInsets = WindowInsets(0, 0, 0, 0),
         containerColor = MaterialTheme.colorScheme.background,
-        modifier = modifier
     ) { paddingValues ->
         LazyColumn(
             modifier = Modifier
@@ -220,7 +218,7 @@ fun PlayersOnlineHeroCard(
     Card(
         shape = RoundedCornerShape(32.dp),
         colors = CardDefaults.cardColors(
-            containerColor = Color(0xFF004D64), // Expressive Hero background
+            containerColor = Color(0xFF004D64),
             contentColor = Color(0xFFBDE9FF)
         ),
         modifier = Modifier
@@ -231,7 +229,6 @@ fun PlayersOnlineHeroCard(
         Box(
             modifier = Modifier.fillMaxWidth()
         ) {
-            // Background Decorative Blob 1 (Top-Right)
             Box(
                 modifier = Modifier
                     .align(Alignment.TopEnd)
@@ -243,7 +240,6 @@ fun PlayersOnlineHeroCard(
                     )
             )
 
-            // Background Decorative Blob 2 (Bottom-Right)
             Box(
                 modifier = Modifier
                     .align(Alignment.BottomEnd)
@@ -255,14 +251,12 @@ fun PlayersOnlineHeroCard(
                     )
             )
 
-            // Card Foreground Content
             Column(
                 modifier = Modifier
                     .fillMaxWidth()
                     .padding(horizontal = 22.dp, vertical = 20.dp),
                 verticalArrangement = Arrangement.spacedBy(6.dp)
             ) {
-                // Indicator Dot + Label
                 Row(
                     verticalAlignment = Alignment.CenterVertically,
                     horizontalArrangement = Arrangement.spacedBy(6.dp)
@@ -281,7 +275,6 @@ fun PlayersOnlineHeroCard(
                     )
                 }
 
-                // Online Number
                 Text(
                     text = String.format("%,d", if (totalOnline > 0) totalOnline else 17445),
                     style = MaterialTheme.typography.displayMedium,
@@ -290,13 +283,11 @@ fun PlayersOnlineHeroCard(
                     letterSpacing = (-1).sp
                 )
 
-                // Chips Row
                 Row(
                     modifier = Modifier.padding(top = 8.dp),
                     horizontalArrangement = Arrangement.spacedBy(8.dp),
                     verticalAlignment = Alignment.CenterVertically
                 ) {
-                    // Worlds Chip
                     Box(
                         modifier = Modifier
                             .height(28.dp)
@@ -325,7 +316,6 @@ fun PlayersOnlineHeroCard(
                         }
                     }
 
-                    // Server Save Chip
                     Box(
                         modifier = Modifier
                             .height(28.dp)
@@ -620,19 +610,15 @@ private val sampleNewsList = listOf(
     News(id = "3", date = "2024-03-03", news = "New Server Save times and maintenance window update.", category = "technical", type = "news")
 )
 
-@Preview(showBackground = true, showSystemUi = true)
+
+@Preview(showBackground = true)
 @Composable
 fun HomeScreenPreview() {
     TibiaToolsTheme(darkTheme = true) {
-        HomeContent(
+        PlayersOnlineHeroCard(
             totalOnline = 17445,
             totalWorlds = 96,
-            rashidCity = "Carlin",
-            boostedCreatureName = "Dragon",
-            boostedCreatureImage = "https://static.tibia.com/images/library/dragon.gif",
-            boostedBossName = "Ferumbras",
-            boostedBossImage = "https://static.tibia.com/images/library/ferumbras.gif",
-            newsList = sampleNewsList
+            onWorldsClick = {}
         )
     }
 }
