@@ -245,7 +245,6 @@ fun CharacterCard(
                 modifier = Modifier.weight(1f),
                 verticalArrangement = Arrangement.spacedBy(2.dp)
             ) {
-                // Nombre (Tachado si está eliminado)
                 Text(
                     text = name,
                     style = MaterialTheme.typography.titleMedium.copy(
@@ -294,8 +293,8 @@ fun CharacterCard(
                             CharacterBadge(
                                 icon = Icons.Default.Star,
                                 text = "Main",
-                                containerColor = Color(0xFF004D64),
-                                contentColor = Color(0xFF67D3FF)
+                                containerColor = MaterialTheme.colorScheme.primaryContainer,
+                                contentColor = MaterialTheme.colorScheme.primary
                             )
                         }
                         if (isViewing) {
@@ -310,16 +309,16 @@ fun CharacterCard(
                             CharacterBadge(
                                 icon = Icons.Default.SwapHoriz,
                                 text = "Traded",
-                                containerColor = Color(0xFF3B3858),
-                                contentColor = Color(0xFFC6C2EA)
+                                containerColor = MaterialTheme.colorScheme.tertiaryContainer,
+                                contentColor = MaterialTheme.colorScheme.tertiary
                             )
                         }
                         if (isDeleted) {
                             CharacterBadge(
                                 icon = Icons.Default.Delete,
                                 text = "Deleted",
-                                containerColor = Color(0xFF601410),
-                                contentColor = Color(0xFFF2B8B5)
+                                containerColor = MaterialTheme.colorScheme.onError,
+                                contentColor = MaterialTheme.colorScheme.error
                             )
                         }
                     }

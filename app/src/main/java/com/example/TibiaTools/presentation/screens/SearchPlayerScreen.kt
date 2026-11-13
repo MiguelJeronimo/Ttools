@@ -32,7 +32,6 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
@@ -224,8 +223,8 @@ fun PrimaryCard(
     Card(
         shape = RoundedCornerShape(32.dp),
         colors = CardDefaults.cardColors(
-            containerColor = Color(0xFF004D64),
-            contentColor = Color(0xFFBDE9FF)
+            containerColor = MaterialTheme.colorScheme.primaryContainer,
+            contentColor = MaterialTheme.colorScheme.onPrimary
         ),
         modifier = modifier
             .fillMaxWidth()
@@ -241,7 +240,7 @@ fun PrimaryCard(
                     .offset(x = 36.dp, y = (-40).dp)
                     .size(170.dp)
                     .background(
-                        color = Color(0xFF67D3FF).copy(alpha = 0.16f),
+                        color = MaterialTheme.colorScheme.primary.copy(alpha = 0.16f),
                         shape = CircleShape
                     )
             )
@@ -252,7 +251,7 @@ fun PrimaryCard(
                     .offset(x = (-40).dp, y = 50.dp)
                     .size(90.dp)
                     .background(
-                        color = Color(0xFFC6C2EA).copy(alpha = 0.20f),
+                        color = MaterialTheme.colorScheme.tertiary.copy(alpha = 0.20f),
                         shape = CircleShape
                     )
             )
@@ -339,7 +338,7 @@ fun PrimaryCard(
 @Preview(showBackground = true)
 @Composable
 fun PrimaryCardPreview(){
-    TibiaToolsTheme(darkTheme = true) {
+    TibiaToolsTheme(darkTheme = false) {
         SearchPlayerScreen(modifier = Modifier
             .fillMaxSize()
             .padding(10.dp))

@@ -218,8 +218,8 @@ fun PlayersOnlineHeroCard(
     Card(
         shape = RoundedCornerShape(32.dp),
         colors = CardDefaults.cardColors(
-            containerColor = Color(0xFF004D64),
-            contentColor = Color(0xFFBDE9FF)
+            containerColor = MaterialTheme.colorScheme.primaryContainer,
+            contentColor = MaterialTheme.colorScheme.onPrimary
         ),
         modifier = Modifier
             .fillMaxWidth()
@@ -235,7 +235,7 @@ fun PlayersOnlineHeroCard(
                     .offset(x = 36.dp, y = (-40).dp)
                     .size(170.dp)
                     .background(
-                        color = Color(0xFF67D3FF).copy(alpha = 0.16f),
+                        color = MaterialTheme.colorScheme.primary.copy(alpha = 0.16f),
                         shape = CircleShape
                     )
             )
@@ -246,7 +246,7 @@ fun PlayersOnlineHeroCard(
                     .offset(x = (-40).dp, y = 50.dp)
                     .size(90.dp)
                     .background(
-                        color = Color(0xFFC6C2EA).copy(alpha = 0.20f),
+                        color = MaterialTheme.colorScheme.tertiary.copy(alpha = 0.20f),
                         shape = CircleShape
                     )
             )
@@ -271,7 +271,7 @@ fun PlayersOnlineHeroCard(
                         style = MaterialTheme.typography.labelMedium,
                         fontWeight = FontWeight.SemiBold,
                         letterSpacing = 1.sp,
-                        color = Color(0xFFBDE9FF).copy(alpha = 0.85f)
+                        color = MaterialTheme.colorScheme.onPrimaryContainer.copy(alpha = 0.85f)
                     )
                 }
 
@@ -279,7 +279,7 @@ fun PlayersOnlineHeroCard(
                     text = String.format("%,d", if (totalOnline > 0) totalOnline else 17445),
                     style = MaterialTheme.typography.displayMedium,
                     fontWeight = FontWeight.ExtraBold,
-                    color = Color(0xFFBDE9FF),
+                    color = MaterialTheme.colorScheme.onPrimaryContainer,
                     letterSpacing = (-1).sp
                 )
 
@@ -292,7 +292,7 @@ fun PlayersOnlineHeroCard(
                         modifier = Modifier
                             .height(28.dp)
                             .clip(RoundedCornerShape(14.dp))
-                            .background(Color(0xFF191C1E))
+                            .background(MaterialTheme.colorScheme.inverseOnSurface)
                             .clickable { onWorldsClick() }
                             .padding(horizontal = 10.dp),
                         contentAlignment = Alignment.Center
@@ -305,13 +305,13 @@ fun PlayersOnlineHeroCard(
                                 imageVector = Icons.Default.Public,
                                 contentDescription = null,
                                 modifier = Modifier.size(16.dp),
-                                tint = Color(0xFFE1E2E4)
+                                tint = MaterialTheme.colorScheme.onBackground
                             )
                             Text(
                                 text = "${if (totalWorlds > 0) totalWorlds else 96} worlds",
                                 style = MaterialTheme.typography.labelSmall,
                                 fontWeight = FontWeight.Medium,
-                                color = Color(0xFFE1E2E4)
+                                color = MaterialTheme.colorScheme.onBackground
                             )
                         }
                     }
@@ -320,7 +320,7 @@ fun PlayersOnlineHeroCard(
                         modifier = Modifier
                             .height(28.dp)
                             .clip(RoundedCornerShape(14.dp))
-                            .background(Color(0xFF191C1E))
+                            .background(MaterialTheme.colorScheme.inverseOnSurface)
                             .padding(horizontal = 10.dp),
                         contentAlignment = Alignment.Center
                     ) {
@@ -332,13 +332,13 @@ fun PlayersOnlineHeroCard(
                                 imageVector = Icons.Default.Refresh,
                                 contentDescription = null,
                                 modifier = Modifier.size(16.dp),
-                                tint = Color(0xFFE1E2E4)
+                                tint = MaterialTheme.colorScheme.onBackground
                             )
                             Text(
                                 text = "Server save in ${getServerSaveTime()}",
                                 style = MaterialTheme.typography.labelSmall,
                                 fontWeight = FontWeight.Medium,
-                                color = Color(0xFFE1E2E4)
+                                color = MaterialTheme.colorScheme.onBackground
                             )
                         }
                     }
@@ -614,7 +614,7 @@ private val sampleNewsList = listOf(
 @Preview(showBackground = true)
 @Composable
 fun HomeScreenPreview() {
-    TibiaToolsTheme(darkTheme = true) {
+    TibiaToolsTheme(darkTheme = false) {
         PlayersOnlineHeroCard(
             totalOnline = 17445,
             totalWorlds = 96,
