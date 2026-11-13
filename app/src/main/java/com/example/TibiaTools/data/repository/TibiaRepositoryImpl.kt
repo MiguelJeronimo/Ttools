@@ -1,13 +1,16 @@
 package com.example.TibiaTools.data.repository
 
+import com.example.TibiaTools.data.mapper.toDomain
 import com.example.TibiaTools.data.model.*
 import com.example.TibiaTools.data.retrofit.TibiaAPIServer
+import com.example.TibiaTools.domain.model.CharacterInformation
 import com.example.TibiaTools.domain.repository.TibiaRepository
 
 class TibiaRepositoryImpl(
     private val apiServer: TibiaAPIServer
 ) : TibiaRepository {
-    override suspend fun getCharacter(name: String): APIServicesTibia = apiServer.getPersonajes(name)
+    override suspend fun getCharacter(name: String): CharacterInformation =
+        apiServer.getPersonajes(name).toDomain()
     override suspend fun getWorlds(): DataWords = apiServer.getWorlds()
     override suspend fun getCreatures(): APICriatures = apiServer.getCreature()
     override suspend fun getBoostableBosses(): APIBoostableBosses = apiServer.getBoostableBosses()

@@ -1,9 +1,10 @@
 package com.example.TibiaTools.domain.repository
 
 import com.example.TibiaTools.data.model.*
+import com.example.TibiaTools.domain.model.CharacterInformation
 
 interface TibiaRepository {
-    suspend fun getCharacter(name: String): APIServicesTibia
+    suspend fun getCharacter(name: String): CharacterInformation
     suspend fun getWorlds(): DataWords
     suspend fun getCreatures(): APICriatures
     suspend fun getBoostableBosses(): APIBoostableBosses

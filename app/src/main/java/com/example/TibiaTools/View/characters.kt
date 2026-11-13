@@ -225,7 +225,7 @@ class characters : AppCompatActivity(), View.OnClickListener {
         }
     }
 
-    fun recyclerHouse(houses: ArrayList<CharacterHouse>) {
+    fun recyclerHouse(houses: List<com.example.TibiaTools.domain.model.CharacterHouse>) {
         val linearLayoutManager = LinearLayoutManager(this).apply {
             orientation = LinearLayoutManager.HORIZONTAL
         }
@@ -233,9 +233,9 @@ class characters : AppCompatActivity(), View.OnClickListener {
         for (i in houses.indices) {
             itemsHousesCharacters?.add(
                 ItemsHousesCharacters(
-                    houses[i].name.orEmpty(),
-                    houses[i].town.orEmpty(),
-                    houses[i].paid.orEmpty(),
+                    houses[i].name,
+                    houses[i].town,
+                    houses[i].paid,
                     houses[i].houseid
                 )
             )
@@ -248,7 +248,7 @@ class characters : AppCompatActivity(), View.OnClickListener {
     }
 
     @RequiresApi(Build.VERSION_CODES.N)
-    fun recyclerCharacters(otherCharacters: ArrayList<OtherCharacters>) {
+    fun recyclerCharacters(otherCharacters: List<com.example.TibiaTools.domain.model.OtherCharacter>) {
         val linearLayoutManager = LinearLayoutManager(this).apply {
             orientation = LinearLayoutManager.HORIZONTAL
         }
@@ -256,9 +256,9 @@ class characters : AppCompatActivity(), View.OnClickListener {
         otherCharacters.forEach { charItem ->
             itemsCharacters?.add(
                 ItemsCharacters(
-                    charItem.name.orEmpty(),
-                    charItem.world.orEmpty(),
-                    charItem.status.orEmpty(),
+                    charItem.name,
+                    charItem.world,
+                    charItem.status,
                     charItem.deleted,
                     charItem.main,
                     charItem.traded
@@ -273,7 +273,7 @@ class characters : AppCompatActivity(), View.OnClickListener {
     }
 
     @RequiresApi(Build.VERSION_CODES.N)
-    fun recyclerArchievements(achievements: ArrayList<Achievements>) {
+    fun recyclerArchievements(achievements: List<com.example.TibiaTools.domain.model.Achievement>) {
         val linearLayoutManager = LinearLayoutManager(this).apply {
             orientation = LinearLayoutManager.HORIZONTAL
         }
@@ -281,8 +281,8 @@ class characters : AppCompatActivity(), View.OnClickListener {
         achievements.forEach { achievement ->
             itemsAchievementsCharacters?.add(
                 ItemsAchievementsCharacter(
-                    achievement.name.orEmpty(),
-                    achievement.grade.orEmpty(),
+                    achievement.name,
+                    achievement.grade,
                     achievement.secret
                 )
             )

@@ -1,12 +1,13 @@
 package com.example.TibiaTools.data.retrofit
 
+import com.example.TibiaTools.data.dto.CharacterInformationDto
 import com.example.TibiaTools.data.model.*
 import retrofit2.http.GET
 import retrofit2.http.Path
 
 interface TibiaAPIServer {
     @GET("/v4/character/{name}")
-    suspend fun getPersonajes(@Path("name") name: String): APIServicesTibia
+    suspend fun getPersonajes(@Path("name") name: String): CharacterInformationDto
 
     @GET("/v4/worlds")
     suspend fun getWorlds(): DataWords
