@@ -4,11 +4,12 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.TibiaTools.data.model.ApiNews
-import com.example.TibiaTools.data.model.ApiNewsTicker
-import com.example.TibiaTools.data.model.BoostableBosses
-import com.example.TibiaTools.data.model.Criatures
-import com.example.TibiaTools.data.model.Worlds
+import com.example.TibiaTools.domain.model.BoostableBossesData
+import com.example.TibiaTools.domain.model.CreaturesData
+import com.example.TibiaTools.domain.model.NewsItem
+import com.example.TibiaTools.domain.model.NewsResponse
+import com.example.TibiaTools.domain.model.NewsTickerResponse
+import com.example.TibiaTools.domain.model.WorldsData
 import com.example.TibiaTools.domain.usecase.GetBoostableBossesUseCase
 import com.example.TibiaTools.domain.usecase.GetCreaturesUseCase
 import com.example.TibiaTools.domain.usecase.GetNewsLatestUseCase
@@ -26,32 +27,32 @@ class ViewModelHome(
     private val getNewsTickersUseCase: GetNewsTickersUseCase
 ) : ViewModel() {
 
-    private val _worlds = MutableLiveData<Worlds?>()
-    val worlds: LiveData<Worlds?> get() = _worlds
-    fun worlds(): LiveData<Worlds?> = _worlds
+    private val _worlds = MutableLiveData<WorldsData?>()
+    val worlds: LiveData<WorldsData?> get() = _worlds
+    fun worlds(): LiveData<WorldsData?> = _worlds
 
     private val _rashidLocation = MutableLiveData<String?>()
     val rashidLocation: LiveData<String?> get() = _rashidLocation
 
-    private val _playersOnline = MutableLiveData<Worlds?>()
-    val playersOnline: LiveData<Worlds?> get() = _playersOnline
-    fun playersOnline(): LiveData<Worlds?> = _playersOnline
+    private val _playersOnline = MutableLiveData<WorldsData?>()
+    val playersOnline: LiveData<WorldsData?> get() = _playersOnline
+    fun playersOnline(): LiveData<WorldsData?> = _playersOnline
 
-    private val _creatureBoss = MutableLiveData<Criatures?>()
-    val creatureBoss: LiveData<Criatures?> get() = _creatureBoss
-    fun creatureBoss(): LiveData<Criatures?> = _creatureBoss
+    private val _creatureBoss = MutableLiveData<CreaturesData?>()
+    val creatureBoss: LiveData<CreaturesData?> get() = _creatureBoss
+    fun creatureBoss(): LiveData<CreaturesData?> = _creatureBoss
 
-    private val _bostedBoss = MutableLiveData<BoostableBosses?>()
-    val bostedBoss: LiveData<BoostableBosses?> get() = _bostedBoss
-    fun bostedBoss(): LiveData<BoostableBosses?> = _bostedBoss
+    private val _bostedBoss = MutableLiveData<BoostableBossesData?>()
+    val bostedBoss: LiveData<BoostableBossesData?> get() = _bostedBoss
+    fun bostedBoss(): LiveData<BoostableBossesData?> = _bostedBoss
 
-    private val _news = MutableLiveData<ApiNews?>()
-    val news: LiveData<ApiNews?> get() = _news
-    fun news(): LiveData<ApiNews?> = _news
+    private val _news = MutableLiveData<NewsResponse?>()
+    val news: LiveData<NewsResponse?> get() = _news
+    fun news(): LiveData<NewsResponse?> = _news
 
-    private val _newTicker = MutableLiveData<ApiNewsTicker?>()
-    val newTicker: LiveData<ApiNewsTicker?> get() = _newTicker
-    fun newTicker(): LiveData<ApiNewsTicker?> = _newTicker
+    private val _newTicker = MutableLiveData<NewsTickerResponse?>()
+    val newTicker: LiveData<NewsTickerResponse?> get() = _newTicker
+    fun newTicker(): LiveData<NewsTickerResponse?> = _newTicker
 
     fun setWorlds() {
         viewModelScope.launch {
@@ -88,7 +89,7 @@ class ViewModelHome(
     fun setBostedBoss() {
         viewModelScope.launch {
             runCatching { getBoostableBossesUseCase() }
-                .onSuccess { _bostedBoss.value = it.boostable_bosses }
+                .onSuccess { _bostedBoss.value = it.boostableBosses }
                 .onFailure { _bostedBoss.value = null }
         }
     }

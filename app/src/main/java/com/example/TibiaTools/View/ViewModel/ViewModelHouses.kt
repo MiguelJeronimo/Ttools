@@ -4,7 +4,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.TibiaTools.data.model.Houses
+import com.example.TibiaTools.domain.model.HousesData
 import com.example.TibiaTools.domain.usecase.GetHousesInformationUseCase
 import com.example.TibiaTools.domain.usecase.GetWorldsUseCase
 import kotlinx.coroutines.launch
@@ -13,8 +13,8 @@ class ViewModelHouses(
     private val getHousesInformationUseCase: GetHousesInformationUseCase,
     private val getWorldsUseCase: GetWorldsUseCase
 ) : ViewModel() {
-    private val _houses = MutableLiveData<Houses?>()
-    fun houses(): LiveData<Houses?> = _houses
+    private val _houses = MutableLiveData<HousesData?>()
+    fun houses(): LiveData<HousesData?> = _houses
 
     private val _worlds = MutableLiveData<ArrayList<String>?>()
     fun Worlds(): LiveData<ArrayList<String>?> = _worlds
@@ -28,8 +28,8 @@ class ViewModelHouses(
             runCatching { getWorldsUseCase() }
                 .onSuccess { dataWords ->
                     val arrayWorlds = arrayListOf("Seleccione")
-                    dataWords.worlds?.regular_worlds?.forEach { world ->
-                        world.name?.let { arrayWorlds.add(it) }
+                    dataWords.worlds?.regularWorlds?.forEach { world ->
+                        world.name.let { arrayWorlds.add(it) }
                     }
                     _worlds.value = arrayWorlds
                 }

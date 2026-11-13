@@ -51,7 +51,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import coil3.compose.AsyncImage
 import com.example.TibiaTools.View.ViewModel.ViewModelHome
-import com.example.TibiaTools.data.model.News
+import com.example.TibiaTools.domain.model.News
 import com.example.TibiaTools.presentation.theme.TibiaToolsTheme
 import org.koin.androidx.compose.koinViewModel
 import java.util.Calendar

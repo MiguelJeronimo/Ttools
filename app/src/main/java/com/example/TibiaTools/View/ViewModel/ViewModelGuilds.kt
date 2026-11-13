@@ -4,7 +4,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.TibiaTools.data.model.Guilds
+import com.example.TibiaTools.domain.model.GuildsData
 import com.example.TibiaTools.domain.usecase.GetGuildsInformationUseCase
 import com.example.TibiaTools.domain.usecase.GetWorldsUseCase
 import kotlinx.coroutines.launch
@@ -16,8 +16,8 @@ class ViewModelGuilds(
     private val _worlds = MutableLiveData<ArrayList<String>?>()
     fun Worlds(): LiveData<ArrayList<String>?> = _worlds
 
-    private val _guild = MutableLiveData<Guilds?>()
-    fun Guild(): LiveData<Guilds?> = _guild
+    private val _guild = MutableLiveData<GuildsData?>()
+    fun Guild(): LiveData<GuildsData?> = _guild
 
     init {
         loadWorlds()
@@ -28,8 +28,8 @@ class ViewModelGuilds(
             runCatching { getWorldsUseCase() }
                 .onSuccess { dataWords ->
                     val arrayWorlds = arrayListOf("Seleccione")
-                    dataWords.worlds?.regular_worlds?.forEach { world ->
-                        world.name?.let { arrayWorlds.add(it) }
+                    dataWords.worlds?.regularWorlds?.forEach { world ->
+                        world.name.let { arrayWorlds.add(it) }
                     }
                     _worlds.value = arrayWorlds
                 }

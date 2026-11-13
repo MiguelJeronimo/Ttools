@@ -4,7 +4,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.TibiaTools.data.model.HighScore
+import com.example.TibiaTools.domain.model.HighScoreData
 import com.example.TibiaTools.domain.usecase.GetHighScoreInformationUseCase
 import com.example.TibiaTools.domain.usecase.GetWorldsUseCase
 import kotlinx.coroutines.launch
@@ -16,8 +16,8 @@ class ViewModelHighScore(
     private val _worlds = MutableLiveData<ArrayList<String>?>()
     fun Worlds(): LiveData<ArrayList<String>?> = _worlds
 
-    private val _highScoreList = MutableLiveData<HighScore?>()
-    fun highScoreList(): LiveData<HighScore?> = _highScoreList
+    private val _highScoreList = MutableLiveData<HighScoreData?>()
+    fun highScoreList(): LiveData<HighScoreData?> = _highScoreList
 
     init {
         loadWorlds()
@@ -28,8 +28,8 @@ class ViewModelHighScore(
             runCatching { getWorldsUseCase() }
                 .onSuccess { dataWords ->
                     val arrayWorlds = arrayListOf("Seleccione")
-                    dataWords.worlds?.regular_worlds?.forEach { world ->
-                        world.name?.let { arrayWorlds.add(it) }
+                    dataWords.worlds?.regularWorlds?.forEach { world ->
+                        world.name.let { arrayWorlds.add(it) }
                     }
                     _worlds.value = arrayWorlds
                 }
