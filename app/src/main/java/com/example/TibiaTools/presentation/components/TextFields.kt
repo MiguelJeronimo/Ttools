@@ -1,13 +1,23 @@
 package com.example.TibiaTools.presentation.components
 
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.text.KeyboardOptions
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.PersonSearch
+import androidx.compose.material3.Button
+import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedTextField
+import androidx.compose.material3.OutlinedTextFieldDefaults
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.input.KeyboardType
+import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.dp
+import com.example.TibiaTools.presentation.theme.TibiaToolsTheme
 
 @Composable
 fun LevelTextField(
@@ -57,4 +67,68 @@ fun StaminaTextField(
             }
         }
     )
+}
+
+
+@Composable
+fun SearchTextField(
+    modifier: Modifier = Modifier,
+    label: String = "Search player",
+    value: String,
+    onValueChange: (String) -> Unit,
+    isError: Boolean = false,
+    errorMessage: String = ""
+){
+    OutlinedTextField(
+        modifier = modifier,
+        value = value,
+        onValueChange = onValueChange,
+        placeholder = { Text(text = label) },
+        shape = MaterialTheme.shapes.extraLargeIncreased,
+        supportingText = {
+            if (isError) {
+                Text(text = errorMessage)
+            }
+        },
+        isError = isError,
+        leadingIcon = {
+            Icon(
+                imageVector = Icons.Default.PersonSearch,
+                contentDescription = "Search Icon"
+            )
+        },
+        trailingIcon = {
+            if (value.isNotEmpty()) {
+                Button(
+                    modifier = Modifier.padding(end = 8.dp),
+                    onClick = { /* TODO: Search action */ }
+                ) {
+                    Text(
+                        text = "Search"
+                    )
+                }
+            }
+        },
+        colors = OutlinedTextFieldDefaults.colors(
+            focusedContainerColor = MaterialTheme.colorScheme.surfaceContainer,
+            unfocusedContainerColor = MaterialTheme.colorScheme.surfaceContainer,
+            focusedBorderColor = Color.Transparent,
+            unfocusedBorderColor = Color.Transparent
+        ),
+        keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Text),
+        singleLine = true,
+    )
+}
+
+@Preview(name = "Search Text Field", showBackground = true)
+@Composable
+fun SearchTextFieldPreview(){
+    TibiaToolsTheme(darkTheme = true) {
+        SearchTextField(
+            value = "",
+            onValueChange = {},
+            isError = false,
+            errorMessage = ""
+        )
+    }
 }

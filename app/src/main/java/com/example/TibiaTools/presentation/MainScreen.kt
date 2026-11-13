@@ -9,11 +9,7 @@ import androidx.compose.animation.core.LinearOutSlowInEasing
 import androidx.compose.animation.core.tween
 import androidx.compose.animation.fadeIn
 import androidx.compose.animation.fadeOut
-import androidx.compose.animation.scaleIn
-import androidx.compose.animation.scaleOut
-import androidx.compose.animation.slideInHorizontally
 import androidx.compose.animation.slideInVertically
-import androidx.compose.animation.slideOutHorizontally
 import androidx.compose.animation.slideOutVertically
 import androidx.compose.animation.togetherWith
 import androidx.compose.foundation.layout.WindowInsets
@@ -22,6 +18,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Menu
 import androidx.compose.material.icons.filled.PersonSearch
+import androidx.compose.material.icons.filled.YoutubeSearchedFor
 import androidx.compose.material3.DrawerValue
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
@@ -46,6 +43,7 @@ import com.example.TibiaTools.presentation.components.MainDrawerMenu
 import com.example.TibiaTools.presentation.routes.HomeRoutes
 import com.example.TibiaTools.presentation.routes.Options
 import com.example.TibiaTools.presentation.screens.HomeScreen
+import com.example.TibiaTools.presentation.screens.SearchPlayerScreen
 import com.example.TibiaTools.presentation.screens.ToolsScreen
 import com.example.TibiaTools.utils.ex.back
 import com.example.TibiaTools.utils.ex.navigateTo
@@ -82,6 +80,10 @@ fun MainScreen() {
         onStaminaClick = {
             scope.launch { drawerState.close() }
             backStack.navigateTo(HomeRoutes.Tools)
+        },
+        onPlayerClick = {
+            scope.launch { drawerState.close() }
+            backStack.navigateTo(HomeRoutes.Players)
         }
     ) {
         Scaffold(
@@ -95,6 +97,9 @@ fun MainScreen() {
                             }
                             Options.TOOLS.name -> {
                                 backStack.navigateTo(HomeRoutes.Tools)
+                            }
+                            Options.PLAYERS.name-> {
+                                backStack.navigateTo(HomeRoutes.Players)
                             }
                         }
                     }
@@ -127,9 +132,9 @@ fun MainScreen() {
                         }
                     },
                     actions = {
-                        IconButton(onClick = {}) {
+                        IconButton(onClick = { backStack.navigateTo(HomeRoutes.Players) }) {
                             Icon(
-                                imageVector = Icons.Default.PersonSearch,
+                                imageVector = Icons.Default.YoutubeSearchedFor,
                                 contentDescription = "Search"
                             )
                         }
@@ -159,7 +164,6 @@ fun MainScreen() {
                                 onSearchClick = { },
                                 onWorldsClick = { },
                                 onToolClick = { tool ->
-                                    Log.d("MainScreen", "Click en tools: $tool")
                                     backStack.navigateTo(HomeRoutes.Tools)
                                 },
                                 onNewsClick = { }
@@ -169,6 +173,11 @@ fun MainScreen() {
                             ToolsScreen(
                                 modifier = Modifier.fillMaxSize(),
                                 onBackClick = { backStack.back() }
+                            )
+                        }
+                        HomeRoutes.Players -> NavEntry(HomeRoutes.Players) {
+                            SearchPlayerScreen(
+                                modifier = Modifier.fillMaxSize().padding(horizontal = 16.dp),
                             )
                         }
                         else -> error("Unknown screen: $keyScreen")
