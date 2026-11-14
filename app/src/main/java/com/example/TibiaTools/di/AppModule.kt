@@ -5,6 +5,7 @@ import com.example.TibiaTools.data.repository.TibiaRepositoryImpl
 import com.example.TibiaTools.data.retrofit.TibiaAPIServer
 import com.example.TibiaTools.domain.repository.TibiaRepository
 import com.example.TibiaTools.domain.usecase.*
+import com.example.TibiaTools.presentation.viewmodel.ViewModelPlayers
 import org.koin.core.module.dsl.viewModel
 import org.koin.dsl.module
 import retrofit2.Retrofit
@@ -49,6 +50,7 @@ val appModule = module {
     factory { GetHouseInformationUseCase(get()) }
 
     // ViewModels
+    viewModel{ ViewModelPlayers(get()) }
     viewModel { ViewModelCharacters(get()) }
     viewModel { ViewModelCreature(get()) }
     viewModel { ViewModelCreatures(get()) }

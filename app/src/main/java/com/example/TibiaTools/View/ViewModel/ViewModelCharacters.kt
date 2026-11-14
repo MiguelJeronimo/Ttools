@@ -16,7 +16,7 @@ class ViewModelCharacters(
 
     fun setCharacters(charName: String) {
         viewModelScope.launch {
-            runCatching { getCharacterUseCase(charName) }
+            getCharacterUseCase(charName)
                 .onSuccess { _characters.value = it }
                 .onFailure { _characters.value = null }
         }

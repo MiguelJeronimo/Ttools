@@ -33,10 +33,15 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.text.PlatformTextStyle
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.LineHeightStyle
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import com.example.TibiaTools.domain.model.CharacterDetail
+import com.example.TibiaTools.domain.model.CharactersData
 import com.example.TibiaTools.presentation.components.AchievementsData
 import com.example.TibiaTools.presentation.components.AchievementsList
 import com.example.TibiaTools.presentation.components.CharacterCard
@@ -44,13 +49,33 @@ import com.example.TibiaTools.presentation.components.CharacterCardModel
 import com.example.TibiaTools.presentation.components.CustomCard
 import com.example.TibiaTools.presentation.components.ListDataCard
 import com.example.TibiaTools.presentation.components.ListDataCardModel
+import com.example.TibiaTools.presentation.components.Loader
 import com.example.TibiaTools.presentation.components.SearchTextField
 import com.example.TibiaTools.presentation.theme.TibiaToolsTheme
+import com.example.TibiaTools.presentation.viewmodel.ViewModelPlayers
 import com.example.ttools.R
+import org.koin.androidx.compose.koinViewModel
+
 
 @Composable
 fun SearchPlayerScreen(
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
+    viewModel: ViewModelPlayers = koinViewModel()
+){
+    val playerState = viewModel.player.collectAsStateWithLifecycle()
+    SearchPlayerScreen(
+        modifier = modifier,
+        onSearchPlayer = { name->
+            viewModel.searchPlayer(name = name)
+        },
+        state = playerState.value
+    )
+}
+@Composable
+fun SearchPlayerScreen(
+    modifier: Modifier = Modifier,
+    onSearchPlayer: (String) -> Unit = {},
+    state: ViewModelPlayers.UiState
 ){
     var searchText by rememberSaveable { mutableStateOf("") }
     val isError = searchText.isNotEmpty() && searchText.length <= 1
@@ -59,158 +84,183 @@ fun SearchPlayerScreen(
         modifier = modifier,
         contentWindowInsets = WindowInsets(0, 0, 0, 0)
     ) { innerPadding ->
-        LazyColumn(
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(innerPadding)
-        ) {
-            item {
-                Column(modifier = Modifier.fillMaxWidth()) {
-                    Spacer(modifier = Modifier.size(16.dp))
-                    SearchTextField(
-                        modifier = Modifier.fillMaxWidth(),
-                        label = "Search player",
-                        value = searchText,
-                        onValueChange = { searchText = it },
-                        isError = isError,
-                        errorMessage = "Player name must be at least 3 characters long"
-                    )
-                    Spacer(modifier = Modifier.size(16.dp))
-                    PrimaryCard(
-                        modifier = Modifier.fillMaxWidth()
-                    )
-                    val data = listOf(
-                        ListDataCardModel(key = "Residence", value = "Yalahar"),
-                        ListDataCardModel(key = "Guild", value = "Recruit of Ember Legion"),
-                        ListDataCardModel(key = "Sex", value = "Female"),
-                        ListDataCardModel(key = "Account", value = "Premium Account"),
-                        ListDataCardModel(key = "Last login", value = "Nov 9, 2026"),
-                        ListDataCardModel(key = "Married to", value = "Garrick Stoneheart"),
-                        ListDataCardModel(key = "Houses", value = "Harbour Street 4 (Kazordoon)"),
-                        ListDataCardModel(key = "Titles", value = "37 unlocked"),
-                        ListDataCardModel(key = "Created", value = "Mar 19, 2024"),
-                        ListDataCardModel(key = "Loyalty", value = "Scout of Tibia")
-                    )
-                    Spacer(modifier = Modifier.size(20.dp))
-                    ListDataCard(
-                        modifier = Modifier.fillMaxWidth(),
-                        data = data
-                    )
-                    Spacer(modifier = Modifier.size(16.dp))
-                    Text(
-                        text = "Displayed achievements",
-                        style = MaterialTheme.typography.labelMedium.copy(fontSize = 14.sp),
-                        fontWeight = FontWeight.Bold,
-                    )
-                    Spacer(modifier = Modifier.size(16.dp))
-                    val achievements = listOf(
-                        AchievementsData("Hat Hunter", 3),
-                        AchievementsData("Heartbreaker", 1),
-                        AchievementsData("Starless Night", 1),
-                        AchievementsData("Achievement 1", 3),
-                        AchievementsData("Hat Hunter", 4),
-                        AchievementsData("Starless Night 3", 2)
-                    )
-                    AchievementsList(
-                        modifier = Modifier.fillMaxWidth(),
-                        achievements = achievements
-                    )
-                }
-            }
-            item {
-                Column(modifier = Modifier.fillMaxWidth()) {
-                    Spacer(modifier = Modifier.size(16.dp))
-                    Text(
-                        text = "Characters on this account",
-                        style = MaterialTheme.typography.labelMedium.copy(fontSize = 14.sp),
-                        fontWeight = FontWeight.Bold,
-                    )
-                    Spacer(modifier = Modifier.size(16.dp))
-                }
-            }
-            //Aqui iran los
-            val characterList = listOf(
-                CharacterCardModel(
-                    name = "Fenna Lightfoot",
-                    world = "Pacera",
-                    isOnline = true,
-                    isMain = true,
-                    isViewing = true
-                ),
-                CharacterCardModel(
-                    name = "Edric Hollowmere",
-                    world = "Bona",
-                    isOnline = false,
-                    showChevron = true
-                ),
-                CharacterCardModel(
-                    name = "Isolde Emberfall",
-                    world = "Menera",
-                    isOnline = false,
-                    isTraded = true,
-                    showChevron = true
-                )
+        Column(modifier = Modifier.fillMaxWidth().padding(innerPadding)) {
+            Spacer(modifier = Modifier.size(16.dp))
+            SearchTextField(
+                modifier = Modifier.fillMaxWidth(),
+                label = "Search player",
+                value = searchText,
+                onValueChange = { searchText = it },
+                isError = isError,
+                errorMessage = "Player name must be at least 3 characters long",
+                onSearchPlayer = onSearchPlayer
             )
-            items(characterList.size) { index ->
-                CharacterCard(
-                    modifier = Modifier.fillMaxWidth(),
-                    character = characterList[index]
-                )
-                if (index < characterList.lastIndex) {
-                    Spacer(modifier = Modifier.size(10.dp))
-                }
-            }
-            item {
-                Column(modifier = Modifier.fillMaxWidth()) {
-                    Spacer(modifier = Modifier.size(16.dp))
-                    Text(
-                        text = "Displayed achievements",
-                        style = MaterialTheme.typography.labelMedium.copy(fontSize = 14.sp),
-                        fontWeight = FontWeight.Bold,
-                    )
-                    Spacer(modifier = Modifier.size(16.dp))
-                }
-            }
-
-            items(count = 3) {
-                ListItem(
-                    modifier = Modifier
-                        .fillMaxWidth(),
-                    contentPadding = PaddingValues(),
-                    leadingContent = {
-                        Box(
-                            modifier = Modifier
-                                .size(40.dp)
-                                .background(
-                                    color = MaterialTheme.colorScheme.error,
-                                    shape = CircleShape
-                                )
-                        ) {
-                            Icon(
-                                modifier = Modifier.align(Alignment.Center),
-                                painter = painterResource(R.drawable.skull_image),
-                                contentDescription = "Dangerous Icon",
-                                tint = MaterialTheme.colorScheme.onError,
-                            )
-                        }
-                    },
-                    supportingContent = {
+            Spacer(modifier = Modifier.size(16.dp))
+            when (state){
+                is ViewModelPlayers.UiState.Idle-> {
+                    Box(
+                        modifier = Modifier.fillMaxSize()
+                    ) {
                         Text(
-                            text = "Died at Level 215 by weakened frazzlemaw.",
-                            style = MaterialTheme.typography.labelLargeEmphasized.copy(
-                                fontWeight = FontWeight.Bold,
-                                fontSize = 13.sp
-                            )
-                        )
-                    },
-                    content = {
-                        Text(
-                            text = "Nov 12, 2026 · Level 215",
-                            style = MaterialTheme.typography.labelSmall.copy(fontSize = 12.sp),
-                            color = MaterialTheme.colorScheme.onSurfaceVariant.copy(alpha = 0.8f)
+                            text = "Search for a player to see their information.",
+                            style = MaterialTheme.typography.labelMedium.copy(fontSize = 14.sp),
+                            fontWeight = FontWeight.Bold,
+                            modifier = Modifier.align(Alignment.Center)
                         )
                     }
-                )
+                }
+                is ViewModelPlayers.UiState.Loading-> {
+                    Loader()
+                }
+                is ViewModelPlayers.UiState.Success-> {
+                    LazyColumn(
+                        modifier = Modifier
+                            .fillMaxWidth().weight(1f)
+                    ) {
+                        item {
+                            Column(modifier = Modifier.fillMaxWidth()) {
+                                PrimaryCard(
+                                    modifier = Modifier.fillMaxWidth(),
+                                    details = state.player.character?.character
+                                )
+                                val details = state.player.character
+
+                                Spacer(modifier = Modifier.size(20.dp))
+                                ListDataCard(
+                                    modifier = Modifier.fillMaxWidth(),
+                                    data = details?.getListDataCards() ?: emptyList()
+                                )
+                                Spacer(modifier = Modifier.size(16.dp))
+                                Text(
+                                    text = "Displayed achievements",
+                                    style = MaterialTheme.typography.labelMedium.copy(fontSize = 14.sp),
+                                    fontWeight = FontWeight.Bold,
+                                )
+                                Spacer(modifier = Modifier.size(16.dp))
+                                val achievements = listOf(
+                                    AchievementsData("Hat Hunter", 3),
+                                    AchievementsData("Heartbreaker", 1),
+                                    AchievementsData("Starless Night", 1),
+                                    AchievementsData("Achievement 1", 3),
+                                    AchievementsData("Hat Hunter", 4),
+                                    AchievementsData("Starless Night 3", 2)
+                                )
+                                AchievementsList(
+                                    modifier = Modifier.fillMaxWidth(),
+                                    achievements = achievements
+                                )
+                            }
+                        }
+                        item {
+                            Column(modifier = Modifier.fillMaxWidth()) {
+                                Spacer(modifier = Modifier.size(16.dp))
+                                Text(
+                                    text = "Characters on this account",
+                                    style = MaterialTheme.typography.labelMedium.copy(fontSize = 14.sp),
+                                    fontWeight = FontWeight.Bold,
+                                )
+                                Spacer(modifier = Modifier.size(16.dp))
+                            }
+                        }
+                        //Aqui iran los
+                        val characterList = listOf(
+                            CharacterCardModel(
+                                name = "Fenna Lightfoot",
+                                world = "Pacera",
+                                isOnline = true,
+                                isMain = true,
+                                isViewing = true
+                            ),
+                            CharacterCardModel(
+                                name = "Edric Hollowmere",
+                                world = "Bona",
+                                isOnline = false,
+                                showChevron = true
+                            ),
+                            CharacterCardModel(
+                                name = "Isolde Emberfall",
+                                world = "Menera",
+                                isOnline = false,
+                                isTraded = true,
+                                showChevron = true
+                            )
+                        )
+                        items(characterList.size) { index ->
+                            CharacterCard(
+                                modifier = Modifier.fillMaxWidth(),
+                                character = characterList[index]
+                            )
+                            if (index < characterList.lastIndex) {
+                                Spacer(modifier = Modifier.size(10.dp))
+                            }
+                        }
+                        item {
+                            Column(modifier = Modifier.fillMaxWidth()) {
+                                Spacer(modifier = Modifier.size(16.dp))
+                                Text(
+                                    text = "Displayed achievements",
+                                    style = MaterialTheme.typography.labelMedium.copy(fontSize = 14.sp),
+                                    fontWeight = FontWeight.Bold,
+                                )
+                                Spacer(modifier = Modifier.size(16.dp))
+                            }
+                        }
+
+                        items(count = 3) {
+                            ListItem(
+                                modifier = Modifier
+                                    .fillMaxWidth(),
+                                contentPadding = PaddingValues(),
+                                leadingContent = {
+                                    Box(
+                                        modifier = Modifier
+                                            .size(40.dp)
+                                            .background(
+                                                color = MaterialTheme.colorScheme.error,
+                                                shape = CircleShape
+                                            )
+                                    ) {
+                                        Icon(
+                                            modifier = Modifier.align(Alignment.Center),
+                                            painter = painterResource(R.drawable.skull_image),
+                                            contentDescription = "Dangerous Icon",
+                                            tint = MaterialTheme.colorScheme.onError,
+                                        )
+                                    }
+                                },
+                                supportingContent = {
+                                    Text(
+                                        text = "Died at Level 215 by weakened frazzlemaw.",
+                                        style = MaterialTheme.typography.labelLargeEmphasized.copy(
+                                            fontWeight = FontWeight.Bold,
+                                            fontSize = 13.sp
+                                        )
+                                    )
+                                },
+                                content = {
+                                    Text(
+                                        text = "Nov 12, 2026 · Level 215",
+                                        style = MaterialTheme.typography.labelSmall.copy(fontSize = 12.sp),
+                                        color = MaterialTheme.colorScheme.onSurfaceVariant.copy(alpha = 0.8f)
+                                    )
+                                }
+                            )
+                        }
+                    }
+                }
+                is ViewModelPlayers.UiState.Error-> {
+                    Box(
+                        modifier = Modifier.fillMaxSize()
+                    ) {
+                        Text(
+                            text = "Player not found or error occurred",
+                            style = MaterialTheme.typography.labelMedium.copy(fontSize = 14.sp),
+                            fontWeight = FontWeight.Bold,
+                            color = MaterialTheme.colorScheme.error,
+                            modifier = Modifier.align(Alignment.Center)
+                        )
+                    }
+                }
             }
         }
     }
@@ -218,7 +268,8 @@ fun SearchPlayerScreen(
 
 @Composable
 fun PrimaryCard(
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
+    details: CharacterDetail? = null
 ){
     Card(
         shape = RoundedCornerShape(32.dp),
@@ -281,25 +332,35 @@ fun PrimaryCard(
                     ){
                         Text(
                             modifier = Modifier.align(Alignment.Center),
-                            text = "T",
+                            text = details?.name?.first()?.toString() ?: "T",
                             style = MaterialTheme.typography.titleLarge,
                             fontWeight = FontWeight.Bold,
                             color = MaterialTheme.colorScheme.onPrimary
                         )
                     }
                     Column(
-                        modifier = Modifier.fillMaxWidth()
+                        modifier = Modifier.fillMaxWidth(),
                     ) {
                         Text(
                             modifier = Modifier.fillMaxWidth(),
-                            text = "Kaelith Dawnbreak",
-                            style = MaterialTheme.typography.labelMedium.copy(fontSize = 25.sp),
+                            text = details?.name ?: "Unknown",
+                            style = MaterialTheme.typography.labelMedium.copy(
+                                fontSize = 25.sp,
+                                lineHeight = 30.sp,
+                                platformStyle = PlatformTextStyle(
+                                    includeFontPadding = false
+                                ),
+                                lineHeightStyle = LineHeightStyle(
+                                    alignment = LineHeightStyle.Alignment.Center,
+                                    trim = LineHeightStyle.Trim.Both
+                                )
+                            ),
                             fontWeight = FontWeight.ExtraBold,
                             color = MaterialTheme.colorScheme.onPrimaryContainer
                         )
                         Text(
                             modifier = Modifier.fillMaxWidth(),
-                            text = "Elite Knight · Bestiary Expert",
+                            text = details?.vocation ?: "Unknown",
                             style = MaterialTheme.typography.labelSmall,
                             fontWeight = FontWeight.SemiBold,
                             letterSpacing = 1.sp,
@@ -316,21 +377,43 @@ fun PrimaryCard(
                     CustomCard(
                         modifier = Modifier.weight(1f),
                         title = "Level",
-                        subtitle = "216"
+                        subtitle = details?.level?.toString() ?: "Unknown"
                     )
                     CustomCard(
                         modifier = Modifier.weight(1f),
                         title = "Achiev.",
-                        subtitle = "966"
+                        subtitle = details?.achievementPoints?.toString() ?: "Unknown"
                     )
                     CustomCard(
                         modifier = Modifier.weight(1f),
                         title = "World",
-                        subtitle = "Wintera"
+                        subtitle = details?.world ?: "Unknown"
                     )
                 }
             }
         }
+    }
+}
+
+
+private fun CharactersData.getListDataCards(): List<ListDataCardModel> {
+    val details = this
+    return buildList {
+        details.character?.let {
+            add(ListDataCardModel(key = "Residence", value = it.residence))
+            it.guild?.let { add(ListDataCardModel(key = "Guild", value = it.name)) }
+            add(ListDataCardModel(key = "Sex", value = it.sex))
+            add(ListDataCardModel(key = "Account", value = it.accountStatus))
+            add(ListDataCardModel(key = "Last login", value = it.lastLogin))
+            it.married_to?.let { add(ListDataCardModel(key = "Married to", value = it)) }
+            if (it.houses.isNotEmpty()) {
+                it.houses.forEach { add(ListDataCardModel(key = "House", value = "${it.name} ${it.paid} ${it.town}")) }
+            }
+            it.title?.let { add(ListDataCardModel(key = "Title", value = it)) }
+
+        }
+        details.accountInformation?.let { if (it.loyaltyTitle.isNotEmpty()){add(ListDataCardModel(key = "Loyalty", value = it.loyaltyTitle))} }
+        details.accountInformation?.let { if (it.created.isNotEmpty()){add(ListDataCardModel(key = "Created", value = it.created))} }
     }
 }
 
@@ -341,6 +424,7 @@ fun PrimaryCardPreview(){
     TibiaToolsTheme(darkTheme = false) {
         SearchPlayerScreen(modifier = Modifier
             .fillMaxSize()
-            .padding(10.dp))
+            .padding(10.dp)
+        )
     }
 }

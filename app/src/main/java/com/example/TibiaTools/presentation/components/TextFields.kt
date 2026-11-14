@@ -2,6 +2,7 @@ package com.example.TibiaTools.presentation.components
 
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.PersonSearch
@@ -14,6 +15,9 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalFocusManager
+import androidx.compose.ui.platform.LocalSoftwareKeyboardController
+import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -77,8 +81,12 @@ fun SearchTextField(
     value: String,
     onValueChange: (String) -> Unit,
     isError: Boolean = false,
-    errorMessage: String = ""
+    errorMessage: String = "",
+    onSearchPlayer: (String) -> Unit = {}
 ){
+    val keyboardController = LocalSoftwareKeyboardController.current
+    val focusManager = LocalFocusManager.current
+
     OutlinedTextField(
         modifier = modifier,
         value = value,
@@ -90,6 +98,17 @@ fun SearchTextField(
                 Text(text = errorMessage)
             }
         },
+        keyboardActions = KeyboardActions(
+            onSearch = {
+                keyboardController?.hide()
+                focusManager.clearFocus()
+                onSearchPlayer(value)
+            }
+        ),
+        keyboardOptions = KeyboardOptions(
+            keyboardType = KeyboardType.Text,
+            imeAction = ImeAction.Search
+        ),
         isError = isError,
         leadingIcon = {
             Icon(
@@ -97,25 +116,12 @@ fun SearchTextField(
                 contentDescription = "Search Icon"
             )
         },
-        trailingIcon = {
-            if (value.isNotEmpty()) {
-                Button(
-                    modifier = Modifier.padding(end = 8.dp),
-                    onClick = { /* TODO: Search action */ }
-                ) {
-                    Text(
-                        text = "Search"
-                    )
-                }
-            }
-        },
         colors = OutlinedTextFieldDefaults.colors(
             focusedContainerColor = MaterialTheme.colorScheme.surfaceContainer,
             unfocusedContainerColor = MaterialTheme.colorScheme.surfaceContainer,
             focusedBorderColor = Color.Transparent,
             unfocusedBorderColor = Color.Transparent
         ),
-        keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Text),
         singleLine = true,
     )
 }
