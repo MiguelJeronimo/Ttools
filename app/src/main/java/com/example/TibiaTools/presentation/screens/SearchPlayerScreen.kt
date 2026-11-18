@@ -1,5 +1,7 @@
 package com.example.TibiaTools.presentation.screens
 
+import android.os.Build
+import androidx.annotation.RequiresApi
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
@@ -15,6 +17,7 @@ import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Card
@@ -53,10 +56,12 @@ import com.example.TibiaTools.presentation.components.Loader
 import com.example.TibiaTools.presentation.components.SearchTextField
 import com.example.TibiaTools.presentation.theme.TibiaToolsTheme
 import com.example.TibiaTools.presentation.viewmodel.ViewModelPlayers
+import com.example.TibiaTools.utils.DateFormater
 import com.example.ttools.R
 import org.koin.androidx.compose.koinViewModel
 
 
+@RequiresApi(Build.VERSION_CODES.O)
 @Composable
 fun SearchPlayerScreen(
     modifier: Modifier = Modifier,
@@ -71,6 +76,8 @@ fun SearchPlayerScreen(
         state = playerState.value
     )
 }
+
+@RequiresApi(Build.VERSION_CODES.O)
 @Composable
 fun SearchPlayerScreen(
     modifier: Modifier = Modifier,
@@ -84,7 +91,9 @@ fun SearchPlayerScreen(
         modifier = modifier,
         contentWindowInsets = WindowInsets(0, 0, 0, 0)
     ) { innerPadding ->
-        Column(modifier = Modifier.fillMaxWidth().padding(innerPadding)) {
+        Column(modifier = Modifier
+            .fillMaxWidth()
+            .padding(innerPadding)) {
             Spacer(modifier = Modifier.size(16.dp))
             SearchTextField(
                 modifier = Modifier.fillMaxWidth(),
@@ -115,7 +124,8 @@ fun SearchPlayerScreen(
                 is ViewModelPlayers.UiState.Success-> {
                     LazyColumn(
                         modifier = Modifier
-                            .fillMaxWidth().weight(1f)
+                            .fillMaxWidth()
+                            .weight(1f)
                     ) {
                         item {
                             Column(modifier = Modifier.fillMaxWidth()) {
@@ -131,120 +141,128 @@ fun SearchPlayerScreen(
                                     data = details?.getListDataCards() ?: emptyList()
                                 )
                                 Spacer(modifier = Modifier.size(16.dp))
-                                Text(
-                                    text = "Displayed achievements",
-                                    style = MaterialTheme.typography.labelMedium.copy(fontSize = 14.sp),
-                                    fontWeight = FontWeight.Bold,
+                                details?.achievements?.let {
+                                    if (it.isNotEmpty()){
+                                        val achievements = it.map { achievement ->
+                                            AchievementsData(
+                                                grade = achievement.grade.toInt(),
+                                                name = achievement.name
+                                            )
+                                        }
+                                        Text(
+                                            text = "Displayed achievements",
+                                            style = MaterialTheme.typography.labelMedium.copy(fontSize = 14.sp),
+                                            fontWeight = FontWeight.Bold,
+                                        )
+                                        Spacer(modifier = Modifier.size(16.dp))
+                                        AchievementsList(
+                                            modifier = Modifier.fillMaxWidth(),
+                                            achievements = achievements
+                                        )
+                                    }
+                                }
+                            }
+                        }
+                        var otherCharacters = emptyList<CharacterCardModel>()
+                        state.player.characterData?.let {
+                            otherCharacters = it.otherCharacters.map {
+                                CharacterCardModel(
+                                    name = it.name,
+                                    world = it.world,
+                                    isOnline = if (it.status == "offline") false else true,
+                                    isMain = it.isMain,
+                                    isViewing = true,
+                                    isTraded = it.isTraded,
                                 )
-                                Spacer(modifier = Modifier.size(16.dp))
-                                val achievements = listOf(
-                                    AchievementsData("Hat Hunter", 3),
-                                    AchievementsData("Heartbreaker", 1),
-                                    AchievementsData("Starless Night", 1),
-                                    AchievementsData("Achievement 1", 3),
-                                    AchievementsData("Hat Hunter", 4),
-                                    AchievementsData("Starless Night 3", 2)
-                                )
-                                AchievementsList(
+                            }
+                        }
+
+                        if (otherCharacters.isNotEmpty()) {
+                            item {
+                                Column(modifier = Modifier.fillMaxWidth()) {
+                                    Spacer(modifier = Modifier.size(16.dp))
+                                    Text(
+                                        text = "Characters on this account",
+                                        style = MaterialTheme.typography.labelMedium.copy(fontSize = 14.sp),
+                                        fontWeight = FontWeight.Bold,
+                                    )
+                                    Spacer(modifier = Modifier.size(16.dp))
+                                }
+                            }
+
+                            items(otherCharacters.size) { index ->
+                                CharacterCard(
                                     modifier = Modifier.fillMaxWidth(),
-                                    achievements = achievements
+                                    character = otherCharacters[index]
                                 )
+                                if (index < otherCharacters.lastIndex) {
+                                    Spacer(modifier = Modifier.size(10.dp))
+                                }
                             }
                         }
+
                         item {
                             Column(modifier = Modifier.fillMaxWidth()) {
                                 Spacer(modifier = Modifier.size(16.dp))
                                 Text(
-                                    text = "Characters on this account",
+                                    text = "Recent deaths",
                                     style = MaterialTheme.typography.labelMedium.copy(fontSize = 14.sp),
                                     fontWeight = FontWeight.Bold,
                                 )
-                                Spacer(modifier = Modifier.size(16.dp))
-                            }
-                        }
-                        //Aqui iran los
-                        val characterList = listOf(
-                            CharacterCardModel(
-                                name = "Fenna Lightfoot",
-                                world = "Pacera",
-                                isOnline = true,
-                                isMain = true,
-                                isViewing = true
-                            ),
-                            CharacterCardModel(
-                                name = "Edric Hollowmere",
-                                world = "Bona",
-                                isOnline = false,
-                                showChevron = true
-                            ),
-                            CharacterCardModel(
-                                name = "Isolde Emberfall",
-                                world = "Menera",
-                                isOnline = false,
-                                isTraded = true,
-                                showChevron = true
-                            )
-                        )
-                        items(characterList.size) { index ->
-                            CharacterCard(
-                                modifier = Modifier.fillMaxWidth(),
-                                character = characterList[index]
-                            )
-                            if (index < characterList.lastIndex) {
-                                Spacer(modifier = Modifier.size(10.dp))
-                            }
-                        }
-                        item {
-                            Column(modifier = Modifier.fillMaxWidth()) {
-                                Spacer(modifier = Modifier.size(16.dp))
-                                Text(
-                                    text = "Displayed achievements",
-                                    style = MaterialTheme.typography.labelMedium.copy(fontSize = 14.sp),
-                                    fontWeight = FontWeight.Bold,
-                                )
+                                if (state.player.characterData?.deaths?.isEmpty() == true) {
+                                    Spacer(modifier = Modifier.size(16.dp))
+                                    Text(
+                                        text = "No recent deaths.",
+                                        style = MaterialTheme.typography.labelMedium,
+                                        color = MaterialTheme.colorScheme.onSurfaceVariant.copy(alpha = 0.8f),
+                                        fontWeight = FontWeight.Bold,
+                                    )
+                                }
                                 Spacer(modifier = Modifier.size(16.dp))
                             }
                         }
 
-                        items(count = 3) {
-                            ListItem(
-                                modifier = Modifier
-                                    .fillMaxWidth(),
-                                contentPadding = PaddingValues(),
-                                leadingContent = {
-                                    Box(
-                                        modifier = Modifier
-                                            .size(40.dp)
-                                            .background(
-                                                color = MaterialTheme.colorScheme.error,
-                                                shape = CircleShape
+                        state.player.characterData?.deaths?.let {
+                            items(items = it) { death ->
+                                ListItem(
+                                    modifier = Modifier
+                                        .fillMaxWidth(),
+                                    contentPadding = PaddingValues(),
+                                    leadingContent = {
+                                        Box(
+                                            modifier = Modifier
+                                                .size(40.dp)
+                                                .background(
+                                                    color = MaterialTheme.colorScheme.error,
+                                                    shape = CircleShape
+                                                )
+                                        ) {
+                                            Icon(
+                                                modifier = Modifier.align(Alignment.Center),
+                                                painter = painterResource(R.drawable.skull_image),
+                                                contentDescription = "Dangerous Icon",
+                                                tint = MaterialTheme.colorScheme.onError,
                                             )
-                                    ) {
-                                        Icon(
-                                            modifier = Modifier.align(Alignment.Center),
-                                            painter = painterResource(R.drawable.skull_image),
-                                            contentDescription = "Dangerous Icon",
-                                            tint = MaterialTheme.colorScheme.onError,
+                                        }
+                                    },
+                                    supportingContent = {
+                                        Text(
+                                            text = death.reason,
+                                            style = MaterialTheme.typography.labelLargeEmphasized.copy(
+                                                fontWeight = FontWeight.Bold,
+                                                fontSize = 13.sp
+                                            )
+                                        )
+                                    },
+                                    content = {
+                                        Text(
+                                            text = DateFormater.formatIsoDateTime(death.time) + " · Level " + death.level,
+                                            style = MaterialTheme.typography.labelSmall.copy(fontSize = 12.sp),
+                                            color = MaterialTheme.colorScheme.onSurfaceVariant.copy(alpha = 0.8f)
                                         )
                                     }
-                                },
-                                supportingContent = {
-                                    Text(
-                                        text = "Died at Level 215 by weakened frazzlemaw.",
-                                        style = MaterialTheme.typography.labelLargeEmphasized.copy(
-                                            fontWeight = FontWeight.Bold,
-                                            fontSize = 13.sp
-                                        )
-                                    )
-                                },
-                                content = {
-                                    Text(
-                                        text = "Nov 12, 2026 · Level 215",
-                                        style = MaterialTheme.typography.labelSmall.copy(fontSize = 12.sp),
-                                        color = MaterialTheme.colorScheme.onSurfaceVariant.copy(alpha = 0.8f)
-                                    )
-                                }
-                            )
+                                )
+                            }
                         }
                     }
                 }
@@ -396,6 +414,7 @@ fun PrimaryCard(
 }
 
 
+@RequiresApi(Build.VERSION_CODES.O)
 private fun CharactersData.getListDataCards(): List<ListDataCardModel> {
     val details = this
     return buildList {
@@ -404,7 +423,7 @@ private fun CharactersData.getListDataCards(): List<ListDataCardModel> {
             it.guild?.let { add(ListDataCardModel(key = "Guild", value = it.name)) }
             add(ListDataCardModel(key = "Sex", value = it.sex))
             add(ListDataCardModel(key = "Account", value = it.accountStatus))
-            add(ListDataCardModel(key = "Last login", value = it.lastLogin))
+            add(ListDataCardModel(key = "Last login", value = DateFormater.formatIsoDateTime(it.lastLogin)?: ""))
             it.married_to?.let { add(ListDataCardModel(key = "Married to", value = it)) }
             if (it.houses.isNotEmpty()) {
                 it.houses.forEach { add(ListDataCardModel(key = "House", value = "${it.name} ${it.paid} ${it.town}")) }
@@ -412,12 +431,14 @@ private fun CharactersData.getListDataCards(): List<ListDataCardModel> {
             it.title?.let { add(ListDataCardModel(key = "Title", value = it)) }
 
         }
-        details.accountInformation?.let { if (it.loyaltyTitle.isNotEmpty()){add(ListDataCardModel(key = "Loyalty", value = it.loyaltyTitle))} }
-        details.accountInformation?.let { if (it.created.isNotEmpty()){add(ListDataCardModel(key = "Created", value = it.created))} }
+        details.accountInformation?.let { if (it.loyaltyTitle.isNotEmpty()){add(ListDataCardModel(
+            key = "Loyalty", value = it.loyaltyTitle))} }
+        details.accountInformation?.let { if (it.created.isNotEmpty()){add(ListDataCardModel(key = "Created", value = DateFormater.formatIsoDateTime(it.created)?: ""))} }
     }
 }
 
 
+@RequiresApi(Build.VERSION_CODES.O)
 @Preview(showBackground = true)
 @Composable
 fun PrimaryCardPreview(){
