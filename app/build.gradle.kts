@@ -54,6 +54,14 @@ kotlin {
 }
 
 dependencies {
+    //pagging 3
+    // Needed for Android Views and LiveData. Optional if only using
+    // paging-compose
+    implementation(libs.androidx.paging.runtime)
+    // Needed to collect PagingData flows in Jetpack Compose
+    implementation(libs.androidx.paging.compose)
+    // Needed to test PagingSource and PagingData transformations in isolation
+    testImplementation(libs.androidx.paging.testing)
     // AndroidX
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.appcompat)

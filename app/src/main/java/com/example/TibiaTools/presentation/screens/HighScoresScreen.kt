@@ -21,6 +21,8 @@ import androidx.compose.ui.graphics.RectangleShape
 import androidx.compose.ui.graphics.Shape
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import com.example.TibiaTools.presentation.components.CustomLinearWavyProgressIndicator
 import com.example.TibiaTools.presentation.components.FilterData
 import com.example.TibiaTools.presentation.components.FilterList
 import com.example.TibiaTools.presentation.components.PlayerInfo
@@ -30,10 +32,25 @@ import com.example.TibiaTools.presentation.components.SingleChipSelector
 import com.example.TibiaTools.presentation.components.SingleSelectButton
 import com.example.TibiaTools.presentation.components.TopPodiumSection
 import com.example.TibiaTools.presentation.theme.TibiaToolsTheme
+import com.example.TibiaTools.presentation.viewmodel.ViewModelHighScores
+import org.koin.androidx.compose.koinViewModel
+
 
 @Composable
 fun HighScoresScreen(
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
+    viewModelHigscores: ViewModelHighScores = koinViewModel()
+) {
+    val worlds = viewModelHigscores.worlds.collectAsStateWithLifecycle()
+    HighScoresScreen(
+        modifier = modifier,
+        worldsState = worlds.value
+    )
+}
+@Composable
+fun HighScoresScreen(
+    modifier: Modifier = Modifier,
+    worldsState: ViewModelHighScores.UIStateWords
 ) {
     Scaffold(
         modifier = modifier,
@@ -49,15 +66,28 @@ fun HighScoresScreen(
                     modifier = Modifier.fillMaxWidth(),
                     horizontalAlignment = Alignment.CenterHorizontally
                 ) {
+                    var worldsList = listOf<FilterData>()
+                    when(val worlds = worldsState){
+                        is ViewModelHighScores.UIStateWords.Idle->{}
+                        is ViewModelHighScores.UIStateWords.Loading ->{
+                            CustomLinearWavyProgressIndicator()
+                        }
+                        is ViewModelHighScores.UIStateWords.Success ->{
+                            worldsList = worlds.worlds?.worlds?.regularWorlds?.mapIndexed { index, world ->
+                                FilterData(
+                                    id = index,
+                                    text = world.name,
+                                    type = world.pvpType
+                                )
+                            }?: emptyList()
+                        }
+                        else->{}
+                    }
                     FilterList(
                         modifier = Modifier
                             .fillMaxWidth(),
                         label = "Select world",
-                        options = listOf(
-                            FilterData(id = 1, text = 2024),
-                            FilterData(id = 2, text = 2025),
-                            FilterData(id = 3, text = 2026)
-                        )
+                        options = worldsList
                     )
                     Spacer(modifier = Modifier.size(16.dp))
                     SingleSelectButton(
@@ -191,7 +221,7 @@ fun HighScoresScreenPreview() {
     TibiaToolsTheme(darkTheme = true) {
         HighScoresScreen(
             modifier = Modifier
-                .fillMaxSize()
+                .fillMaxSize(),
         )
     }
 }

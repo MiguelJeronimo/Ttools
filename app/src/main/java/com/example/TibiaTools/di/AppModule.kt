@@ -5,6 +5,7 @@ import com.example.TibiaTools.data.repository.TibiaRepositoryImpl
 import com.example.TibiaTools.data.retrofit.TibiaAPIServer
 import com.example.TibiaTools.domain.repository.TibiaRepository
 import com.example.TibiaTools.domain.usecase.*
+import com.example.TibiaTools.presentation.viewmodel.ViewModelHighScores
 import com.example.TibiaTools.presentation.viewmodel.ViewModelPlayers
 import org.koin.core.module.dsl.viewModel
 import org.koin.dsl.module
@@ -63,4 +64,5 @@ val appModule = module {
     viewModel { ViewModelSpells(get()) }
     viewModel { ViewModelWorlds(get()) }
     viewModel { ViewModelSpell(get()) }
+    viewModel { ViewModelHighScores(get(), get()) }
 }

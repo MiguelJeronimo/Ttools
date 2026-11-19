@@ -2,7 +2,9 @@ package com.example.TibiaTools.presentation.components
 
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.material3.CircularProgressIndicator
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.material3.CircularWavyProgressIndicator
+import androidx.compose.material3.LinearWavyProgressIndicator
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
@@ -16,17 +18,34 @@ fun Loader(){
         modifier = Modifier
             .fillMaxSize()
     ) {
-        CircularProgressIndicator(
+        CircularWavyProgressIndicator(
             modifier = Modifier.align(Alignment.Center),
-            color = MaterialTheme.colorScheme.onTertiary
+            color = MaterialTheme.colorScheme.tertiary
         )
+    }
+}
+
+
+@Composable
+fun CustomLinearWavyProgressIndicator(){
+    LinearWavyProgressIndicator(
+        modifier = Modifier.fillMaxWidth(),
+        color = MaterialTheme.colorScheme.tertiary
+    )
+}
+
+@Preview(showBackground = true)
+@Composable
+fun LoaderPreview(){
+    TibiaToolsTheme(darkTheme = true) {
+        Loader()
     }
 }
 
 @Preview(showBackground = true)
 @Composable
-fun LoaderPReview(){
+fun CustomLinearWavyProgressIndicatorPreview(){
     TibiaToolsTheme(darkTheme = true) {
-        Loader()
+        CustomLinearWavyProgressIndicator()
     }
 }

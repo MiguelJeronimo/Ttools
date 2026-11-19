@@ -20,7 +20,8 @@ import com.example.TibiaTools.presentation.theme.TibiaToolsTheme
 
 data class FilterData(
  val id: Int,
- val text: Int
+ val text: String,
+ val type: String? = null
 )
 
 @Composable
@@ -50,6 +51,7 @@ fun FilterList(
         }
 
         DropdownMenu(
+            modifier = Modifier.fillMaxWidth(),
             expanded = expanded,
             onDismissRequest = {
                 expanded = false
@@ -59,11 +61,11 @@ fun FilterList(
                 DropdownMenuItem(
                     text = {
                         Text(
-                            text = option.text.toString()
+                            text = "${option.text}${option.type?.let { " - $it" } ?: ""}"
                         )
                     },
                     onClick = {
-                        selectedText = option.text.toString()
+                        selectedText = "${option.text}${option.type?.let { " - $it" } ?: ""}"
                         onSelectOption(option)
                         expanded = false
                     }
@@ -83,9 +85,9 @@ fun FilterListPreview() {
                 .padding(16.dp),
             label = "Category",
             options = listOf(
-                FilterData(id = 1, text = 2024),
-                FilterData(id = 2, text = 2025),
-                FilterData(id = 3, text = 2026)
+                FilterData(id = 1, text = "2024"),
+                FilterData(id = 2, text = "2025"),
+                FilterData(id = 3, text = "2026")
             )
         )
     }
@@ -101,9 +103,9 @@ fun FilterListDarkPreview() {
                 .padding(16.dp),
             label = "Category",
             options = listOf(
-                FilterData(id = 1, text = 2024),
-                FilterData(id = 2, text = 2025),
-                FilterData(id = 3, text = 2026)
+                FilterData(id = 1, text = "2024"),
+                FilterData(id = 2, text = "2025"),
+                FilterData(id = 3, text = "2026")
             )
         )
     }
