@@ -15,4 +15,7 @@ sealed class HomeRoutes: NavKey, Parcelable {
     @Serializable
     @Parcelize
     object Players: HomeRoutes()
+    @Serializable
+    @Parcelize
+    object Ranks: HomeRoutes()
 }

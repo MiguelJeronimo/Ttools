@@ -16,14 +16,32 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.TibiaTools.presentation.theme.TibiaToolsTheme
 
+
+
+data class PlayerInfo (
+    val rank: Int,
+    val name: String,
+    val vocation: String,
+    val world:String,
+    val level: Int,
+    val experience: Double
+)
 @Composable
 fun PlayerLists(
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
+    playerInfo: PlayerInfo = PlayerInfo(
+        rank = 1,
+        name = "Lunatic Princess",
+        vocation = "EK",
+        world = "Celesta",
+        level = 2418,
+        experience = 235267.7
+    )
 ){
     Row(modifier = modifier) {
         Text(
             modifier = Modifier.align(Alignment.CenterVertically),
-            text = "4",
+            text = "${playerInfo.rank}",
             style = MaterialTheme.typography.titleMedium.copy(
                 fontSize = 18.sp,
                 fontWeight = FontWeight.ExtraBold
@@ -32,13 +50,13 @@ fun PlayerLists(
         Spacer(modifier = Modifier.padding(horizontal = 4.dp))
         Column(modifier = Modifier.fillMaxWidth().weight(0.5f)) {
             Text(
-                text = "Lunatic Princess",
+                text = playerInfo.name,
                 style = MaterialTheme.typography.titleMedium
             )
             Text(
-                text = "EK * Celesta",
+                text = "${playerInfo.vocation} - ${playerInfo.world}",
                 style = MaterialTheme.typography.bodySmall,
-                color = MaterialTheme.colorScheme.onSecondary.copy(alpha = 0.6f)
+                color = MaterialTheme.colorScheme.secondary.copy(alpha = 0.6f)
             )
         }
 
@@ -47,13 +65,13 @@ fun PlayerLists(
             horizontalAlignment = Alignment.End
         ) {
             Text(
-                text = "Lv 2418",
+                text = "Lv ${playerInfo.level}",
                 style = MaterialTheme.typography.titleMedium
             )
             Text(
-                text = "235267.7M xp",
+                text = "${playerInfo.experience}M xp",
                 style = MaterialTheme.typography.bodySmall,
-                color = MaterialTheme.colorScheme.onSecondary.copy(alpha = 0.6f)
+                color = MaterialTheme.colorScheme.secondary.copy(alpha = 0.6f)
             )
         }
     }

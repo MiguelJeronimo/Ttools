@@ -1,6 +1,8 @@
 package com.example.TibiaTools.presentation
 
+import android.os.Build
 import android.util.Log
+import androidx.annotation.RequiresApi
 import androidx.compose.animation.ContentTransform
 import androidx.compose.animation.EnterTransition
 import androidx.compose.animation.ExitTransition
@@ -42,6 +44,7 @@ import com.example.TibiaTools.presentation.components.MainBottonBar
 import com.example.TibiaTools.presentation.components.MainDrawerMenu
 import com.example.TibiaTools.presentation.routes.HomeRoutes
 import com.example.TibiaTools.presentation.routes.Options
+import com.example.TibiaTools.presentation.screens.HighScoresScreen
 import com.example.TibiaTools.presentation.screens.HomeScreen
 import com.example.TibiaTools.presentation.screens.SearchPlayerScreen
 import com.example.TibiaTools.presentation.screens.ToolsScreen
@@ -59,6 +62,7 @@ private fun fadeInUp(offsetPx: Int): ContentTransform =
                 initialOffsetY = { offsetPx },
             )) togetherWith ExitTransition.None
 
+@RequiresApi(Build.VERSION_CODES.O)
 @Composable
 fun MainScreen() {
     val backStack = rememberNavBackStack(HomeRoutes.Home)
@@ -84,6 +88,10 @@ fun MainScreen() {
         onPlayerClick = {
             scope.launch { drawerState.close() }
             backStack.navigateTo(HomeRoutes.Players)
+        },
+        onHighScoresClick = {
+            scope.launch { drawerState.close() }
+            backStack.navigateTo(HomeRoutes.Ranks)
         }
     ) {
         Scaffold(
@@ -100,6 +108,9 @@ fun MainScreen() {
                             }
                             Options.PLAYERS.name-> {
                                 backStack.navigateTo(HomeRoutes.Players)
+                            }
+                            Options.RANKS.name-> {
+                                backStack.navigateTo(HomeRoutes.Ranks)
                             }
                         }
                     }
@@ -177,6 +188,11 @@ fun MainScreen() {
                         }
                         HomeRoutes.Players -> NavEntry(HomeRoutes.Players) {
                             SearchPlayerScreen(
+                                modifier = Modifier.fillMaxSize().padding(horizontal = 16.dp),
+                            )
+                        }
+                        HomeRoutes.Ranks -> NavEntry(HomeRoutes.Ranks) {
+                            HighScoresScreen(
                                 modifier = Modifier.fillMaxSize().padding(horizontal = 16.dp),
                             )
                         }
