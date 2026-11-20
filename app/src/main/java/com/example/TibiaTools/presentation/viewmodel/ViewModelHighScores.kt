@@ -26,9 +26,9 @@ class ViewModelHighScores(
     private val _worlds = MutableStateFlow<UIStateWords>(UIStateWords.Idle)
     val worlds = _worlds.asStateFlow()
 
-    private val world = MutableStateFlow("")
-    private val category = MutableStateFlow("")
-    private val vocation = MutableStateFlow("")
+    private val world = MutableStateFlow("all")
+    private val category = MutableStateFlow("experience")
+    private val vocation = MutableStateFlow("all")
 
     val ranks: Flow<PagingData<HighScoreItem>> = combine(
         world,
@@ -60,10 +60,15 @@ class ViewModelHighScores(
             runCatching { getWorldsUseCase() }
                 .onSuccess { dataWords ->
                     val arrayWorlds = arrayListOf("Seleccione")
-                    dataWords.worlds?.regularWorlds?.forEach { world ->
-                        world.name.let { arrayWorlds.add(it) }
+                    dataWords.worlds?.regularWorlds?.forEach { worldItem ->
+                        worldItem.name.let { arrayWorlds.add(it) }
                     }
                     _worlds.value = UIStateWords.Success(dataWords)
+                    if (world.value.isEmpty()) {
+                        dataWords.worlds?.regularWorlds?.firstOrNull()?.name?.let {
+                            world.value = it
+                        }
+                    }
                 }
                 .onFailure { _worlds.value = UIStateWords.Error(it.message) }
         }

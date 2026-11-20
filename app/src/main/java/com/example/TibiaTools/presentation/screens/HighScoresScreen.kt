@@ -46,6 +46,7 @@ import com.example.TibiaTools.presentation.components.TopPodiumSection
 import com.example.TibiaTools.presentation.theme.TibiaToolsTheme
 import com.example.TibiaTools.presentation.viewmodel.ViewModelHighScores
 import com.example.TibiaTools.utils.RawResourceReader
+import com.example.TibiaTools.utils.ex.toSpaceReplace
 import com.example.ttools.R
 import org.koin.androidx.compose.koinViewModel
 
@@ -60,8 +61,13 @@ fun HighScoresScreen(
         modifier = modifier,
         worldsState = worlds.value,
         ranks = ranks,
-        onSelectWorld = {viewModelHigscores.setWorld(it.text)},
-        onSelectCategory = { viewModelHigscores.setCategory(it) }
+        onSelectWorld = {
+            viewModelHigscores.setWorld(it.text)
+        },
+        onSelectCategory = {
+            Log.i("HigScoresScreen", it)
+            viewModelHigscores.setCategory(it.toSpaceReplace())
+        }
     )
 }
 
@@ -119,11 +125,11 @@ fun HighScoresScreen(
                         options = worldsList,
                         onSelectOption = onSelectWorld
                     )
-                    Spacer(modifier = Modifier.size(16.dp))
-                    SingleSelectButton(
-                        modifier = Modifier.fillMaxWidth(),
-                        options = listOf("All", "EK", "RP", "MS", "ED", "MK")
-                    )
+//                    Spacer(modifier = Modifier.size(16.dp))
+//                    SingleSelectButton(
+//                        modifier = Modifier.fillMaxWidth(),
+//                        options = listOf("All", "EK", "RP", "MS", "ED", "MK")
+//                    )
                     Spacer(modifier = Modifier.size(16.dp))
                     SingleChipSelector(
                         modifier = Modifier.fillMaxWidth(),
@@ -171,30 +177,17 @@ fun HighScoresScreen(
                     }
 
                     else -> {
-                        val players = it.itemSnapshotList.items.map {
-                            PlayerInfo(
-                                rank = it.rank,
-                                name = it.name,
-                                world = it.world,
-                                vocation = it.vocation,
-                                level = it.level,
-                                value = it.value
-                            )
-                        }
-
                         item {
-                            val tops = it.itemSnapshotList.map(transform = { top ->
-                                if (top != null && top.rank <= 3) {
+                            val tops = (0 until minOf(3, it.itemCount)).mapNotNull { index ->
+                                it[index]?.let { top ->
                                     PodiumPlayer(
                                         rank = top.rank,
                                         name = top.name,
                                         level = top.level.toLong(),
                                         vocation = top.vocation
                                     )
-                                } else {
-                                    null
                                 }
-                            }).filterNotNull()
+                            }
 
                             TopPodiumSection(
                                 modifier = Modifier.fillMaxWidth(),
@@ -202,33 +195,41 @@ fun HighScoresScreen(
                             )
                         }
 
-                        itemsIndexed(
-                            items = players,
-                            key = { _, player -> player.rank },
-                        ) { index, player ->
-                            val isFirst = index == 0
-                            val isLast = index == players.lastIndex
-                            Surface(
-                                modifier = Modifier
-                                    .fillMaxWidth()
-                                    .animateItem(),
-                                shape = segmentShape(index, players.lastIndex),
-                                color = MaterialTheme.colorScheme.surfaceContainerLow,
-                                contentColor = MaterialTheme.colorScheme.onSurface
-                            ) {
-                                if (isFirst) {
-                                    Spacer(modifier = Modifier.size(16.dp))
-                                }
-                                if(player.rank > 3){
+                        items(
+                            count = it.itemCount,
+                            key = { index ->
+                                val item = it[index]
+                                "${item?.name ?: ""}_${item?.rank ?: index}_$index"
+                            }
+                        ) { index ->
+                            val item = it[index]
+                            if (item != null && item.rank > 3) {
+                                val player = PlayerInfo(
+                                    rank = item.rank,
+                                    name = item.name,
+                                    world = item.world,
+                                    vocation = item.vocation,
+                                    level = item.level,
+                                    value = item.value
+                                )
+                                val isLast = index == it.itemCount - 1
+                                Surface(
+                                    modifier = Modifier
+                                        .fillMaxWidth()
+                                        .animateItem(),
+                                    shape = segmentShape(index, it.itemCount - 1),
+                                    color = MaterialTheme.colorScheme.surfaceContainerLow,
+                                    contentColor = MaterialTheme.colorScheme.onSurface
+                                ) {
                                     PlayerLists(
                                         modifier = Modifier
                                             .fillMaxWidth()
                                             .padding(horizontal = 16.dp, vertical = 16.dp),
                                         playerInfo = player
                                     )
-                                }
-                                if (isLast || !isFirst) {
-                                    HorizontalDivider()
+                                    if (!isLast) {
+                                        HorizontalDivider()
+                                    }
                                 }
                             }
                         }
