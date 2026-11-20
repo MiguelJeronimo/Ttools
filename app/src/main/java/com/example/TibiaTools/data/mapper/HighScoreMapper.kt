@@ -2,13 +2,16 @@ package com.example.TibiaTools.data.mapper
 
 import com.example.TibiaTools.data.dto.HighScoreDataDto
 import com.example.TibiaTools.data.dto.HighScoreItemDto
+import com.example.TibiaTools.data.dto.HighScorePageDto
 import com.example.TibiaTools.data.dto.HighScoresResponseDto
 import com.example.TibiaTools.domain.model.HighScoreData
 import com.example.TibiaTools.domain.model.HighScoreItem
+import com.example.TibiaTools.domain.model.HighScorePage
 import com.example.TibiaTools.domain.model.HighScoresResponse
 
 fun HighScoresResponseDto.toDomain(): HighScoresResponse = HighScoresResponse(
-    highscores = highscores?.toDomain()
+    highscores = highscores?.toDomain(),
+    information = information?.toDomain()
 )
 
 fun HighScoreDataDto.toDomain(): HighScoreData = HighScoreData(
@@ -16,7 +19,14 @@ fun HighScoreDataDto.toDomain(): HighScoreData = HighScoreData(
     category = category.orEmpty(),
     vocation = vocation.orEmpty(),
     highscoreAge = highscoreAge,
-    highscoreList = highscoreList.map { it.toDomain() }
+    highscoreList = highscoreList.map { it.toDomain() },
+    highscorePage = highscorePage?.toDomain()
+)
+
+fun HighScorePageDto.toDomain(): HighScorePage = HighScorePage(
+    currentPage = currentPage,
+    totalPages = totalPages,
+    totalRecords = totalRecords
 )
 
 fun HighScoreItemDto.toDomain(): HighScoreItem = HighScoreItem(

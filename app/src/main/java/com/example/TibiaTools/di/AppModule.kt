@@ -47,6 +47,7 @@ val appModule = module {
     factory { GetNewsLatestUseCase(get()) }
     factory { GetNewsTickersUseCase(get()) }
     factory { GetHighScoreInformationUseCase(get()) }
+    factory {GetHighScoreInformationUseCasePager(get())}
     factory { GetHousesInformationUseCase(get()) }
     factory { GetHouseInformationUseCase(get()) }
 
@@ -64,5 +65,5 @@ val appModule = module {
     viewModel { ViewModelSpells(get()) }
     viewModel { ViewModelWorlds(get()) }
     viewModel { ViewModelSpell(get()) }
-    viewModel { ViewModelHighScores(get(), get()) }
+    viewModel { ViewModelHighScores(get(), get(), get()) }
 }

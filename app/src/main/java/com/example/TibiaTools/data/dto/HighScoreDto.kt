@@ -10,7 +10,11 @@ import kotlinx.serialization.Serializable
 data class HighScoresResponseDto(
     @SerializedName("highscores")
     @SerialName("highscores")
-    val highscores: HighScoreDataDto? = null
+    val highscores: HighScoreDataDto? = null,
+
+    @SerializedName("information")
+    @SerialName("information")
+    val information: InformationDto? = null
 )
 
 @Keep
@@ -34,7 +38,27 @@ data class HighScoreDataDto(
 
     @SerializedName("highscore_list")
     @SerialName("highscore_list")
-    val highscoreList: List<HighScoreItemDto> = emptyList()
+    val highscoreList: List<HighScoreItemDto> = emptyList(),
+
+    @SerializedName("highscore_page")
+    @SerialName("highscore_page")
+    val highscorePage: HighScorePageDto? = null
+)
+
+@Keep
+@Serializable
+data class HighScorePageDto(
+    @SerializedName("current_page")
+    @SerialName("current_page")
+    val currentPage: Int = 0,
+
+    @SerializedName("total_pages")
+    @SerialName("total_pages")
+    val totalPages: Int = 0,
+
+    @SerializedName("total_records")
+    @SerialName("total_records")
+    val totalRecords: Int = 0
 )
 
 @Keep
@@ -50,7 +74,7 @@ data class HighScoreItemDto(
 
     @SerializedName("value")
     @SerialName("value")
-    val value: Float = 0f,
+    val value: Long = 0L,
 
     @SerializedName("name")
     @SerialName("name")

@@ -41,11 +41,12 @@ interface TibiaAPIServer {
     @GET("/v4/news/newsticker")
     suspend fun getNewsTickers(): NewsTickerResponseDto
 
-    @GET("/v4/highscores/{world}/{category}/{vocation}")
+    @GET("/v4/highscores/{world}/{category}/{vocation}/{page}")
     suspend fun getHighScoreInformation(
         @Path("world") world: String,
         @Path("category") category: String,
-        @Path("vocation") vocation: String
+        @Path("vocation") vocation: String,
+        @Path("page") page: Int = 1
     ): HighScoresResponseDto
 
     @GET("/v4/houses/{world}/{town}")

@@ -1,6 +1,8 @@
 package com.example.TibiaTools.domain.repository
 
+import androidx.paging.PagingData
 import com.example.TibiaTools.domain.model.*
+import kotlinx.coroutines.flow.Flow
 
 interface TibiaRepository {
     suspend fun getCharacter(name: String): CharacterInformation
@@ -16,6 +18,7 @@ interface TibiaRepository {
     suspend fun getNewsLatest(): NewsResponse
     suspend fun getNewsTickers(): NewsTickerResponse
     suspend fun getHighScoreInformation(world: String, category: String, vocation: String): HighScoresResponse
+    fun getHighScoreInformationPaging(world: String, category: String,vocation: String, paging: Int = 1): Flow<PagingData<HighScoreItem>>
     suspend fun getHousesInformation(world: String, town: String): HousesResponse
     suspend fun getHouseInformation(world: String, houseId: String): HouseInformationResponse
 }

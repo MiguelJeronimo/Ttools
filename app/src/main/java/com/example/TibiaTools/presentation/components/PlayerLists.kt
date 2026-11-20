@@ -24,7 +24,7 @@ data class PlayerInfo (
     val vocation: String,
     val world:String,
     val level: Int,
-    val experience: Double
+    val value: Long
 )
 @Composable
 fun PlayerLists(
@@ -35,7 +35,7 @@ fun PlayerLists(
         vocation = "EK",
         world = "Celesta",
         level = 2418,
-        experience = 235267.7
+        value = 235267
     )
 ){
     Row(modifier = modifier) {
@@ -69,7 +69,7 @@ fun PlayerLists(
                 style = MaterialTheme.typography.titleMedium
             )
             Text(
-                text = "${playerInfo.experience}M xp",
+                text = "${playerInfo.value}M xp",
                 style = MaterialTheme.typography.bodySmall,
                 color = MaterialTheme.colorScheme.secondary.copy(alpha = 0.6f)
             )

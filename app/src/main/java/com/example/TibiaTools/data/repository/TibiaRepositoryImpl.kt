@@ -1,9 +1,14 @@
 package com.example.TibiaTools.data.repository
 
+import androidx.paging.Pager
+import androidx.paging.PagingConfig
+import androidx.paging.PagingData
 import com.example.TibiaTools.data.mapper.toDomain
+import com.example.TibiaTools.data.paging.HighScorePagingSource
 import com.example.TibiaTools.data.retrofit.TibiaAPIServer
 import com.example.TibiaTools.domain.model.*
 import com.example.TibiaTools.domain.repository.TibiaRepository
+import kotlinx.coroutines.flow.Flow
 
 class TibiaRepositoryImpl(
     private val apiServer: TibiaAPIServer
@@ -46,6 +51,19 @@ class TibiaRepositoryImpl(
 
     override suspend fun getHighScoreInformation(world: String, category: String, vocation: String): HighScoresResponse =
         apiServer.getHighScoreInformation(world, category, vocation).toDomain()
+
+    override fun getHighScoreInformationPaging(
+        world: String,
+        category: String,
+        vocation: String,
+        paging: Int
+    ): Flow<PagingData<HighScoreItem>> {
+        return Pager(
+            config = PagingConfig(pageSize = paging, initialLoadSize = 20),
+            pagingSourceFactory = { HighScorePagingSource(apiServer, world.ifEmpty { "all" }, category.ifEmpty { "experience" }, vocation.ifEmpty { "all" }) }
+        ).flow
+    }
+
 
     override suspend fun getHousesInformation(world: String, town: String): HousesResponse =
         apiServer.getHousesInformation(world, town).toDomain()

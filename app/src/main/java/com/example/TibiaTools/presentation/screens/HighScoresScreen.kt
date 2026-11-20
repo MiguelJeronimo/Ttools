@@ -1,5 +1,6 @@
 package com.example.TibiaTools.presentation.screens
 
+import android.util.Log
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.WindowInsets
@@ -14,27 +15,39 @@ import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Surface
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.RectangleShape
 import androidx.compose.ui.graphics.Shape
+import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import androidx.paging.LoadState
+import androidx.paging.compose.LazyPagingItems
+import androidx.paging.compose.collectAsLazyPagingItems
+import com.example.TibiaTools.domain.model.HighScoreItem
 import com.example.TibiaTools.presentation.components.CustomLinearWavyProgressIndicator
 import com.example.TibiaTools.presentation.components.FilterData
 import com.example.TibiaTools.presentation.components.FilterList
+import com.example.TibiaTools.presentation.components.Loader
 import com.example.TibiaTools.presentation.components.PlayerInfo
 import com.example.TibiaTools.presentation.components.PlayerLists
 import com.example.TibiaTools.presentation.components.PodiumPlayer
 import com.example.TibiaTools.presentation.components.SingleChipSelector
+import com.example.TibiaTools.presentation.components.SingleChoiceSegmentedButton
 import com.example.TibiaTools.presentation.components.SingleSelectButton
 import com.example.TibiaTools.presentation.components.TopPodiumSection
 import com.example.TibiaTools.presentation.theme.TibiaToolsTheme
 import com.example.TibiaTools.presentation.viewmodel.ViewModelHighScores
+import com.example.TibiaTools.utils.RawResourceReader
+import com.example.ttools.R
 import org.koin.androidx.compose.koinViewModel
-
 
 @Composable
 fun HighScoresScreen(
@@ -42,16 +55,31 @@ fun HighScoresScreen(
     viewModelHigscores: ViewModelHighScores = koinViewModel()
 ) {
     val worlds = viewModelHigscores.worlds.collectAsStateWithLifecycle()
+    val ranks = viewModelHigscores.ranks.collectAsLazyPagingItems()
     HighScoresScreen(
         modifier = modifier,
-        worldsState = worlds.value
+        worldsState = worlds.value,
+        ranks = ranks,
+        onSelectWorld = {viewModelHigscores.setWorld(it.text)}
     )
 }
+
 @Composable
 fun HighScoresScreen(
     modifier: Modifier = Modifier,
-    worldsState: ViewModelHighScores.UIStateWords
+    worldsState: ViewModelHighScores.UIStateWords,
+    ranks: LazyPagingItems<HighScoreItem>? = null,
+    onSelectWorld: (option: FilterData) -> Unit = {}
 ) {
+    val context = LocalContext.current
+    val vocations = remember {
+        RawResourceReader.readLines(context.resources.openRawResource(R.raw.vocations))
+    }
+
+    val categories = remember {
+        RawResourceReader.readLines(context.resources.openRawResource(R.raw.categorias))
+    }
+
     Scaffold(
         modifier = modifier,
         contentWindowInsets = WindowInsets(0, 0, 0, 0)
@@ -67,137 +95,140 @@ fun HighScoresScreen(
                     horizontalAlignment = Alignment.CenterHorizontally
                 ) {
                     var worldsList = listOf<FilterData>()
-                    when(val worlds = worldsState){
-                        is ViewModelHighScores.UIStateWords.Idle->{}
-                        is ViewModelHighScores.UIStateWords.Loading ->{
+                    when (val worlds = worldsState) {
+                        is ViewModelHighScores.UIStateWords.Idle -> {}
+                        is ViewModelHighScores.UIStateWords.Loading -> {
                             CustomLinearWavyProgressIndicator()
                         }
-                        is ViewModelHighScores.UIStateWords.Success ->{
+                        is ViewModelHighScores.UIStateWords.Success -> {
                             worldsList = worlds.worlds?.worlds?.regularWorlds?.mapIndexed { index, world ->
                                 FilterData(
                                     id = index,
                                     text = world.name,
                                     type = world.pvpType
                                 )
-                            }?: emptyList()
+                            } ?: emptyList()
                         }
-                        else->{}
+                        else -> {}
                     }
                     FilterList(
-                        modifier = Modifier
-                            .fillMaxWidth(),
+                        modifier = Modifier.fillMaxWidth(),
                         label = "Select world",
-                        options = worldsList
+                        options = worldsList,
+                        onSelectOption = onSelectWorld
                     )
                     Spacer(modifier = Modifier.size(16.dp))
                     SingleSelectButton(
-                        options = listOf("All", "EK", "RP", "MS", "ED")
+                        modifier = Modifier.fillMaxWidth(),
+                        options = listOf("All", "EK", "RP", "MS", "ED", "MK")
                     )
                     Spacer(modifier = Modifier.size(16.dp))
                     SingleChipSelector(
                         modifier = Modifier.fillMaxWidth(),
-                        options = listOf(
-                            "Experience",
-                            "Magic level",
-                            "Sword",
-                            "Axe",
-                            "Distances"
-                        )
+                        options = categories
                     )
                     Spacer(modifier = Modifier.size(16.dp))
-                    TopPodiumSection(
-                        modifier = Modifier.fillMaxWidth(),
-                        players = listOf(
-                            PodiumPlayer(
-                                rank = 1,
-                                name = "Lunatic Princess",
-                                vocation = "EK",
-                                level = 2418,
-                            ),
-                            PodiumPlayer(
-                                rank = 2,
-                                name = "Lunatic Princess",
-                                vocation = "EK",
-                                level = 2418,
-                            ),
-                            PodiumPlayer(
-                                rank = 3,
-                                name = "Lunatic Princess",
-                                vocation = "EK",
-                                level = 2418,
-                            )
-                        )
-                    )
                 }
             }
-
-            val players = listOf(
-                PlayerInfo(
-                    rank = 1,
-                    name = "Lunatic Princess",
-                    world = "Antica",
-                    vocation = "EK",
-                    level = 2418,
-                    experience = 235267.7
-                ),
-                PlayerInfo(
-                    rank = 2,
-                    name = "Lunatic Princess",
-                    world = "Antica",
-                    vocation = "EK",
-                    level = 2418,
-                    experience = 235267.7
-                ),
-                PlayerInfo(
-                    rank = 3,
-                    name = "Lunatic Princess",
-                    world = "Antica",
-                    vocation = "EK",
-                    level = 2418,
-                    experience = 235267.7
-                ),
-                PlayerInfo(
-                    rank = 4,
-                    name = "Lunatic Princess",
-                    world = "Antica",
-                    vocation = "EK",
-                    level = 2418,
-                    experience = 235267.7
-                ),
-                PlayerInfo(
-                    rank = 5,
-                    name = "Lunatic Princess",
-                    world = "Antica",
-                    vocation = "EK",
-                    level = 2418,
-                    experience = 235267.7
-                )
-            )
-
-            itemsIndexed(
-                items = players,
-                key = { _, player -> player.rank },
-            ) { index, player ->
-                val isFirst = index == 0
-                val isLast = index == players.lastIndex
-                Surface(
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .animateItem(),
-                    shape = segmentShape(index, players.lastIndex),
-                    color = MaterialTheme.colorScheme.surfaceContainerLow,
-                    contentColor = MaterialTheme.colorScheme.onSurface
-                ) {
-                    if (isFirst) {
-                        Spacer(modifier = Modifier.size(16.dp))
+            ranks?.let {
+                Log.i("HigScoresScreen", "state: ${it.loadState.refresh}")
+                when (it.loadState.refresh) {
+                    is LoadState.Loading if ranks.itemCount == 0 -> {
+                        item {
+                            Loader()
+                        }
                     }
-                    PlayerLists(
-                        modifier = Modifier
-                            .fillMaxWidth().padding(horizontal = 16.dp, vertical = 16.dp),
-                        playerInfo = player
-                    )
-                    if (isLast || !isFirst) {
-                        HorizontalDivider()
+                    //vacio
+                    is LoadState.NotLoading if it.itemCount == 0 -> {
+                        item {
+                            Column(modifier = Modifier.fillMaxWidth()) {
+                                Spacer(modifier = Modifier.size(16.dp))
+                                Text(
+                                    text = "not data available",
+                                    style = MaterialTheme.typography.labelMedium.copy(fontSize = 14.sp),
+                                    fontWeight = FontWeight.Bold,
+                                )
+                                Spacer(modifier = Modifier.size(16.dp))
+                            }
+                        }
+                    }
+
+                    is LoadState.Error -> {
+                        item {
+                            Column(modifier = Modifier.fillMaxWidth()) {
+                                Spacer(modifier = Modifier.size(16.dp))
+                                Text(
+                                    text = "Something went wrong trying to get the data",
+                                    style = MaterialTheme.typography.labelMedium.copy(fontSize = 14.sp),
+                                    fontWeight = FontWeight.Bold,
+                                )
+                                Spacer(modifier = Modifier.size(16.dp))
+                            }
+                        }
+                    }
+
+                    else -> {
+                        val players = it.itemSnapshotList.items.map {
+                            PlayerInfo(
+                                rank = it.rank,
+                                name = it.name,
+                                world = it.world,
+                                vocation = it.vocation,
+                                level = it.level,
+                                value = it.value
+                            )
+                        }
+
+                        item {
+                            val tops = it.itemSnapshotList.map(transform = { top ->
+                                if (top != null && top.rank <= 3) {
+                                    PodiumPlayer(
+                                        rank = top.rank,
+                                        name = top.name,
+                                        level = top.value,
+                                        vocation = top.vocation
+                                    )
+                                } else {
+                                    null
+                                }
+                            }).filterNotNull()
+
+                            TopPodiumSection(
+                                modifier = Modifier.fillMaxWidth(),
+                                players = tops
+                            )
+                        }
+
+                        itemsIndexed(
+                            items = players,
+                            key = { _, player -> player.rank },
+                        ) { index, player ->
+                            val isFirst = index == 0
+                            val isLast = index == players.lastIndex
+                            Surface(
+                                modifier = Modifier
+                                    .fillMaxWidth()
+                                    .animateItem(),
+                                shape = segmentShape(index, players.lastIndex),
+                                color = MaterialTheme.colorScheme.surfaceContainerLow,
+                                contentColor = MaterialTheme.colorScheme.onSurface
+                            ) {
+                                if (isFirst) {
+                                    Spacer(modifier = Modifier.size(16.dp))
+                                }
+                                if(player.rank > 3){
+                                    PlayerLists(
+                                        modifier = Modifier
+                                            .fillMaxWidth()
+                                            .padding(horizontal = 16.dp, vertical = 16.dp),
+                                        playerInfo = player
+                                    )
+                                }
+                                if (isLast || !isFirst) {
+                                    HorizontalDivider()
+                                }
+                            }
+                        }
                     }
                 }
             }
@@ -214,14 +245,13 @@ private fun segmentShape(index: Int, lastIndex: Int): Shape = when {
     else -> RectangleShape
 }
 
-
 @Preview(showBackground = true)
 @Composable
 fun HighScoresScreenPreview() {
     TibiaToolsTheme(darkTheme = true) {
         HighScoresScreen(
-            modifier = Modifier
-                .fillMaxSize(),
+            modifier = Modifier.fillMaxSize(),
+            worldsState = ViewModelHighScores.UIStateWords.Success()
         )
     }
 }

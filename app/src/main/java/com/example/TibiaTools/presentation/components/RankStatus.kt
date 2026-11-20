@@ -30,7 +30,7 @@ import com.example.TibiaTools.presentation.theme.TibiaToolsTheme
 data class PodiumPlayer(
     val rank: Int, // 1, 2, 3
     val name: String,
-    val level: Int,
+    val level: Long,
     val vocation: String
 )
 
