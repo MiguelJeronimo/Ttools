@@ -60,7 +60,8 @@ fun HighScoresScreen(
         modifier = modifier,
         worldsState = worlds.value,
         ranks = ranks,
-        onSelectWorld = {viewModelHigscores.setWorld(it.text)}
+        onSelectWorld = {viewModelHigscores.setWorld(it.text)},
+        onSelectCategory = { viewModelHigscores.setCategory(it) }
     )
 }
 
@@ -69,7 +70,8 @@ fun HighScoresScreen(
     modifier: Modifier = Modifier,
     worldsState: ViewModelHighScores.UIStateWords,
     ranks: LazyPagingItems<HighScoreItem>? = null,
-    onSelectWorld: (option: FilterData) -> Unit = {}
+    onSelectWorld: (option: FilterData) -> Unit = {},
+    onSelectCategory: (option: String) -> Unit = {}
 ) {
     val context = LocalContext.current
     val vocations = remember {
@@ -125,7 +127,8 @@ fun HighScoresScreen(
                     Spacer(modifier = Modifier.size(16.dp))
                     SingleChipSelector(
                         modifier = Modifier.fillMaxWidth(),
-                        options = categories
+                        options = categories,
+                        onClick = onSelectCategory
                     )
                     Spacer(modifier = Modifier.size(16.dp))
                 }
@@ -185,7 +188,7 @@ fun HighScoresScreen(
                                     PodiumPlayer(
                                         rank = top.rank,
                                         name = top.name,
-                                        level = top.value,
+                                        level = top.level.toLong(),
                                         vocation = top.vocation
                                     )
                                 } else {

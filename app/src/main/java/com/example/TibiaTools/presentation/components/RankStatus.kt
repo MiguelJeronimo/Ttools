@@ -31,7 +31,8 @@ data class PodiumPlayer(
     val rank: Int, // 1, 2, 3
     val name: String,
     val level: Long,
-    val vocation: String
+    val vocation: String,
+    val value: Long = 0L
 )
 
 @Composable
@@ -55,7 +56,7 @@ fun TopPodiumSection(
             PodiumCardItem(
                 modifier = Modifier.weight(1f),
                 player = second,
-                cardHeight = 130.dp,
+                cardHeight = 145.dp,
                 badgeColor = MaterialTheme.colorScheme.tertiary,
                 badgeTextColor = MaterialTheme.colorScheme.background,
                 containerColor = MaterialTheme.colorScheme.tertiaryContainer,
@@ -68,7 +69,7 @@ fun TopPodiumSection(
             PodiumCardItem(
                 modifier = Modifier.weight(1.1f),
                 player = first,
-                cardHeight = 160.dp,
+                cardHeight = 175.dp,
                 badgeColor = MaterialTheme.colorScheme.primary,
                 badgeTextColor = MaterialTheme.colorScheme.onPrimary,
                 containerColor = MaterialTheme.colorScheme.primaryContainer,
@@ -81,7 +82,7 @@ fun TopPodiumSection(
             PodiumCardItem(
                 modifier = Modifier.weight(1f),
                 player = third,
-                cardHeight = 110.dp,
+                cardHeight = 130.dp,
                 badgeColor = MaterialTheme.colorScheme.secondary,
                 badgeTextColor = MaterialTheme.colorScheme.onSecondary,
                 containerColor = MaterialTheme.colorScheme.secondaryContainer,
@@ -157,7 +158,7 @@ fun PodiumCardItem(
             Column(
                 modifier = Modifier
                     .fillMaxWidth()
-                    .padding(horizontal = 8.dp, vertical = 12.dp),
+                    .padding(horizontal = 6.dp, vertical = 12.dp),
                 horizontalAlignment = Alignment.CenterHorizontally,
                 verticalArrangement = Arrangement.Center
             ) {
@@ -182,6 +183,19 @@ fun PodiumCardItem(
                     maxLines = 1,
                     textAlign = TextAlign.Center
                 )
+                if (player.value > 0L) {
+                    Spacer(modifier = Modifier.height(4.dp))
+                    Text(
+                        text = "${player.value}",
+                        style = MaterialTheme.typography.bodySmall.copy(
+                            fontSize = 10.sp,
+                            fontWeight = FontWeight.Medium
+                        ),
+                        color = contentColor.copy(alpha = 0.7f),
+                        maxLines = 1,
+                        textAlign = TextAlign.Center
+                    )
+                }
             }
         }
     }
@@ -193,9 +207,9 @@ fun TopPodiumSectionPreview() {
     TibiaToolsTheme(darkTheme = true) {
         TopPodiumSection(
             players = listOf(
-                PodiumPlayer(rank = 1, name = "Elder Reno", level = 2792, vocation = "ED"),
-                PodiumPlayer(rank = 2, name = "King Danter", level = 2701, vocation = "EK"),
-                PodiumPlayer(rank = 3, name = "Venoox", level = 2610, vocation = "RP")
+                PodiumPlayer(rank = 1, name = "Elder Reno", level = 2792, vocation = "ED", value = 220584452482L),
+                PodiumPlayer(rank = 2, name = "King Danter", level = 2701, vocation = "EK", value = 185177220100L),
+                PodiumPlayer(rank = 3, name = "Venoox", level = 2610, vocation = "RP", value = 175524313572L)
             )
         )
     }
