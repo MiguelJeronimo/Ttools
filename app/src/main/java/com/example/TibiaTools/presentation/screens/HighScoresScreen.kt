@@ -1,6 +1,7 @@
 package com.example.TibiaTools.presentation.screens
 
 import android.util.Log
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.WindowInsets
@@ -9,7 +10,6 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.MaterialTheme
@@ -40,8 +40,6 @@ import com.example.TibiaTools.presentation.components.PlayerInfo
 import com.example.TibiaTools.presentation.components.PlayerLists
 import com.example.TibiaTools.presentation.components.PodiumPlayer
 import com.example.TibiaTools.presentation.components.SingleChipSelector
-import com.example.TibiaTools.presentation.components.SingleChoiceSegmentedButton
-import com.example.TibiaTools.presentation.components.SingleSelectButton
 import com.example.TibiaTools.presentation.components.TopPodiumSection
 import com.example.TibiaTools.presentation.theme.TibiaToolsTheme
 import com.example.TibiaTools.presentation.viewmodel.ViewModelHighScores
@@ -203,7 +201,7 @@ fun HighScoresScreen(
                             }
                         ) { index ->
                             val item = it[index]
-                            if (item != null && item.rank > 3) {
+                            if (item != null && index >= 3) {
                                 val player = PlayerInfo(
                                     rank = item.rank,
                                     name = item.name,
@@ -230,6 +228,19 @@ fun HighScoresScreen(
                                     if (!isLast) {
                                         HorizontalDivider()
                                     }
+                                }
+                            }
+                        }
+
+                        if (it.loadState.append is LoadState.Loading) {
+                            item {
+                                Box(
+                                    modifier = Modifier
+                                        .fillMaxWidth()
+                                        .padding(16.dp),
+                                    contentAlignment = Alignment.Center
+                                ) {
+                                    CustomLinearWavyProgressIndicator()
                                 }
                             }
                         }

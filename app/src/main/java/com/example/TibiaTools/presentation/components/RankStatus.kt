@@ -40,9 +40,9 @@ fun TopPodiumSection(
     modifier: Modifier = Modifier,
     players: List<PodiumPlayer>
 ) {
-    val first = players.find { it.rank == 1 }
-    val second = players.find { it.rank == 2 }
-    val third = players.find { it.rank == 3 }
+    val centerPlayer = players.getOrNull(0) // 1er puesto (Centro)
+    val leftPlayer = players.getOrNull(1)   // 2do puesto (Izquierda)
+    val rightPlayer = players.getOrNull(2)  // 3er puesto (Derecha)
 
     Row(
         modifier = modifier
@@ -52,10 +52,10 @@ fun TopPodiumSection(
         verticalAlignment = Alignment.Bottom
     ) {
         // 2nd Place (Left)
-        if (second != null) {
+        if (leftPlayer != null) {
             PodiumCardItem(
                 modifier = Modifier.weight(1f),
-                player = second,
+                player = leftPlayer,
                 cardHeight = 145.dp,
                 badgeColor = MaterialTheme.colorScheme.tertiary,
                 badgeTextColor = MaterialTheme.colorScheme.background,
@@ -65,10 +65,10 @@ fun TopPodiumSection(
         }
 
         // 1st Place (Center - Higher)
-        if (first != null) {
+        if (centerPlayer != null) {
             PodiumCardItem(
                 modifier = Modifier.weight(1.1f),
-                player = first,
+                player = centerPlayer,
                 cardHeight = 175.dp,
                 badgeColor = MaterialTheme.colorScheme.primary,
                 badgeTextColor = MaterialTheme.colorScheme.onPrimary,
@@ -78,10 +78,10 @@ fun TopPodiumSection(
         }
 
         // 3rd Place (Right)
-        if (third != null) {
+        if (rightPlayer != null) {
             PodiumCardItem(
                 modifier = Modifier.weight(1f),
-                player = third,
+                player = rightPlayer,
                 cardHeight = 130.dp,
                 badgeColor = MaterialTheme.colorScheme.secondary,
                 badgeTextColor = MaterialTheme.colorScheme.onSecondary,
