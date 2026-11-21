@@ -107,16 +107,19 @@ fun HighScoresScreen(
                             CustomLinearWavyProgressIndicator()
                         }
                         is ViewModelHighScores.UIStateWords.Success -> {
-                            worldsList = worlds.worlds?.worlds?.regularWorlds?.mapIndexed { index, world ->
+                            val regularWorlds = worlds.worlds?.worlds?.regularWorlds?.mapIndexed { index, world ->
                                 FilterData(
-                                    id = index,
+                                    id = index + 1,
                                     text = world.name,
                                     type = world.pvpType
                                 )
                             } ?: emptyList()
+
+                            worldsList = listOf(FilterData(id = 0, text = "All")) + regularWorlds
                         }
                         else -> {}
                     }
+
                     FilterList(
                         modifier = Modifier.fillMaxWidth(),
                         label = "Select world",
