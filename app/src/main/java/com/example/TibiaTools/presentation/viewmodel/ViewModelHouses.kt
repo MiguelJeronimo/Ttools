@@ -1,23 +1,23 @@
-package com.example.TibiaTools.View.ViewModel
+package com.example.TibiaTools.presentation.viewmodel
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.TibiaTools.domain.model.HighScoreData
-import com.example.TibiaTools.domain.usecase.GetHighScoreInformationUseCase
+import com.example.TibiaTools.domain.model.HousesData
+import com.example.TibiaTools.domain.usecase.GetHousesInformationUseCase
 import com.example.TibiaTools.domain.usecase.GetWorldsUseCase
 import kotlinx.coroutines.launch
 
-class ViewModelHighScore(
-    private val getHighScoreInformationUseCase: GetHighScoreInformationUseCase,
+class ViewModelHouses(
+    private val getHousesInformationUseCase: GetHousesInformationUseCase,
     private val getWorldsUseCase: GetWorldsUseCase
 ) : ViewModel() {
+    private val _houses = MutableLiveData<HousesData?>()
+    fun houses(): LiveData<HousesData?> = _houses
+
     private val _worlds = MutableLiveData<ArrayList<String>?>()
     fun Worlds(): LiveData<ArrayList<String>?> = _worlds
-
-    private val _highScoreList = MutableLiveData<HighScoreData?>()
-    fun highScoreList(): LiveData<HighScoreData?> = _highScoreList
 
     init {
         loadWorlds()
@@ -37,11 +37,11 @@ class ViewModelHighScore(
         }
     }
 
-    fun setHighScores(world: String, category: String, vocation: String) {
+    fun setHouses(world: String, town: String) {
         viewModelScope.launch {
-            runCatching { getHighScoreInformationUseCase(world, category, vocation) }
-                .onSuccess { _highScoreList.value = it.highscores }
-                .onFailure { _highScoreList.value = null }
+            runCatching { getHousesInformationUseCase(world, town) }
+                .onSuccess { _houses.value = it.houses }
+                .onFailure { _houses.value = null }
         }
     }
 }

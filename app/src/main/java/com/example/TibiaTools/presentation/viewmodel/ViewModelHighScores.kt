@@ -74,14 +74,6 @@ class ViewModelHighScores(
         }
     }
 
-//    fun setHighScores(world: String, category: String, vocation: String) {
-//        viewModelScope.launch {
-//            runCatching { getHighScoreInformationUseCase(world, category, vocation) }
-//                .onSuccess { _highScoreList.value = it.highscores }
-//                .onFailure { _highScoreList.value = null }
-//        }
-//    }
-
     sealed interface UIStateWords {
         object Idle: UIStateWords
         object Loading: UIStateWords

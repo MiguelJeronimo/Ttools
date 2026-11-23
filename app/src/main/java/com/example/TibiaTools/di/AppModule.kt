@@ -1,12 +1,36 @@
 package com.example.TibiaTools.di
 
-import com.example.TibiaTools.View.ViewModel.*
 import com.example.TibiaTools.data.repository.TibiaRepositoryImpl
 import com.example.TibiaTools.data.retrofit.TibiaAPIServer
 import com.example.TibiaTools.domain.repository.TibiaRepository
-import com.example.TibiaTools.domain.usecase.*
+import com.example.TibiaTools.domain.usecase.GetBoostableBossesUseCase
+import com.example.TibiaTools.domain.usecase.GetCharacterUseCase
+import com.example.TibiaTools.domain.usecase.GetCreatureInformationUseCase
+import com.example.TibiaTools.domain.usecase.GetCreaturesUseCase
+import com.example.TibiaTools.domain.usecase.GetGuildsInformationNameUseCase
+import com.example.TibiaTools.domain.usecase.GetGuildsInformationUseCase
+import com.example.TibiaTools.domain.usecase.GetHighScoreInformationUseCase
+import com.example.TibiaTools.domain.usecase.GetHighScoreInformationUseCasePager
+import com.example.TibiaTools.domain.usecase.GetHouseInformationUseCase
+import com.example.TibiaTools.domain.usecase.GetHousesInformationUseCase
+import com.example.TibiaTools.domain.usecase.GetNewsLatestUseCase
+import com.example.TibiaTools.domain.usecase.GetNewsTickersUseCase
+import com.example.TibiaTools.domain.usecase.GetRashidLocationUseCase
+import com.example.TibiaTools.domain.usecase.GetSpellInformationUseCase
+import com.example.TibiaTools.domain.usecase.GetSpellsUseCase
+import com.example.TibiaTools.domain.usecase.GetWorldsUseCase
+import com.example.TibiaTools.presentation.viewmodel.ViewModelCreature
+import com.example.TibiaTools.presentation.viewmodel.ViewModelCreatures
+import com.example.TibiaTools.presentation.viewmodel.ViewModelGuildInformation
+import com.example.TibiaTools.presentation.viewmodel.ViewModelGuilds
 import com.example.TibiaTools.presentation.viewmodel.ViewModelHighScores
+import com.example.TibiaTools.presentation.viewmodel.ViewModelHome
+import com.example.TibiaTools.presentation.viewmodel.ViewModelHouseInformation
+import com.example.TibiaTools.presentation.viewmodel.ViewModelHouses
 import com.example.TibiaTools.presentation.viewmodel.ViewModelPlayers
+import com.example.TibiaTools.presentation.viewmodel.ViewModelSpell
+import com.example.TibiaTools.presentation.viewmodel.ViewModelSpells
+import com.example.TibiaTools.presentation.viewmodel.ViewModelWorlds
 import org.koin.core.module.dsl.viewModel
 import org.koin.dsl.module
 import retrofit2.Retrofit
@@ -53,12 +77,10 @@ val appModule = module {
 
     // ViewModels
     viewModel{ ViewModelPlayers(get()) }
-    viewModel { ViewModelCharacters(get()) }
     viewModel { ViewModelCreature(get()) }
     viewModel { ViewModelCreatures(get()) }
     viewModel { ViewModelGuildInformation(get()) }
     viewModel { ViewModelGuilds(get(), get()) }
-    viewModel { ViewModelHighScore(get(), get()) }
     viewModel { ViewModelHome(get(), get(), get(), get(), get(), get()) }
     viewModel { ViewModelHouseInformation(get()) }
     viewModel { ViewModelHouses(get(), get()) }

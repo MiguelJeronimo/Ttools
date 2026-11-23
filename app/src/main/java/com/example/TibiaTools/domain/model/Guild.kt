@@ -16,9 +16,7 @@ data class GuildActive(
     val name: String = "",
     val logoUrl: String = "",
     val description: String = ""
-) {
-    val logo_url: String get() = logoUrl
-}
+)
 
 data class GuildDetail(
     val name: String = "",
@@ -32,20 +30,13 @@ data class GuildDetail(
     val founded: String = "",
     val members: List<GuildMember> = emptyList(),
     val guildhalls: List<GuildHall> = emptyList()
-) {
-    val logo_url: String get() = logoUrl
-    val in_war: Boolean get() = inWar
-    val players_online: Int get() = playersOnline
-    val members_total: Int get() = membersTotal
-}
+)
 
 data class GuildHall(
     val name: String = "",
     val world: String = "",
     val paidUntil: String = ""
-) {
-    val paid_until: String get() = paidUntil
-}
+)
 
 data class GuildMember(
     val name: String = "",

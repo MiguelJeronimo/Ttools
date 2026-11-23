@@ -1,4 +1,4 @@
-package com.example.TibiaTools.View.ViewModel
+package com.example.TibiaTools.presentation.viewmodel
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
@@ -6,7 +6,6 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.TibiaTools.domain.model.BoostableBossesData
 import com.example.TibiaTools.domain.model.CreaturesData
-import com.example.TibiaTools.domain.model.NewsItem
 import com.example.TibiaTools.domain.model.NewsResponse
 import com.example.TibiaTools.domain.model.NewsTickerResponse
 import com.example.TibiaTools.domain.model.WorldsData

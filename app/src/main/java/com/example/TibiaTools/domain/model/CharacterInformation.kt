@@ -16,10 +16,7 @@ data class CharactersData(
     val deaths: List<Death> = emptyList(),
     val achievements: List<Achievement> = emptyList(),
     val accountInformation: AccountInformation? = null
-) {
-    val other_characters: List<OtherCharacter> get() = otherCharacters
-    val account_information: AccountInformation? get() = accountInformation
-}
+)
 
 data class CharacterDetail(
     val name: String = "",
@@ -37,13 +34,7 @@ data class CharacterDetail(
     val comment: String = "",
     val houses: List<CharacterHouse> = emptyList(),
     val marriedTo: String = ""
-) {
-    val unlocked_titles: Int get() = unlockedTitles
-    val achievement_points: Int get() = achievementPoints
-    val last_login: String get() = lastLogin
-    val account_status: String get() = accountStatus
-    val married_to: String? get() = marriedTo.ifEmpty { null }
-}
+)
 
 data class CharacterGuild(
     val name: String = "",
@@ -55,16 +46,12 @@ data class CharacterHouse(
     val town: String = "",
     val paid: String = "",
     val houseId: Int = 0
-) {
-    val houseid: Int get() = houseId
-}
+)
 
 data class AccountInformation(
     val loyaltyTitle: String = "",
     val created: String = ""
-) {
-    val loyalty_title: String? get() = loyaltyTitle.ifEmpty { null }
-}
+)
 
 data class Achievement(
     val name: String = "",
@@ -85,11 +72,7 @@ data class OtherCharacter(
     val isDeleted: Boolean = false,
     val isMain: Boolean = false,
     val isTraded: Boolean = false
-) {
-    val deleted: Boolean get() = isDeleted
-    val main: Boolean get() = isMain
-    val traded: Boolean get() = isTraded
-}
+)
 
 data class InformationInfo(
     val status: StatusInfo? = null
@@ -98,6 +81,4 @@ data class InformationInfo(
 data class StatusInfo(
     val httpCode: Int = 0,
     val message: String = ""
-) {
-    val http_code: Int get() = httpCode
-}
+)

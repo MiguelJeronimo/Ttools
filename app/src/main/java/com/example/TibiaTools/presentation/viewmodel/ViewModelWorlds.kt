@@ -1,4 +1,4 @@
-package com.example.TibiaTools.View.ViewModel
+package com.example.TibiaTools.presentation.viewmodel
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
