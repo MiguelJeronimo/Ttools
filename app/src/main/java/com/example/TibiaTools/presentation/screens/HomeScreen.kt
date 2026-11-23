@@ -90,8 +90,8 @@ fun HomeScreen(
         homeViewModel.setNews()
     }
 
-    val totalOnline = playersOnlineState?.players_online ?: worldsState?.players_online ?: 0
-    val totalWorlds = worldsState?.regular_worlds?.size ?: 0
+    val totalOnline = playersOnlineState?.playersOnline ?: worldsState?.playersOnline ?: 0
+    val totalWorlds = worldsState?.regularWorlds?.size ?: 0
     val rashidCity = rashidState ?: "Carlin"
     val boostedCreatureName = creatureBossState?.boosted?.name ?: "Dragon"
     val boostedCreatureImage = creatureBossState?.boosted?.image_url ?: "https://static.tibia.com/images/library/dragon.gif"
