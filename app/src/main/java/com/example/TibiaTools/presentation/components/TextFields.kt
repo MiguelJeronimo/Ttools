@@ -82,7 +82,9 @@ fun SearchTextField(
     onValueChange: (String) -> Unit,
     isError: Boolean = false,
     errorMessage: String = "",
-    onSearchPlayer: (String) -> Unit = {}
+    onSearchPlayer: (String) -> Unit = {},
+    leadingIcon: @Composable (() -> Unit)? = null,
+    trailingIcon: @Composable (() -> Unit)? = null,
 ){
     val keyboardController = LocalSoftwareKeyboardController.current
     val focusManager = LocalFocusManager.current
@@ -110,12 +112,8 @@ fun SearchTextField(
             imeAction = ImeAction.Search
         ),
         isError = isError,
-        leadingIcon = {
-            Icon(
-                imageVector = Icons.Default.PersonSearch,
-                contentDescription = "Search Icon"
-            )
-        },
+        leadingIcon = leadingIcon,
+        trailingIcon= trailingIcon,
         colors = OutlinedTextFieldDefaults.colors(
             focusedContainerColor = MaterialTheme.colorScheme.surfaceContainer,
             unfocusedContainerColor = MaterialTheme.colorScheme.surfaceContainer,
@@ -132,6 +130,12 @@ fun SearchTextFieldPreview(){
     TibiaToolsTheme(darkTheme = true) {
         SearchTextField(
             value = "",
+            leadingIcon = {
+                Icon(
+                    imageVector = Icons.Default.PersonSearch,
+                    contentDescription = "Search Icon"
+                )
+            },
             onValueChange = {},
             isError = false,
             errorMessage = ""

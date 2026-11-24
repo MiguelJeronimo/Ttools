@@ -32,6 +32,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
+import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.text.PlatformTextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.LineHeightStyle
@@ -39,6 +40,7 @@ import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import coil3.compose.AsyncImage
 import com.example.TibiaTools.presentation.theme.TibiaToolsTheme
 
 @Composable
@@ -339,6 +341,32 @@ fun CharacterCard(
 }
 
 @Composable
+fun NormalMonsterCard(
+    modifier: Modifier = Modifier,
+    description: String = "",
+    url: String = ""
+){
+    Card(modifier = modifier){
+        Column(
+            modifier = Modifier.padding(16.dp),
+            horizontalAlignment = Alignment.CenterHorizontally
+        ) {
+            AsyncImage(
+                model = url,
+                contentDescription = description,
+                contentScale = ContentScale.Fit,
+                modifier = Modifier.size(56.dp)
+            )
+            Spacer(modifier = Modifier.height(8.dp))
+            Text(
+                text = "Monster Name",
+                style = MaterialTheme.typography.titleMedium.copy(fontWeight = FontWeight.Bold)
+            )
+        }
+    }
+}
+
+@Composable
 private fun CharacterBadge(
     icon: ImageVector,
     text: String,
@@ -370,6 +398,17 @@ private fun CharacterBadge(
                 color = contentColor
             )
         }
+    }
+}
+
+@Preview(name = "Character Card", showBackground = true)
+@Composable
+fun NormalMonsterCardPreview(){
+    TibiaToolsTheme(darkTheme = true) {
+        NormalMonsterCard(
+            description = "Acid Blob",
+            url = "https://static.tibia.com/images/library/acidblob.gif"
+        )
     }
 }
 

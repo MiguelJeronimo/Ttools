@@ -20,6 +20,8 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.PersonSearch
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.Icon
@@ -102,7 +104,13 @@ fun SearchPlayerScreen(
                 onValueChange = { searchText = it },
                 isError = isError,
                 errorMessage = "Player name must be at least 3 characters long",
-                onSearchPlayer = onSearchPlayer
+                onSearchPlayer = onSearchPlayer,
+                leadingIcon = {
+                    Icon(
+                        imageVector = Icons.Default.PersonSearch,
+                        contentDescription = "Search Icon"
+                    )
+                }
             )
             Spacer(modifier = Modifier.size(16.dp))
             when (state){
@@ -424,7 +432,7 @@ private fun CharactersData.getListDataCards(): List<ListDataCardModel> {
             add(ListDataCardModel(key = "Sex", value = it.sex))
             add(ListDataCardModel(key = "Account", value = it.accountStatus))
             add(ListDataCardModel(key = "Last login", value = DateFormater.formatIsoDateTime(it.lastLogin)?: ""))
-            it.married_to?.let { add(ListDataCardModel(key = "Married to", value = it)) }
+            if (it.marriedTo.isNotEmpty()){add(ListDataCardModel(key = "Married to", value = it.marriedTo))}
             if (it.houses.isNotEmpty()) {
                 it.houses.forEach { add(ListDataCardModel(key = "House", value = "${it.name} ${it.paid} ${it.town}")) }
             }

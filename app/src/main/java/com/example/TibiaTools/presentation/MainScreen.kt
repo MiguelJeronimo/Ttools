@@ -45,6 +45,7 @@ import com.example.TibiaTools.presentation.routes.HomeRoutes
 import com.example.TibiaTools.presentation.routes.Options
 import com.example.TibiaTools.presentation.screens.HighScoresScreen
 import com.example.TibiaTools.presentation.screens.HomeScreen
+import com.example.TibiaTools.presentation.screens.LibraryScreen
 import com.example.TibiaTools.presentation.screens.SearchPlayerScreen
 import com.example.TibiaTools.presentation.screens.ToolsScreen
 import com.example.TibiaTools.utils.ex.back
@@ -110,6 +111,9 @@ fun MainScreen() {
                             }
                             Options.RANKS.name-> {
                                 backStack.navigateTo(HomeRoutes.Ranks)
+                            }
+                            Options.LIBRARY.name->{
+                                backStack.navigateTo(HomeRoutes.Library)
                             }
                         }
                     }
@@ -193,6 +197,11 @@ fun MainScreen() {
                         HomeRoutes.Ranks -> NavEntry(HomeRoutes.Ranks) {
                             HighScoresScreen(
                                 modifier = Modifier.fillMaxSize().padding(horizontal = 16.dp),
+                            )
+                        }
+                        HomeRoutes.Library -> NavEntry(HomeRoutes.Library){
+                            LibraryScreen(
+                                modifier = Modifier.fillMaxSize().padding(horizontal = 10.dp),
                             )
                         }
                         else -> error("Unknown screen: $keyScreen")
