@@ -21,4 +21,12 @@ class ViewModelCreature(
                 .onFailure { _creature.value = null }
         }
     }
+
+
+    sealed interface UIState {
+        object Idle: UIState
+        object Loader: UIState
+        data class Success(val data: CreatureDetail): UIState
+        data class Error(val e: Exception): UIState
+    }
 }

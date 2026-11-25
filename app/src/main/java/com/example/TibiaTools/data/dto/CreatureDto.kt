@@ -12,9 +12,9 @@ data class CreaturesResponseDto(
     @SerialName("creatures")
     val creatures: CreaturesDataDto? = null,
 
-    @SerializedName("creatures_List")
-    @SerialName("creatures_List")
-    val creaturesList: List<CreatureListItemDto>? = null
+    @SerializedName("information")
+    @SerialName("information")
+    val information: InformationDto? = null
 )
 
 @Keep
@@ -58,7 +58,11 @@ data class CreatureListItemDto(
 
     @SerializedName("image_url")
     @SerialName("image_url")
-    val imageUrl: String? = null
+    val imageUrl: String? = null,
+
+    @SerializedName("featured")
+    @SerialName("featured")
+    val featured: Boolean = false
 )
 
 @Keep
@@ -130,5 +134,9 @@ data class BoostedDataDto(
 
     @SerializedName("image_url")
     @SerialName("image_url")
-    val imageUrl: String? = null
+    val imageUrl: String? = null,
+
+    @SerializedName("featured")
+    @SerialName("featured")
+    val featured: Boolean = false
 )

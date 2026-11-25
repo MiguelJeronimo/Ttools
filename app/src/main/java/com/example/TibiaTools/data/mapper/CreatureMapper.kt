@@ -19,7 +19,7 @@ import com.example.TibiaTools.domain.model.CreaturesResponse
 
 fun CreaturesResponseDto.toDomain(): CreaturesResponse = CreaturesResponse(
     creatures = creatures?.toDomain(),
-    creaturesList = creaturesList?.map { it.toDomain() }
+    information = information?.toDomain()
 )
 
 fun CreatureInformationResponseDto.toDomain(): CreatureInformationResponse = CreatureInformationResponse(
@@ -38,7 +38,8 @@ fun CreaturesDataDto.toDomain(): CreaturesData = CreaturesData(
 fun CreatureListItemDto.toDomain(): CreatureListItem = CreatureListItem(
     name = name.orEmpty(),
     race = race.orEmpty(),
-    imageUrl = imageUrl.orEmpty()
+    imageUrl = imageUrl.orEmpty(),
+    featured = featured
 )
 
 fun CreatureDetailDto.toDomain(): CreatureDetail = CreatureDetail(
@@ -62,5 +63,6 @@ fun BoostableBossesDataDto.toDomain(): BoostableBossesData = BoostableBossesData
 fun BoostedDataDto.toDomain(): BoostedData = BoostedData(
     name = name.orEmpty(),
     race = race.orEmpty(),
-    imageUrl = imageUrl.orEmpty()
+    imageUrl = imageUrl.orEmpty(),
+    featured = featured
 )

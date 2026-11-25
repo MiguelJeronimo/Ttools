@@ -25,12 +25,15 @@ import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.RectangleShape
+import androidx.compose.ui.graphics.Shape
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.text.PlatformTextStyle
@@ -359,7 +362,7 @@ fun NormalMonsterCard(
             )
             Spacer(modifier = Modifier.height(8.dp))
             Text(
-                text = "Monster Name",
+                text = description,
                 style = MaterialTheme.typography.titleMedium.copy(fontWeight = FontWeight.Bold)
             )
         }
@@ -399,6 +402,30 @@ private fun CharacterBadge(
             )
         }
     }
+}
+
+@Composable
+fun RounderCardListContent(
+  modifier: Modifier = Modifier,
+  index: Int = 0,
+  lasIndex: Int = 0,
+  content: @Composable () -> Unit,
+){
+    Surface(
+        modifier = modifier,
+        shape = segmentShape(index, lasIndex),
+        color = MaterialTheme.colorScheme.surfaceContainerLow,
+        contentColor = MaterialTheme.colorScheme.onSurface,
+        content = content
+    )
+}
+
+private val CardCorner = 35.dp
+private fun segmentShape(index: Int, lastIndex: Int): Shape = when {
+    lastIndex == 0 -> RoundedCornerShape(CardCorner)
+    index == 0 -> RoundedCornerShape(topStart = CardCorner, topEnd = CardCorner)
+    index == lastIndex -> RoundedCornerShape(bottomStart = CardCorner, bottomEnd = CardCorner)
+    else -> RectangleShape
 }
 
 @Preview(name = "Character Card", showBackground = true)
