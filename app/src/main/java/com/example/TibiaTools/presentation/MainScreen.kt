@@ -201,7 +201,7 @@ fun MainScreen() {
                         }
                         HomeRoutes.Library -> NavEntry(HomeRoutes.Library){
                             LibraryScreen(
-                                modifier = Modifier.fillMaxSize().padding(horizontal = 10.dp),
+                                modifier = Modifier.fillMaxSize().padding(horizontal = 16.dp),
                             )
                         }
                         else -> error("Unknown screen: $keyScreen")

@@ -16,7 +16,8 @@ import com.example.TibiaTools.domain.model.SpellsData
 import com.example.TibiaTools.domain.model.SpellsResponse
 
 fun SpellsResponseDto.toDomain(): SpellsResponse = SpellsResponse(
-    spells = spells?.toDomain()
+    spells = spells?.toDomain(),
+    information = information?.toDomain()
 )
 
 fun SpellInformationResponseDto.toDomain(): SpellInformationResponse = SpellInformationResponse(
@@ -25,16 +26,16 @@ fun SpellInformationResponseDto.toDomain(): SpellInformationResponse = SpellInfo
 
 fun SpellsDataDto.toDomain(): SpellsData = SpellsData(
     spellsList = spellsList?.map { it.toDomain() } ?: emptyList(),
-    spell = spell?.toDomain()
+    spellFilter = spellFilter
 )
 
 fun SpellListItemDto.toDomain(): SpellListItem = SpellListItem(
     name = name.orEmpty(),
     spellId = spellId.orEmpty(),
     formula = formula.orEmpty(),
-    level = level.orEmpty(),
-    mana = mana.orEmpty(),
-    price = price.orEmpty(),
+    level = level.toString(),
+    mana = mana.toString(),
+    price = price.toString(),
     isGroupAttack = groupAttack,
     isGroupHealing = groupHealing,
     isGroupSupport = groupSupport,

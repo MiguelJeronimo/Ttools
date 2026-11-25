@@ -10,7 +10,11 @@ import kotlinx.serialization.Serializable
 data class SpellsResponseDto(
     @SerializedName("spells")
     @SerialName("spells")
-    val spells: SpellsDataDto? = null
+    val spells: SpellsDataDto? = null,
+
+    @SerializedName("information")
+    @SerialName("information")
+    val information: InformationDto? = null
 )
 
 @Keep
@@ -24,13 +28,13 @@ data class SpellInformationResponseDto(
 @Keep
 @Serializable
 data class SpellsDataDto(
-    @SerializedName("spells_list")
-    @SerialName("spells_list")
+    @SerializedName("spell_list")
+    @SerialName("spell_list")
     val spellsList: List<SpellListItemDto>? = null,
 
-    @SerializedName("spell")
-    @SerialName("spell")
-    val spell: SpellDetailDto? = null
+    @SerializedName("spells_filter")
+    @SerialName("spells_filter")
+    val spellFilter: String? = null
 )
 
 @Keep
@@ -50,15 +54,15 @@ data class SpellListItemDto(
 
     @SerializedName("level")
     @SerialName("level")
-    val level: String? = null,
+    val level: Int = 0,
 
     @SerializedName("mana")
     @SerialName("mana")
-    val mana: String? = null,
+    val mana: Int = 0,
 
     @SerializedName("price")
     @SerialName("price")
-    val price: String? = null,
+    val price: Int = 0,
 
     @SerializedName("group_attack")
     @SerialName("group_attack")

@@ -351,14 +351,14 @@ fun NormalMonsterCard(
 ){
     Card(modifier = modifier){
         Column(
-            modifier = Modifier.padding(16.dp),
+            modifier = Modifier.padding(16.dp).align(Alignment.CenterHorizontally),
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
             AsyncImage(
                 model = url,
                 contentDescription = description,
                 contentScale = ContentScale.Fit,
-                modifier = Modifier.size(56.dp)
+                modifier = Modifier.size(70.dp)
             )
             Spacer(modifier = Modifier.height(8.dp))
             Text(

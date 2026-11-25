@@ -35,6 +35,8 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.example.TibiaTools.domain.model.BoostedData
 import com.example.TibiaTools.domain.model.CreatureListItem
 import com.example.TibiaTools.domain.model.CreaturesData
+import com.example.TibiaTools.domain.model.SpellListItem
+import com.example.TibiaTools.domain.model.SpellsData
 import com.example.TibiaTools.presentation.components.CustomTab
 import com.example.TibiaTools.presentation.components.Loader
 import com.example.TibiaTools.presentation.components.NormalMonsterCard
@@ -44,20 +46,24 @@ import com.example.TibiaTools.presentation.components.SpellItem
 import com.example.TibiaTools.presentation.routes.OptionsTab
 import com.example.TibiaTools.presentation.theme.TibiaToolsTheme
 import com.example.TibiaTools.presentation.viewmodel.ViewModelCreatures
+import com.example.TibiaTools.presentation.viewmodel.ViewModelSpells
 import org.koin.androidx.compose.koinViewModel
 
 @Composable
 fun LibraryScreen(
     modifier: Modifier = Modifier,
-    viewmodelCreatures: ViewModelCreatures = koinViewModel()
+    viewmodelCreatures: ViewModelCreatures = koinViewModel(),
+    viewModelSpells: ViewModelSpells = koinViewModel()
 ){
     val creatures = viewmodelCreatures.creature.collectAsStateWithLifecycle()
+    val spells = viewModelSpells.spells.collectAsStateWithLifecycle()
     LibraryScreen(
-        modifier = Modifier,
+        modifier = modifier,
         onSearchCreature = {
             viewmodelCreatures.finCreature(name = it)
         },
-        creatures = creatures.value
+        creatures = creatures.value,
+        spells = spells.value
     )
 }
 
@@ -66,7 +72,8 @@ fun LibraryScreen(
 fun LibraryScreen(
     modifier: Modifier = Modifier,
     onSearchCreature: (creature:String)-> Unit = {},
-    creatures: ViewModelCreatures.UIState
+    creatures: ViewModelCreatures.UIState,
+    spells: ViewModelSpells.UIState
 ) {
     Scaffold(
         modifier = modifier,
@@ -75,11 +82,10 @@ fun LibraryScreen(
         var tabSelection by remember { mutableStateOf(OptionsTab.CREATURES) }
 
         var searchText by rememberSaveable { mutableStateOf("") }
-        val isError = searchText.isNotEmpty() && searchText.length <= 1
 
         var countCreatures by remember { mutableIntStateOf(0) }
         LazyVerticalGrid(
-            modifier = modifier.padding(innerPadding),
+            modifier = Modifier.fillMaxSize().padding(innerPadding),
             columns = GridCells.Fixed(2),
             horizontalArrangement = Arrangement.spacedBy(8.dp),
             verticalArrangement = Arrangement.spacedBy(8.dp)
@@ -169,15 +175,46 @@ fun LibraryScreen(
                 }
 
                 OptionsTab.SPELLS -> {
-                    items(count = 20, span = { GridItemSpan(maxLineSpan) }) {
-                        RounderCardListContent(
-                            index = 0,
-                            lasIndex = 20-1,
-                            modifier = Modifier.fillMaxWidth().animateItem()
-                        ){
-                            SpellItem(
-                                modifier = Modifier.fillMaxWidth()
-                            )
+                    when(val state = spells){
+                        is ViewModelSpells.UIState.Idle -> {}
+                        is ViewModelSpells.UIState.Loader -> {
+                            item {
+                                Loader()
+                            }
+                        }
+                        is ViewModelSpells.UIState.Error -> {
+                            item {
+                                Column(modifier = Modifier.fillMaxWidth()) {
+                                    Spacer(modifier = Modifier.size(16.dp))
+                                    Text(
+                                        text = "Something went wrong trying to get the data",
+                                        style = MaterialTheme.typography.labelMedium.copy(fontSize = 14.sp),
+                                        fontWeight = FontWeight.Bold,
+                                    )
+                                    Spacer(modifier = Modifier.size(16.dp))
+                                }
+                            }
+                        }
+                        is ViewModelSpells.UIState.Success -> {
+                            state.data?.let {
+                                Log.i("HigScoresScreen", "DAta: $it")
+                                items(count = it.spellsList.size, span = { GridItemSpan(maxLineSpan) }) { index->
+                                    RounderCardListContent(
+                                        index = index,
+                                        lasIndex = it.spellsList.lastIndex,
+                                        modifier = Modifier.fillMaxWidth().animateItem()
+                                    ){
+                                        val spell = it.spellsList[index]
+                                        SpellItem(
+                                            modifier = Modifier.fillMaxWidth(),
+                                            name = spell.name,
+                                            formula = spell.formula,
+                                            level = spell.level,
+                                            mana = spell.mana
+                                        )
+                                    }
+                                }
+                            }
                         }
                     }
                 }
@@ -208,6 +245,16 @@ fun LibraryScreenPreview() {
                         CreatureListItem(name = "Dragon", race = "dragon", imageUrl = "https://static.tibia.com/images/library/dragon.gif")
                     )
                 )
+            ),
+            spells = ViewModelSpells.UIState.Success(
+                data = SpellsData(
+                    spellsList = listOf(
+                        SpellListItem(name = "Animate Dead Rune", formula = "adana mort", level = "27", mana = "600"),
+                        SpellListItem(name = "Light", formula = "utevo", level = "0", mana = "20"),
+                        SpellListItem(name = "Great Fire Wave", formula = "exevo gran flam hur", level = "38", mana = "120"),
+                        SpellListItem(name = "Ultimate Healing", formula = "exura vita", level = "30", mana = "160")
+                    )
+                )
             )
         )
     }
@@ -233,6 +280,16 @@ fun LibraryScreenDarkPreview() {
                         CreatureListItem(name = "Amazon", race = "amazon", imageUrl = "https://static.tibia.com/images/library/amazon.gif"),
                         CreatureListItem(name = "Demon", race = "demon", imageUrl = "https://static.tibia.com/images/library/demon.gif"),
                         CreatureListItem(name = "Dragon", race = "dragon", imageUrl = "https://static.tibia.com/images/library/dragon.gif")
+                    )
+                )
+            ),
+            spells = ViewModelSpells.UIState.Success(
+                data = SpellsData(
+                    spellsList = listOf(
+                        SpellListItem(name = "Animate Dead Rune", formula = "adana mort", level = "27", mana = "600"),
+                        SpellListItem(name = "Light", formula = "utevo", level = "0", mana = "20"),
+                        SpellListItem(name = "Great Fire Wave", formula = "exevo gran flam hur", level = "38", mana = "120"),
+                        SpellListItem(name = "Ultimate Healing", formula = "exura vita", level = "30", mana = "160")
                     )
                 )
             )
