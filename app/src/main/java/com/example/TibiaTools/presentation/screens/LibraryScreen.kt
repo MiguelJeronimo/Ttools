@@ -39,11 +39,14 @@ import com.example.TibiaTools.domain.model.CreaturesData
 import com.example.TibiaTools.domain.model.SpellListItem
 import com.example.TibiaTools.domain.model.SpellsData
 import com.example.TibiaTools.presentation.components.CustomTab
+import com.example.TibiaTools.presentation.components.FilterList
 import com.example.TibiaTools.presentation.components.Loader
 import com.example.TibiaTools.presentation.components.NormalMonsterCard
 import com.example.TibiaTools.presentation.components.RounderCardListContent
 import com.example.TibiaTools.presentation.components.SearchTextField
+import com.example.TibiaTools.presentation.components.SingleChipSelector
 import com.example.TibiaTools.presentation.components.SpellItem
+import com.example.TibiaTools.presentation.routes.FilterOptionSpells
 import com.example.TibiaTools.presentation.routes.OptionsTab
 import com.example.TibiaTools.presentation.theme.TibiaToolsTheme
 import com.example.TibiaTools.presentation.viewmodel.ViewModelCreatures
@@ -64,7 +67,10 @@ fun LibraryScreen(
             viewmodelCreatures.finCreature(name = it)
         },
         creatures = creatures.value,
-        spells = spells.value
+        spells = spells.value,
+        onSelectCategory = {
+            viewModelSpells.setFilterType(it)
+        }
     )
 }
 
@@ -73,6 +79,7 @@ fun LibraryScreen(
 fun LibraryScreen(
     modifier: Modifier = Modifier,
     onSearchCreature: (creature:String)-> Unit = {},
+    onSelectCategory: (option: String)-> Unit = {},
     creatures: ViewModelCreatures.UIState,
     spells: ViewModelSpells.UIState
 ) {
@@ -144,12 +151,12 @@ fun LibraryScreen(
                     when(val state = creatures){
                         is ViewModelCreatures.UIState.Idle->{}
                         is ViewModelCreatures.UIState.Loader->{
-                            item {
+                            item(span = { GridItemSpan(maxLineSpan) }) {
                                 Loader()
                             }
                         }
                         is ViewModelCreatures.UIState.Error->{
-                            item {
+                            item(span = { GridItemSpan(maxLineSpan) }) {
                                 Column(modifier = Modifier.fillMaxWidth()) {
                                     Spacer(modifier = Modifier.size(16.dp))
                                     Text(
@@ -183,12 +190,12 @@ fun LibraryScreen(
                     when(val state = spells){
                         is ViewModelSpells.UIState.Idle -> {}
                         is ViewModelSpells.UIState.Loader -> {
-                            item {
+                            item(span = { GridItemSpan(maxLineSpan) }){
                                 Loader()
                             }
                         }
                         is ViewModelSpells.UIState.Error -> {
-                            item {
+                            item(span = { GridItemSpan(maxLineSpan) }) {
                                 Column(modifier = Modifier.fillMaxWidth()) {
                                     Spacer(modifier = Modifier.size(16.dp))
                                     Text(
@@ -201,8 +208,16 @@ fun LibraryScreen(
                             }
                         }
                         is ViewModelSpells.UIState.Success -> {
-                            item {
-                                Spacer(modifier = Modifier.size(10.dp))
+                            item(span = { GridItemSpan(maxLineSpan) }){
+                              Column(modifier = Modifier.fillMaxWidth()) {
+                                  val options = FilterOptionSpells.entries.map { it.type }
+                                  SingleChipSelector(
+                                      modifier = Modifier.fillMaxWidth(),
+                                      options = options,
+                                      onClick = onSelectCategory
+                                  )
+                                  Spacer(modifier = Modifier.size(10.dp))
+                              }
                             }
                             state.data?.let {
                                 Log.i("HigScoresScreen", "DAta: $it")

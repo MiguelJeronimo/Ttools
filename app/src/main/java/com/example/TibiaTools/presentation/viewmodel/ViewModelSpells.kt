@@ -1,22 +1,59 @@
 package com.example.TibiaTools.presentation.viewmodel
 
-import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.TibiaTools.domain.model.SpellsData
 import com.example.TibiaTools.domain.usecase.GetSpellsUseCase
+import com.example.TibiaTools.presentation.routes.FilterOptionSpells
 import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.SharingStarted
+import kotlinx.coroutines.flow.combine
+import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
 
 class ViewModelSpells(
     private val getSpellsUseCase: GetSpellsUseCase
 ) : ViewModel() {
     private val _spells = MutableStateFlow<UIState>(UIState.Idle)
-    val spells = _spells.asStateFlow()
+
+    private val typeSpell = MutableStateFlow<String>("")
+
+    val spells = combine(
+        typeSpell,
+        _spells
+    ) { type, state ->
+        when (state) {
+            is UIState.Success -> {
+                val spellsData = state.data
+                if (spellsData != null) {
+                    val filteredList = when (type) {
+                        FilterOptionSpells.ATTACK.type -> spellsData.spellsList.filter { it.isGroupAttack }
+                        FilterOptionSpells.HEALING.type -> spellsData.spellsList.filter { it.isGroupHealing }
+                        FilterOptionSpells.INSTANT.type -> spellsData.spellsList.filter { it.isTypeInstant }
+                        FilterOptionSpells.RUNE.type -> spellsData.spellsList.filter { it.isTypeRune }
+                        else -> spellsData.spellsList
+                    }
+                    UIState.Success(
+                        data = spellsData.copy(spellsList = filteredList)
+                    )
+                } else {
+                    state
+                }
+            }
+            else -> state
+        }
+    }.stateIn(
+        viewModelScope,
+        started = SharingStarted.WhileSubscribed(5000),
+        initialValue = UIState.Idle
+    )
 
     init {
         loadSpells()
+    }
+
+    fun setFilterType(type: String) {
+        typeSpell.value = type
     }
 
     fun loadSpells() {
