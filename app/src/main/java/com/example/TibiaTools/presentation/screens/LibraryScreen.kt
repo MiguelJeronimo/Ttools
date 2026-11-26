@@ -15,6 +15,7 @@ import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.lazy.grid.items
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Search
+import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
@@ -88,7 +89,7 @@ fun LibraryScreen(
             modifier = Modifier.fillMaxSize().padding(innerPadding),
             columns = GridCells.Fixed(2),
             horizontalArrangement = Arrangement.spacedBy(8.dp),
-            verticalArrangement = Arrangement.spacedBy(8.dp)
+            verticalArrangement = Arrangement.spacedBy(0.dp)
         ) {
             item(span = { GridItemSpan(maxLineSpan) }) {
                 Column(modifier = Modifier.fillMaxWidth()){
@@ -117,25 +118,28 @@ fun LibraryScreen(
             when (tabSelection) {
                 OptionsTab.CREATURES -> {
                     item(span = { GridItemSpan(maxLineSpan) }) {
-                        SearchTextField(
-                            modifier = Modifier.fillMaxWidth(),
-                            label = "Filter creatures",
-                            value = searchText,
-                            onValueChange = { searchText = it },
-                            leadingIcon = {
-                                Icon(
-                                    imageVector = Icons.Default.Search,
-                                    contentDescription = "Search Icon"
-                                )
-                            },
-                            trailingIcon = {
-                                Text(
-                                    modifier = Modifier.padding(5.dp),
-                                    text = "$countCreatures"
-                                )
-                            },
-                            onSearchPlayer = onSearchCreature
-                        )
+                        Column(modifier = Modifier.fillMaxWidth()) {
+                            Spacer(modifier = Modifier.size(10.dp))
+                            SearchTextField(
+                                modifier = Modifier.fillMaxWidth(),
+                                label = "Filter creatures",
+                                value = searchText,
+                                onValueChange = { searchText = it },
+                                leadingIcon = {
+                                    Icon(
+                                        imageVector = Icons.Default.Search,
+                                        contentDescription = "Search Icon"
+                                    )
+                                },
+                                trailingIcon = {
+                                    Text(
+                                        modifier = Modifier.padding(5.dp),
+                                        text = "$countCreatures"
+                                    )
+                                },
+                                onSearchPlayer = onSearchCreature
+                            )
+                        }
                     }
                     when(val state = creatures){
                         is ViewModelCreatures.UIState.Idle->{}
@@ -162,6 +166,7 @@ fun LibraryScreen(
                                 countCreatures = it.creature_list.size
                                 items(items = it.creature_list) { creature->
                                     NormalMonsterCard(
+                                        modifier = Modifier.padding(bottom = 8.dp),
                                         description = creature.name,
                                         url = creature.imageUrl
                                     )
@@ -196,15 +201,23 @@ fun LibraryScreen(
                             }
                         }
                         is ViewModelSpells.UIState.Success -> {
+                            item {
+                                Spacer(modifier = Modifier.size(10.dp))
+                            }
                             state.data?.let {
                                 Log.i("HigScoresScreen", "DAta: $it")
-                                items(count = it.spellsList.size, span = { GridItemSpan(maxLineSpan) }) { index->
+                                items(
+                                    count = it.spellsList.size,
+                                    span = { GridItemSpan(maxLineSpan) }
+                                ) { index->
+
                                     RounderCardListContent(
                                         index = index,
-                                        lasIndex = it.spellsList.lastIndex,
+                                        lasIndex = it.spellsList.size - 1,
                                         modifier = Modifier.fillMaxWidth().animateItem()
                                     ){
                                         val spell = it.spellsList[index]
+                                        val first = index == 0
                                         SpellItem(
                                             modifier = Modifier.fillMaxWidth(),
                                             name = spell.name,
@@ -212,6 +225,9 @@ fun LibraryScreen(
                                             level = spell.level,
                                             mana = spell.mana
                                         )
+                                        if(!first){
+                                            HorizontalDivider()
+                                        }
                                     }
                                 }
                             }
