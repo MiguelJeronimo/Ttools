@@ -22,7 +22,11 @@ data class SpellsResponseDto(
 data class SpellInformationResponseDto(
     @SerializedName("spell")
     @SerialName("spell")
-    val spell: SpellDetailDto? = null
+    val spell: SpellDetailDto? = null,
+
+    @SerializedName("information")
+    @SerialName("information")
+    val information: InformationDto? = null
 )
 
 @Keep
@@ -108,9 +112,17 @@ data class SpellDetailDto(
     @SerialName("description")
     val description: String? = null,
 
+    @SerializedName("has_spell_information")
+    @SerialName("has_spell_information")
+    val hasSpellInformation: Boolean = false,
+
     @SerializedName("spell_information")
     @SerialName("spell_information")
     val spellInformation: SpellInformationDataDto? = null,
+
+    @SerializedName("has_rune_information")
+    @SerialName("has_rune_information")
+    val hasRuneInformation: Boolean = false,
 
     @SerializedName("rune_information")
     @SerialName("rune_information")
@@ -120,6 +132,10 @@ data class SpellDetailDto(
 @Keep
 @Serializable
 data class SpellInformationDataDto(
+    @SerializedName("formula")
+    @SerialName("formula")
+    val formula: String? = null,
+
     @SerializedName("vocation")
     @SerialName("vocation")
     val vocation: List<String>? = null,
@@ -131,6 +147,30 @@ data class SpellInformationDataDto(
     @SerializedName("damage_type")
     @SerialName("damage_type")
     val damageType: String? = null,
+
+    @SerializedName("group_attack")
+    @SerialName("group_attack")
+    val groupAttack: Boolean = false,
+
+    @SerializedName("group_healing")
+    @SerialName("group_healing")
+    val groupHealing: Boolean = false,
+
+    @SerializedName("group_support")
+    @SerialName("group_support")
+    val groupSupport: Boolean = false,
+
+    @SerializedName("type_instant")
+    @SerialName("type_instant")
+    val typeInstant: Boolean = false,
+
+    @SerializedName("type_rune")
+    @SerialName("type_rune")
+    val typeRune: Boolean = false,
+
+    @SerializedName("premium_only")
+    @SerialName("premium_only")
+    val premiumOnly: Boolean = false,
 
     @SerializedName("soul_points")
     @SerialName("soul_points")
@@ -146,7 +186,19 @@ data class SpellInformationDataDto(
 
     @SerializedName("cooldown_group")
     @SerialName("cooldown_group")
-    val cooldownGroup: Int = 0
+    val cooldownGroup: Int = 0,
+
+    @SerializedName("level")
+    @SerialName("level")
+    val level: Int = 0,
+
+    @SerializedName("mana")
+    @SerialName("mana")
+    val mana: Int = 0,
+
+    @SerializedName("price")
+    @SerialName("price")
+    val price: Int = 0
 )
 
 @Keep
@@ -154,5 +206,29 @@ data class SpellInformationDataDto(
 data class RuneInformationDataDto(
     @SerializedName("vocation")
     @SerialName("vocation")
-    val vocation: List<String>? = null
+    val vocation: List<String>? = null,
+
+    @SerializedName("group_attack")
+    @SerialName("group_attack")
+    val groupAttack: Boolean = false,
+
+    @SerializedName("group_healing")
+    @SerialName("group_healing")
+    val groupHealing: Boolean = false,
+
+    @SerializedName("group_support")
+    @SerialName("group_support")
+    val groupSupport: Boolean = false,
+
+    @SerializedName("damage_type")
+    @SerialName("damage_type")
+    val damageType: String? = null,
+
+    @SerializedName("level")
+    @SerialName("level")
+    val level: Int = 0,
+
+    @SerializedName("magic_level")
+    @SerialName("magic_level")
+    val magicLevel: Int = 0
 )

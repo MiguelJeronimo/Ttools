@@ -8,7 +8,8 @@ data class SpellsResponse(
 )
 
 data class SpellInformationResponse(
-    val spell: SpellDetail? = null
+    val spell: SpellDetail? = null,
+    val information: InformationInfo? = null
 )
 
 data class SpellsData(
@@ -51,7 +52,9 @@ data class SpellDetail(
     val spellId: String = "",
     val imageUrl: String = "",
     val description: String = "",
+    val hasSpellInformation: Boolean = false,
     val spellInformation: SpellInfoData? = null,
+    val hasRuneInformation: Boolean = false,
     val runeInformation: RuneInfoData? = null
 ) {
     val spell_id: String get() = spellId
@@ -71,6 +74,7 @@ data class SpellInfoData(
     val formula: String = "",
     val level: String = "",
     val mana: String = "",
+    val price: String = "",
     val isGroupAttack: Boolean = false,
     val isGroupHealing: Boolean = false,
     val isGroupSupport: Boolean = false,
@@ -94,5 +98,11 @@ data class SpellInfoData(
 }
 
 data class RuneInfoData(
-    val vocation: List<String> = emptyList()
+    val vocation: List<String> = emptyList(),
+    val isGroupAttack: Boolean = false,
+    val isGroupHealing: Boolean = false,
+    val isGroupSupport: Boolean = false,
+    val damageType: String = "",
+    val level: Int = 0,
+    val magicLevel: Int = 0
 )

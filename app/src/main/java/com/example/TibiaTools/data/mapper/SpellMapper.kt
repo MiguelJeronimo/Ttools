@@ -22,7 +22,8 @@ fun SpellsResponseDto.toDomain(): SpellsResponse = SpellsResponse(
 )
 
 fun SpellInformationResponseDto.toDomain(): SpellInformationResponse = SpellInformationResponse(
-    spell = spell?.toDomain()
+    spell = spell?.toDomain(),
+    information = information?.toDomain()
 )
 
 fun SpellsDataDto.toDomain(): SpellsData = SpellsData(
@@ -60,7 +61,9 @@ fun SpellDetailDto.toDomain(): SpellDetail = SpellDetail(
     spellId = spellId.orEmpty(),
     imageUrl = imageUrl.orEmpty(),
     description = description.orEmpty(),
+    hasSpellInformation = hasSpellInformation,
     spellInformation = spellInformation?.toDomain(),
+    hasRuneInformation = hasRuneInformation,
     runeInformation = runeInformation?.toDomain()
 )
 
@@ -71,9 +74,25 @@ fun SpellInformationDataDto.toDomain(): SpellInfoData = SpellInfoData(
     soulPoints = soulPoints,
     amount = amount,
     cooldownAlone = cooldownAlone,
-    cooldownGroup = cooldownGroup
+    cooldownGroup = cooldownGroup,
+    formula = formula.orEmpty(),
+    level = level.toString(),
+    mana = mana.toString(),
+    price = price.toString(),
+    isGroupAttack = groupAttack,
+    isGroupHealing = groupHealing,
+    isGroupSupport = groupSupport,
+    isTypeInstant = typeInstant,
+    isTypeRune = typeRune,
+    isPremiumOnly = premiumOnly
 )
 
 fun RuneInformationDataDto.toDomain(): RuneInfoData = RuneInfoData(
-    vocation = vocation ?: emptyList()
+    vocation = vocation ?: emptyList(),
+    isGroupAttack = groupAttack,
+    isGroupHealing = groupHealing,
+    isGroupSupport = groupSupport,
+    damageType = damageType.orEmpty(),
+    level = level,
+    magicLevel = magicLevel
 )
