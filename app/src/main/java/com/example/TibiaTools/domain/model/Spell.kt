@@ -1,5 +1,7 @@
 package com.example.TibiaTools.domain.model
 
+import com.example.TibiaTools.presentation.routes.GroupSpell
+
 data class SpellsResponse(
     val spells: SpellsData? = null,
     val information: InformationInfo? = null
@@ -29,7 +31,8 @@ data class SpellListItem(
     val isGroupSupport: Boolean = false,
     val isTypeInstant: Boolean = false,
     val isTypeRune: Boolean = false,
-    val isPremiumOnly: Boolean = false
+    val isPremiumOnly: Boolean = false,
+    val type: GroupSpell
 ) {
     val spell_id: String get() = spellId
     fun isGroup_attack(): Boolean = isGroupAttack

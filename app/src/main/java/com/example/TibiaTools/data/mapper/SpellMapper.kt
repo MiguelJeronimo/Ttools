@@ -14,6 +14,7 @@ import com.example.TibiaTools.domain.model.SpellInformationResponse
 import com.example.TibiaTools.domain.model.SpellListItem
 import com.example.TibiaTools.domain.model.SpellsData
 import com.example.TibiaTools.domain.model.SpellsResponse
+import com.example.TibiaTools.presentation.routes.GroupSpell
 
 fun SpellsResponseDto.toDomain(): SpellsResponse = SpellsResponse(
     spells = spells?.toDomain(),
@@ -29,20 +30,30 @@ fun SpellsDataDto.toDomain(): SpellsData = SpellsData(
     spellFilter = spellFilter
 )
 
-fun SpellListItemDto.toDomain(): SpellListItem = SpellListItem(
-    name = name.orEmpty(),
-    spellId = spellId.orEmpty(),
-    formula = formula.orEmpty(),
-    level = level.toString(),
-    mana = mana.toString(),
-    price = price.toString(),
-    isGroupAttack = groupAttack,
-    isGroupHealing = groupHealing,
-    isGroupSupport = groupSupport,
-    isTypeInstant = typeInstant,
-    isTypeRune = typeRune,
-    isPremiumOnly = premiumOnly
-)
+fun SpellListItemDto.toDomain(): SpellListItem {
+    val type = when {
+        groupAttack -> GroupSpell.ATTACK
+        groupHealing -> GroupSpell.HEALING
+        groupSupport -> GroupSpell.SUPPORT
+        else -> GroupSpell.UNKNOW
+    }
+
+    return SpellListItem(
+        name = name.orEmpty(),
+        spellId = spellId.orEmpty(),
+        formula = formula.orEmpty(),
+        level = level.toString(),
+        mana = mana.toString(),
+        price = price.toString(),
+        isGroupAttack = groupAttack,
+        isGroupHealing = groupHealing,
+        isGroupSupport = groupSupport,
+        isTypeInstant = typeInstant,
+        isTypeRune = typeRune,
+        isPremiumOnly = premiumOnly,
+        type = type
+    )
+}
 
 fun SpellDetailDto.toDomain(): SpellDetail = SpellDetail(
     name = name.orEmpty(),

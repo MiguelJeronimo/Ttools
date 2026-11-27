@@ -22,6 +22,14 @@ enum class FilterOptionSpells(val type: String){
     ALL("All"),
     ATTACK("Attack"),
     HEALING("Healing"),
+    SUPPORT("Support"),
     INSTANT("Instant"),
     RUNE("Rune")
+}
+
+enum class GroupSpell{
+    ATTACK,
+    HEALING,
+    SUPPORT,
+    UNKNOW
 }

@@ -11,6 +11,9 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Security
+import androidx.compose.material.icons.filled.ShieldMoon
+import androidx.compose.material.icons.rounded.Bolt
+import androidx.compose.material.icons.rounded.Healing
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
@@ -23,6 +26,8 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.example.TibiaTools.presentation.routes.FilterOptionSpells
+import com.example.TibiaTools.presentation.routes.GroupSpell
 import com.example.TibiaTools.presentation.theme.TibiaToolsTheme
 
 @Composable
@@ -31,8 +36,44 @@ fun SpellItem(
     name: String = "Animate Dead Rune",
     formula: String = "adana mort",
     level: String = "27",
-    mana: String = "600"
+    mana: String = "600",
+    type: GroupSpell = GroupSpell.UNKNOW
 ) {
+    val icon = when(type){
+        GroupSpell.ATTACK->{
+            Icons.Rounded.Bolt
+        }
+        GroupSpell.HEALING->{
+            Icons.Rounded.Healing
+        }
+        GroupSpell.SUPPORT, GroupSpell.UNKNOW->{
+            Icons.Default.ShieldMoon
+        }
+    }
+
+    val colorBackground =  when(type){
+        GroupSpell.ATTACK->{
+            MaterialTheme.colorScheme.errorContainer
+        }
+        GroupSpell.HEALING->{
+            MaterialTheme.colorScheme.primaryContainer
+        }
+        GroupSpell.SUPPORT, GroupSpell.UNKNOW->{
+            MaterialTheme.colorScheme.tertiaryContainer
+        }
+    }
+
+    val colorIcon =  when(type){
+        GroupSpell.ATTACK->{
+            MaterialTheme.colorScheme.error
+        }
+        GroupSpell.HEALING->{
+            MaterialTheme.colorScheme.primary
+        }
+        GroupSpell.SUPPORT, GroupSpell.UNKNOW->{
+            MaterialTheme.colorScheme.tertiary
+        }
+    }
     Row(
         modifier = modifier
             .fillMaxWidth()
@@ -44,15 +85,15 @@ fun SpellItem(
             modifier = Modifier
                 .size(44.dp)
                 .background(
-                    color = MaterialTheme.colorScheme.surfaceContainerHighest,
+                    color = colorBackground,
                     shape = CircleShape
                 ),
             contentAlignment = Alignment.Center
         ) {
             Icon(
-                imageVector = Icons.Default.Security,
+                imageVector = icon,
                 contentDescription = "Spell Type",
-                tint = MaterialTheme.colorScheme.primary,
+                tint = colorIcon,
                 modifier = Modifier.size(22.dp)
             )
         }

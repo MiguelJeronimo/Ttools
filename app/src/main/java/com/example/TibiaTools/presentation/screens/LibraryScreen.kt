@@ -1,6 +1,5 @@
 package com.example.TibiaTools.presentation.screens
 
-import android.util.Log
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
@@ -39,7 +38,6 @@ import com.example.TibiaTools.domain.model.CreaturesData
 import com.example.TibiaTools.domain.model.SpellListItem
 import com.example.TibiaTools.domain.model.SpellsData
 import com.example.TibiaTools.presentation.components.CustomTab
-import com.example.TibiaTools.presentation.components.FilterList
 import com.example.TibiaTools.presentation.components.Loader
 import com.example.TibiaTools.presentation.components.NormalMonsterCard
 import com.example.TibiaTools.presentation.components.RounderCardListContent
@@ -47,6 +45,7 @@ import com.example.TibiaTools.presentation.components.SearchTextField
 import com.example.TibiaTools.presentation.components.SingleChipSelector
 import com.example.TibiaTools.presentation.components.SpellItem
 import com.example.TibiaTools.presentation.routes.FilterOptionSpells
+import com.example.TibiaTools.presentation.routes.GroupSpell
 import com.example.TibiaTools.presentation.routes.OptionsTab
 import com.example.TibiaTools.presentation.theme.TibiaToolsTheme
 import com.example.TibiaTools.presentation.viewmodel.ViewModelCreatures
@@ -79,9 +78,9 @@ fun LibraryScreen(
 fun LibraryScreen(
     modifier: Modifier = Modifier,
     onSearchCreature: (creature:String)-> Unit = {},
-    onSelectCategory: (option: String)-> Unit = {},
     creatures: ViewModelCreatures.UIState,
-    spells: ViewModelSpells.UIState
+    spells: ViewModelSpells.UIState,
+    onSelectCategory: (option: String) -> Unit = {}
 ) {
     Scaffold(
         modifier = modifier,
@@ -125,28 +124,25 @@ fun LibraryScreen(
             when (tabSelection) {
                 OptionsTab.CREATURES -> {
                     item(span = { GridItemSpan(maxLineSpan) }) {
-                        Column(modifier = Modifier.fillMaxWidth()) {
-                            Spacer(modifier = Modifier.size(10.dp))
-                            SearchTextField(
-                                modifier = Modifier.fillMaxWidth(),
-                                label = "Filter creatures",
-                                value = searchText,
-                                onValueChange = { searchText = it },
-                                leadingIcon = {
-                                    Icon(
-                                        imageVector = Icons.Default.Search,
-                                        contentDescription = "Search Icon"
-                                    )
-                                },
-                                trailingIcon = {
-                                    Text(
-                                        modifier = Modifier.padding(5.dp),
-                                        text = "$countCreatures"
-                                    )
-                                },
-                                onSearchPlayer = onSearchCreature
-                            )
-                        }
+                        SearchTextField(
+                            modifier = Modifier.fillMaxWidth(),
+                            label = "Filter creatures",
+                            value = searchText,
+                            onValueChange = { searchText = it },
+                            leadingIcon = {
+                                Icon(
+                                    imageVector = Icons.Default.Search,
+                                    contentDescription = "Search Icon"
+                                )
+                            },
+                            trailingIcon = {
+                                Text(
+                                    modifier = Modifier.padding(5.dp),
+                                    text = "$countCreatures"
+                                )
+                            },
+                            onSearchPlayer = onSearchCreature
+                        )
                     }
                     when(val state = creatures){
                         is ViewModelCreatures.UIState.Idle->{}
@@ -220,12 +216,10 @@ fun LibraryScreen(
                               }
                             }
                             state.data?.let {
-                                Log.i("HigScoresScreen", "DAta: $it")
                                 items(
                                     count = it.spellsList.size,
                                     span = { GridItemSpan(maxLineSpan) }
                                 ) { index->
-
                                     RounderCardListContent(
                                         index = index,
                                         lasIndex = it.spellsList.size - 1,
@@ -238,7 +232,8 @@ fun LibraryScreen(
                                             name = spell.name,
                                             formula = spell.formula,
                                             level = spell.level,
-                                            mana = spell.mana
+                                            mana = spell.mana,
+                                            type = spell.type
                                         )
                                         if(!first){
                                             HorizontalDivider()
@@ -280,10 +275,10 @@ fun LibraryScreenPreview() {
             spells = ViewModelSpells.UIState.Success(
                 data = SpellsData(
                     spellsList = listOf(
-                        SpellListItem(name = "Animate Dead Rune", formula = "adana mort", level = "27", mana = "600"),
-                        SpellListItem(name = "Light", formula = "utevo", level = "0", mana = "20"),
-                        SpellListItem(name = "Great Fire Wave", formula = "exevo gran flam hur", level = "38", mana = "120"),
-                        SpellListItem(name = "Ultimate Healing", formula = "exura vita", level = "30", mana = "160")
+                        SpellListItem(name = "Animate Dead Rune", formula = "adana mort", level = "27", mana = "600", type = GroupSpell.SUPPORT),
+                        SpellListItem(name = "Light", formula = "utevo", level = "0", mana = "20", type = GroupSpell.SUPPORT),
+                        SpellListItem(name = "Great Fire Wave", formula = "exevo gran flam hur", level = "38", mana = "120", type = GroupSpell.ATTACK),
+                        SpellListItem(name = "Ultimate Healing", formula = "exura vita", level = "30", mana = "160", type = GroupSpell.HEALING)
                     )
                 )
             )
@@ -317,10 +312,10 @@ fun LibraryScreenDarkPreview() {
             spells = ViewModelSpells.UIState.Success(
                 data = SpellsData(
                     spellsList = listOf(
-                        SpellListItem(name = "Animate Dead Rune", formula = "adana mort", level = "27", mana = "600"),
-                        SpellListItem(name = "Light", formula = "utevo", level = "0", mana = "20"),
-                        SpellListItem(name = "Great Fire Wave", formula = "exevo gran flam hur", level = "38", mana = "120"),
-                        SpellListItem(name = "Ultimate Healing", formula = "exura vita", level = "30", mana = "160")
+                        SpellListItem(name = "Animate Dead Rune", formula = "adana mort", level = "27", mana = "600", type = GroupSpell.SUPPORT),
+                        SpellListItem(name = "Light", formula = "utevo", level = "0", mana = "20", type = GroupSpell.SUPPORT),
+                        SpellListItem(name = "Great Fire Wave", formula = "exevo gran flam hur", level = "38", mana = "120", type = GroupSpell.ATTACK),
+                        SpellListItem(name = "Ultimate Healing", formula = "exura vita", level = "30", mana = "160", type = GroupSpell.HEALING)
                     )
                 )
             )

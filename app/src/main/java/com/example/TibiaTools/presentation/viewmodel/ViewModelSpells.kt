@@ -16,7 +16,7 @@ class ViewModelSpells(
 ) : ViewModel() {
     private val _spells = MutableStateFlow<UIState>(UIState.Idle)
 
-    private val typeSpell = MutableStateFlow<String>("")
+    private val typeSpell = MutableStateFlow("")
 
     val spells = combine(
         typeSpell,
@@ -29,6 +29,7 @@ class ViewModelSpells(
                     val filteredList = when (type) {
                         FilterOptionSpells.ATTACK.type -> spellsData.spellsList.filter { it.isGroupAttack }
                         FilterOptionSpells.HEALING.type -> spellsData.spellsList.filter { it.isGroupHealing }
+                        FilterOptionSpells.HEALING.type-> spellsData.spellsList.filter { it.isGroupSupport }
                         FilterOptionSpells.INSTANT.type -> spellsData.spellsList.filter { it.isTypeInstant }
                         FilterOptionSpells.RUNE.type -> spellsData.spellsList.filter { it.isTypeRune }
                         else -> spellsData.spellsList
