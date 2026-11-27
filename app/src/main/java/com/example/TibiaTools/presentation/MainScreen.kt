@@ -47,6 +47,7 @@ import com.example.TibiaTools.presentation.screens.HighScoresScreen
 import com.example.TibiaTools.presentation.screens.HomeScreen
 import com.example.TibiaTools.presentation.screens.LibraryScreen
 import com.example.TibiaTools.presentation.screens.SearchPlayerScreen
+import com.example.TibiaTools.presentation.screens.SpellProfileScreen
 import com.example.TibiaTools.presentation.screens.ToolsScreen
 import com.example.TibiaTools.utils.ex.back
 import com.example.TibiaTools.utils.ex.navigateTo
@@ -171,7 +172,7 @@ fun MainScreen() {
                 onBack = { backStack.removeLastOrNull() },
                 entryProvider = { keyScreen ->
                     when (keyScreen) {
-                        HomeRoutes.Home -> NavEntry(HomeRoutes.Home) {
+                        HomeRoutes.Home -> NavEntry(keyScreen) {
                             HomeScreen(
                                 modifier = Modifier.fillMaxSize(),
                                 onMenuClick = { },
@@ -183,25 +184,36 @@ fun MainScreen() {
                                 onNewsClick = { }
                             )
                         }
-                        HomeRoutes.Tools -> NavEntry(HomeRoutes.Tools) {
+                        HomeRoutes.Tools -> NavEntry(keyScreen) {
                             ToolsScreen(
                                 modifier = Modifier.fillMaxSize(),
                                 onBackClick = { backStack.back() }
                             )
                         }
-                        HomeRoutes.Players -> NavEntry(HomeRoutes.Players) {
+                        HomeRoutes.Players -> NavEntry(keyScreen) {
                             SearchPlayerScreen(
                                 modifier = Modifier.fillMaxSize().padding(horizontal = 16.dp),
                             )
                         }
-                        HomeRoutes.Ranks -> NavEntry(HomeRoutes.Ranks) {
+                        HomeRoutes.Ranks -> NavEntry(keyScreen) {
                             HighScoresScreen(
                                 modifier = Modifier.fillMaxSize().padding(horizontal = 16.dp),
                             )
                         }
-                        HomeRoutes.Library -> NavEntry(HomeRoutes.Library){
+                        HomeRoutes.Library -> NavEntry(keyScreen) {
                             LibraryScreen(
                                 modifier = Modifier.fillMaxSize().padding(horizontal = 16.dp),
+                                onSpell = {
+                                    backStack.navigateTo(HomeRoutes.SpellProfile(spellId = it))
+                                }
+                            )
+                        }
+
+                        is HomeRoutes.SpellProfile -> NavEntry(keyScreen) {
+                            SpellProfileScreen(
+                                modifier = Modifier.fillMaxSize().padding(horizontal = 16.dp),
+                                id = keyScreen.spellId,
+
                             )
                         }
                         else -> error("Unknown screen: $keyScreen")

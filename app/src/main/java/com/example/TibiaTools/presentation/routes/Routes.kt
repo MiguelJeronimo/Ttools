@@ -21,4 +21,10 @@ sealed class HomeRoutes: NavKey, Parcelable {
     @Serializable
     @Parcelize
     object Library: HomeRoutes()
+    @Serializable
+    @Parcelize
+    data class SpellProfile(val spellId: String): HomeRoutes()
+    @Serializable
+    @Parcelize
+    data class CreatureProfile(val name: String): HomeRoutes()
 }

@@ -1,6 +1,7 @@
 package com.example.TibiaTools.presentation.components
 
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -37,7 +38,8 @@ fun SpellItem(
     formula: String = "adana mort",
     level: String = "27",
     mana: String = "600",
-    type: GroupSpell = GroupSpell.UNKNOW
+    type: GroupSpell = GroupSpell.UNKNOW,
+    onClick: () -> Unit= {}
 ) {
     val icon = when(type){
         GroupSpell.ATTACK->{
@@ -77,7 +79,7 @@ fun SpellItem(
     Row(
         modifier = modifier
             .fillMaxWidth()
-            .padding(horizontal = 16.dp, vertical = 10.dp),
+            .padding(horizontal = 16.dp, vertical = 10.dp).clickable(onClick = onClick),
         verticalAlignment = Alignment.CenterVertically,
         horizontalArrangement = Arrangement.spacedBy(14.dp)
     ) {

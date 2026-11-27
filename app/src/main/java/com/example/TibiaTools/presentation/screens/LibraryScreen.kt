@@ -56,7 +56,8 @@ import org.koin.androidx.compose.koinViewModel
 fun LibraryScreen(
     modifier: Modifier = Modifier,
     viewmodelCreatures: ViewModelCreatures = koinViewModel(),
-    viewModelSpells: ViewModelSpells = koinViewModel()
+    viewModelSpells: ViewModelSpells = koinViewModel(),
+    onSpell: (id: String) -> Unit= {}
 ){
     val creatures = viewmodelCreatures.creature.collectAsStateWithLifecycle()
     val spells = viewModelSpells.spells.collectAsStateWithLifecycle()
@@ -69,7 +70,8 @@ fun LibraryScreen(
         spells = spells.value,
         onSelectCategory = {
             viewModelSpells.setFilterType(it)
-        }
+        },
+        onSpell = onSpell
     )
 }
 
@@ -80,13 +82,14 @@ fun LibraryScreen(
     onSearchCreature: (creature:String)-> Unit = {},
     creatures: ViewModelCreatures.UIState,
     spells: ViewModelSpells.UIState,
-    onSelectCategory: (option: String) -> Unit = {}
+    onSelectCategory: (option: String) -> Unit = {},
+    onSpell: (id: String) -> Unit= {}
 ) {
     Scaffold(
         modifier = modifier,
         contentWindowInsets = WindowInsets(0.dp, 0.dp, 0.dp, 0.dp)
     ) { innerPadding ->
-        var tabSelection by remember { mutableStateOf(OptionsTab.CREATURES) }
+        var tabSelection by rememberSaveable { mutableStateOf(OptionsTab.CREATURES) }
 
         var searchText by rememberSaveable { mutableStateOf("") }
 
@@ -233,7 +236,10 @@ fun LibraryScreen(
                                             formula = spell.formula,
                                             level = spell.level,
                                             mana = spell.mana,
-                                            type = spell.type
+                                            type = spell.type,
+                                            onClick = {
+                                                onSpell(spell.spellId)
+                                            }
                                         )
                                         if(!first){
                                             HorizontalDivider()
